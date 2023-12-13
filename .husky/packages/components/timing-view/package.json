@@ -1,0 +1,31 @@
+{
+  "name": "@adobe/assurance-timing-view",
+  "version": "1.0.0",
+  "description": "This is a component that visualizes event transactions and how long they take.",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "author": "Adobe Systems",
+  "license": "Apache2.0",
+  "scripts": {
+    "build": "parcel build src/index.ts --cache-dir ./.parcel-cache --no-cache",
+    "start": "parcel src/index.html --cache-dir ./.parcel-cache  --https --cert ../../../certs/server.crt --key ../../../certs/server.key --host localhost.corp.adobe.com -p 4321 --no-cache"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6 || ^17.0.0"
+  },
+  "dependencies": {
+    "@adobe/react-spectrum": "^3.32.2",
+    "@adobe/assurance-common-utils": "^1.0.0",
+    "@adobe/assurance-plugin-bridge-provider": "1.0.0",
+    "react-xarrows": "^2.0.2",
+    "ramda": "^0.29.1"
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3",
+    "react": "^17.0.2"
+  }
+}

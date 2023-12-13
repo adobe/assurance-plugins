@@ -1,0 +1,23 @@
+.cache
+.parcel-cache
+node_modules
+dist
+yarn-error.log
+.DS_Store
+coverage
+.env
+.idea
+*.log
+
+/packages/*/*/node_modules
+/packages/*/*/dist
+/packages/*/*/.parcel-cache
+/packages/*/*/yarn.lock
+
+
+
+
+# Storybook build outputs
+.out
+.storybook-out
+storybook-static

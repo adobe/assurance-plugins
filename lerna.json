@@ -1,0 +1,15 @@
+{
+  "packages": [
+    "packages/providers/*",
+    "packages/ui-plugin/*"
+  ],
+  "ignoreChanges": [
+    "**/tests/**",
+    "**/test/**",
+    "**/__test__/**"
+  ],
+  "concurrency": 4,
+  "version": "independent",
+  "npmClient": "yarn",
+  "useWorkspaces": true  
+}

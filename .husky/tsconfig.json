@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "strict": true,
+    "lib": ["DOM", "DOM.Iterable", "es2015.iterable", "ESNext", "ES2018.Intl"],
+    "outDir": "lib",
+    "noImplicitAny": false,
+    "skipLibCheck": true,    
+  },
+  "include": [
+    "./src/**/*",
+    "./test/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}

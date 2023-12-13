@@ -1,0 +1,22 @@
+{
+  "name": "sample-ui-plugin",
+  "version": "1.0.0",
+  "description": "Plugin that shows how the hooks work",
+  "main": "index.js",
+  "author": "Adobe Systems",
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "build": "",
+    "start": "parcel src/index.html --cache-dir ./.parcel-cache  --https --cert ../../../certs/server.crt --key ../../../certs/server.key --host localhost.corp.adobe.com -p 4321 --no-cache"
+  },
+  "dependencies": {
+    "@adobe/assurance-event-data": "1.0.0",
+    "@adobe/assurance-plugin-bridge-provider": "1.0.0",
+    "@adobe/assurance-timeline-bar": "1.0.0",
+    "@adobe/assurance-timing-view": "1.0.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  }
+}
