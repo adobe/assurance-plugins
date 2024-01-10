@@ -42,7 +42,7 @@ const TimingTree = ({ branch, path, parentEvent }: TimingTreeProps) => {
     (selectedEvents || []).findIndex(check => check.uuid === branch.event.uuid) >= 0;
 
   return (
-    <Flex gap="size-800" alignItems="center">
+    <Flex gap="size-800" alignItems="center" data-testid="timing-tree">
       <EventTooltip
         event={branch.event}
         width={150}
@@ -54,6 +54,7 @@ const TimingTree = ({ branch, path, parentEvent }: TimingTreeProps) => {
         }}
       >
         <View
+          data-testid={isSelected ? 'timing-button-selected' : 'timing-button-contents'}
           borderColor="blue-400"
           borderWidth={isSelected ? 'thicker' : undefined}
           backgroundColor={COLORS[path.length - 1] as Responsive<BackgroundColorValue>}

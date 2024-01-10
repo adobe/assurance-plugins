@@ -16,12 +16,18 @@
  **************************************************************************/
 
 import { MenuTrigger, ActionButton, Menu, Flex, Item, Text } from "@adobe/react-spectrum";
-import { useSelectedEvents } from "@adobe/assurance-plugin-bridge-provider";
+import { annotateSession, useSelectedEvents, useSession } from "@adobe/assurance-plugin-bridge-provider";
 import React from "react";
 
 import Filter from "@spectrum-icons/workflow/Filter";
 import DataRefresh from "@spectrum-icons/workflow/DataRefresh";
 import DataRemove from "@spectrum-icons/workflow/DataRemove";
+
+import * as kit from '@adobe/griffon-toolkit';
+import { sessionAnnotation } from "@adobe/griffon-toolkit-common";
+
+const KEY_CLEAR_TS = sessionAnnotation.publicKey.clearSessionTS;
+const VISIBILITY = sessionAnnotation.publicNamespace.visibility;
 
 type Actions = {
   label: string;
@@ -31,18 +37,39 @@ type Actions = {
   icon?: any; 
 }
 
+const applyClearTimestamp = async (session, timestamp) => {
+  const oldAnnotation = kit.search(
+    sessionAnnotation.makeNamespacePath(VISIBILITY),
+    session
+  ) || {};
+
+  await annotateSession({
+    annotations: {
+      ...oldAnnotation,
+      [KEY_CLEAR_TS]: timestamp
+    },
+    namespace: VISIBILITY
+  });  
+};
+
+const clearSession = async (session) => {
+  const timestamp = Date.now();
+  await applyClearTimestamp(session, timestamp);
+};
+
+const restoreSession = async (session) => {
+  await applyClearTimestamp(session, 0);
+};
+
+
 const FilterButtons = () => {
   const selected = useSelectedEvents();
+  const session = useSession();
   
   const moreActions: Actions[] = [
     { label: 'Clear session', action: 'clearSession', icon: DataRemove },
     { label: 'Restore session', action: 'restoreSession', icon: DataRefresh },
   ];
-
-  if (selected?.length) {
-    moreActions.push({ label: 'Toggle hidden', action: 'hide' });
-    moreActions.push({ label: 'Toggle flag', action: 'flag' });
-  }
 
   return (
     <Flex gap="size-100" alignItems="center">
@@ -50,11 +77,20 @@ const FilterButtons = () => {
         <ActionButton isQuiet aria-label="Filter menu">
           <Filter />
         </ActionButton>
-        <Menu items={moreActions}>
+        <Menu 
+          items={moreActions} 
+          onAction={(action) => {
+            if (action === 'clearSession') {
+              return clearSession(session);
+            }
+            if (action === 'restoreSession') {
+              return restoreSession(session);
+            }
+          }}>
           {item => {
             const renderedIcon = item.icon ? <item.icon /> : null;
             return (
-              <Item key={item.action}>
+              <Item key={item.action} textValue={item.label}>
                 {renderedIcon}
                 <Text>{item.label}</Text>
               </Item>
@@ -64,25 +100,6 @@ const FilterButtons = () => {
       </MenuTrigger>
     </Flex>
   );
-  /*
-          <span className={styles.actionButtons}>
-          {hasSelected && annotateWidget}
-          <FilterEventsButton
-            onFilterChange={onFilterChange}
-            selectedFilters={selectedFilters}
-          />
-          <MoreAcionsButton
-            onClearSession={onClearSession}
-            onRestoreSession={onRestoreSession}
-          />
-          <CloseToolbarButton
-            closed={closed}
-            onToggleClose={onToggleClose}
-          />
-        </span>
-      */
-  
-  return <div>FilterButtons</div>;
 };
 
 export default FilterButtons;

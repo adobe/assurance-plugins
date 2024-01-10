@@ -19,13 +19,20 @@ import React from 'react';
 import { Flex, View } from '@adobe/react-spectrum';
 import FilterBar from './FilterBar';
 import Timeline from './Timeline';
+import { Highlights } from '../types';
 
-const TimelineToolbar = () => {
+export type TimelineToolbarProps = {
+  highlights?: Highlights;
+}
+
+const TimelineToolbar = ({ 
+  highlights
+}: TimelineToolbarProps) => {
   return (
     <View borderTopWidth="thin" borderTopColor="mid">
       <Flex direction="column" gap="size-100" marginTop="size-100">
         <FilterBar />
-        <Timeline />
+        <Timeline highlights={highlights} />
       </Flex>
     </View>
   );

@@ -31,6 +31,7 @@ const ScrubberLine = ({
   index
 }) => (
   <View
+    data-testid="scrubber-line"
     position="absolute"
     left={eventSize * index}
     width={eventSize}
@@ -69,7 +70,8 @@ const ScrubberLine = ({
           UNSAFE_style={{ border: 'none' }}
         >
           <View
-            backgroundColor={isSelected ? 'blue-400' : highlightColor || 'gray-300'}
+            data-testid={`scrubber-highlight-${isSelected ? 'blue-400' : highlightColor || 'gray-200'}`}
+            backgroundColor={isSelected ? 'blue-400' : highlightColor || 'gray-200'}
             position="absolute"
             height={BOX_HEIGHT}
             width="100%"

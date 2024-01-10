@@ -32,6 +32,7 @@ const EventTooltip = ({ onPress, event, children, width, height, id }: EventTool
   <TooltipTrigger delay={50}>
     <ActionButton
       id={id}
+      data-testid="event-tooltip"
       onPress={onPress}
       isQuiet
       minWidth={width}

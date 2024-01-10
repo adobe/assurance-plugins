@@ -19,13 +19,18 @@ import * as R from 'ramda';
 import { View, Flex, ActionButton } from "@adobe/react-spectrum";
 import { selectEvents, useFilteredEvents, useSelectedEvents } from '@adobe/assurance-plugin-bridge-provider';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import * as kit from '@adobe/griffon-toolkit';
 import { useScrollPosition, useScrollToCentered, useWindowSize } from './hooks';
 import ScrubberLine from './ScrubberLine';
 import CloseCircle from "@spectrum-icons/workflow/CloseCircle";
+import Info from "@spectrum-icons/workflow/InfoOutline";
+import { Highlights } from '../../types';
 
 const EVENT_SIZE = 10;
 const EXTRA_LINES = 50;
 const BAR_HEIGHT = 56;
+
+export const DEFAULT_HIGHLIGHT_COLOR = 'gray-300';
 
 const getSelectedIndex = (selected, events) =>
   R.findIndex(
@@ -33,14 +38,20 @@ const getSelectedIndex = (selected, events) =>
     events || []
   ) || 0;
 
-const Timeline = () => {
+  export type TimelineProps = {
+    highlights?: Highlights;
+  }
+
+const Timeline = ({
+  highlights
+}: TimelineProps) => {
   const [width, setWidth] = useState(0);
   const [barPosition, setBarPosition] = useState(0);
 
   const outer = useRef(null);
   const bar = useRef(null);
 
-  const events = useFilteredEvents();
+  const events = useFilteredEvents({ filtered: true });
   const selected = useSelectedEvents();
 
   useWindowSize();
@@ -87,24 +98,38 @@ const Timeline = () => {
   };
 
   const scrubberLines = useMemo(() => events.map(
-    (e, index) => isVisible(index) && (
-      <ScrubberLine
-        key={e.uuid}
-        index={index}
-        highlightColor={e.highlight}
-        event={e}
-        onPress={() => {
-          selectEvents([e.uuid]);
-        }}
-        isSelected={isSelected(e)}
-        eventSize={eventSize}
-      />
-    )
+    (e, index) => {
+      if (isVisible(index)) {
+        let highlight = '';
+        
+        highlights?.forEach(({ color, matcher }) => {
+          if (kit.isMatch(matcher, e)) {
+            highlight = color || DEFAULT_HIGHLIGHT_COLOR;
+          }
+        });
+
+        return (
+          <ScrubberLine
+            key={e.uuid}
+            index={index}
+            highlightColor={highlight}
+            event={e}
+            onPress={() => {
+              selectEvents([e.uuid]);
+            }}
+            isSelected={isSelected(e)}
+            eventSize={eventSize}
+          />
+        );
+      }
+      return null;
+    }
   ), [events, barPosition, width, selected]);
 
   return (
     <Flex gap="size-50" marginEnd={10}>
       <div 
+        data-testid="timeline-outer"
         ref={outer}
         style={{
           height: BAR_HEIGHT,
@@ -125,12 +150,17 @@ const Timeline = () => {
           }} 
           ref={bar}
         >
-          {events?.length && (
+          {events?.length ? (
             <View
               width={events.length * eventSize}
             >
               {scrubberLines}
             </View>
+          ) : (
+            <Flex width="100%" justifyContent="center" gap="size-100" alignItems="center">
+              <Info size="S" />
+              <span>No events</span>
+            </Flex>
           )}
         </div>
       </div>
@@ -141,6 +171,7 @@ const Timeline = () => {
             onPress={() => {
               selectEvents([]);
             }}
+            aria-label='Clear selected events'
           >
             <CloseCircle size='S' />
           </ActionButton>

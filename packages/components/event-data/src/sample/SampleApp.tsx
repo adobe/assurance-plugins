@@ -27,6 +27,8 @@ const Inner = () => {
     matchers: ['payload.name==`datastream`']
   });
 
+  console.log(pluckEventData(events, ['payload', 'messages', 1], { parseJSON: true }));
+
   return (
     <DataViewer data={pluckEventData(events, ['payload', 'messages', 1], { parseJSON: true })} />
   );

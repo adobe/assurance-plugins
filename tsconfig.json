@@ -12,11 +12,13 @@
     "outDir": "lib",
     "noImplicitAny": false,
     "skipLibCheck": true,    
+    "types": ["jest", "@testing-library/jest-dom"]
   },
   "include": [
     "./packages/common/**/*",
     "./packages/components/**/*",
-    "./packages/ui-plugins/**/*"
+    "./packages/ui-plugins/**/*",
+    "./tests/setup.ts"
   ],
   "exclude": [
     "dist",

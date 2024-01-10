@@ -15,6 +15,7 @@
     "build": "parcel build src/index.ts --cache-dir ./.parcel-cache --no-cache"
   }, 
   "dependencies": {
+    "@adobe/assurance-types": "^1.0.0",
     "ramda": "^0.29.1"
   },
   "devDependencies": {

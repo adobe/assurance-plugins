@@ -31,7 +31,7 @@ const TimingVizRow = ({ size, chain, scale }) => {
   const total = chain[chain.length - 1].timestamp - start;
 
   return (
-    <Flex gap="size-150" alignItems="center">
+    <Flex gap="size-150" alignItems="center" data-testid="timingVizRow">
       <Flex width={size} gap={1} height={50} alignItems="center">
         {chain.map((event: Event, index) => {
           const width =

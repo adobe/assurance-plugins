@@ -1,0 +1,20 @@
+{
+  "name": "@adobe/assurance-types",
+  "version": "1.0.0",
+  "description": "Holds all the types for Assurance",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "author": "Adobe Systems",
+  "license": "Apache-2.0",
+  "private": false,
+  "scripts": {
+    "build": "parcel build src/index.ts --cache-dir ./.parcel-cache --no-cache"
+  }, 
+  "dependencies": {
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  }
+}

@@ -22,6 +22,7 @@ import * as R from 'ramda';
 import { 
   navigateTo,
   useClients, 
+  useFilteredEvents, 
   useNavigationFilters,
   useNavigationPath,
   useSelectedClients, 
@@ -59,6 +60,7 @@ const prepareClientForUI = client => ({
 
 
 const ClientPicker = () => {
+  const events = useFilteredEvents();
   const clients = useClients();
   const selectedClients = useSelectedClients();
   const filters = useNavigationFilters();
@@ -73,13 +75,13 @@ const ClientPicker = () => {
     [prepared, selectedClients]
   )
 
-  if (clients.length === 0) {
-    return <span>Unknown client</span>
+  if (events.length === 0 || clients.length === 0) {
+    return null;
   }
 
   if (clients.length === 1) {
     return (
-      <Flex gap="size-100">
+      <Flex gap="size-100" data-testid="client-text">
         {getClientIcon(mapSelected[0].type)}
         <Text>{mapSelected[0].label}</Text>
       </Flex>
@@ -89,7 +91,7 @@ const ClientPicker = () => {
   const options = [
     {
       clientId: 'all',
-      label: 'All Clients',
+      label: 'All clients',
       type: 'all'
      },
     ...prepared    
@@ -99,6 +101,7 @@ const ClientPicker = () => {
     <Picker 
       aria-label="Client" 
       labelPosition="side" 
+      data-testid="client-picker"
       isQuiet
       items={options}
       selectedKey={selectedClients.length === clients.length ? 'all' : mapSelected[0].clientId}

@@ -15,39 +15,16 @@
  * from Adobe.
  **************************************************************************/
 
-import type { Event, GenericObject } from '@adobe/assurance-common-utils';
+import type { 
+  AssuranceSession,
+  Events, 
+  GenericObject,
+  Plugins,
+  PluginBridge,
+  ValidationRecords
+ } from '@adobe/assurance-types';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-type PluginBridge = {
-  register: (plugin: PluginBridgeConfig) => void;
-  annotateEvent: (event: any) => Promise<void>;
-  annotateSession: (session: any) => Promise<void>;
-  deletePlugin: (uuid: string) => Promise<void>;
-  flushConnection: (namespace: string, context: any) => Promise<void>;
-  navigateTo: (path: string) => Promise<void>;
-  selectEvents: (events: any) => Promise<void>;
-  sendCommand: (command: any) => Promise<void>;
-  uploadPlugin: (contents: any) => Promise<void>;
-}
-
-declare global {
-  interface Window { pluginBridge: PluginBridge; }
-}
-
-export type PluginBridgeConfig = {
-  init: (options: BridgeSettings) => void;
-  navigateTo: (navigation: string) => void;
-  receiveConnections: (connections: any) => void;
-  receiveEvents: (events: any[]) => void;
-  receivePlugins: (plugins: any) => void;
-  receiveSelectedEvents: (events: any) => void;
-  receiveSession: (session: any) => void;
-  receiveSettings: (settings: any) => void;
-  receiveValidation: (validation: any) => void;
-};
-
-export type Events = Event[];
 
 export type Filters = {
   clients?: string[];
@@ -66,44 +43,22 @@ export type BridgeNavigation = {
   filters: Filters; 
 }
 
-export type BridgeSelectedEvents = {
-  selected?: GenericObject[];
+export type BridgePlugins = {
+  plugins: Plugins;
 }
 
-export type BridgeSettings = {
-  env: string;
-  imsAccessToken: string;
-  imsOrg: string;
-  showColumnSettings: boolean;
-  showReleaseNotes: boolean;
-  showTimeline: boolean;
-  tenant: string;
+export type BridgeSelectedEvents = {
+  selected?: Events;
 }
+
+export type BridgeSession = {
+  session: AssuranceSession;
+}
+
 
 export type BridgeValidation = {
   validation: ValidationRecords;
 };
-
-export type ValidationResult = {
-  events: string[],
-  message: string,
-  result: string;
-};
-
-export type ValidationRecord = {
-  category: string,
-  container: string,
-  description: string,
-  displayName: string,
-  icon: string,
-  level: string,
-  namespace: string,
-  orgId: string,
-  results: ValidationResult,
-  type: string,
-};
-
-export type ValidationRecords = Record<string, ValidationRecord>;
 
 
 export type EventFilterConfig = {

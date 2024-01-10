@@ -17,9 +17,12 @@
 
 import { useContext, useMemo } from "react";
 import { 
+  ConnectionContext,
   EventContext,
   NavigationContext,
+  PluginContext,
   SelectedEventContext,
+  SessionContext,
   SettingsContext,
   ValidationContext,
 } from "./Contexts";
@@ -78,14 +81,17 @@ export const useNavigationFilters = (check = true) => {
   return context?.filters;
 }
 
-export const useFilteredEvents = (config: EventFilterConfig = {
-  sorted: true,
-  filtered: false,
-  hideLogs: false,
-  ignoreFilters: [],
-  matchers: [],
-  validations: false
-}, check = true) => {
+export const useFilteredEvents = (configIn: EventFilterConfig = {}, check = true) => {
+  const defaultConfig = {
+    sorted: true,
+    filtered: false,
+    hideLogs: false,
+    ignoreFilters: [],
+    matchers: [],
+    validations: false
+  };
+  const config = { ...defaultConfig, ...configIn };
+
   const context = checkContext(useContext(EventContext), check);
   const validation = useContext(ValidationContext);
   const navigation = useContext(NavigationContext);
@@ -95,9 +101,19 @@ export const useFilteredEvents = (config: EventFilterConfig = {
   }, [context?.events, navigation?.filters, validation?.validation]);
 }
 
+export const usePlugins = (check = true) => {
+  const context = checkContext(useContext(PluginContext), check);
+  return context?.plugins;
+}
+
 export const useSelectedEvents = (check = true) => {
   const context = checkContext(useContext(SelectedEventContext), check);
   return context?.selected;
+}
+
+export const useSession = (check = true) => {
+  const context = checkContext(useContext(SessionContext), check);
+  return context?.session;
 }
 
 export const useValidation = (check = true) => {
@@ -122,4 +138,9 @@ export const useSelectedClients = (check = true) => {
   const filters = useNavigationFilters(check);
 
   return extractSelectedClients(clients, filters);
+}
+
+export const useConnections = (check = true) => {
+  const context = checkContext(useContext(ConnectionContext), check);
+  return context?.connections;
 }

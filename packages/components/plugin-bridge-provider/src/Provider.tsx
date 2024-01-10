@@ -16,11 +16,14 @@
  **************************************************************************/
 
 import React, { useEffect } from 'react';
+import { BridgeSettings } from "@adobe/assurance-types";
 import { 
   ConnectionContext,
   EventContext,
   NavigationContext,
+  PluginContext,
   SelectedEventContext,
+  SessionContext,
   SettingsContext,
   ValidationContext,
 } from './Contexts';
@@ -28,8 +31,9 @@ import type {
   BridgeConnections,
   BridgeEvents,
   BridgeNavigation,
+  BridgePlugins,
   BridgeSelectedEvents,
-  BridgeSettings,
+  BridgeSession,
   BridgeValidation,
 } from './types';
 import extractNavigation from './utils/extract.navigation';
@@ -44,44 +48,39 @@ const PluginBridgeProvider = ({
   const [bridgeConnections, setBridgeConnections] = React.useState<BridgeConnections | null>(null);
   const [bridgeNavigation, setBridgeNavigation] = React.useState<BridgeNavigation | null>(null);
   const [bridgeEvents, setBridgeEvents] = React.useState<BridgeEvents | null>(null);
+  const [bridgePlugins, setBridgePlugins] = React.useState<BridgePlugins | null>(null);
   const [bridgeSelectedEvents, setBridgeSelectedEvents] = React.useState<BridgeSelectedEvents | null>(null);
+  const [bridgeSession, setBridgeSession] = React.useState<BridgeSession | null>(null);
   const [bridgeSettings, setBridgeSettings] = React.useState<BridgeSettings | null>(null);
   const [bridgeValidation, setBridgeValidation] = React.useState<BridgeValidation | null>(null);
 
   useEffect(() => {
     window.pluginBridge.register({
       init(options) {
-        console.log("INIT!", options);
         setBridgeSettings(options);
       },
       navigateTo(navigation) {
-        console.log("NAV", navigation);
         setBridgeNavigation(extractNavigation(navigation));
       },
       receiveConnections(connections) {
-        console.log("CON", connections);
-        setBridgeConnections(connections);
+        setBridgeConnections({ connections });
       },
       receiveEvents(events) {
-        console.log("events", events);
         setBridgeEvents({ events });
       },
       receivePlugins(plugins) {
-        console.log("plugins", plugins);
+        setBridgePlugins({ plugins });
       },
       receiveSelectedEvents(selected) {
-        console.log("selectedevents", selected, bridgeEvents);
         setBridgeSelectedEvents({ selected });
       },
       receiveSession(session) {
-        console.log("session", session);
+        setBridgeSession({ session });
       },
       receiveSettings(settings) {
-        console.log("receiveSettings", settings);
         setBridgeSettings(settings);
       },
       receiveValidation(validation) {
-        console.log("receiveValidation", validation);
         setBridgeValidation({ validation });
       }
     });
@@ -97,7 +96,9 @@ const PluginBridgeProvider = ({
     { context: NavigationContext, value: bridgeNavigation },
     { context: ConnectionContext, value: bridgeConnections },
     { context: EventContext, value: bridgeEvents },
+    { context: PluginContext, value: bridgePlugins},
     { context: SelectedEventContext, value: bridgeSelectedEvents },
+    { context: SessionContext, value: bridgeSession },
     { context: ValidationContext, value: bridgeValidation },
   ];
 

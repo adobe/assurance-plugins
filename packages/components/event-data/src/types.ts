@@ -19,5 +19,5 @@ import type { FlatDataRecord } from '@adobe/assurance-nested-table-toolkit';
 
 export type EventData = {
   eventId: string;
-  values: FlatDataRecord[];
+  values: any;
 }

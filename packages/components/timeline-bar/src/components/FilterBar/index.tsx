@@ -18,13 +18,13 @@
 import React from "react";
 import { Flex, View } from "@adobe/react-spectrum";
 import ClientPicker from "./ClientPicker";
-import SelectedEventPicker from "./SelectedEventPicker";
+import SelectedEventLabel from "./SelectedEventLabel";
 import FilterButtons from "./FilterButtons";
 
 const FilterBar = () => (
   <Flex direction="row" marginStart="size-200" marginEnd={9}>
     <View width={200} flexGrow={3}><ClientPicker /></View>
-    <SelectedEventPicker />
+    <SelectedEventLabel />
     <Flex width={200} flexGrow={3} justifyContent="right"><FilterButtons /></Flex>
   </Flex>
 );

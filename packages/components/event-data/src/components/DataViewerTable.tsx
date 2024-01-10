@@ -113,14 +113,9 @@ const DataViewerTable = ({ data, autoExpand }: DataViewerProps) => {
     setRows(selectedData);
   }, [data, expanded]);
 
-  if (!rows) {
-    return null;
-  }
-
   const filtered = useMemo(() => {
-    return filterUnexpanded(expanded, rows);
+    return filterUnexpanded(expanded, rows || []);
   }, [rows, expanded]);
-  console.log(filtered);
 
   return (
     <TableView
@@ -132,7 +127,6 @@ const DataViewerTable = ({ data, autoExpand }: DataViewerProps) => {
       onSelectionChange={ids => {
         const id = Array.from(ids)[0] as string;
         const index = expanded.indexOf(id);
-        console.log(id, index, expanded);
         const newExpanded = [...expanded];
         if (index >= 0) {
           newExpanded.splice(index, 1);
@@ -153,7 +147,6 @@ const DataViewerTable = ({ data, autoExpand }: DataViewerProps) => {
                 if (expanded.length === data?.length) {
                   collapseAll();
                 } else {
-                  console.log('Expand All');
                   expandAll();
                 }
               }}

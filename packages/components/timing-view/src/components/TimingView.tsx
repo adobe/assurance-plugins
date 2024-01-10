@@ -18,13 +18,17 @@
 import * as R from 'ramda';
 import React from 'react';
 import { Flex, View } from '@adobe/react-spectrum';
-import type { Event } from '@adobe/assurance-common-utils';
+import type { Event, Events } from '@adobe/assurance-types';
 import type { Branch, Branches } from '../types';
 
 import TimingTree from './TimingTree';
 import TimingViz from './TimingViz';
 
-const PluginView = ({ events }) => {
+type TimingViewProps = {
+  events: Events;
+};
+
+const TimingView = ({ events }: TimingViewProps) => {
   const eventMap = R.indexBy(R.path(['payload', 'ACPExtensionEventUniqueIdentifier']), events);
   const branches: Branches = R.reduce(
     (acc, event) => {
@@ -91,7 +95,7 @@ const PluginView = ({ events }) => {
   const scale = Math.min((SIZE - 5) / longestTime, 0.3);
 
   return (
-    <Flex direction="column" position="relative">
+    <Flex direction="column" position="relative" data-testid="timing-view">
       {Object.values(branches).map((branch, index) => {
         return (
           <View backgroundColor={index % 2 ? undefined : 'gray-50'} key={`TimingView${index}`}>
@@ -115,4 +119,4 @@ const PluginView = ({ events }) => {
   );
 };
 
-export default PluginView;
+export default TimingView;
