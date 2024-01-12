@@ -1,5 +1,5 @@
 /*
-Copyright 2023 Adobe. All rights reserved.
+Copyright 2024 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -12,13 +12,14 @@ governing permissions and limitations under the License.
 
 import * as R from 'ramda';
 import makePath from './make.path';
+import { FlatDataRecord } from './types';
 
 const hasDigitRegex = /.*\d/;
 const numericStringRegex = /(\D*)(\d+)\D*/;
 
 const defaultSorter = (direction, a, b) => (a < b ? -1 : a > b ? 1 : 0) * direction;
 
-export default R.curry((sortBy, direction, a, b) => {
+export default R.curry((sortBy: string, direction: number, a: FlatDataRecord, b: FlatDataRecord) => {
   const aSort = a[sortBy];
   const bSort = b[sortBy];
 
