@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.32.2",
-    "@adobe/assurance-common-utils": "^1.0.0",
-    "@adobe/assurance-plugin-bridge-provider": "1.0.0",
+    "@adobe/assurance-common-utils": "^1.0.1",
+    "@adobe/assurance-plugin-bridge-provider": "1.0.1",
     "react-xarrows": "^2.0.2",
     "ramda": "^0.29.1"
   },

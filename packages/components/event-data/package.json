@@ -23,8 +23,8 @@
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.32.2",
-    "@adobe/assurance-common-utils": "^1.0.0",
-    "@adobe/assurance-nested-table-toolkit": "^1.0.0",
+    "@adobe/assurance-common-utils": "^1.0.1",
+    "@adobe/assurance-nested-table-toolkit": "^1.0.1",
     "ramda": "^0.29.1"
   },
   "devDependencies": {

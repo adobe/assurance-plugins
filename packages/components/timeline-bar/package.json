@@ -28,8 +28,8 @@
     "@adobe/griffon-toolkit-aep-mobile": "^0.12.0",
     "@adobe/griffon-toolkit-common": "^0.3.3",
     "@adobe/react-spectrum": "^3.32.2",
-    "@adobe/assurance-common-utils": "^1.0.0",
-    "@adobe/assurance-plugin-bridge-provider": "1.0.0",
+    "@adobe/assurance-common-utils": "^1.0.1",
+    "@adobe/assurance-plugin-bridge-provider": "1.0.1",
     "ramda": "^0.29.1"
   },
   "devDependencies": {
