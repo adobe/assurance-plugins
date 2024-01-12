@@ -1,6 +1,6 @@
 {
   "name": "@adobe/assurance-nested-table-toolkit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library of functions to help build nested tables",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -11,6 +11,9 @@
   "author": "Adobe Systems",
   "license": "Apache-2.0",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "parcel build src/index.ts --cache-dir ./.parcel-cache --no-cache"
   }, 

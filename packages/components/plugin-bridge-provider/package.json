@@ -1,6 +1,6 @@
 {
   "name": "@adobe/assurance-plugin-bridge-provider",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Connects to the Assurance bridge and provides access to data",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -11,6 +11,9 @@
   "author": "Adobe Systems",
   "license": "Apache2.0",
   "private": true,
+  "publishConfig": {
+    "access": "public"
+  },  
   "scripts": {
     "build": "parcel build src/index.tsx --cache-dir ./.parcel-cache --no-cache"
   },
