@@ -18,15 +18,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
     - name: Set up Node.js
       uses: actions/setup-node@master
       with:
         node-version: 14.16.1
     - name: install and build 
       run: |
-        npm ci
-        npm run build
+        yarn install --frozen-lockfile
+        yarn build
     - name: Authenticate with Registry
       run: |
         echo "@adobe:registry=https://registry.npmjs.org/" > .npmrc
