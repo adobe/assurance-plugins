@@ -10,7 +10,6 @@
   ],
   "author": "Adobe Systems",
   "license": "Apache2.0",
-  "private": true,
   "publishConfig": {
     "access": "public"
   },  

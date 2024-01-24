@@ -20,6 +20,7 @@
     "linter": "eslint packages --ext .js,.ts,.tsx",
     "lint": "concurrently \"yarn check-types\" \"yarn linter\"",
     "storybook": "storybook dev -p 6006",
+    "sync": "npx lerna-ci synclocal local",
     "test": "jest"
   },
   "workspaces": {
