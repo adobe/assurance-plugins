@@ -72,8 +72,11 @@ const PluginBridgeProvider = ({
       receiveSession(session) {
         setBridgeSession({ session });
       },
-      receiveSettings(settings) {
-        setBridgeSettings(settings);
+      receiveSettings(settings) {        
+        setBridgeSettings((prevSettings) => ({
+          ...(prevSettings ?? {}),
+          ...settings,
+        }));
       },
       receiveValidation(validation) {
         setBridgeValidation({ validation });
