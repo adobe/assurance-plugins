@@ -1,0 +1,33 @@
+{
+  "name": "@adobe/assurance-hooks",
+  "version": "0.0.1",
+  "description": "A place for assurance hooks",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "author": "Adobe Systems",
+  "license": "Apache-2.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "parcel build src/index.ts --cache-dir ./.parcel-cache --no-cache",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@adobe/assurance-types": "^1.0.1",
+    "@adobe/griffon-toolkit-common": "^0.3.3",
+    "react": "^17.0.2"
+  },
+  "devDependencies": {
+    "@testing-library/react-hooks": "^8.0.1",
+    "parcel": "^2.10.3"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2"
+  }
+}
