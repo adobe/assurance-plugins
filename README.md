@@ -39,7 +39,7 @@ This will host your plugin at `https://dev.adobe.com:4321`
 Now, we'll configure Assurance to work with these local files. Open up [Assurance in the dev mode](https://experience.adobe.com/?devMode=true) and browse to Data Collection > Assurance.
 
 ---
-> **_NOTE:_**  If you are developing a plugin on the production envrionment that you will need to load Assurance with the `devMode=true` query parameter (https://experience.adobe.com/?devMode=true#) and use an *.adobe.com domain for your plugin. You can add add `dev.adobe.com` to point to `localhost` (/etc/hosts) by executing this shell command: `echo "127.0.0.1 dev.adobe.com" | sudo tee -a /etc/hosts`_ 
+> **_NOTE:_**  If you are developing a plugin on the production environment that you will need to load Assurance with the `devMode=true` query parameter (https://experience.adobe.com/?devMode=true#) and use an *.adobe.com domain for your plugin. You can add add `dev.adobe.com` to point to `localhost` (/etc/hosts) by executing this shell command: `echo "127.0.0.1 dev.adobe.com" | sudo tee -a /etc/hosts`_ 
 
 > **_NOTE:_**  A UUID value of `dev` will automatically be assigned to the plugin and that same value will be used for the annotation type._
 ---

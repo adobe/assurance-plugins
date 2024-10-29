@@ -1,73 +1,77 @@
-/*
-Copyright 2024 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
+/*************************************************************************
+ * ADOBE CONFIDENTIAL
+ * ___________________
+ *
+ *  Copyright 2023 Adobe
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ **************************************************************************/
+import * as kit from "@adobe/griffon-toolkit";
+import { logEvent } from "@adobe/griffon-toolkit-common";
+import * as R from "ramda";
+import { EventFilterConfig, Events, Maybe, ValidationRecords } from "../types";
+import sortEvents from "./event.sort";
 
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-
-import * as kit from '@adobe/griffon-toolkit';
-import * as R from 'ramda';
-import { logEvent } from '@adobe/griffon-toolkit-common';
-import sortEvents from './event.sort';
-import { Events, EventFilterConfig, ValidationRecords } from '../types';
-
-export const parseFilters = (shouldFilter, filters, ignoreFilters) => {
-  if (!shouldFilter) {
-    return {};
-  }
+export const parseFilters = (filters: string[], ignoreFilters) => {
   let useFilters = filters;
   if (ignoreFilters && ignoreFilters.length) {
-    R.forEach(without => {
+    R.forEach((without) => {
       useFilters = R.dissoc(without, useFilters);
     }, ignoreFilters);
   }
   return useFilters;
 };
 
-export const parseCustomMatchers = matchers => {
+export const parseCustomMatchers = (matchers) => {
   let useFilters = {};
   let customCount = 0;
 
-  R.forEach(matcher => {
+  R.forEach((matcher) => {
     useFilters = R.assoc(`custom${++customCount}`, matcher, useFilters);
   }, matchers || []);
   return useFilters;
 };
 
-export const parseHideLogs = hideLogs => {
+export const parseHideLogs = (hideLogs: Maybe<boolean>) => {
   if (!hideLogs) {
     return {};
   }
   return { hideLogs: kit.not(logEvent.matcher) };
 };
 
-export default (
+export const extractFilteredEvents = (
   config: EventFilterConfig,
   events: Events,
   filters,
-  validation?: ValidationRecords
+  validation?: ValidationRecords,
 ) => {
   let results = events || [];
 
   const filtersData = {
-    ...parseFilters(config.filtered, filters, config.ignoreFilters),
+    ...parseFilters(filters, config.ignoreFilters),
     ...parseCustomMatchers(config.matchers),
-    ...parseHideLogs(config.hideLogs)
+    ...parseHideLogs(config.excludeLogs),
   };
 
   if (Object.keys(filtersData).length) {
     results = kit.filterData(filtersData, results);
   }
   if (config.sorted) {
-    results = sortEvents(results);
+    results = sortEvents(results, config.sorted);
   }
   if (config.validations) {
-    results = R.map(event => R.assoc('validation', validation?.[event.uuid], event), results);
+    results = R.map(
+      (event) => R.assoc("validation", validation?.[event.uuid], event),
+      results,
+    );
   }
   return results;
 };

@@ -1,23 +1,29 @@
-/*
-Copyright 2024 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
+/*************************************************************************
+ * ADOBE CONFIDENTIAL
+ * ___________________
+ *
+ *  Copyright 2023 Adobe
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ **************************************************************************/
 
 import React from "react";
-import { PluginView, TimelineToolbar } from '@adobe/assurance-timeline-bar';
+import { PluginView, TimelineToolbar } from "@assurance/timeline-bar";
 import { Item, Tabs, TabList, TabPanels } from "@adobe/react-spectrum";
 import ProviderTable from "./ProviderTable";
 import Timing from "./Timing";
 import DatastreamViewer from "./DatastreamViewer";
 import Validation from "./Validation";
 import ValidationBuilder from "./ValidationBuilder";
+import DatastreamHorinzontal from "./DatastreamHorizontal";
 
 const SampleUI = () => (
   <PluginView>
@@ -28,6 +34,7 @@ const SampleUI = () => (
         <Item key="validation">Validation view</Item>
         <Item key="validationBuilder">Validation Builder view</Item>
         <Item key="datastream">Datastream viewer</Item>
+        <Item key="horizontal">Datastream horizontal</Item>
       </TabList>
       <TabPanels>
         <Item key="provider">
@@ -45,6 +52,9 @@ const SampleUI = () => (
         <Item key="datastream">
           <DatastreamViewer />
         </Item>
+        <Item key="horizontal">
+          <DatastreamHorinzontal />
+        </Item>
       </TabPanels>
     </Tabs>
     <TimelineToolbar />
@@ -52,5 +62,3 @@ const SampleUI = () => (
 );
 
 export default SampleUI;
-
-

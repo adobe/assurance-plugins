@@ -1,6 +1,6 @@
 {
-  "name": "@adobe/assurance-plugin-bridge-provider",
-  "version": "1.0.1",
+  "name": "@assurance/plugin-bridge-provider",
+  "version": "1.0.0",
   "description": "Connects to the Assurance bridge and provides access to data",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -10,23 +10,22 @@
   ],
   "author": "Adobe Systems",
   "license": "Apache2.0",
-  "publishConfig": {
-    "access": "public"
-  },  
+  "private": true,
   "scripts": {
     "build": "parcel build src/index.tsx --cache-dir ./.parcel-cache --no-cache"
   },
   "peerDependencies": {
-    "react": "^16.8.6 || ^17.0.0"
+    "react": "^18.3.1"
   },
   "devDependencies": {
     "parcel": "^2.10.3",
-    "react": "^17.0.2"
+    "react": "^18.3.1"
   },
   "dependencies": {
     "@adobe/griffon-toolkit": "^1.3.0",
     "@adobe/griffon-toolkit-common": "^0.3.3",
-    "@adobe/assurance-common-utils": "^1.0.1",
+    "@adobe/griffon-toolkit-edge": "^0.2.3",
+    "@assurance/common-utils": "^1.0.0",
     "ramda": "^0.29.1"
   }
 }
