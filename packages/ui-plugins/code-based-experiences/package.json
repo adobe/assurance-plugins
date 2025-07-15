@@ -1,0 +1,27 @@
+{
+  "name": "code-based-experiences",
+  "version": "1.0.0",
+  "description": "Plugin for Code Based Experiences",
+  "main": "index.js",
+  "author": "Adobe Systems",
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "build": "",
+    "start": "parcel example/index.html --cache-dir ./.parcel-cache  --https --cert ../../../certs/server.crt --key ../../../certs/server.key --host localhost.corp.adobe.com -p 4321 --no-cache"
+  },
+  "dependencies": {
+    "@adobe/griffon-toolkit": "^1.3.0",
+    "@adobe/griffon-toolkit-aep-mobile": "^0.13.0",
+    "@adobe/griffon-toolkit-edge": "^0.2.3",
+    "@assurance/event-table": "1.0.0",
+    "@assurance/plugin-bridge-provider": "1.0.0",
+    "immer": "^10.1.1",
+    "lodash": "^4.17.21",
+    "react": "^18.3.1",
+    "zustand": "4.5.5"
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  }
+}

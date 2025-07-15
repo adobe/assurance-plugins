@@ -1,0 +1,36 @@
+# Writing Tests for Assurance Plugins
+
+This repo is set up to use [Vitest](https://vitest.dev/) in order to run unit
+tests and
+[React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+to write React tests.
+
+## Mocking Events
+
+[Griffon Toolkit](https://opensource.adobe.com/griffon-toolkit) offers the
+easiest way in order to create mock events that can be used to test against. By
+importing the corresponding event you would like to mock, you can use the
+`.mock()` function in order to create a mocked event.
+
+Once you have used the Toolkit to mock events, or created mocks of your own, you
+can send up events to the plugin, by invoking the `receiveEvents` utility
+function with your events
+
+### Example
+
+```typescript
+import { clientInfo } from "@adobe/griffon-toolkit-common";
+import { receiveEvents } from "@assurance/plugin-bridge-provider";
+
+const mock = clientInfo.mock();
+
+/// Additionally you can pass an object as a parameter, and the results with be merged!
+const mockWithArgs = clientInfo.mock({ clientId: "my-client-id" });
+
+describe("Plugin Test", () => {
+  beforeEach(() => {
+    receiveEvents([mock]);
+    // Now events will be loaded to the Bridge and you're ready to test your view!
+  });
+});
+```

@@ -1,0 +1,23 @@
+# Validations
+
+The [Plugin Bridge](../basics/index.mdx) contains a global context of all
+[Validation Plugins](https://github.com/adobe/griffon-validation-plugins) that
+have been enabled by the current Assurance user as well as the results of them
+executing against the events of the current user's session. By using the
+[useValidation](../apis#usevalidation) hook, we can recieve the validation data
+of the assurance session optionally filter and display them to the end user.
+
+## Complete Example
+
+```tsx
+function App() {
+  const validations = useValidations();
+  const edgeValidations = validations.filter(
+    (validation) => validation.category === "Edge",
+  );
+
+  return edgeValidations.map((validation) => (
+    <ValidationWell {...validation} />
+  ));
+}
+```

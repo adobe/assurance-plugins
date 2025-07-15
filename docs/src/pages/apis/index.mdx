@@ -1,0 +1,79 @@
+# Hooks
+
+## useDataStream
+
+Returns the name and ID of data stream in use for the current client. If
+multiple data streams are detected, it will return the most recent one.
+
+### Returns
+
+`DataStream` - an object containing the ID and name of the data stream
+
+| Property | Type   | Description                 |
+| -------- | ------ | --------------------------- |
+| id       | string | The UUID of the data stream |
+| name     | string | The name of the data stream |
+
+## useEnvironment
+
+Retrieves the current Assurance environment that is currently being used
+
+### Returns
+
+`Environment` - One of the following: `local`, `dev`, `qe`, `stage`, or `prod`
+
+## useEvents(options: UseEventsOptions)
+
+A hook into the events that are currently in the given Assurance session. Can be
+used with the config parameter in order to filter and sort events
+
+#### Arguments
+
+`config: UseEventsOptions`
+
+| Property | Type        | Description                                                                                            |
+| -------- | ----------- | ------------------------------------------------------------------------------------------------------ |
+| sorted   | `asc, desc` | Will sort events by timestamp in direction specified                                                   |
+| matchers | string[]    | [JMESPath](https://jmespath.org/) query language strings that can be specified to match certain events |
+
+#### Returns
+
+`Event[]` - A list of events that matched the criteria of the input config
+
+## useFlags
+
+Returns a list of flags that have been enabled by the user
+
+### Returns
+
+`Flags` - An object with boolean values of flags have been enabled by the user
+
+| Property           | Type    | Description                                            |
+| ------------------ | ------- | ------------------------------------------------------ |
+| showColumnSettings | boolean |                                                        |
+| showReleaseNotes   | boolean |                                                        |
+| showTimeline       | boolean | Shows the timeline component at the bottom of the view |
+
+## useImsAccessToken
+
+Returns a user's bearer token that can be used to make API calls to other APIs
+on the experience platform.
+
+### Returns
+
+`string` - The bearer token of the current IMS user
+
+## useImsOrg
+
+Returns the string id of the current selected org
+
+## useSelectedEvents
+
+Returns a list of events that have currently been selected in the global
+assurance context, or across all plugins.
+
+## useValidation
+
+Returns a list of results from validation plugins that have been run on the
+clients current session. End users may enable or disable any plugins they want,
+so this list will vary depending on their configuration.

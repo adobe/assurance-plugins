@@ -1,0 +1,63 @@
+# Connecting Your App
+
+AEP Assurance (formerly known as Project Griffon) is a product from Adobe that
+lets you inspect, validate, and debug data collection and experiences for your
+mobile application. The demo app is set up to use the AEP Assurance mobile
+extension, which allows you to view the events being sent through the AEP Mobile
+SDK.
+
+## Step 1
+
+Visit and login with your Adobe credentials.
+
+## Step 2
+
+Select Create Session in the top right. In the Create New Session dialog, review
+the instructions, and then select Start. When asked for the Base URL, enter
+sampleapp:// , then click Next.
+
+## Step 3
+
+After starting an Assurance session, click on the the Session Details button on
+the right corner of the Assurance page and copy the session link.
+
+If you are using a real device, you can also use the Scan QR Code functionality.
+You can then skip to step 6.
+
+![commerces session details](https://developer.adobe.com/client-sdks/static/c8cc71d0c8f7354ccd90fb4c40d79a6b/8e3cb/commerces-session-details.webp "commerces session details")
+
+## Step 4
+
+Go to the sample application that is installed on your device, and click on the
+Assurance tab.
+
+## Step 5
+
+Paste the Assurance Session URL that you copied from Assurance, and click
+Connect.
+
+![commerce assurance login](https://developer.adobe.com/client-sdks/static/4554f323e5ad93742ddb6e315594da9a/bdd56/commerce-assurance-login.webp "commerce assurance login")
+
+## Step 6
+
+Enter the PIN from Assurance and click Connect.
+
+![commerce assurance connection](https://developer.adobe.com/client-sdks/static/45282f8b53606be4a83e14af8787e592/76c93/commerce-assurance-connection.webp "commerce assurance connection")
+
+## Step 7
+
+Once connected to Assurance, you will see a Platform icon in red color on the
+top right corner of the app view. The color of the Platform icon becomes gray if
+the connectivity to Assurance server is lost for any reason. In this case, you
+want to reconnect to continue to see the session in the UI.
+
+## Step 8
+
+In the Assurance session, you should now start seeing events populating the
+Events List. When clicking the Purchase button from the Edge tab, you should see
+the Experience events sent to Experience Edge. For more details, refer to Event
+types handled by the AEP Mobile extension.
+
+To check the XDM Experience event was successfully validated, check that the
+validation for the given event was successful message is present in the service
+com.adobe.streaming.validation event.

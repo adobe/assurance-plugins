@@ -1,0 +1,20 @@
+{
+  "name": "@assurance/plugin-optimize",
+  "version": "1.0.0",
+  "description": "Optimize Assurance plugin",
+  "main": "index.js",
+  "author": "Adobe Systems",
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "build": "",
+    "start": "parcel example/index.html --cache-dir ./.parcel-cache  --https --cert ../../../certs/server.crt --key ../../../certs/server.key --host localhost.corp.adobe.com -p 4321 --no-cache"
+  },
+  "dependencies": {
+    "@assurance/plugin-bridge-provider": "1.0.0",
+    "@adobe/react-spectrum": "^3.37.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  }
+}

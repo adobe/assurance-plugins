@@ -1,0 +1,60 @@
+# The Plugin Bridge
+
+Key to each Assurance Plugin is the Plugin Bridge, an event hub that includes
+the context of the current Assurance session including events, validations, the
+current org, and connected clients. The bridge has two way communications which
+allow you to dispatch events that change the global context of an assurance
+session, while also receiving incoming events.
+
+> **_NOTE:_** It is **required** to add a `PluginBridgeProvider` to your View in
+> order for it to work in Assurance, otherwise it will never load
+
+## Connecting to the Plugin Bridge
+
+To begin using the Plugin Bridge import the `PluginBridgeProvider` component and
+wrap your application in it
+
+```tsx
+// App.ts
+import { PluginBridgeProvider } from "@assurance/plugin-bridge-provider";
+
+function App() {
+  return <PluginBridgeProvider>// Your UI Code here</PluginBridgeProvider>;
+}
+```
+
+## Reading data from the Plugin Bridge
+
+By using the series of hooks exported by the
+[@assurance/plugin-bridge-provider](../apis/index.mdx), you can grab slices of
+data that you can use in your plugin. Refer to the API for each hook for
+detailed explanations of how to use each hook. Here is a quick overview of the
+hooks available:
+
+- [useEvents](../apis/index.mdx#useEvents) - Allows you to retrieve events in
+  the current Assurance session
+- [useImsAccessToken](../apis/index.mdx#useImsAccessToken) - Returns a bearer
+  token of the current user that can be used for api calls
+- [useImsOrg](../apis/index.mdx#useImsOrg) - Returns the UUID of the current org
+  selected
+- [useTenant](../apis/index.mdx#useTenant) - Returns the name of the current org
+  selected
+
+## Emitting Data
+
+In addition to reading data from the Plugin Bridge, we provide a set of hooks to
+allow you to emit data up to the bridge. Here is a quick overview of the hooks
+available:
+
+- [useAnnotateEvent](../apis/index.mdx#useAnnotateEvent) - Use to write an
+  annotation to an event, which will add to the `annotations` property on the
+  event it with the data supplied
+
+- [useAnnotateSession](../apis/index.mdx#useAnnotateSession) - Allows you to
+  annotate a session with
+
+- [useNavigation](../apis/index.mdx#useNavigation) - Allows you to navigate
+  around Assurance while adding parameters to the URL
+
+- [useSelectEvents](../apis/index.mdx#useSelectEvents) - Allows you to select
+  events globally across all Assurance views

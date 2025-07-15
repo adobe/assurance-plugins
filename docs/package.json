@@ -1,0 +1,34 @@
+{
+  "name": "docs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier src --write"
+  },
+  "workspaces": {
+    "nohoist": [
+      "*"
+    ]
+  },
+  "dependencies": {
+    "next": "14.2.14",
+    "nextra": "^3.0.6",
+    "nextra-theme-docs": "^3.0.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18.3.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.14",
+    "prettier": "^3.3.3",
+    "typescript": "^5"
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+}
