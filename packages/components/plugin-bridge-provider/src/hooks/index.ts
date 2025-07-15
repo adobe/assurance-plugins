@@ -1,32 +1,18 @@
-import { type DataStream, useDataStream } from "./useDataStream";
-import { useEnvironment } from "./useEnvironment";
-import { type UseEventsOptions, useEvents } from "./useEvents";
-import { type Flags, useFlags } from "./useFlags";
-import { useImsAccessToken } from "./useImsAccessToken";
-import { useImsOrg } from "./useImsOrg";
-import { useNavigationFilters } from "./useNavigationFilters";
-import { useNavigationPath } from "./useNavigationPath";
-import { useSelectEvents } from "./useSelectEvents";
-import { useSelectedEvents } from "./useSelectedEvents";
-import { useTenant } from "./useTenant";
-import { useValidation } from "./useValidation";
+// Explicit imports and exports for better tree-shaking
+export { type DataStream, useDataStream } from "./useDataStream";
+export { useEnvironment } from "./useEnvironment";
+export { useEnvironmentValue } from "./useEnvironmentValue";
+export { type UseEventsOptions, useEvents } from "./useEvents";
+export { type Flags, useFlags } from "./useFlags";
+export { useImsAccessToken } from "./useImsAccessToken";
+export { useImsOrg } from "./useImsOrg";
+export { useNavigationFilters } from "./useNavigationFilters";
+export { useNavigationPath } from "./useNavigationPath";
+export { useSelectEvents } from "./useSelectEvents";
+export { useSelectedEvents } from "./useSelectedEvents";
+export { useSandbox } from "./useSandbox";
+export { useTenant } from "./useTenant";
+export { useValidation } from "./useValidation";
 
-export {
-  DataStream,
-  Flags,
-  UseEventsOptions,
-  useDataStream,
-  useEnvironment,
-  useEvents,
-  useFlags,
-  useImsAccessToken,
-  useImsOrg,
-  useNavigationFilters,
-  useNavigationPath,
-  useSelectedEvents,
-  useSelectEvents,
-  useTenant,
-  useValidation,
-};
-
-export * from "./hooks";
+// Additional hooks
+export { useClients, useSelectedClients, useValidationMap } from "./hooks";

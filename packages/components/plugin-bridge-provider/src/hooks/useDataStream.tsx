@@ -1,8 +1,8 @@
-import { combineMatchers } from "@adobe/griffon-toolkit";
-import { clientInfo } from "@adobe/griffon-toolkit-common";
-import { streamingValidation } from "@adobe/griffon-toolkit-edge";
-import type { Maybe } from "../types";
-import { useEvents } from "./useEvents";
+import { combineAll, combineMatchers } from '@adobe/griffon-toolkit';
+import { clientInfo } from '@adobe/griffon-toolkit-common';
+import { streamingValidation } from '@adobe/griffon-toolkit-edge';
+import type { Maybe } from '../types';
+import { useEvents } from './useEvents';
 
 /**
  * Contains the ID and name of a data stream configured inside Adobe Experience Platform
@@ -18,48 +18,58 @@ export interface DataStream {
  * stream
  */
 
+const dataStreamMatcher = combineAll([
+  'vendor==`com.adobe.edge.konductor`',
+  'type==`service`',
+  'payload.name==`datastream`',
+  'payload.context.datastreamId'
+]);
+
 export const useDataStream = (): Maybe<DataStream> => {
   const events = useEvents({
-    matchers: [
-      combineMatchers([clientInfo.matcher, streamingValidation.matcher]),
-    ],
+    matchers: [dataStreamMatcher]
   });
-  return undefined;
+  const match = events.find(e => e.payload?.context?.datastreamId);
+  const messages = match?.payload?.messages;
+  return {
+    id: match?.payload?.context?.datastreamId,
+    ...(messages?.[1] && JSON.parse(messages[1]))
+  };
 };
 
 const test = {
-  access_type: "mixed",
+  access_type: 'mixed',
   com_adobe_experience_platform: {
     datasets: {
       event: [
         {
-          datasetId: "600ab4dd2c6dbf194ada59de",
-          flowId: "133b3251-2bca-4bea-8328-73b84da4c9d7",
+          datasetId: '600ab4dd2c6dbf194ada59de',
+          flowId: '133b3251-2bca-4bea-8328-73b84da4c9d7',
           primary: true,
           xdmSchema:
-            "https://ns.adobe.com/aemonacpprodcampaign/schemas/48c8159b4c29d86c40338816487a55758bcce812ad33c4e8",
-        },
+            'https://ns.adobe.com/aemonacpprodcampaign/schemas/48c8159b4c29d86c40338816487a55758bcce812ad33c4e8'
+        }
       ],
       profile: [
         {
-          datasetId: "5f9074a12bff7a194af58c9e",
-          flowId: "828e6dda-74bb-45ab-87a4-da4898d6681f",
+          datasetId: '5f9074a12bff7a194af58c9e',
+          flowId: '828e6dda-74bb-45ab-87a4-da4898d6681f',
           primary: true,
           xdmSchema:
-            "https://ns.adobe.com/aemonacpprodcampaign/schemas/ddd6f50383c98d688823df18e3434da9c08bc49af5782e9b",
-        },
-      ],
+            'https://ns.adobe.com/aemonacpprodcampaign/schemas/ddd6f50383c98d688823df18e3434da9c08bc49af5782e9b'
+        }
+      ]
     },
-    enabled: true,
+    enabled: true
   },
-  com_adobe_experience_platform_ajo: { containerId: "not-used", enabled: true },
+  com_adobe_experience_platform_ajo: { containerId: 'not-used', enabled: true },
   com_adobe_experience_platform_edge_segmentation: { enabled: true },
-  com_adobe_experience_platform_ode: { containerId: "not-used", enabled: true },
+  com_adobe_experience_platform_ode: { containerId: 'not-used', enabled: true },
   com_adobe_identity: {
     idSyncContainerId__additional: [],
-    idSyncEnabled: false,
+    idSyncEnabled: false
   },
-  default_consent: "in",
+  default_consent: 'in',
   device_lookup: {
     additionalProperties: {},
     enabled: false,
@@ -68,8 +78,8 @@ const test = {
       browser: false,
       device: false,
       hardware: false,
-      operating_system: false,
-    },
+      operating_system: false
+    }
   },
   geo_lookup: {
     fields: {
@@ -84,17 +94,17 @@ const test = {
       longitude: false,
       postal_code: false,
       state_province: false,
-      timezone: false,
-    },
+      timezone: false
+    }
   },
-  geo_resolution: "none",
+  geo_resolution: 'none',
   input: {
     additionalProperties: {},
     schemaId:
-      "https://ns.adobe.com/aemonacpprodcampaign/schemas/48c8159b4c29d86c40338816487a55758bcce812ad33c4e8",
+      'https://ns.adobe.com/aemonacpprodcampaign/schemas/48c8159b4c29d86c40338816487a55758bcce812ad33c4e8'
   },
-  ip_obfuscation: "none",
-  state: { first_party_id: { cookie: { enabled: false, name: "FPID" } } },
-  type: "devices",
-  user_agent_collection: { additionalProperties: {}, enabled: true },
+  ip_obfuscation: 'none',
+  state: { first_party_id: { cookie: { enabled: false, name: 'FPID' } } },
+  type: 'devices',
+  user_agent_collection: { additionalProperties: {}, enabled: true }
 };

@@ -7,8 +7,8 @@ function FlaggedCell({ annotations }: any) {
   return (
     <div onClick={onPress}>
       <Flag
-        UNSAFE_style={{ ...(!annotations.length && { opacity: 0.5 }) }}
-        color={annotations.length ? "negative" : undefined}
+        UNSAFE_style={{ ...(!annotations?.length && { opacity: 0.5 }) }}
+        color={annotations?.length ? "negative" : undefined}
         size="S"
       />
     </div>

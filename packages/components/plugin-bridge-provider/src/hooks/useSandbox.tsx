@@ -1,5 +1,7 @@
-import { combineAll, combineMatchers } from "@adobe/griffon-toolkit";
-import { useEvents } from "./useEvents";
+import { combineAll, combineMatchers } from '@adobe/griffon-toolkit';
+import { useEvents } from './useEvents';
+import { clientInfo } from '@adobe/griffon-toolkit-common';
+import { streamingValidation } from '@adobe/griffon-toolkit-edge';
 
 /**
  * An app sandbox that has been configured inside the Adobe Experience Platform
@@ -10,9 +12,9 @@ export interface Sandbox {
 }
 
 const ajoRequestMatcher = combineAll([
-  "vendor==`com.adobe.experience_platform.ajo`",
-  "type==`service`",
-  "payload.name==`com.adobe.experience_platform.ajo/request`",
+  'vendor==`com.adobe.experience_platform.ajo`',
+  'type==`service`',
+  'payload.name==`com.adobe.experience_platform.ajo/request`'
 ]);
 
 /**
@@ -20,20 +22,13 @@ const ajoRequestMatcher = combineAll([
  */
 export const useSandbox = (): Sandbox => {
   const events = useEvents({
-    matchers: [
-      combineMatchers([
-        // clientInfo.matcher,
-        // streamingValidation.matcher,
-        ajoRequestMatcher,
-      ]),
-    ],
+    matchers: [ajoRequestMatcher]
   });
 
   let id, name;
 
   for (const event of events) {
-    const { sandboxId, sandboxName } =
-      (event.payload?.context as any)?.event?.header || {};
+    const { sandboxId, sandboxName } = (event.payload?.context as any)?.event?.header || {};
     if (sandboxId && sandboxName) {
       id = sandboxId;
       name = sandboxName;
@@ -43,6 +38,6 @@ export const useSandbox = (): Sandbox => {
 
   return {
     id,
-    name,
+    name
   };
 };

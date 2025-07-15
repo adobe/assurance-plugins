@@ -112,6 +112,6 @@ export type EventFilterConfig = {
   validations?: boolean;
 };
 
-export type Environment = "local" | "dev" | "qe" | "stage" | "prod";
+export type Environment = "local" | "dev" | "qa" | "stage" | "prod";
 
 export type Maybe<T> = T | undefined;

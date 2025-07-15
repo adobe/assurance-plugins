@@ -2141,6 +2141,16 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@jsep-plugin/assignment@^1.3.0":
+  version "1.3.0"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/@jsep-plugin/assignment/-/assignment-1.3.0.tgz#fcfc5417a04933f7ceee786e8ab498aa3ce2b242"
+  integrity sha512-VVgV+CXrhbMI3aSusQyclHkenWSAm95WaiKrMxRFam3JSUiIaQjoMIw2sEs/OX4XifnqeQUN4DYbJjlA8EfktQ==
+
+"@jsep-plugin/regex@^1.0.4":
+  version "1.0.4"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/@jsep-plugin/regex/-/regex-1.0.4.tgz#cb2fc423220fa71c609323b9ba7f7d344a755fcc"
+  integrity sha512-q7qL4Mgjs1vByCaTnDFcBnV9HS7GVPJX5vyVoCgZHNSC9rjwIlmbXG5sUuorR5ndfHAIlJ8pVStxvjXHbNvtUg==
+
 "@lerna/add@3.21.0":
   version "3.21.0"
   resolved "https://registry.yarnpkg.com/@lerna/add/-/add-3.21.0.tgz#27007bde71cc7b0a2969ab3c2f0ae41578b4577b"
@@ -2907,6 +2917,20 @@
   integrity sha512-p6ChnEZDGjg9PYPec9BK6Yp5/DdSrYQvXTBAtgrnqX6N36cZy37ql1c8Tc5LclfIYBNG7EZp8NBcRTYJwyi84g==
   dependencies:
     ts-toolbelt "^9.6.0"
+
+"@monaco-editor/loader@^1.5.0":
+  version "1.5.0"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/@monaco-editor/loader/-/loader-1.5.0.tgz#dcdbc7fe7e905690fb449bed1c251769f325c55d"
+  integrity sha512-hKoGSM+7aAc7eRTRjpqAZucPmoNOC4UUbknb/VNoTkEIkCPhqV8LfbsgM1webRM7S/z21eHEx9Fkwx8Z/C/+Xw==
+  dependencies:
+    state-local "^1.0.6"
+
+"@monaco-editor/react@^4.7.0":
+  version "4.7.0"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/@monaco-editor/react/-/react-4.7.0.tgz#35a1ec01bfe729f38bfc025df7b7bac145602a60"
+  integrity sha512-cyzXQCtO47ydzxpQtCGSQGOC8Gk3ZUeBXFAxD+CWXYFo5OqZyZUonFl0DwUlTyAfRHntBfw2p3w4s9R6oe1eCA==
+  dependencies:
+    "@monaco-editor/loader" "^1.5.0"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -7434,7 +7458,7 @@
 
 "@types/react@*", "@types/react@18.3.11", "@types/react@^16.8.0 || ^17.0.0 || ^18.0.0", "@types/react@^17", "@types/react@^18.3.11":
   version "18.3.11"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.11.tgz#9d530601ff843ee0d7030d4227ea4360236bd537"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/@types/react/-/react-18.3.11.tgz#9d530601ff843ee0d7030d4227ea4360236bd537"
   integrity sha512-r6QZ069rFTjrEYgFdOck1gK7FLVsgJE7tTz0pQBczlBNUhBNk0MQH4UbnFSwjpQLMkLzgqvBBa+qGpLje16eTQ==
   dependencies:
     "@types/prop-types" "*"
@@ -9384,6 +9408,13 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha512-XgZ0pFcakEUlbwQEVNg3+QAis1FyTL3Qel9FYy8pSkQqoG3PNoT0bOCQtOXcOkur21r2Eq2kI+IE+gsmAEVlYw==
 
+copy-to-clipboard@^3.3.1:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/copy-to-clipboard/-/copy-to-clipboard-3.3.3.tgz#55ac43a1db8ae639a4bd99511c148cdd1b83a1b0"
+  integrity sha512-2KV8NhB5JqC3ky0r9PMCAZKbUHSwtEo4CwCs0KXgruG43gX5PMqDEBbVU4OUzw2MuAWUfsuFmWvEKG5QRfSnJA==
+  dependencies:
+    toggle-selection "^1.0.6"
+
 core-js-compat@^3.38.0, core-js-compat@^3.38.1:
   version "3.38.1"
   resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.38.1.tgz#2bc7a298746ca5a7bcb9c164bcb120f2ebc09a09"
@@ -9643,7 +9674,7 @@ dateformat@^3.0.0:
 
 dayjs@^1.11.13:
   version "1.11.13"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.13.tgz#92430b0139055c3ebb60150aa13e860a4b5a366c"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/dayjs/-/dayjs-1.11.13.tgz#92430b0139055c3ebb60150aa13e860a4b5a366c"
   integrity sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
@@ -11075,6 +11106,11 @@ form-data@~2.3.2:
     asynckit "^0.4.0"
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
+
+format-util@^1.0.3:
+  version "1.0.5"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/format-util/-/format-util-1.0.5.tgz#1ffb450c8a03e7bccffe40643180918cc297d271"
+  integrity sha512-varLbTj0e0yVyRpqQhuWV+8hlePAgaoFRhNFj50BNjEIrw1/DphHSObtqwskVCPWNgzwPoQrZAbfa/SBiicNeg==
 
 forwarded@0.2.0:
   version "0.2.0"
@@ -13135,7 +13171,7 @@ joi@^17.3.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@^3.10.0, js-yaml@^3.13.1:
+js-yaml@^3.10.0, js-yaml@^3.12.1, js-yaml@^3.13.1:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.14.1.tgz#dae812fdb3825fa306609a8717383c50c36a0537"
   integrity sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==
@@ -13187,6 +13223,11 @@ jsdom@^25.0.1:
     ws "^8.18.0"
     xml-name-validator "^5.0.0"
 
+jsep@^1.4.0:
+  version "1.4.0"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/jsep/-/jsep-1.4.0.tgz#19feccbfa51d8a79f72480b4b8e40ce2e17152f0"
+  integrity sha512-B7qPcEVE3NVkmSJbaYxvv4cHkVW7DQsZz13pUMrfS8z8Q/BuShN+gcTXrUlPiGqM2/t/EEaI030bpxMqY8gMlw==
+
 jsesc@^2.5.1:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-2.5.2.tgz#80564d2e483dacf6e8ef209650a67df3f0c283a4"
@@ -13211,6 +13252,23 @@ json-parse-even-better-errors@^2.3.0, json-parse-even-better-errors@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/json-parse-even-better-errors/-/json-parse-even-better-errors-2.3.1.tgz#7c47805a94319928e05777405dc12e1f7a4ee02d"
   integrity sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==
+
+json-schema-faker@^0.5.9:
+  version "0.5.9"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/json-schema-faker/-/json-schema-faker-0.5.9.tgz#6ae58b81cd6a57b3a222e7dd6e6c730da3816890"
+  integrity sha512-fNKLHgDvfGNNTX1zqIjqFMJjCLzJ2kvnJ831x4aqkAoeE4jE2TxvpJdhOnk3JU3s42vFzmXvkpbYzH5H3ncAzg==
+  dependencies:
+    json-schema-ref-parser "^6.1.0"
+    jsonpath-plus "^10.3.0"
+
+json-schema-ref-parser@^6.1.0:
+  version "6.1.0"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/json-schema-ref-parser/-/json-schema-ref-parser-6.1.0.tgz#30af34aeab5bee0431da805dac0eb21b574bf63d"
+  integrity sha512-pXe9H1m6IgIpXmE5JSb8epilNTGsmTb2iPohAXpOdhqGFbQjNeHHsZxU+C8w6T81GZxSPFLeUoqDJmzxx5IGuw==
+  dependencies:
+    call-me-maybe "^1.0.1"
+    js-yaml "^3.12.1"
+    ono "^4.0.11"
 
 json-schema-traverse@^0.4.1:
   version "0.4.1"
@@ -13274,6 +13332,15 @@ jsonparse@^1.2.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/jsonparse/-/jsonparse-1.3.1.tgz#3f4dae4a91fac315f71062f8521cc239f1366280"
   integrity sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==
+
+jsonpath-plus@^10.3.0:
+  version "10.3.0"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/jsonpath-plus/-/jsonpath-plus-10.3.0.tgz#59e22e4fa2298c68dfcd70659bb47f0cad525238"
+  integrity sha512-8TNmfeTCk2Le33A3vRRwtuworG/L5RrgMvdjhKZxvyShO+mBu2fP50OWUjRLNtvw344DdDarFh9buFAZs5ujeA==
+  dependencies:
+    "@jsep-plugin/assignment" "^1.3.0"
+    "@jsep-plugin/regex" "^1.0.4"
+    jsep "^1.4.0"
 
 jsprim@^1.2.2:
   version "1.4.2"
@@ -14639,6 +14706,13 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
+ono@^4.0.11:
+  version "4.0.11"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/ono/-/ono-4.0.11.tgz#c7f4209b3e396e8a44ef43b9cedc7f5d791d221d"
+  integrity sha512-jQ31cORBFE6td25deYeD80wxKBMj+zBmHTrVxnc6CKhx8gho6ipmWM5zj/oeoqioZ99yqBls9Z/9Nss7J26G2g==
+  dependencies:
+    format-util "^1.0.3"
+
 open@^8.0.4, open@^8.4.0:
   version "8.4.2"
   resolved "https://registry.yarnpkg.com/open/-/open-8.4.2.tgz#5b5ffe2a8f793dcd2aad73e550cb87b59cb084f9"
@@ -15363,7 +15437,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -15613,6 +15687,14 @@ react-colorful@^5.1.2:
   resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-5.6.1.tgz#7dc2aed2d7c72fac89694e834d179e32f3da563b"
   integrity sha512-1exovf0uGTGyq5mXQT0zgQ80uvj2PCwvF8zY1RN9/vbJVSjSo3fsB/4L3ObbF7u70NduSiK4xu4Y6q1MHoUGEw==
 
+react-copy-to-clipboard@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-5.1.0.tgz#09aae5ec4c62750ccb2e6421a58725eabc41255c"
+  integrity sha512-k61RsNgAayIJNoy9yDsYzDe/yAZAzEbEgcz3DZMhF686LEyukcE1hzurxe85JandPUG+yTfGVFzuEw3xt8WP/A==
+  dependencies:
+    copy-to-clipboard "^3.3.1"
+    prop-types "^15.8.1"
+
 react-docgen-typescript@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/react-docgen-typescript/-/react-docgen-typescript-2.2.2.tgz#4611055e569edc071204aadb20e1c93e1ab1659c"
@@ -15655,6 +15737,11 @@ react-error-overlay@6.0.9:
   version "6.0.9"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
+
+react-hook-form@^7.56.3:
+  version "7.56.3"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/react-hook-form/-/react-hook-form-7.56.3.tgz#c459f59fead379db30113951152e13db386cc015"
+  integrity sha512-IK18V6GVbab4TAo1/cz3kqajxbDPGofdF0w7VHdCo0Nt8PrPlOZcuuDq9YYIV1BtjcX78x0XsldbQRQnQXWXmw==
 
 react-intl@^6.1.0:
   version "6.8.0"
@@ -16811,6 +16898,11 @@ stackback@0.0.2:
   resolved "https://registry.yarnpkg.com/stackback/-/stackback-0.0.2.tgz#1ac8a0d9483848d1695e418b6d031a3c3ce68e3b"
   integrity sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==
 
+state-local@^1.0.6:
+  version "1.0.7"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/state-local/-/state-local-1.0.7.tgz#da50211d07f05748d53009bee46307a37db386d5"
+  integrity sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w==
+
 static-extend@^0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/static-extend/-/static-extend-0.1.2.tgz#60809c39cbff55337226fd5e0b520f341f1fb5c6"
@@ -17468,6 +17560,11 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     extend-shallow "^3.0.2"
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
+
+toggle-selection@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/toggle-selection/-/toggle-selection-1.0.6.tgz#6e45b1263f2017fa0acc7d89d78b15b8bf77da32"
+  integrity sha512-BiZS+C1OS8g/q2RRbJmy59xpyghNBqrr6k5L/uKBGRsTfxmu3ffiRnd8mlGPUVayg8pvfi5urfnu8TU7DVOkLQ==
 
 toidentifier@1.0.1:
   version "1.0.1"
@@ -18609,3 +18706,8 @@ zustand@4.5.5:
   integrity sha512-+0PALYNJNgK6hldkgDq2vLrw5f6g/jCInz52n9RTpropGgeAf/ioFUCdtsjCqu4gNhW9D01rUQBROoRjdzyn2Q==
   dependencies:
     use-sync-external-store "1.2.2"
+
+zustand@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-5.0.3.tgz#b323435b73d06b2512e93c77239634374b0e407f"
+  integrity sha512-14fwWQtU3pH4dE0dOpdMiWjddcH+QzKIgk1cl8epwSE7yag43k/AD/m4L6+K7DytAOr9gGBe3/EXj9g7cdostg==
