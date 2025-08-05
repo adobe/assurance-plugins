@@ -19,6 +19,7 @@ import ClientInfo from './containers/client-info';
 import { defineMessages, IntlProvider, useIntl } from 'react-intl';
 import LaunchLiveActivity from './components/launch-live-activity';
 import usePluginState from './hooks/usePluginState';
+import useActivities from './hooks/useActivities';
 
 const messages = defineMessages({
   activities: {
@@ -36,17 +37,28 @@ const messages = defineMessages({
 });
 
 function Inner() {
-  const [selectedTab, setSelectedTab] = useState<Key>('simulate');
+  const [selectedTab, setSelectedTab] = useState<Key>('clientInfo');
   const { formatMessage } = useIntl();
   const clients = useClients();
   const selectedClient = usePluginState(state => state.selectedClient);
   const setSelectedClient = usePluginState(state => state.setSelectedClient);
+  const activities = useActivities();
+
+  console.log(activities,'*********activities');
 
   useEffect(() => {
     if (!selectedClient && clients.length) {
       setSelectedClient(clients[0].id);
+      console.log(clients,'*********');
     }
+
+    console.log(selectedClient, clients,'*********OUTSIDE');
   }, [clients, selectedClient, setSelectedClient]);
+
+  console.log(selectedClient, clients,'*********OUTSIDE useffect');
+
+
+  console.log(selectedTab,'*********OUTSIDE  ATBBBBBBBuseffect');
 
   return (
     <View padding="size-200" paddingTop="size-0">
@@ -61,8 +73,11 @@ function Inner() {
       )}
       <Tabs onSelectionChange={setSelectedTab} selectedKey={selectedTab}>
         <TabList UNSAFE_style={{ flex: 1 }}>
-          <Item key="activities">{formatMessage(messages.activities)}</Item>
-          <Item key="clientInfo">{formatMessage(messages.clientInfo)}</Item>
+
+        <Item key="clientInfo">{formatMessage(messages.clientInfo)}</Item>
+        <Item key="activities">{formatMessage(messages.activities)}</Item>
+
+
           <Item key="events">{formatMessage(messages.events)}</Item>
         </TabList>
 

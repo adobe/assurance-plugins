@@ -2,9 +2,11 @@ import {
   EnvironmentMap,
   useEnvironmentValue,
   useImsAccessToken,
-  useImsOrg
+  useImsOrg,
+  useSandbox
 } from '@assurance/plugin-bridge-provider';
 import { useQuery } from '@tanstack/react-query';
+import useECID from './useECID';
 
 interface Identity {
   namespace: {
@@ -136,23 +138,24 @@ const baseUrls: EnvironmentMap<string> = {
 };
 
 function useProfile() {
-  // const ecid = useECID();
-  // const sandbox = useSandbox();
-  const ecid = '90296481826512371504715314516119412966';
-  const sandbox = '6127f081-1509-4c77-a7f0-811509cc7732';
+  const ecid = useECID();
+  const sandbox = useSandbox();
+  // const ecid = '90296481826512371504715314516119412966';
+  // const sandbox = '6127f081-1509-4c77-a7f0-811509cc7732';
   const baseUrl = useEnvironmentValue(baseUrls);
 
   const token = useImsAccessToken();
   const org = useImsOrg();
 
   return useQuery({
-    queryKey: ['profile', ecid],
+    queryKey: ['profile', ecid, org, token],
     queryFn: () => {
+      console.log(token, org, ecid, sandbox, 'token, org, ecid, sandbox QUERRYYYYYYYYY');
       if (!token || !org || !ecid || !sandbox) {
         console.error('Token, org, ecid, and sandbox are required', token, org, ecid, sandbox);
         return null;
       }
-      return getProfile({ baseUrl, ecid, org, sandbox: sandbox, token });
+      return getProfile({ baseUrl, ecid, org, sandbox: sandbox.name, token });
     }
   });
 }
