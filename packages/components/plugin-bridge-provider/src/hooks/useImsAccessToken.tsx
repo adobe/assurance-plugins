@@ -1,7 +1,7 @@
-import { useContext } from "react";
-import { SettingsContext } from "../Contexts";
-import type { Maybe } from "../types";
-import { checkContext } from "./checkContext";
+import { useContext } from 'react';
+import { SettingsContext } from '../Contexts';
+import type { Maybe } from '../types';
+import { checkContext } from './checkContext';
 
 /**
  * A hook to grab the bearer token of the current IMS user
@@ -10,6 +10,5 @@ import { checkContext } from "./checkContext";
 
 export const useImsAccessToken = (): Maybe<string> => {
   const context = checkContext(useContext(SettingsContext));
-  console;
   return context?.imsAccessToken;
 };

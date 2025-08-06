@@ -10,8 +10,9 @@ function useSharedStateData() {
     matchers: [sharedState.matcher]
   });
 
-
-  console.log(sharedStateEvents, 'sharedStateEvents &&&&');
+  console.log(sharedStateEvents, 'sharedStateEvents &&&&', {
+    stateDatafromShared: sharedState.getStateData().data
+  });
 
   const xdmData = sharedStateEvents?.[0] ? sharedState.getXdm(sharedStateEvents[0]) : null;
   console.log(xdmData, 'xdmData &&&&');
