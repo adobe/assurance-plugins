@@ -31,8 +31,16 @@ import {
 import Phone from "@spectrum-icons/workflow/DevicePhone";
 import Devices from "@spectrum-icons/workflow/Devices";
 import * as R from "ramda";
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 
+/**
+ * ClientPicker component
+ *
+ * Props:
+ * - allowAllClients (boolean, default: true):
+ *     If true, shows the 'All Clients' option. If false, only allows selecting a specific client.
+ *     If false and there are no clients, shows a disabled/default option and selects none.
+ */
 const getClientIcon = (type) =>
   type === "all" ? <Devices size="S" /> : <Phone size="S" />;
 
@@ -65,13 +73,36 @@ const prepareClientForUI = (client) => ({
   timestamp: client.timestamp,
 });
 
-const ClientPicker = () => {
+const ClientPicker = ({ allowAllClients = true }) => {
   const clients = useClients();
   const selectedClients = useSelectedClients();
   const filters = useNavigationFilters();
   const path = useNavigationPath();
 
   const prepared = useMemo(() => clients.map(prepareClientForUI), [clients]);
+
+  // Only make a default selection if nothing is already selected
+  useEffect(() => {
+    // Only run if:
+    // - allowAllClients is false
+    // - there are clients
+    // - no client is currently selected (selectedClients is empty or undefined)
+    if (
+      !allowAllClients &&
+      clients.length > 0 &&
+      (!selectedClients || selectedClients.length === 0 || selectedClients.length === clients.length)
+    ) {
+      const firstClientId = prepared[0]?.clientId;
+      if (firstClientId) {
+        const output = {
+          ...filters,
+          clients: rootEvent.makeClientFilter([firstClientId]),
+        };
+        const newPath = `${path}#${filterToHash(output)}`;
+        navigateTo(newPath);
+      }
+    }
+  }, [allowAllClients, clients, selectedClients, prepared, filters, path]);
 
   const mapSelected = useMemo(
     () =>
@@ -80,7 +111,15 @@ const ClientPicker = () => {
   );
 
   if (clients.length === 0) {
-    return <span>Unknown client</span>;
+    // No clients: show a disabled/default option
+    return (
+      <Picker aria-label="Client" isDisabled selectedKey="none">
+        <Item key="none" textValue="No Clients Available">
+          <Devices size="S" />
+          <Text>No Clients Available</Text>
+        </Item>
+      </Picker>
+    );
   }
 
   if (clients.length === 1) {
@@ -92,14 +131,43 @@ const ClientPicker = () => {
     );
   }
 
-  const options = [
-    {
-      clientId: "all",
-      label: "All Clients",
-      type: "all",
-    },
-    ...prepared,
-  ];
+  // Build options array
+  const options = allowAllClients
+    ? [
+        {
+          clientId: "all",
+          label: "All Clients",
+          type: "all",
+        },
+        ...prepared,
+      ]
+    : prepared;
+
+  // Determine selectedKey
+  let selectedKey;
+  if (!allowAllClients) {
+    // If not allowing all clients, default to first client if none selected
+    selectedKey =
+      mapSelected[0]?.clientId || prepared[0]?.clientId || "none";
+  } else {
+    selectedKey =
+      selectedClients.length === clients.length || selectedClients.length === 0
+        ? "all"
+        : mapSelected[0]?.clientId;
+  }
+
+  // onSelectionChange handler
+  const handleSelectionChange = (selected) => {
+    const output = {
+      ...filters,
+      clients:
+        allowAllClients && selected === "all"
+          ? undefined
+          : rootEvent.makeClientFilter([selected]),
+    };
+    const newPath = `${path}#${filterToHash(output)}`;
+    navigateTo(newPath);
+  };
 
   return (
     <Picker
@@ -107,23 +175,8 @@ const ClientPicker = () => {
       labelPosition="side"
       isQuiet
       items={options}
-      selectedKey={
-        selectedClients.length === clients.length
-          ? "all"
-          : mapSelected[0].clientId
-      }
-      onSelectionChange={(selected) => {
-        const output = {
-          ...filters,
-          clients:
-            selected === "all"
-              ? undefined
-              : rootEvent.makeClientFilter([selected]),
-        };
-
-        const newPath = `${path}#${filterToHash(output)}`;
-        navigateTo(newPath);
-      }}
+      selectedKey={selectedKey}
+      onSelectionChange={handleSelectionChange}
     >
       {(item) => (
         <Item key={item.clientId} textValue={item.label}>

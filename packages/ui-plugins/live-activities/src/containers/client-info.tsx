@@ -13,7 +13,6 @@ import { useDataStream } from '@assurance/plugin-bridge-provider';
 import useProfile from '../hooks/useProfile';
 import styles from './client-info.module.scss';
 import Card from '../components/card/card';
-import useSharedStateData from '../hooks/useSharedStateData';
 import useECID from '../hooks/useECID';
 import usePushCredentialsData from '../hooks/usePushCredentialsData';
 import PushCredentialsStatusDetails from '../hooks/PushCredentialsStatusDetails';
@@ -88,8 +87,6 @@ function ClientInfo() {
 
   const imsOrg = useImsOrg();
   console.log(imsOrg, 'imsOrg');
-  const sharedStateData = useSharedStateData();
-  console.log('ssd', sharedStateData);
 
   const pushCredentials = usePushCredentialsData();
   console.log({ ...pushCredentials }, 'pushCredentials');

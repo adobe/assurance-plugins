@@ -38,6 +38,7 @@ import LaunchLiveActivity from './components/launch-live-activity';
 import usePluginState from './hooks/usePluginState';
 import useActivities from './hooks/useActivities';
 import usePushCredentialsData from './hooks/usePushCredentialsData';
+import ClientPicker from '../../../components/timeline-bar/src/components/FilterBar/ClientPicker';
 
 // export { useDataStream, type DataStream } from "./hooks/useDataStream";
 // export { useEnvironment } from "./hooks/useEnvironment";
@@ -76,8 +77,6 @@ function Inner() {
   const [selectedTab, setSelectedTab] = useState<Key>('clientInfo');
   const { formatMessage } = useIntl();
   const clients = useClients();
-  const selectedClient = usePluginState(state => state.selectedClient);
-  const setSelectedClient = usePluginState(state => state.setSelectedClient);
   const activities = useActivities();
 
   console.log(activities, '*********activities');
@@ -114,39 +113,18 @@ function Inner() {
     },
     'data from plugin bridge provider'
   );
-
-  useEffect(() => {
-    if (!selectedClient && clients.length) {
-      setSelectedClient(clients[0].id);
-      console.log(clients, '*********');
-    }
-
-    console.log(selectedClient, clients, '*********OUTSIDE');
-  }, [clients, selectedClient, setSelectedClient]);
-
-  console.log(selectedClient, clients, '*********OUTSIDE useffect');
-
-  console.log(selectedTab, '*********OUTSIDE  ATBBBBBBBuseffect');
-
+  
   return (
     <View padding="size-200" paddingTop="size-0">
-      {!!clients.length && (
-        <Flex gap="size-100" justifyContent="end" alignItems="end">
-          <Picker label="Client" selectedKey={selectedClient} onSelectionChange={setSelectedClient}>
-            {clients.map(client => (
-              <Item key={client.id}>{client.payload.deviceInfo['Device name']}</Item>
-            ))}
-          </Picker>
-        </Flex>
-      )}
+      <Flex gap="size-100" justifyContent="end" alignItems="end">
+        <ClientPicker allowAllClients={false} />
+      </Flex>
       <Tabs onSelectionChange={setSelectedTab} selectedKey={selectedTab}>
         <TabList UNSAFE_style={{ flex: 1 }}>
           <Item key="clientInfo">{formatMessage(messages.clientInfo)}</Item>
           <Item key="activities">{formatMessage(messages.activities)}</Item>
-
           <Item key="events">{formatMessage(messages.events)}</Item>
         </TabList>
-
         <TabPanels>
           <Item key="activities">
             <Activities />
