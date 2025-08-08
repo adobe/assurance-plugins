@@ -8,7 +8,8 @@ import {
   TabList,
   TabPanels,
   Tabs,
-  View
+  View,
+  Text
 } from '@adobe/react-spectrum';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
@@ -27,8 +28,6 @@ import {
   useSelectedEvents,
   useSelectEvents,
   useTenant,
-  useValidation,
-  useValidationMap
 } from '@assurance/plugin-bridge-provider';
 import Activities from './containers/activities';
 import Events from './containers/events';
@@ -39,6 +38,7 @@ import usePluginState from './hooks/usePluginState';
 import useActivities from './hooks/useActivities';
 import usePushCredentialsData from './hooks/usePushCredentialsData';
 import ClientPicker from '../../../components/timeline-bar/src/components/FilterBar/ClientPicker';
+import Card from './components/card/card';
 
 // export { useDataStream, type DataStream } from "./hooks/useDataStream";
 // export { useEnvironment } from "./hooks/useEnvironment";
@@ -53,10 +53,8 @@ import ClientPicker from '../../../components/timeline-bar/src/components/Filter
 // export { useSelectedEvents } from "./hooks/useSelectedEvents";
 // export { useSandbox } from "./hooks/useSandbox";
 // export { useTenant } from "./hooks/useTenant";
-// export { useValidation } from "./hooks/useValidation";
 
 // // Additional hooks from hooks.tsx
-// export { useClients, useSelectedClients, useValidationMap } from "./hooks/hooks";
 
 const messages = defineMessages({
   activities: {
@@ -88,8 +86,6 @@ function Inner() {
   const environment = useEnvironment();
   const selectedEvents = useSelectedEvents();
   const selectedClients = useSelectedClients();
-  const validation = useValidation();
-  const validationMap = useValidationMap();
   const navigationFilters = useNavigationFilters();
   const navigationPath = useNavigationPath();
   const dataStream = useDataStream();
@@ -104,8 +100,6 @@ function Inner() {
       environment,
       selectedEvents,
       selectedClients,
-      validation,
-      validationMap,
       navigationFilters,
       navigationPath,
       dataStream,
@@ -113,11 +107,14 @@ function Inner() {
     },
     'data from plugin bridge provider'
   );
-  
+
   return (
     <View padding="size-200" paddingTop="size-0">
-      <Flex gap="size-100" justifyContent="end" alignItems="end">
-        <ClientPicker allowAllClients={false} />
+      <Flex gap="size-100" justifyContent="end" alignItems="center">
+        <Text UNSAFE_style={{ fontWeight: 500, minWidth: 60, textAlign: 'center' }}>Client</Text>
+        <Card>
+          <ClientPicker allowAllClients={false} />
+        </Card>
       </Flex>
       <Tabs onSelectionChange={setSelectedTab} selectedKey={selectedTab}>
         <TabList UNSAFE_style={{ flex: 1 }}>

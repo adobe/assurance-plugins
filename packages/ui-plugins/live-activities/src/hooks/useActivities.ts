@@ -53,10 +53,6 @@ function useActivities(): LiveActivity[] {
     sorted: 'desc'
   });
 
-  const sharedStateEvents = useEvents<SharedState[]>({
-    matchers: [sharedState.matcher]
-  });
-
   const debugEvents = useEvents<any[]>({
     matchers: [
       combineAny([

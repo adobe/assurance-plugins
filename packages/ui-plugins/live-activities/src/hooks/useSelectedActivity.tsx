@@ -11,10 +11,10 @@ export const useSelectedActivity = () => {
   const activities = useActivities();
 
   if (!selectedActivityId) {
-    return null;
+    return undefined;
   }
 
-  return activities.find(activity => activity.id === selectedActivityId) || null;
+  return activities.find(activity => activity.id === selectedActivityId) || undefined;
 };
 
 export default useSelectedActivity;

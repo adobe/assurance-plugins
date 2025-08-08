@@ -3,7 +3,7 @@ import { create } from 'zustand';
 interface PluginState {
   activities: any[];
   selectedActivityId: string | null;
-  selectedTab: 'activities' | 'settings';
+  selectedTab: 'clientInfo' | 'activities' | 'settings';
   selectedClient?: string;
   setActivities: (activities: any[]) => void;
   setSelectedActivityId: (activityId: string | null) => void;
@@ -14,7 +14,7 @@ interface PluginState {
 const usePluginState = create<PluginState>()(set => ({
   activities: [],
   selectedActivityId: null,
-  selectedTab: 'activities',
+  selectedTab: 'clientInfo',
   selectedClient: undefined,
   setActivities: activities => set({ activities }),
   setSelectedActivityId: activityId => set({ selectedActivityId: activityId }),

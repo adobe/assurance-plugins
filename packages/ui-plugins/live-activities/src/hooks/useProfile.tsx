@@ -140,8 +140,6 @@ const baseUrls: EnvironmentMap<string> = {
 function useProfile() {
   const ecid = useECID();
   const sandbox = useSandbox();
-  // const ecid = '90296481826512371504715314516119412966';
-  // const sandbox = '6127f081-1509-4c77-a7f0-811509cc7732';
   const baseUrl = useEnvironmentValue(baseUrls);
 
   const token = useImsAccessToken();
