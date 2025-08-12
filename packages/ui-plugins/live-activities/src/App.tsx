@@ -26,8 +26,7 @@ import {
   useSandbox,
   useSelectedClients,
   useSelectedEvents,
-  useSelectEvents,
-  useTenant,
+  useTenant
 } from '@assurance/plugin-bridge-provider';
 import Activities from './containers/activities';
 import Events from './containers/events';
@@ -74,7 +73,6 @@ const messages = defineMessages({
 function Inner() {
   const [selectedTab, setSelectedTab] = useState<Key>('clientInfo');
   const { formatMessage } = useIntl();
-  const clients = useClients();
   const activities = useActivities();
 
   console.log(activities, '*********activities');
@@ -90,9 +88,11 @@ function Inner() {
   const navigationPath = useNavigationPath();
   const dataStream = useDataStream();
   const sandbox = useSandbox();
+  const clients = useClients();
 
   console.log(
     {
+      clients,
       events,
       tenant,
       imsOrg,

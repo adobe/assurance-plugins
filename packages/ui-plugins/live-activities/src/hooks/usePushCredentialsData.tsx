@@ -1,11 +1,13 @@
 import {
   EnvironmentMap,
+  useClients,
   useEnvironmentValue,
   useImsAccessToken,
   useImsOrg,
   useSandbox
 } from '@assurance/plugin-bridge-provider';
 import { useQuery } from '@tanstack/react-query';
+import useSelectedClientId from './useSelectedClientId';
 
 // Endpoints for each environment
 const baseUrls: EnvironmentMap<string> = {
@@ -52,15 +54,16 @@ async function getPushCredentials({
   baseUrl,
   org,
   token,
-  sandboxName
+  sandboxName,
+  messagingService = 'apns'
 }: {
   baseUrl: string;
   org: string;
   token: string;
   sandboxName: string;
+  messagingService?: string;
 }) {
   // GraphQL query as per the provided comment
-  const messagingService = 'apns';
   const sandbox = sandboxName;
 
   console.log(messagingService, sandbox, 'messagingService, sandbox ***');
@@ -99,6 +102,19 @@ function usePushCredentialsData() {
   const org = useImsOrg();
   const sandbox = useSandbox();
 
+  const selectedClientId = useSelectedClientId();
+  const clients = useClients();
+
+  const selectedClient = clients.find(client => client.clientId === selectedClientId);
+
+  const messagingService =
+    selectedClient?.payload?.deviceInfo?.['Canonical platform name'] === 'iOS' ? 'apns' : 'fcm';
+
+  console.log(
+    { selectedClientId, clients, selectedClient, messagingService },
+    'selectedClientId, clients, selectedClient'
+  );
+
   return useQuery({
     queryKey: ['pushCredentials', org, token, sandbox?.name],
     queryFn: () => {
@@ -108,7 +124,13 @@ function usePushCredentialsData() {
       }
 
       console.log('refetching', { sandboxName: sandbox?.name, org, token });
-      return getPushCredentials({ baseUrl, org, token, sandboxName: sandbox.name });
+      return getPushCredentials({
+        baseUrl,
+        org,
+        token,
+        sandboxName: sandbox?.name,
+        messagingService
+      });
     },
     enabled: !!token && !!org && !!sandbox?.name,
     refetchOnWindowFocus: false
