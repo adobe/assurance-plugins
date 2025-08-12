@@ -12,32 +12,75 @@ interface ShouldMatch {
 interface PushCredentialsStatusDetailsProps {
   pushCredentialsStatus: string | boolean;
   shouldMatch: ShouldMatch;
-  onManageApps: () => void;
-  MSG: Record<string, string>;
-  STATUS_DETAILS: Record<string, string>;
-  serviceString: (platform: string) => string;
-  chooseStatusDetails: (status: string | boolean) => string;
-  chooseStatusMessage: (status: string | boolean) => string;
   onRefresh?: () => void;
-  healthIconStatus?: string;
 }
+
+// Messages & constants
+const MSG = {
+  appId: 'App ID',
+  manageApps: 'Manage App Configurations',
+  propertyId: 'Property ID',
+  orgId: 'Org ID',
+  service: 'Messaging Service'
+} as const;
+
+const STATUS_MESSAGE: Record<string, string> = {
+  'device-not-configured': 'Client Must Be Configured Correctly',
+  error: 'App Configuration Error',
+  'no-apps': 'No App Configurations',
+  'no-matching-app': 'No Matching App Detected',
+  'property-not-loaded': 'Property Not Found',
+  valid: 'Matching App Successfully Detected'
+};
+
+const STATUS_DETAILS: Record<string, string> = {
+  error:
+    'There was a problem fetching the apps. This could be a temporary network issue or potentially a provisioning issue.',
+  noAppsPara1: "You haven't created any App Configurations yet.",
+  noAppsPara2: 'Make sure to create an App Configuration with the following details:',
+  noMatchPara1:
+    'There is not an App Configurations that matches the stored App ID and Platform for this App.',
+  noMatchPara2: 'Make sure there is an App Configuration that matches the following details:',
+  useTheFollowing: 'Use the following link to manage your App Configurations:',
+  noPropertyPara1:
+    'Could not load this property in Launch. Make sure that you are provisioned for Launch, that the property exists, and that it exists for the specified Org'
+};
+
+// Utility functions
+const chooseStatus = (status: string | boolean): string => {
+  if (status === false) return 'valid';
+  if (status === 'loading') return 'loading';
+  if (status === 'device-not-configured') return 'info';
+  return 'invalid';
+};
+
+const chooseStatusMessage = (status: string | boolean): string => {
+  if (status === false) return STATUS_MESSAGE.valid;
+  const key = String(status);
+  return STATUS_MESSAGE[key] || 'Something went wrong!';
+};
+
+const chooseStatusDetails = (status: string | boolean): string => {
+  const key = String(status);
+  return STATUS_DETAILS[key] || '';
+};
+
+const serviceString = (platform?: string) =>
+  platform === 'apnsSandbox' || platform === 'apns'
+    ? 'Apple Push Notification Service'
+    : 'Firebase Cloud Messaging V1';
+
+const onManageApps = () => {
+  window.open('https://experience.adobe.com/#/apps/configurations', '_blank');
+};
 
 /**
  * Renders status details for push credentials based on the current status.
- * Uses only the provided data, no translation helpers.
- * Shows a Refresh button if onRefresh is provided.
  */
 const PushCredentialsStatusDetails: React.FC<PushCredentialsStatusDetailsProps> = ({
   pushCredentialsStatus: status,
   shouldMatch,
-  onManageApps,
-  MSG,
-  STATUS_DETAILS,
-  serviceString,
-  chooseStatusDetails,
-  chooseStatusMessage,
-  onRefresh,
-  healthIconStatus
+  onRefresh
 }) => {
   let details: React.ReactNode;
 
@@ -81,8 +124,7 @@ const PushCredentialsStatusDetails: React.FC<PushCredentialsStatusDetailsProps> 
   }
 
   const chosenStatus = chooseStatusMessage(status);
-
-  console.log(chosenStatus, 'chosenStatus', status, details, healthIconStatus);
+  const healthIconStatus = chooseStatus(status);
 
   return (
     <React.Fragment>

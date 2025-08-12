@@ -1,69 +1,17 @@
 import { Flex, Heading, ProgressCircle, View } from '@adobe/react-spectrum';
-import { useClients, useEvents, useImsOrg, useSandbox } from '@assurance/plugin-bridge-provider';
+import { useEvents, useImsOrg, useSandbox } from '@assurance/plugin-bridge-provider';
 import React, { useMemo } from 'react';
 import useProfile from '../hooks/useProfile';
 import Card from '../components/card/card';
 import useECID from '../hooks/useECID';
 import usePushCredentialsData from '../hooks/usePushCredentialsData';
 import PushCredentialsStatusDetails from '../hooks/PushCredentialsStatusDetails';
+import DataStreamStatusDetails from '../hooks/DataStreamStatusDetails';
 import styles from './client-info.module.scss';
 import useSelectedClientId from '../hooks/useSelectedClientId';
+import useDataStreamValidationStatus from '../hooks/useDataStreamValidationStatus';
 
-// Messages & constants kept local to file
-const MSG = {
-  appId: 'App ID',
-  info: "This is the app configuration details that matches the client's App ID and Platform.",
-  manageApps: 'Manage App Configurations',
-  sandbox: 'Sandbox',
-  propertyId: 'Property ID',
-  orgId: 'Org ID',
-  refresh: 'Refresh',
-  service: 'Messaging Service',
-  title: 'App Store Credentials & Configuration',
-  unknown: 'unknown'
-} as const;
-
-const STATUS_MESSAGE: Record<string, string> = {
-  'device-not-configured': 'Client Must Be Configured Correctly',
-  error: 'App Configuration Error',
-  'no-apps': 'No App Configurations',
-  'no-matching-app': 'No Matching App Detected',
-  'property-not-loaded': 'Property Not Found',
-  valid: 'Matching App Successfully Detected'
-};
-
-const STATUS_DETAILS: Record<string, string> = {
-  error:
-    'There was a problem fetching the apps. This could be a temporary network issue or potentially a provisioning issue.',
-  noAppsPara1: "You haven't created any App Configurations yet.",
-  noAppsPara2: 'Make sure to create an App Configuration with the following details:',
-  noMatchPara1:
-    'There is not an App Configurations that matches the stored App ID and Platform for this App.',
-  noMatchPara2: 'Make sure there is an App Configuration that matches the following details:',
-  useTheFollowing: 'Use the following link to manage your App Configurations:',
-  noPropertyPara1:
-    'Could not load this property in Launch. Make sure that you are provisioned for Launch, that the property exists, and that it exists for the specified Org'
-};
-
-// Utilities
-const chooseStatus = (status: string | boolean): string => {
-  if (status === false) return 'valid';
-  if (status === 'loading') return 'loading';
-  if (status === 'device-not-configured') return 'info';
-  return 'invalid';
-};
-
-const chooseStatusMessage = (status: string | boolean): string => {
-  if (status === false) return STATUS_MESSAGE.valid;
-  const key = String(status);
-  return STATUS_MESSAGE[key] || 'Something went wrong!';
-};
-
-const chooseStatusDetails = (status: string | boolean): string => {
-  const key = String(status);
-  return STATUS_DETAILS[key] || '';
-};
-
+// Utilities specific to this component
 const serviceString = (platform?: string) =>
   platform === 'apnsSandbox' || platform === 'apns'
     ? 'Apple Push Notification Service'
@@ -135,6 +83,7 @@ function ClientInfo() {
   const selectedClientEvents = useEvents();
   const pushCredentials = usePushCredentialsData();
   const selectedClientId = useSelectedClientId();
+  const validationStatus = useDataStreamValidationStatus();
 
   // Derived profile values
   const sandboxName = sandbox?.name;
@@ -222,10 +171,6 @@ function ClientInfo() {
     orgId: imsOrg || ''
   };
 
-  const onManageApps = () => {
-    window.open('https://experience.adobe.com/#/apps/configurations', '_blank');
-  };
-
   return (
     <View UNSAFE_className={styles.clientInfo}>
       {/* Client Section */}
@@ -252,6 +197,7 @@ function ClientInfo() {
           <LoadingBlock />
         ) : (
           <View marginTop="size-200">
+            <DataStreamStatusDetails status={validationStatus} />
             <table style={tableStyles.table}>
               <thead>
                 <tr>
@@ -294,14 +240,7 @@ function ClientInfo() {
             <PushCredentialsStatusDetails
               pushCredentialsStatus={pushCredentialsStatus}
               shouldMatch={shouldMatch}
-              onManageApps={onManageApps}
-              MSG={MSG}
-              STATUS_DETAILS={STATUS_DETAILS}
-              serviceString={serviceString}
-              chooseStatusDetails={chooseStatusDetails}
-              chooseStatusMessage={chooseStatusMessage}
               onRefresh={pushCredentials.refetch}
-              healthIconStatus={chooseStatus(pushCredentialsStatus)}
             />
 
             <table style={tableStyles.table}>

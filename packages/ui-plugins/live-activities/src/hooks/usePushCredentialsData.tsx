@@ -66,7 +66,6 @@ async function getPushCredentials({
   // GraphQL query as per the provided comment
   const sandbox = sandboxName;
 
-  console.log(messagingService, sandbox, 'messagingService, sandbox ***');
   const body = JSON.stringify({
     query: `query getPushCredentials($params: String) {\n  getPushCredentials(params: $params) {\n    data {\n      id\n      type\n      attributes {\n        app_id\n        name\n        platform\n        messaging_service\n        key_type\n        created_at\n        created_by_display_name\n        created_by_email\n        updated_at\n        updated_by_display_name\n        updated_by_email\n        sandbox_name\n      }\n    }\n    links\n  }\n}`,
     variables: {
@@ -110,11 +109,6 @@ function usePushCredentialsData() {
   const messagingService =
     selectedClient?.payload?.deviceInfo?.['Canonical platform name'] === 'iOS' ? 'apns' : 'fcm';
 
-  console.log(
-    { selectedClientId, clients, selectedClient, messagingService },
-    'selectedClientId, clients, selectedClient'
-  );
-
   return useQuery({
     queryKey: ['pushCredentials', org, token, sandbox?.name],
     queryFn: () => {
@@ -123,7 +117,6 @@ function usePushCredentialsData() {
         return null;
       }
 
-      console.log('refetching', { sandboxName: sandbox?.name, org, token });
       return getPushCredentials({
         baseUrl,
         org,
