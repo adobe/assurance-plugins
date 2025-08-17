@@ -29,7 +29,7 @@ import {
   type EnvironmentMap
 } from '@assurance/plugin-bridge-provider';
 import { combineAll } from '@adobe/griffon-toolkit';
-import useECID from './useECID';
+import { useECID } from './useClientInfo';
 
 // Platform API endpoints for different environments
 const PLATFORM_ENDPOINTS: EnvironmentMap<string> = {

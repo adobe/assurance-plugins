@@ -3,13 +3,13 @@ import { useEvents, useImsOrg, useSandbox } from '@assurance/plugin-bridge-provi
 import React, { useMemo } from 'react';
 import useProfile from '../hooks/useProfile';
 import Card from '../components/card/card';
-import useECID from '../hooks/useECID';
+import { useECID, useSelectedClientId, useSelectedClientPushToken } from '../hooks/useClientInfo';
 import usePushCredentialsData from '../hooks/usePushCredentialsData';
 import PushCredentialsStatusDetails from '../hooks/PushCredentialsStatusDetails';
 import DataStreamStatusDetails from '../hooks/DataStreamStatusDetails';
 import styles from './client-info.module.scss';
-import useSelectedClientId from '../hooks/useSelectedClientId';
 import useDataStreamValidationStatus from '../hooks/useDataStreamValidationStatus';
+import ClientValidationWidget from '../components/client-validation-widget';
 
 // Utilities specific to this component
 const serviceString = (platform?: string) =>
@@ -79,7 +79,6 @@ function ClientInfo() {
   const sandbox = useSandbox();
   const imsOrg = useImsOrg();
   const profile = useProfile();
-  const ecid = useECID();
   const selectedClientEvents = useEvents();
   const pushCredentials = usePushCredentialsData();
   const selectedClientId = useSelectedClientId();
@@ -174,21 +173,13 @@ function ClientInfo() {
   return (
     <View UNSAFE_className={styles.clientInfo}>
       {/* Client Section */}
-      <Card>
-        <Heading marginTop="size-0">Client</Heading>
-        {profile.isLoading ? (
-          <LoadingBlock />
-        ) : (
-          <table style={tableStyles.table}>
-            <tbody>
-              <KeyValueRow label="ECID">{ecid || <UnknownBadge />}</KeyValueRow>
-              <KeyValueRow label="Push Token" wrap>
-                {renderValue(profilePush?.token)}
-              </KeyValueRow>
-            </tbody>
-          </table>
-        )}
-      </Card>
+      {profile.isLoading ? (
+        <LoadingBlock />
+      ) : (
+        <View>
+          <ClientValidationWidget />
+        </View>
+      )}
 
       {/* Profile Section */}
       <Card>

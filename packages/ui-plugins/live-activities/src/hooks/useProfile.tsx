@@ -6,7 +6,7 @@ import {
   useSandbox
 } from '@assurance/plugin-bridge-provider';
 import { useQuery } from '@tanstack/react-query';
-import useECID from './useECID';
+import { useECID } from './useClientInfo';
 
 interface Identity {
   namespace: {
