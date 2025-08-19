@@ -2,7 +2,7 @@ import React from 'react';
 import { combineAny } from '@adobe/griffon-toolkit';
 import { EventTable, defaultColumns, validationColumn, flaggedColumn } from '@assurance/event-table';
 import { useEvents } from '@assurance/plugin-bridge-provider';
-import useSelectedActivity from '../hooks/useSelectedActivity';
+import useSelectedActivity from '../../hooks/useSelectedActivity';
 import { Event } from '@assurance/common-utils';
 import { ColumnDef } from '@tanstack/react-table';
 

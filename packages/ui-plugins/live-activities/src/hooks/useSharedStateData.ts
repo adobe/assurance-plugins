@@ -10,12 +10,12 @@ function useSharedStateData() {
     matchers: [sharedState.matcher]
   });
 
-  console.log(sharedStateEvents, 'sharedStateEvents &&&&', {
-    stateDatafromShared: sharedState.getStateData(sharedStateEvents[0])
-  });
+  // console.log(sharedStateEvents, 'sharedStateEvents &&&&', {
+  //   stateDatafromShared: sharedState.getStateData(sharedStateEvents[0])
+  // });
 
   const xdmData = sharedStateEvents?.[0] ? sharedState.getXdm(sharedStateEvents[0]) : null;
-  console.log(xdmData, 'xdmData &&&&');
+  // console.log(xdmData, 'xdmData &&&&');
   const ecid = xdmData?.identityMap?.['ECID']?.[0]?.id;
 
   return {

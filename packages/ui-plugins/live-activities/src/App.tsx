@@ -16,11 +16,11 @@ import React, { useState } from 'react';
 import { PluginBridgeProvider } from '@assurance/plugin-bridge-provider';
 import Activities from './containers/activities';
 import Events from './containers/events';
-import ClientInfo from './containers/client-info';
+import ClientInfo from './components/validation/client-info';
 import { defineMessages, IntlProvider, useIntl } from 'react-intl';
 
 import ClientPicker from '../../../components/timeline-bar/src/components/FilterBar/ClientPicker';
-import Card from './components/card/card';
+import Card from './components/atoms/card';
 
 // export { useDataStream, type DataStream } from "./hooks/useDataStream";
 // export { useEnvironment } from "./hooks/useEnvironment";

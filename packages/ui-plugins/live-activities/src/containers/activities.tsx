@@ -13,12 +13,12 @@ import {
 import useActivities from '../hooks/useActivities';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import LaunchLiveActivity from '../components/launch-live-activity';
+import LaunchLiveActivity from '../components/live-activity/launch-live-activity';
 import './activities.scss';
 import usePluginState from '../hooks/usePluginState';
-import ActivityInfo from '../components/activity-info';
-import ActivityTimeline from '../components/activity-timeline';
-import ActivityEvents from '../components/activity-events';
+import ActivityInfo from '../components/live-activity/activity-info';
+import ActivityTimeline from '../components/live-activity/activity-timeline';
+import ActivityEvents from '../components/live-activity/activity-events';
 
 const messages = defineMessages({
   liveActivitiesHeading: {
@@ -55,7 +55,7 @@ function Activities() {
   const activities = useActivities();
   const { formatMessage } = useIntl();
   const { selectedActivityId, setSelectedActivityId } = usePluginState();
-  console.log(selectedActivityId)
+  // console.log(selectedActivityId)
 
   return (
     <>

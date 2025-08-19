@@ -1,21 +1,18 @@
 import { View, Text, ActionButton, TextField } from '@adobe/react-spectrum';
 import React from 'react';
-import usePluginState from '../hooks/usePluginState';
-import useActivityData from '../hooks/useActivityData';
 import { Controller, useForm } from 'react-hook-form';
 import { Editor } from '@monaco-editor/react';
+import useSelectedActivity from '../hooks/useSelectedActivity';
 
 function UpdateActivity() {
-  const selectedActivity = useActivityData();
+  const selectedActivity = useSelectedActivity();
   const { control } = useForm({
     defaultValues: {
       payload: JSON.stringify(selectedActivity?.examplePayload, null, 2)
     }
   });
 
-  console.log('updateActivity', selectedActivity?.examplePayload);
-
-  const fields = [];
+  // console.log('updateActivity', selectedActivity?.examplePayload);
 
   return (
     <View>

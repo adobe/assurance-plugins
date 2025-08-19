@@ -3,10 +3,10 @@ import { useEvents } from "@assurance/plugin-bridge-provider";
 
 function usePropositions() {
   const events = useEvents({
-    matchers: [propositionsRequest.matcher],
+    matchers: [propositionsRequest.matcher]
   });
 
-  console.log(events);
+  // console.log(events);
   return events;
 }
 

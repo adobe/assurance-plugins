@@ -1,13 +1,11 @@
 import { combineAny } from '@adobe/griffon-toolkit';
-import { sharedState, SharedState } from '@adobe/griffon-toolkit-aep-mobile';
 import { useEvents } from '@assurance/plugin-bridge-provider';
 import groupBy from 'lodash/groupBy';
 import {
   isLiveActivityDismissedEvent,
   isLiveActivityStartEvent,
   isLiveActivityUpdatedEvent,
-  isLiveActivityUpdateTokenEvent,
-  isLiveActivityPushToStartTokenEvent
+  isLiveActivityUpdateTokenEvent
 } from '../types/events';
 
 export interface LiveActivity {
@@ -88,25 +86,25 @@ function useActivities(): LiveActivity[] {
         )
       : undefined;
 
-    console.log('Activity events:', {
-      name,
-      attributeType,
-      updateTokenEvent: updateTokenEvent?.payload?.ACPExtensionEventData?.token,
-      pushToStartTokenEvent: pushToStartTokenEvent?.payload?.ACPExtensionEventData?.token,
-      pushToStartTokenEventFound: !!pushToStartTokenEvent,
-      pushToStartTokenEventName: pushToStartTokenEvent?.payload?.ACPExtensionEventName,
-      eventsCount: events.length,
-      hasIsLiveActivityPushToStartTokenFlag: events.some(
-        e => e.payload?.ACPExtensionEventData?.isLiveActivityPushToStartTokenEvent
-      ),
-      matchingEvents: pushToStartTokenEvents
-        .filter(e => e.payload?.ACPExtensionEventData?.attributeType === attributeType)
-        .map(e => ({
-          eventName: e.payload?.ACPExtensionEventName,
-          token: e.payload?.ACPExtensionEventData?.token,
-          attributeType: e.payload?.ACPExtensionEventData?.attributeType
-        }))
-    });
+    // console.log('Activity events:', {
+    //   name,
+    //   attributeType,
+    //   updateTokenEvent: updateTokenEvent?.payload?.ACPExtensionEventData?.token,
+    //   pushToStartTokenEvent: pushToStartTokenEvent?.payload?.ACPExtensionEventData?.token,
+    //   pushToStartTokenEventFound: !!pushToStartTokenEvent,
+    //   pushToStartTokenEventName: pushToStartTokenEvent?.payload?.ACPExtensionEventName,
+    //   eventsCount: events.length,
+    //   hasIsLiveActivityPushToStartTokenFlag: events.some(
+    //     e => e.payload?.ACPExtensionEventData?.isLiveActivityPushToStartTokenEvent
+    //   ),
+    //   matchingEvents: pushToStartTokenEvents
+    //     .filter(e => e.payload?.ACPExtensionEventData?.attributeType === attributeType)
+    //     .map(e => ({
+    //       eventName: e.payload?.ACPExtensionEventName,
+    //       token: e.payload?.ACPExtensionEventData?.token,
+    //       attributeType: e.payload?.ACPExtensionEventData?.attributeType
+    //     }))
+    // });
 
     const updateEvents = events.filter(isLiveActivityUpdatedEvent);
     const startTime = startEvent?.timestamp;

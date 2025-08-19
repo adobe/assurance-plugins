@@ -12,8 +12,8 @@ import { defineMessages, useIntl } from 'react-intl';
 import Send from '@spectrum-icons/workflow/Send';
 import { Controller, useForm } from 'react-hook-form';
 import { Editor } from '@monaco-editor/react';
-import useUpdateActivity from '../hooks/useUpdateActivity';
-import { LiveActivity } from '../hooks/useActivities';
+import useUpdateActivity from '../../hooks/useUpdateActivity';
+import { LiveActivity } from '../../hooks/useActivities';
 
 const messages = defineMessages({
   cancel: {
@@ -57,14 +57,14 @@ function UpdateActivity({ activity }: UpdateActivityProps) {
     }
   });
 
-  console.log('ahhhh',activity.examplePayload);
+  // console.log('ahhhh',activity.examplePayload);
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
-    updateActivity(data);
+    // console.log(data);
+    updateActivity(data.payload);
   };
 
-  console.log('updateActivity', activity.examplePayload);
+  // console.log('updateActivity', activity.examplePayload);
 
   return (
     <DialogTrigger>
@@ -80,7 +80,7 @@ function UpdateActivity({ activity }: UpdateActivityProps) {
           <Content>
             <label>Payload</label>
             <Controller
-              name="state"
+              name="payload"
               control={control}
               render={({ field: { onChange, value } }) => (
                 <Editor defaultLanguage="json" value={value} onChange={onChange} />

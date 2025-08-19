@@ -370,13 +370,13 @@ export const useDataStreamValidationStatus = () => {
 
   // Check if device is configured (has ECID and push token)
   const deviceConfigured = ecid && currentPushToken;
-  console.log(deviceConfigured, '*********** deviceConfigured');
+  // console.log(deviceConfigured, '*********** deviceConfigured');
   if (!deviceConfigured) {
     return 'device-not-configured';
   }
 
   // Check if sandbox is available
-  console.log(sandbox?.name, '*********** sandbox?.name');
+  // console.log(sandbox?.name, '*********** sandbox?.name');         
   if (!sandbox?.name) {
     return 'no-sandbox';
   }

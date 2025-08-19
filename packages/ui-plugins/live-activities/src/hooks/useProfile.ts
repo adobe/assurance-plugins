@@ -124,9 +124,9 @@ const getProfile = async ({
     return null;
   }
 
-  console.log('data here', Object.values(data)[0]);
+  // console.log('data here', Object.values(data)[0]);
 
-  return Object.values(data)[0];
+  return Object.values(data)[0]; 
 };
 
 const baseUrls: EnvironmentMap<string> = {
@@ -148,7 +148,7 @@ function useProfile() {
   return useQuery({
     queryKey: ['profile', ecid, org, token],
     queryFn: () => {
-      console.log(token, org, ecid, sandbox, 'token, org, ecid, sandbox QUERRYYYYYYYYY');
+      // console.log(token, org, ecid, sandbox, 'token, org, ecid, sandbox QUERRYYYYYYYYY');
       if (!token || !org || !ecid || !sandbox) {
         console.error('Token, org, ecid, and sandbox are required', token, org, ecid, sandbox);
         return null;

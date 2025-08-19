@@ -59,6 +59,16 @@ function useSelectedClientId(): string | undefined {
   return selectedClientObj?.clientId;
 }
 
+/**
+ * Returns the type of the currently selected client, or undefined if "All Clients" is selected.
+ *
+ * - Uses useSelectedClientObject to get the selected client object.
+ * - Returns the 'type' property of the client object, or undefined if not available.
+ *
+ * Usage:
+ *   const type = useSelectedClientType();
+ *   // type will be a string (the client type) or undefined if not found or no client is selected.
+ */
 function useSelectedClientType() {
   const selectedClientObj = useSelectedClientObject();
   return selectedClientObj?.type;
@@ -86,6 +96,17 @@ function useSelectedClientPushToken() {
 }
 
 
+/**
+ * Returns the version of the Messaging extension for the currently selected client, if available.
+ *
+ * - Filters events to only include shared state updates where the stateowner is 'com.adobe.module.eventhub'.
+ * - Extracts the messaging extension version from the most recent matching event's metadata.
+ * - Returns the version as a string, or undefined if not available.
+ *
+ * Usage:
+ *   const version = useClientMessagingVersion();
+ *   // version will be a string (the version) or undefined if not found or no matching event is present.
+ */
 function useClientMessagingVersion() {
   const events = useEvents({
     sorted: 'desc',
@@ -99,6 +120,17 @@ function useClientMessagingVersion() {
   return messagingVersion;
 }
 
+/**
+ * Returns the Edge data stream configId for the currently selected client, if available.
+ *
+ * - Filters events to only include shared state updates where the stateowner is 'com.adobe.module.configuration'.
+ * - Extracts the 'edge.configId' from the most recent matching event's metadata.
+ * - Returns the configId as a string, or undefined if not available.
+ *
+ * Usage:
+ *   const configId = getClientDataStream();
+ *   // configId will be a string or undefined if not found or no matching event is present.
+ */
 function getClientDataStream() {
   const events = useEvents({
     sorted: 'desc',
@@ -108,6 +140,17 @@ function getClientDataStream() {
   return configId;
 }
 
+/**
+ * Returns the Messaging event dataset configId for the currently selected client, if available.
+ *
+ * - Filters events to only include shared state updates where the stateowner is 'com.adobe.module.configuration'.
+ * - Extracts the 'messaging.eventDataset' from the most recent matching event's metadata.
+ * - Returns the configId as a string, or undefined if not available.
+ *
+ * Usage:
+ *   const datasetId = getClientMessagingEventDataset();
+ *   // datasetId will be a string or undefined if not found or no matching event is present.
+ */
 function getClientMessagingEventDataset() {
   const events = useEvents({
     sorted: 'desc',

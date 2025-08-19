@@ -90,7 +90,7 @@ const events = [
 ];
 
 function Timeline() {
-  const activity = usePluginState(state => state.selectedActivity);
+  const activity = usePluginState(state => state.selectedActivityId);
   console.log(activity);
 
   if (!events.length) return <View>No events</View>;
