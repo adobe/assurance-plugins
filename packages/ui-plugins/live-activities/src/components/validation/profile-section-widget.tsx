@@ -5,46 +5,10 @@ import useProfile from '../../hooks/useProfile';
 import DataStreamStatusDetails from './DataStreamStatusDetails';
 import { useSandbox } from '@assurance/plugin-bridge-provider';
 import useDataStreamValidationStatus from '../../hooks/useDataStreamValidationStatus';
-
-const tableStyles = {
-  table: { width: '100%', borderCollapse: 'collapse' as const },
-  row: { borderBottom: '1px solid #e1e1e1' },
-  labelCell: { fontWeight: 500, padding: '12px 16px' },
-  valueCell: { padding: '12px 16px' },
-  wrapValueCell: { padding: '12px 16px', maxWidth: '300px', wordBreak: 'break-all' as const }
-};
-
-function UnknownBadge() {
-  return (
-    <span
-      style={{
-        background: '#e34850',
-        color: 'white',
-        borderRadius: 4,
-        padding: '2px 12px',
-        fontWeight: 500
-      }}
-    >
-      unknown
-    </span>
-  );
-}
-
-function renderValue(value: string | undefined | null) {
-  if (value == null || value === 'N/A') {
-    return <UnknownBadge />;
-  }
-  return String(value);
-}
-
-function KeyValueRow({ label, children, wrap = false }: { label: string; children: React.ReactNode; wrap?: boolean }) {
-  return (
-    <tr style={tableStyles.row}>
-      <td style={tableStyles.labelCell}>{label}</td>
-      <td style={wrap ? tableStyles.wrapValueCell : tableStyles.valueCell}>{children}</td>
-    </tr>
-  );
-}
+import { tableStyles } from '../atoms/KeyValueRow';
+import { renderValue } from '../../utils/utils';
+import { UnknownBadge } from '../atoms/UnknownBadge';
+import { KeyValueRow } from '../atoms/KeyValueRow';
 
 const ProfileSectionWidget: React.FC = () => {
   const sandbox = useSandbox();
@@ -73,7 +37,9 @@ const ProfileSectionWidget: React.FC = () => {
             </thead>
             <tbody>
               <KeyValueRow label="ECID">
-                {profile.data!.entity?.identityMap?.ecid?.[0]?.id || <UnknownBadge />}
+                {profile.data!.entity?.identityMap?.ecid?.[0]?.id || (
+                  <UnknownBadge/>
+                )}
               </KeyValueRow>
               <KeyValueRow label="Sandbox">{sandboxName}</KeyValueRow>
               <KeyValueRow label="Push Token" wrap>
@@ -86,8 +52,8 @@ const ProfileSectionWidget: React.FC = () => {
                   profilePush?.denylisted === true
                     ? 'Yes'
                     : profilePush?.denylisted === false
-                    ? 'No'
-                    : undefined
+                      ? 'No'
+                      : undefined
                 )}
               </KeyValueRow>
             </tbody>

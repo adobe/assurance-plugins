@@ -4,30 +4,8 @@ import Card from '../atoms/card';
 import usePushCredentialsData from '../../hooks/usePushCredentialsData';
 import PushCredentialsStatusDetails from './PushCredentialsStatusDetails';
 import { useSandbox, useImsOrg, useEvents } from '@assurance/plugin-bridge-provider';
-
-const tableStyles = {
-  table: { width: '100%', borderCollapse: 'collapse' as const },
-  row: { borderBottom: '1px solid #e1e1e1' },
-  labelCell: { fontWeight: 500, padding: '12px 16px' },
-  valueCell: { padding: '12px 16px' },
-  wrapValueCell: { padding: '12px 16px', maxWidth: '300px', wordBreak: 'break-all' as const }
-};
-
-function renderValue(value: string | undefined | null) {
-  if (value == null || value === 'N/A') {
-    return <span style={{ color: '#e34850' }}>unknown</span>;
-  }
-  return String(value);
-}
-
-function KeyValueRow({ label, children, wrap = false }: { label: string; children: React.ReactNode; wrap?: boolean }) {
-  return (
-    <tr style={tableStyles.row}>
-      <td style={tableStyles.labelCell}>{label}</td>
-      <td style={wrap ? tableStyles.wrapValueCell : tableStyles.valueCell}>{children}</td>
-    </tr>
-  );
-}
+import { KeyValueRow, tableStyles } from '../atoms/KeyValueRow';
+import { renderValue } from '../../utils/utils';
 
 const serviceString = (platform?: string) =>
   platform === 'apnsSandbox' || platform === 'apns'

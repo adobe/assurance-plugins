@@ -4,7 +4,7 @@ import Alert from '@spectrum-icons/workflow/Alert';
 import Info from '@spectrum-icons/workflow/Info';
 import { ActionButton, Flex, ProgressCircle, Tooltip, Text } from '@adobe/react-spectrum';
 import Help from '@spectrum-icons/workflow/Help';
-import UnknownBadge from '../components/atoms/UnknownBadge';
+import { UnknownBadge } from '../components/atoms/UnknownBadge';
 import Copy from '@spectrum-icons/workflow/Copy';
 
 // Only allow valid sizes for Spectrum icons and ProgressCircle
@@ -59,14 +59,14 @@ export const getHealthIcon = (status, size = 'S') => {
 
 export function renderValue(value) {
   if (value == null || value === 'N/A') {
-    return <UnknownBadge message= {'Unknown'} />;
+    return <UnknownBadge />;
   }
   return String(value);
 }
 
 
 export function CopyableValue({ value }) {
-  if (!value) return <UnknownBadge message= {'Unknown'} />;
+  if (!value) return <UnknownBadge />;
   return (
     <Flex alignItems="center" gap="size-100">
       <Text>{value}</Text>

@@ -73,6 +73,34 @@ const prepareClientForUI = (client) => ({
   timestamp: client.timestamp,
 });
 
+// Utility to determine if navigation to default client is needed
+function getDefaultClientNavigation({
+  allowAllClients,
+  clients,
+  selectedClients,
+  prepared,
+  filters,
+  path
+}) {
+  if (
+    !allowAllClients &&
+    clients.length > 0 &&
+    (!selectedClients ||
+      selectedClients.length === 0 ||
+      selectedClients.length === clients.length)
+  ) {
+    const firstClientId = prepared[0]?.clientId;
+    if (firstClientId) {
+      const output = {
+        ...filters,
+        clients: rootEvent.makeClientFilter([firstClientId])
+      };
+      return `${path}#${filterToHash(output)}`;
+    }
+  }
+  return null;
+}
+
 const ClientPicker = ({ allowAllClients = true }) => {
   const clients = useClients();
   const selectedClients = useSelectedClients();
@@ -81,28 +109,24 @@ const ClientPicker = ({ allowAllClients = true }) => {
 
   const prepared = useMemo(() => clients.map(prepareClientForUI), [clients]);
 
-  // Only make a default selection if nothing is already selected
+  const newPath = React.useMemo(
+    () =>
+      getDefaultClientNavigation({
+        allowAllClients,
+        clients,
+        selectedClients,
+        prepared,
+        filters,
+        path
+      }),
+    [allowAllClients, clients, selectedClients, prepared, filters, path]
+  );
+
   useEffect(() => {
-    // Only run if:
-    // - allowAllClients is false
-    // - there are clients
-    // - no client is currently selected (selectedClients is empty or undefined)
-    if (
-      !allowAllClients &&
-      clients.length > 0 &&
-      (!selectedClients || selectedClients.length === 0 || selectedClients.length === clients.length)
-    ) {
-      const firstClientId = prepared[0]?.clientId;
-      if (firstClientId) {
-        const output = {
-          ...filters,
-          clients: rootEvent.makeClientFilter([firstClientId]),
-        };
-        const newPath = `${path}#${filterToHash(output)}`;
-        navigateTo(newPath);
-      }
+    if (newPath) {
+      navigateTo(newPath);
     }
-  }, [allowAllClients, clients, selectedClients, prepared, filters, path]);
+  }, [newPath]);
 
   const mapSelected = useMemo(
     () =>
