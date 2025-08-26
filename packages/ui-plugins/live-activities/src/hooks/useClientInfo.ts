@@ -160,6 +160,27 @@ function getClientMessagingEventDataset() {
   return configId;
 }
 
+/**
+ * Returns the propertyId for the currently selected client, if available.
+ *
+ * - Filters events to only include shared state updates where the stateowner is 'com.adobe.module.configuration'.
+ * - Extracts the 'property.id' from the most recent matching event's metadata.
+ * - Returns the propertyId as a string, or undefined if not available.
+ *
+ * Usage:
+ *   const propertyId = getPropertyId();
+ *   // propertyId will be a string or undefined if not found or no matching event is present.
+ */
+
+function getPropertyId() {
+  const events = useEvents({
+    sorted: 'desc',
+    matchers: ["payload.ACPExtensionEventData.stateowner=='com.adobe.module.configuration'"]
+  });
+  const propertyId = events[0]?.payload?.metadata?.['state.data']?.['property.id'];
+  return propertyId;
+}
+
 export {
   useSelectedClientId,
   useECID,
@@ -168,5 +189,6 @@ export {
   getClientDataStream,
   getClientMessagingEventDataset,
   useSelectedClientObject,
-  useSelectedClientType
+  useSelectedClientType,
+  getPropertyId
 };
