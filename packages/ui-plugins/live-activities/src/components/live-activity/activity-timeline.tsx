@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Heading, Text, View, Flex, ActionGroup, Item } from '@adobe/react-spectrum';
 import { defineMessages, useIntl } from 'react-intl';
 import dayjs from 'dayjs';
-import useSelectedActivity from '../hooks/useSelectedActivity';
-import Card from './card/card';
+import useSelectedActivity from '../../hooks/useSelectedActivity';
+import Card from '../atoms/card';
 import MoreSmallListVert from '@spectrum-icons/workflow/MoreSmallListVert';
 import ClassicGridView from '@spectrum-icons/workflow/ClassicGridView';
 

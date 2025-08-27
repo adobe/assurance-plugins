@@ -7,7 +7,7 @@ function Card({ children }: { children: React.ReactNode }) {
       UNSAFE_style={{
         border: '1px solid var(--spectrum-global-color-gray-400)',
         borderRadius: '8px',
-        padding: '16px',
+        padding: '8px 16px',
         backgroundColor: 'white'
       }}
     >

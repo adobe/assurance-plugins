@@ -1,4 +1,4 @@
-import { Badge, StatusLight } from '@adobe/react-spectrum';
+import { StatusLight } from '@adobe/react-spectrum';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 

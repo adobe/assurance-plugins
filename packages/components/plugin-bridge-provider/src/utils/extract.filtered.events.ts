@@ -61,6 +61,8 @@ export const extractFilteredEvents = (
     ...parseHideLogs(config.excludeLogs),
   };
 
+  console.log(filtersData, 'filtersData ****');
+
   if (Object.keys(filtersData).length) {
     results = kit.filterData(filtersData, results);
   }

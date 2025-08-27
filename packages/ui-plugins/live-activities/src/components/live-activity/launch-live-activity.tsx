@@ -15,10 +15,10 @@ import {
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import Rocket from '@spectrum-icons/workflow/Launch';
-import useLaunchLiveActivity from '../hooks/useLaunchLiveActivity';
+import useLaunchLiveActivity from '../../hooks/useLaunchLiveActivity';
 import { Controller, useForm } from 'react-hook-form';
 import { Editor } from '@monaco-editor/react';
-import useActivities from '../hooks/useActivities';
+import useActivities from '../../hooks/useActivities';
 
 const messages = defineMessages({
   cancel: {
@@ -58,8 +58,8 @@ function LaunchLiveActivity() {
   const { control, register, handleSubmit, reset } = useForm<FormValues>({});
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
-    launchLiveActivity(data);
+    // console.log(data);
+    launchLiveActivity();
   };
 
   const attributeSets = Array.from(new Set(activities.map(activity => activity.attributes)));

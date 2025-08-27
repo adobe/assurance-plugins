@@ -35,7 +35,7 @@ function useLaunchLiveActivity() {
       }
     });
 
-    console.log(JSON.stringify(command));
+    // console.log(JSON.stringify(command));
     sendCommand(command);
   };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionButton, Button, Flex, Heading, View, Text } from '@adobe/react-spectrum';
+import { ActionButton, Flex, Heading, View, Text } from '@adobe/react-spectrum';
 import { defineMessages, useIntl } from 'react-intl';
 import CopyIcon from '@spectrum-icons/workflow/Copy';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import ActivityStatus from './activity-status';
 import UpdateActivity from './update-activity';
-import useSelectedActivity from '../hooks/useSelectedActivity';
+import useSelectedActivity from '../../hooks/useSelectedActivity';
 import './activity-info.scss';
 
 dayjs.extend(localizedFormat);

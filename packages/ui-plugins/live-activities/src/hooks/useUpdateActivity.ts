@@ -35,7 +35,7 @@ function useUpdateActivity() {
       }
     });
 
-    console.log(JSON.stringify(command));
+    // console.log(JSON.stringify(command));
     sendCommand(command);
   };
 
