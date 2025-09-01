@@ -13,6 +13,12 @@ function getValidSize(size: any): AllowedSize {
   return allowedSizes.includes(size) ? size : 'S';
 }
 
+/**
+ * Constants for Live Activities version requirements
+ */
+export const LIVE_ACTIVITIES_MIN_VERSION = '16.1';
+export const LIVE_ACTIVITIES_FULL_SUPPORT_VERSION = '17.1';
+
 export const getHealthIcon = (status, size = 'S') => {
   const validSize = getValidSize(size);
   switch (status) {

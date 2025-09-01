@@ -12,6 +12,7 @@ import Card from '../atoms/card';
 import { CopyableValue, getHealthIcon, renderValue } from '../../utils/utils';
 import useClientValidationStatus from '../../hooks/useClientValidationStatus';
 import { useECID, useSelectedClientPushToken } from '../../hooks/useClientInfo';
+import LiveActivitiesValidationSection from './live-activities-validation-section';
 
 const MSG = {
   ecid: 'Ecid',
@@ -300,6 +301,8 @@ const DeviceWidget = ({ ...extraProps }) => {
               <Heading level={4}>{statusText}</Heading>
             </Flex>
             {statusDetails && <View marginTop="size-200">{statusDetails}</View>}
+            
+          
             <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 16 }}>
               <tbody>
                 {dataRows.map(row => (
@@ -317,7 +320,14 @@ const DeviceWidget = ({ ...extraProps }) => {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table>  
+            {/* Live Activities Validation Section */}
+            <View marginTop="size-300">
+              <View paddingTop="size-200">
+                <LiveActivitiesValidationSection />
+              </View>
+            </View>
+            
           </>
         )}
       </Card>
