@@ -3,11 +3,11 @@
  */
 
 import { createLiveActivitiesTableData } from '../liveActivitiesDisplay';
+import { VALIDATION_STATUS } from '../../constants';
 import {
   type LiveActivityTypeData,
   type LiveActivitiesValidationStatus
 } from '../../types/liveActivities';
-import { VALIDATION_STATUS } from '../../constants';
 
 describe('Live Activities Display Utils', () => {
   const mockActivityMap = new Map<string, LiveActivityTypeData>([
@@ -85,7 +85,10 @@ describe('Live Activities Display Utils', () => {
 
   describe('createLiveActivitiesTableData', () => {
     it('should return empty array for unsupported devices', () => {
-      const result = createLiveActivitiesTableData(mockActivityMap, VALIDATION_STATUS.NOT_SUPPORTED);
+      const result = createLiveActivitiesTableData(
+        mockActivityMap,
+        VALIDATION_STATUS.NOT_SUPPORTED
+      );
       expect(result).toEqual([]);
     });
 
@@ -95,7 +98,10 @@ describe('Live Activities Display Utils', () => {
     });
 
     it('should format single activity correctly for basic support', () => {
-      const result = createLiveActivitiesTableData(mockActivityMap, VALIDATION_STATUS.BASIC_SUPPORT);
+      const result = createLiveActivitiesTableData(
+        mockActivityMap,
+        VALIDATION_STATUS.BASIC_SUPPORT
+      );
 
       expect(result).toHaveLength(1);
       expect(result[0].activityType).toBe('com.example.testactivity');
@@ -112,7 +118,10 @@ describe('Live Activities Display Utils', () => {
     });
 
     it('should handle multiple activities', () => {
-      const result = createLiveActivitiesTableData(mockMultipleActivitiesMap, VALIDATION_STATUS.FULL_SUPPORT);
+      const result = createLiveActivitiesTableData(
+        mockMultipleActivitiesMap,
+        VALIDATION_STATUS.FULL_SUPPORT
+      );
 
       expect(result).toHaveLength(2);
       expect(result[0].activityType).toBe('com.example.testactivity');
@@ -120,7 +129,10 @@ describe('Live Activities Display Utils', () => {
     });
 
     it('should handle activities without tokens gracefully', () => {
-      const result = createLiveActivitiesTableData(mockCompletedActivityMap, VALIDATION_STATUS.FULL_SUPPORT);
+      const result = createLiveActivitiesTableData(
+        mockCompletedActivityMap,
+        VALIDATION_STATUS.FULL_SUPPORT
+      );
 
       expect(result).toHaveLength(1);
       expect(result[0].pushToStartToken).toBe('Not available');

@@ -173,8 +173,8 @@ const messages = defineMessages({
     defaultMessage: 'Live Activities'
   },
   // Additional localized strings
-  unknown: {
-    id: 'liveActivities.validation.unknown',
+  unknownValue: {
+    id: 'liveActivities.validation.unknownValue',
     defaultMessage: 'Unknown'
   },
   yes: {
@@ -243,13 +243,13 @@ const LiveActivitiesValidationSection = () => {
     dataRows.push(
       {
         label: formatMessage(messages.iosVersion),
-        value: iosVersion || formatMessage(messages.unknown),
+        value: iosVersion || formatMessage(messages.unknownValue),
         showCopy: true,
         tooltip: formatMessage(messages.iosVersionTooltip)
       },
       {
         label: formatMessage(messages.deviceType),
-        value: deviceType || formatMessage(messages.unknown),
+        value: deviceType || formatMessage(messages.unknownValue),
         showCopy: false,
         tooltip: formatMessage(messages.deviceTypeTooltip)
       }

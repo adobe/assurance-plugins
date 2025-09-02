@@ -18,8 +18,8 @@ import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
  */
 export function parseIOSVersion(version: string): [number, number] {
   const versionParts = version.split('.').map(part => parseInt(part, 10));
-  const majorVersion = versionParts[0] || 0;
-  const minorVersion = versionParts[1] || 0;
+  const majorVersion = isNaN(versionParts[0]) ? NaN : versionParts[0];
+  const minorVersion = isNaN(versionParts[1]) ? 0 : versionParts[1] || 0;
   return [majorVersion, minorVersion];
 }
 
@@ -102,6 +102,11 @@ export function isDeviceVersionBelowAppMinimum(
   try {
     const [deviceMajor, deviceMinor] = parseIOSVersion(deviceVersion);
     const [appMinMajor, appMinMinor] = parseIOSVersion(appMinVersion);
+
+    // If either version is invalid (NaN), return false
+    if (isNaN(deviceMajor) || isNaN(deviceMinor) || isNaN(appMinMajor) || isNaN(appMinMinor)) {
+      return false;
+    }
 
     return deviceMajor < appMinMajor || (deviceMajor === appMinMajor && deviceMinor < appMinMinor);
   } catch (error) {
