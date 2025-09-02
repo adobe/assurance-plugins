@@ -5,10 +5,8 @@ import {
   useSelectedClientType,
   useClientLiveActivitiesSupport
 } from './useClientInfo';
-import {
-  validateIOSVersionForLiveActivities,
-  type LiveActivitiesValidationStatus
-} from '../utils/liveActivitiesValidation';
+import { validateIOSVersionForLiveActivities } from '../utils/liveActivitiesValidation';
+import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
 
 /**
  * Hook to determine Live Activities validation status based on iOS version.

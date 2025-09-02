@@ -9,8 +9,8 @@ import Help from '@spectrum-icons/workflow/Help';
 const allowedSizes = ['S', 'M', 'L'] as const;
 type AllowedSize = (typeof allowedSizes)[number];
 
-function getValidSize(size: any): AllowedSize {
-  return allowedSizes.includes(size) ? size : 'S';
+function getValidSize(size: string): AllowedSize {
+  return allowedSizes.includes(size as AllowedSize) ? (size as AllowedSize) : 'S';
 }
 
 /**
@@ -19,7 +19,32 @@ function getValidSize(size: any): AllowedSize {
 export const LIVE_ACTIVITIES_MIN_VERSION = '16.1';
 export const LIVE_ACTIVITIES_FULL_SUPPORT_VERSION = '17.1';
 
-export const getHealthIcon = (status, size = 'S') => {
+/**
+ * Validation status constants
+ */
+export const VALIDATION_STATUS = {
+  NOT_SUPPORTED: 'not-supported',
+  BASIC_SUPPORT: 'basic-support',
+  FULL_SUPPORT: 'full-support',
+  NOT_IOS: 'not-ios',
+  UNKNOWN: 'unknown'
+} as const;
+
+/**
+ * UI Constants for CopyableValue component
+ */
+export const COPYABLE_VALUE_CONSTANTS = {
+  DEFAULT_MAX_LENGTH: 50,
+  LONG_DATA_MAX_LENGTH: 60,
+  TOKEN_MAX_LENGTH: 40,
+  COPY_FEEDBACK_TIMEOUT: 2000, // 2 seconds
+  TRUNCATED_TEXT_MAX_WIDTH: '200px',
+  ELLIPSIS: '...'
+} as const;
+
+
+
+export const getHealthIcon = (status: string, size: string = 'S') => {
   const validSize = getValidSize(size);
   switch (status) {
     case 'valid':

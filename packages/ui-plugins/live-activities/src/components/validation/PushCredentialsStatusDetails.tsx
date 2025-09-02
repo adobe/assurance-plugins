@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Button, Flex, Heading } from '@adobe/react-spectrum';
-import { getHealthIcon } from '../../utils/utils';
+import { getHealthIcon } from '../../constants';
 
 interface ShouldMatch {
   app: string;

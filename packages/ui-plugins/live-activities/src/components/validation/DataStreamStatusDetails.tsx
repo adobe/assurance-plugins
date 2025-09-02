@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Button, Flex, Heading, Text, ProgressCircle } from '@adobe/react-spectrum';
-import { getHealthIcon } from '../../utils/utils';
+import { getHealthIcon } from '../../constants';
 
 interface DataStreamStatusDetailsProps {
   status: string | boolean;

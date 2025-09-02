@@ -9,7 +9,9 @@ import {
   ProgressCircle
 } from '@adobe/react-spectrum';
 import Card from '../atoms/card';
-import { CopyableValue, getHealthIcon, renderValue } from '../../utils/utils';
+import { getHealthIcon } from '../../constants';
+import { CopyableValue } from '../atoms/CopyableValue';
+import { renderValue } from '../../utils/utils';
 import useClientValidationStatus from '../../hooks/useClientValidationStatus';
 import { useECID, useSelectedClientPushToken } from '../../hooks/useClientInfo';
 import LiveActivitiesValidationSection from './live-activities-validation-section';

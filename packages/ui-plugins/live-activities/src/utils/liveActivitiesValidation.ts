@@ -3,14 +3,9 @@
  * These functions contain no React dependencies and can be used anywhere.
  */
 
-import { LIVE_ACTIVITIES_MIN_VERSION } from '../constants';
+import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS } from '../constants';
 
-export type LiveActivitiesValidationStatus =
-  | 'not-supported'
-  | 'basic-support'
-  | 'full-support'
-  | 'unknown'
-  | 'not-ios';
+import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
 
 /**
  * Parses an iOS version string into major and minor version numbers.
@@ -46,21 +41,21 @@ export function getLiveActivitiesSupport(
 ): LiveActivitiesValidationStatus {
   // iOS < 16.1: Live Activities not supported
   if (majorVersion < 16 || (majorVersion === 16 && minorVersion < 1)) {
-    return 'not-supported';
+    return VALIDATION_STATUS.NOT_SUPPORTED;
   }
 
   // iOS 16.1 - 17.0: Basic Live Activities support
   if (majorVersion === 16 || (majorVersion === 17 && minorVersion === 0)) {
-    return 'basic-support';
+    return VALIDATION_STATUS.BASIC_SUPPORT;
   }
 
   // iOS ≥ 17.1: Full Live Activities support including PushToStart
   if (majorVersion > 17 || (majorVersion === 17 && minorVersion >= 1)) {
-    return 'full-support';
+    return VALIDATION_STATUS.FULL_SUPPORT;
   }
 
   // Fallback for any other cases
-  return 'unknown';
+  return VALIDATION_STATUS.UNKNOWN;
 }
 
 /**
@@ -81,12 +76,12 @@ export function validateIOSVersionForLiveActivities(
 
     // Check for invalid version numbers
     if (isNaN(major) || isNaN(minor)) {
-      return 'unknown';
+      return VALIDATION_STATUS.UNKNOWN;
     }
 
     return getLiveActivitiesSupport(major, minor);
   } catch (error) {
-    return 'unknown';
+    return VALIDATION_STATUS.UNKNOWN;
   }
 }
 
@@ -121,31 +116,31 @@ export function isDeviceVersionBelowAppMinimum(
  */
 export function getStatusDisplayConfig(status: LiveActivitiesValidationStatus) {
   switch (status) {
-    case 'not-supported':
+    case VALIDATION_STATUS.NOT_SUPPORTED:
       return {
         title: 'Live Activities Not Supported',
         icon: 'invalid' as const,
         variant: 'negative' as const
       };
-    case 'basic-support':
+    case VALIDATION_STATUS.BASIC_SUPPORT:
       return {
         title: 'Basic Live Activities Support',
         icon: 'warning' as const,
         variant: 'notice' as const
       };
-    case 'full-support':
+    case VALIDATION_STATUS.FULL_SUPPORT:
       return {
         title: 'Full Live Activities Support',
         icon: 'valid' as const,
         variant: 'positive' as const
       };
-    case 'unknown':
+    case VALIDATION_STATUS.UNKNOWN:
       return {
         title: 'iOS Version Unknown',
         icon: 'info' as const,
         variant: 'neutral' as const
       };
-    case 'not-ios':
+    case VALIDATION_STATUS.NOT_IOS:
       return {
         title: 'Not an iOS Device',
         icon: 'info' as const,
