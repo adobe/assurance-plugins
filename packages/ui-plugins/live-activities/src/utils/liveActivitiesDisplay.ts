@@ -16,11 +16,13 @@ import { VALIDATION_STATUS } from '../constants';
  * Returns data formatted for a table with columns: Activity Type, PushToStart Token, Update Token
  * @param activityTypes - Map of activity type data
  * @param validationStatus - Current validation status
+ * @param notAvailableText - Localized text for "Not available" (optional, defaults to "Not available")
  * @returns Array of table rows with activity data
  */
 export function createLiveActivitiesTableData(
   activityTypes: Map<string, LiveActivityTypeData>,
-  validationStatus: LiveActivitiesValidationStatus
+  validationStatus: LiveActivitiesValidationStatus,
+  notAvailableText: string = 'Not available'
 ): LiveActivityDisplayRow[] {
   if (
     validationStatus !== VALIDATION_STATUS.BASIC_SUPPORT &&
@@ -36,8 +38,8 @@ export function createLiveActivitiesTableData(
     pushToStartToken:
       validationStatus === VALIDATION_STATUS.FULL_SUPPORT && activity.pushToStartToken
         ? activity.pushToStartToken
-        : 'Not available',
-    updateToken: activity.updateToken || 'Not available',
+        : notAvailableText,
+    updateToken: activity.updateToken || notAvailableText,
     hasSchema: activity.hasSchema
   }));
 }

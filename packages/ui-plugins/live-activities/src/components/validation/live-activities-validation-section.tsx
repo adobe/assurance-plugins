@@ -13,17 +13,18 @@ import {
 import Info from '@spectrum-icons/workflow/InfoOutline';
 
 import React from 'react';
+
 import { defineMessages, useIntl } from 'react-intl';
 
 import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS } from '../../constants';
+import { COPYABLE_VALUE_CONSTANTS } from '../../constants';
+import { CopyableValue } from '../atoms/CopyableValue';
 import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType } from '../../hooks/useClientInfo';
 import { useLiveActivitiesData } from '../../hooks/useLiveActivitiesData';
 import { useLiveActivitiesValidationStatus } from '../../hooks/useLiveActivitiesValidationStatus';
 import { type LiveActivitiesValidationStatus } from '../../types/liveActivities';
 import { createLiveActivitiesTableData } from '../../utils/liveActivitiesDisplay';
 import { getStatusDisplayConfig, isDeviceVersionBelowAppMinimum } from '../../utils/liveActivitiesValidation';
-import { CopyableValue } from '../atoms/CopyableValue';
-import { COPYABLE_VALUE_CONSTANTS } from '../../constants';
 
 
 const messages = defineMessages({
@@ -170,6 +171,43 @@ const messages = defineMessages({
   liveActivities: {
     id: 'liveActivities.validation.liveActivities',
     defaultMessage: 'Live Activities'
+  },
+  // Additional localized strings
+  unknown: {
+    id: 'liveActivities.validation.unknown',
+    defaultMessage: 'Unknown'
+  },
+  yes: {
+    id: 'liveActivities.validation.yes',
+    defaultMessage: 'Yes'
+  },
+  no: {
+    id: 'liveActivities.validation.no',
+    defaultMessage: 'No'
+  },
+  noneDetected: {
+    id: 'liveActivities.validation.noneDetected',
+    defaultMessage: 'None detected'
+  },
+  registered: {
+    id: 'liveActivities.validation.registered',
+    defaultMessage: 'registered'
+  },
+  noActivitiesTooltip: {
+    id: 'liveActivities.validation.noActivitiesTooltip',
+    defaultMessage: 'No Live Activities have been registered in this session. This could indicate that the app does not have Live Activities configured or no activities have been started.'
+  },
+  foundActivitiesTooltip: {
+    id: 'liveActivities.validation.foundActivitiesTooltip',
+    defaultMessage: 'Found {count} Live Activity type(s) registered in this session.'
+  },
+  notAvailable: {
+    id: 'liveActivities.validation.notAvailable',
+    defaultMessage: 'Not available'
+  },
+  nextActivity: {
+    id: 'liveActivities.validation.nextActivity',
+    defaultMessage: 'Next Activity'
   }
 });
 
@@ -205,13 +243,13 @@ const LiveActivitiesValidationSection = () => {
     dataRows.push(
       {
         label: formatMessage(messages.iosVersion),
-        value: iosVersion || 'Unknown',
+        value: iosVersion || formatMessage(messages.unknown),
         showCopy: true,
         tooltip: formatMessage(messages.iosVersionTooltip)
       },
       {
         label: formatMessage(messages.deviceType),
-        value: deviceType || 'Unknown',
+        value: deviceType || formatMessage(messages.unknown),
         showCopy: false,
         tooltip: formatMessage(messages.deviceTypeTooltip)
       }
@@ -232,13 +270,13 @@ const LiveActivitiesValidationSection = () => {
       dataRows.push(
         {
           label: formatMessage(messages.nsSupportsLiveActivities),
-          value: liveActivitiesSupport.supportsLiveActivities ? 'Yes' : 'No',
+          value: liveActivitiesSupport.supportsLiveActivities ? formatMessage(messages.yes) : formatMessage(messages.no),
           showCopy: false,
           tooltip: formatMessage(messages.nsSupportsLiveActivitiesTooltip)
         },
         {
           label: formatMessage(messages.nsSupportsLiveActivitiesFrequentUpdates),
-          value: liveActivitiesSupport.supportsFrequentUpdates ? 'Yes' : 'No',
+          value: liveActivitiesSupport.supportsFrequentUpdates ? formatMessage(messages.yes) : formatMessage(messages.no),
           showCopy: false,
           tooltip: formatMessage(messages.nsSupportsLiveActivitiesFrequentUpdatesTooltip)
         }
@@ -272,11 +310,11 @@ const LiveActivitiesValidationSection = () => {
       const activityCount = liveActivities.activityTypes.size;
       dataRows.push({
         label: formatMessage(messages.liveActivities),
-        value: activityCount === 0 ? 'None detected' : `${activityCount} registered`,
+        value: activityCount === 0 ? formatMessage(messages.noneDetected) : `${activityCount} ${formatMessage(messages.registered)}`,
         showCopy: false,
         tooltip: activityCount === 0 
-          ? 'No Live Activities have been registered in this session. This could indicate that the app does not have Live Activities configured or no activities have been started.'
-          : `Found ${activityCount} Live Activity type(s) registered in this session.`
+          ? formatMessage(messages.noActivitiesTooltip)
+          : formatMessage(messages.foundActivitiesTooltip, { count: activityCount })
       });
     }
 
@@ -285,7 +323,7 @@ const LiveActivitiesValidationSection = () => {
 
   // Get Live Activities table data for horizontal display
   const liveActivitiesTableData = (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT) 
-    ? createLiveActivitiesTableData(liveActivities.activityTypes, validationStatus)
+    ? createLiveActivitiesTableData(liveActivities.activityTypes, validationStatus, formatMessage(messages.notAvailable))
     : [];
 
   return (
@@ -378,7 +416,7 @@ const LiveActivitiesValidationSection = () => {
                     <Text>{activity.activityType}</Text>
                   </td>
                   <td style={{ padding: '12px 16px', maxWidth: 300 }}>
-                    {activity.pushToStartToken !== 'Not available' ? (
+                    {activity.pushToStartToken !== formatMessage(messages.notAvailable) ? (
                       <CopyableValue 
                         value={activity.pushToStartToken} 
                         maxLength={COPYABLE_VALUE_CONSTANTS.TOKEN_MAX_LENGTH}
@@ -391,7 +429,7 @@ const LiveActivitiesValidationSection = () => {
                     )}
                   </td>
                   <td style={{ padding: '12px 16px', maxWidth: 300 }}>
-                    {activity.updateToken !== 'Not available' ? (
+                    {activity.updateToken !== formatMessage(messages.notAvailable) ? (
                       <CopyableValue 
                         value={activity.updateToken} 
                         maxLength={COPYABLE_VALUE_CONSTANTS.TOKEN_MAX_LENGTH}

@@ -7,6 +7,7 @@ import {
   type LiveActivityTypeData,
   type LiveActivitiesValidationStatus
 } from '../../types/liveActivities';
+import { VALIDATION_STATUS } from '../../constants';
 
 describe('Live Activities Display Utils', () => {
   const mockActivityMap = new Map<string, LiveActivityTypeData>([
@@ -84,17 +85,17 @@ describe('Live Activities Display Utils', () => {
 
   describe('createLiveActivitiesTableData', () => {
     it('should return empty array for unsupported devices', () => {
-      const result = createLiveActivitiesTableData(mockActivityMap, 'not-supported');
+      const result = createLiveActivitiesTableData(mockActivityMap, VALIDATION_STATUS.NOT_SUPPORTED);
       expect(result).toEqual([]);
     });
 
     it('should return empty array when no activities are present', () => {
-      const result = createLiveActivitiesTableData(new Map(), 'basic-support');
+      const result = createLiveActivitiesTableData(new Map(), VALIDATION_STATUS.BASIC_SUPPORT);
       expect(result).toEqual([]);
     });
 
     it('should format single activity correctly for basic support', () => {
-      const result = createLiveActivitiesTableData(mockActivityMap, 'basic-support');
+      const result = createLiveActivitiesTableData(mockActivityMap, VALIDATION_STATUS.BASIC_SUPPORT);
 
       expect(result).toHaveLength(1);
       expect(result[0].activityType).toBe('com.example.testactivity');
@@ -103,7 +104,7 @@ describe('Live Activities Display Utils', () => {
     });
 
     it('should include PushToStart token for full support', () => {
-      const result = createLiveActivitiesTableData(mockActivityMap, 'full-support');
+      const result = createLiveActivitiesTableData(mockActivityMap, VALIDATION_STATUS.FULL_SUPPORT);
 
       expect(result).toHaveLength(1);
       expect(result[0].pushToStartToken).toBe('push-token-123');
@@ -111,7 +112,7 @@ describe('Live Activities Display Utils', () => {
     });
 
     it('should handle multiple activities', () => {
-      const result = createLiveActivitiesTableData(mockMultipleActivitiesMap, 'full-support');
+      const result = createLiveActivitiesTableData(mockMultipleActivitiesMap, VALIDATION_STATUS.FULL_SUPPORT);
 
       expect(result).toHaveLength(2);
       expect(result[0].activityType).toBe('com.example.testactivity');
@@ -119,7 +120,7 @@ describe('Live Activities Display Utils', () => {
     });
 
     it('should handle activities without tokens gracefully', () => {
-      const result = createLiveActivitiesTableData(mockCompletedActivityMap, 'full-support');
+      const result = createLiveActivitiesTableData(mockCompletedActivityMap, VALIDATION_STATUS.FULL_SUPPORT);
 
       expect(result).toHaveLength(1);
       expect(result[0].pushToStartToken).toBe('Not available');
