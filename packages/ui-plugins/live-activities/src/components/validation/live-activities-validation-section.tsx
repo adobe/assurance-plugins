@@ -7,10 +7,20 @@ import {
   StatusLight,
   ActionButton,
   Tooltip,
-  TooltipTrigger
+  TooltipTrigger,
+  IllustratedMessage,
+  Content,
+  TableView,
+  TableHeader,
+  TableBody,
+  Column,
+  Row,
+  Cell
 } from '@adobe/react-spectrum';
 
 import Info from '@spectrum-icons/workflow/InfoOutline';
+import Search from '@spectrum-icons/workflow/Search';
+import Alert from '@spectrum-icons/workflow/Alert';
 
 import React from 'react';
 
@@ -19,8 +29,11 @@ import { defineMessages, useIntl } from 'react-intl';
 import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS } from '../../constants';
 import { COPYABLE_VALUE_CONSTANTS } from '../../constants';
 import { CopyableValue } from '../atoms/CopyableValue';
+import { TEST_IDS } from '../../constants/testIds';
+import useActivities, { 
+  useLiveActivitiesData
+} from '../../hooks/useActivities';
 import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType } from '../../hooks/useClientInfo';
-import { useLiveActivitiesData } from '../../hooks/useLiveActivitiesData';
 import { useLiveActivitiesValidationStatus } from '../../hooks/useLiveActivitiesValidationStatus';
 import { type LiveActivitiesValidationStatus } from '../../types/liveActivities';
 import { createLiveActivitiesTableData } from '../../utils/liveActivitiesDisplay';
@@ -139,6 +152,18 @@ const messages = defineMessages({
     id: 'liveActivities.validation.registeredActivities',
     defaultMessage: 'Registered Live Activities'
   },
+  activeActivities: {
+    id: 'liveActivities.validation.activeActivities',
+    defaultMessage: 'Active Live Activities'
+  },
+  liveActivityId: {
+    id: 'liveActivities.validation.liveActivityId',
+    defaultMessage: 'Live Activity ID'
+  },
+  activityAttributeType: {
+    id: 'liveActivities.validation.activityAttributeType',
+    defaultMessage: 'Activity Attribute Type'
+  },
   // Table row labels
   status: {
     id: 'liveActivities.validation.status',
@@ -208,6 +233,31 @@ const messages = defineMessages({
   nextActivity: {
     id: 'liveActivities.validation.nextActivity',
     defaultMessage: 'Next Activity'
+  },
+  // Empty state messages
+  noRegisteredActivitiesTitle: {
+    id: 'liveActivities.validation.noRegisteredActivitiesTitle',
+    defaultMessage: 'No Registered Live Activities'
+  },
+  noRegisteredActivitiesDescription: {
+    id: 'liveActivities.validation.noRegisteredActivitiesDescription',
+    defaultMessage: 'No Live Activities have been registered in this session. This could indicate that the app does not have Live Activities configured or no activities have been started yet.'
+  },
+  noActiveActivitiesTitle: {
+    id: 'liveActivities.validation.noActiveActivitiesTitle',
+    defaultMessage: 'No Active Live Activities'
+  },
+  noActiveActivitiesDescription: {
+    id: 'liveActivities.validation.noActiveActivitiesDescription',
+    defaultMessage: 'There are currently no active Live Activities running. Start a Live Activity in your app to see it appear here.'
+  },
+  noLiveActivitiesDataTitle: {
+    id: 'liveActivities.validation.noLiveActivitiesDataTitle',
+    defaultMessage: 'No Live Activities Data'
+  },
+  noLiveActivitiesDataDescription: {
+    id: 'liveActivities.validation.noLiveActivitiesDataDescription',
+    defaultMessage: 'No Live Activities data is available. This could be due to device compatibility, app configuration, or no activities being used.'
   }
 });
 
@@ -218,6 +268,7 @@ const LiveActivitiesValidationSection = () => {
   const liveActivitiesSupport = useClientLiveActivitiesSupport();
   const deviceType = useClientDeviceType();
   const liveActivities = useLiveActivitiesData();
+  const activities = useActivities();
 
   // Get status display configuration using utility function
   const statusConfig = getStatusDisplayConfig(validationStatus);
@@ -321,15 +372,35 @@ const LiveActivitiesValidationSection = () => {
 
   }
 
-  // Get Live Activities table data for horizontal display
-  const liveActivitiesTableData = (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT) 
+  // Get registered Live Activities table data (always show activities, push-to-start tokens only for iOS 17.1+)
+  const registeredActivitiesTableData = (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT)
     ? createLiveActivitiesTableData(liveActivities.activityTypes, validationStatus, formatMessage(messages.notAvailable))
     : [];
 
+  // Get active Live Activities data
+  const activeActivities = activities.filter(activity => activity.status === 'active');
+
+  // Empty state renderers
+  const renderRegisteredActivitiesEmptyState = () => (
+    <IllustratedMessage data-testid={TEST_IDS.NO_REGISTERED_ACTIVITIES_MESSAGE}>
+      <Search />
+      <Heading>{formatMessage(messages.noRegisteredActivitiesTitle)}</Heading>
+      <Content>{formatMessage(messages.noRegisteredActivitiesDescription)}</Content>
+    </IllustratedMessage>
+  );
+
+  const renderActiveActivitiesEmptyState = () => (
+    <IllustratedMessage data-testid={TEST_IDS.NO_ACTIVE_ACTIVITIES_MESSAGE}>
+      <Alert />
+      <Heading>{formatMessage(messages.noActiveActivitiesTitle)}</Heading>
+      <Content>{formatMessage(messages.noActiveActivitiesDescription)}</Content>
+    </IllustratedMessage>
+  );
+
   return (
-    <View>
+    <View data-testid={TEST_IDS.LIVE_ACTIVITIES_VALIDATION_SECTION}>
       <Flex gap="size-100" alignItems="center" marginBottom="size-200">
-        <StatusLight variant={statusConfig.variant} />
+        <StatusLight variant={statusConfig.variant} data-testid={TEST_IDS.STATUS_LIGHT} />
         <Heading level={4}>
           {formatMessage(messages.title)}
         </Heading>
@@ -391,65 +462,131 @@ const LiveActivitiesValidationSection = () => {
         </tbody>
       </table>
 
-      {/* Live Activities Table */}
-      {liveActivitiesTableData.length > 0 && (
+      {/* Registered Live Activities Section - Show for iOS 16.1+ (push-to-start tokens only for iOS 17.1+) */}
+      {(validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT) && (
         <View marginTop="size-300">
           <Heading level={5} marginBottom="size-200">{formatMessage(messages.registeredActivities)}</Heading>
-          <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #e1e1e1' }}>
-            <thead>
-              <tr style={{ backgroundColor: '#f5f5f5' }}>
-                <th style={{ padding: '12px 16px', textAlign: 'left', borderBottom: '1px solid #e1e1e1' }}>
-                  <Text UNSAFE_style={{ fontWeight: 600 }}>{formatMessage(messages.activityType)}</Text>
-                </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', borderBottom: '1px solid #e1e1e1' }}>
-                  <Text UNSAFE_style={{ fontWeight: 600 }}>{formatMessage(messages.pushToStartToken)}</Text>
-                </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', borderBottom: '1px solid #e1e1e1' }}>
-                  <Text UNSAFE_style={{ fontWeight: 600 }}>{formatMessage(messages.updateToken)}</Text>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {liveActivitiesTableData.map((activity, index) => (
-                <tr key={index} style={{ borderBottom: '1px solid #e1e1e1' }}>
-                  <td style={{ padding: '12px 16px', fontWeight: 500 }}>
-                    <Text>{activity.activityType}</Text>
-                  </td>
-                  <td style={{ padding: '12px 16px', maxWidth: 300 }}>
-                    {activity.pushToStartToken !== formatMessage(messages.notAvailable) ? (
-                      <CopyableValue 
-                        value={activity.pushToStartToken} 
-                        maxLength={COPYABLE_VALUE_CONSTANTS.TOKEN_MAX_LENGTH}
-                        copyTooltip={formatMessage(messages.copyValue)}
-                        copyFullValueTooltip={formatMessage(messages.copyFullValue)}
-                        copiedMessage={formatMessage(messages.copied)}
-                      />
-                    ) : (
-                      <Text UNSAFE_style={{ color: '#666' }}>{activity.pushToStartToken}</Text>
-                    )}
-                  </td>
-                  <td style={{ padding: '12px 16px', maxWidth: 300 }}>
-                    {activity.updateToken !== formatMessage(messages.notAvailable) ? (
+          {validationStatus === VALIDATION_STATUS.FULL_SUPPORT ? (
+            // Full support table with push-to-start tokens
+            <TableView
+              aria-label={formatMessage(messages.registeredActivities)}
+              data-testid={TEST_IDS.REGISTERED_ACTIVITIES_TABLE}
+              renderEmptyState={renderRegisteredActivitiesEmptyState}
+            >
+              <TableHeader data-testid={TEST_IDS.REGISTERED_ACTIVITIES_HEADER}>
+                <Column data-testid={TEST_IDS.ACTIVITY_TYPE_COLUMN}>
+                  {formatMessage(messages.activityType)}
+                </Column>
+                <Column data-testid={TEST_IDS.PUSH_TO_START_TOKEN_COLUMN}>
+                  {formatMessage(messages.pushToStartToken)}
+                </Column>
+              </TableHeader>
+              <TableBody>
+                {registeredActivitiesTableData.map((activity, index) => (
+                  <Row key={index} data-testid={TEST_IDS.REGISTERED_ACTIVITY_ROW(index)}>
+                    <Cell data-testid={TEST_IDS.REGISTERED_ACTIVITY_TYPE_CELL(index)}>
+                      <Text>{activity.activityType}</Text>
+                    </Cell>
+                    <Cell data-testid={TEST_IDS.REGISTERED_PUSH_TO_START_TOKEN_CELL(index)}>
+                      {activity.pushToStartToken !== formatMessage(messages.notAvailable) ? (
+                        <CopyableValue 
+                          value={activity.pushToStartToken} 
+                          maxLength={COPYABLE_VALUE_CONSTANTS.TOKEN_MAX_LENGTH}
+                          copyTooltip={formatMessage(messages.copyValue)}
+                          copyFullValueTooltip={formatMessage(messages.copyFullValue)}
+                          copiedMessage={formatMessage(messages.copied)}
+                          testId={TEST_IDS.COPY_BUTTON('push-to-start', index)}
+                        />
+                      ) : (
+                        <Text UNSAFE_style={{ color: '#666' }}>{activity.pushToStartToken}</Text>
+                      )}
+                    </Cell>
+                  </Row>
+                ))}
+              </TableBody>
+            </TableView>
+          ) : (
+            // Basic support table without push-to-start tokens
+            <TableView
+              aria-label={formatMessage(messages.registeredActivities)}
+              data-testid={TEST_IDS.REGISTERED_ACTIVITIES_TABLE}
+              renderEmptyState={renderRegisteredActivitiesEmptyState}
+            >
+              <TableHeader data-testid={TEST_IDS.REGISTERED_ACTIVITIES_HEADER}>
+                <Column data-testid={TEST_IDS.ACTIVITY_TYPE_COLUMN}>
+                  {formatMessage(messages.activityType)}
+                </Column>
+              </TableHeader>
+              <TableBody>
+                {registeredActivitiesTableData.map((activity, index) => (
+                  <Row key={index} data-testid={TEST_IDS.REGISTERED_ACTIVITY_ROW(index)}>
+                    <Cell data-testid={TEST_IDS.REGISTERED_ACTIVITY_TYPE_CELL(index)}>
+                      <Text>{activity.activityType}</Text>
+                    </Cell>
+                  </Row>
+                ))}
+              </TableBody>
+            </TableView>
+          )}
+        </View>
+      )}
+
+      {/* Active Live Activities Section */}
+      {(validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT) && (
+        <View marginTop="size-300">
+          <Heading level={5} marginBottom="size-200">{formatMessage(messages.activeActivities)}</Heading>
+          <TableView
+            aria-label={formatMessage(messages.activeActivities)}
+            data-testid={TEST_IDS.ACTIVE_ACTIVITIES_TABLE}
+            renderEmptyState={renderActiveActivitiesEmptyState}
+          >
+            <TableHeader data-testid={TEST_IDS.ACTIVE_ACTIVITIES_HEADER}>
+              <Column data-testid={TEST_IDS.LIVE_ACTIVITY_ID_COLUMN}>
+                {formatMessage(messages.liveActivityId)}
+              </Column>
+              <Column data-testid={TEST_IDS.ACTIVITY_ATTRIBUTE_TYPE_COLUMN}>
+                {formatMessage(messages.activityAttributeType)}
+              </Column>
+              <Column data-testid={TEST_IDS.UPDATE_TOKEN_COLUMN}>
+                {formatMessage(messages.updateToken)}
+              </Column>
+            </TableHeader>
+            <TableBody>
+              {activeActivities.map((activity, index) => (
+                <Row key={index} data-testid={TEST_IDS.ACTIVE_ACTIVITY_ROW(index)}>
+                  <Cell data-testid={TEST_IDS.ACTIVE_ACTIVITY_ID_CELL(index)}>
+                    <Text>{activity.id}</Text>
+                  </Cell>
+                  <Cell data-testid={TEST_IDS.ACTIVE_ACTIVITY_ATTRIBUTE_TYPE_CELL(index)}>
+                    <Text>{activity.attributes || formatMessage(messages.notAvailable)}</Text>
+                  </Cell>
+                  <Cell data-testid={TEST_IDS.ACTIVE_UPDATE_TOKEN_CELL(index)}>
+                    {activity.updateToken ? (
                       <CopyableValue 
                         value={activity.updateToken} 
                         maxLength={COPYABLE_VALUE_CONSTANTS.TOKEN_MAX_LENGTH}
                         copyTooltip={formatMessage(messages.copyValue)}
                         copyFullValueTooltip={formatMessage(messages.copyFullValue)}
                         copiedMessage={formatMessage(messages.copied)}
+                        testId={TEST_IDS.COPY_BUTTON('update-token', index)}
                       />
                     ) : (
-                      <Text UNSAFE_style={{ color: '#666' }}>{activity.updateToken}</Text>
+                      <Text UNSAFE_style={{ color: '#666' }}>{formatMessage(messages.notAvailable)}</Text>
                     )}
-                  </td>
-                </tr>
+                  </Cell>
+                </Row>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </TableView>
         </View>
       )}
       
       <View marginTop="size-200">
-        <Link href="https://developer.apple.com/documentation/activitykit" target="_blank">
+        <Link 
+          href="https://developer.apple.com/documentation/activitykit" 
+          target="_blank"
+          data-testid={TEST_IDS.APPLE_DOCUMENTATION_LINK}
+        >
           {formatMessage(messages.learnMore)}
         </Link>
       </View>
