@@ -44,14 +44,6 @@ export interface LiveActivityDisplayRow {
   hasSchema: boolean;
 }
 
-// Event type constants for filtering
-export const LIVE_ACTIVITY_EVENT_PATTERNS = {
-  SCHEMA: /^Live Activity Schema \(([^)]+)\)$/,
-  PUSH_TO_START: /^Live Activity push-to-start token \(([^)]+)\)$/,
-  UPDATE_TOKEN: /^Live Activity update token \(([^)]+)\)$/,
-  PUSH_TO_START_EDGE: 'Live Activity push-to-start token to Edge'
-} as const;
-
 // Validation status for display logic
 export type LiveActivitiesValidationStatus =
   | 'not-supported'

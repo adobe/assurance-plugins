@@ -65,13 +65,13 @@ function Inner() {
           <ClientPicker allowAllClients={false} />
         </Card>
       </Flex>
-      <Tabs onSelectionChange={setSelectedTab} selectedKey={selectedTab}>
+      <Tabs density='compact'  onSelectionChange={setSelectedTab} selectedKey={selectedTab}>
         <TabList UNSAFE_style={{ flex: 1 }}>
           <Item key="clientInfo">{formatMessage(messages.clientInfo)}</Item>
           <Item key="activities">{formatMessage(messages.activities)}</Item>
           <Item key="events">{formatMessage(messages.events)}</Item>
         </TabList>
-        <TabPanels>
+        <TabPanels  marginTop="size-200">
           <Item key="activities">
             <Activities />
           </Item>

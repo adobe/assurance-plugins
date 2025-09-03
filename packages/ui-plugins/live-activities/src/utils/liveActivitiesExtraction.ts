@@ -1,49 +1,54 @@
 /**
- * Pure utility functions for extracting Live Activities data from events.
+ * Pure utility functions for extracting Live Activities data from messaging state and events.
  * No React dependencies - can be used anywhere.
  */
 
 import {
   LiveActivityTypeData,
   LiveActivitiesExtractionResult,
-  LiveActivitySchema,
-  LIVE_ACTIVITY_EVENT_PATTERNS
+  LiveActivitySchema
 } from '../types/liveActivities';
+import { isLiveActivityAssuranceDebugEvent } from '../types/events';
 
 /**
- * Extracts attribute type from Live Activity event name using regex pattern.
- * @param eventName - The event name to parse
- * @param pattern - Regex pattern to match
+ * Extracts attribute type from Live Activity schema event using type guards.
+ * @param event - The event to extract attribute type from
  * @returns The extracted attribute type or null if not found
  */
-export function extractAttributeType(eventName: string, pattern: RegExp): string | null {
+function extractAttributeTypeFromSchemaEvent(event: any): string | null {
   try {
-    const match = eventName.match(pattern);
-    return match ? match[1] : null;
+    if (isLiveActivityAssuranceDebugEvent(event)) {
+      return event.payload.ACPExtensionEventData.jsonSchema?.['attributes-type'] || null;
+    }
+    return null;
   } catch (error) {
-    console.warn('Failed to extract attribute type from event name:', eventName, error);
+    console.warn('Failed to extract attribute type from schema event:', error);
     return null;
   }
 }
 
 /**
- * Safely extracts Live Activity schema from event payload.
+ * Safely extracts Live Activity schema from event payload using type guards.
  * @param event - The event containing schema data
  * @returns LiveActivitySchema or null if invalid
  */
-export function extractSchemaFromEvent(event: any): LiveActivitySchema | null {
+function extractSchemaFromEvent(event: any): LiveActivitySchema | null {
   try {
-    const schema = event?.payload?.ACPExtensionEventData?.jsonSchema;
+    if (!isLiveActivityAssuranceDebugEvent(event)) {
+      return null;
+    }
+
+    const schema = event.payload.ACPExtensionEventData.jsonSchema;
     if (!schema || !schema['attributes-type']) {
       return null;
     }
 
     return {
-      $schema: schema.$schema || '',
+      $schema: (schema as any).$schema || '',
       'attributes-type': schema['attributes-type'],
       'content-state': schema['content-state'] || {},
       attributes: schema.attributes || {},
-      title: schema.title || ''
+      title: (schema as any).title || ''
     };
   } catch (error) {
     console.warn('Failed to extract schema from event:', error);
@@ -52,224 +57,118 @@ export function extractSchemaFromEvent(event: any): LiveActivitySchema | null {
 }
 
 /**
- * Safely extracts push-to-start token from event payload.
- * @param event - The event containing token data
- * @returns Token string or null if not found
+ * Extracts example payload from Live Activity schema event using type guards.
+ * @param event - The event containing schema data
+ * @returns Example payload object or null if not found
  */
-export function extractPushToStartTokenFromEvent(event: any): string | null {
+function extractExamplePayloadFromEvent(event: any): any | null {
   try {
-    return event?.payload?.ACPExtensionEventData?.token || null;
+    if (!isLiveActivityAssuranceDebugEvent(event)) {
+      return null;
+    }
+    return event.payload.ACPExtensionEventData.examplePayload || null;
   } catch (error) {
-    console.warn('Failed to extract push-to-start token from event:', error);
+    console.warn('Failed to extract example payload from event:', error);
     return null;
   }
 }
 
 /**
- * Safely extracts update token from event payload.
- * @param event - The event containing token data
- * @returns Token string or null if not found
+ * Extracts schema information from Live Activity schema events using type guards.
+ * @param events - Array of events to search for schema events
+ * @returns Map of attribute types to their schema and example payload data
  */
-export function extractUpdateTokenFromEvent(event: any): string | null {
-  try {
-    return event?.payload?.ACPExtensionEventData?.token || null;
-  } catch (error) {
-    console.warn('Failed to extract update token from event:', error);
-    return null;
-  }
-}
-
-/**
- * Processes schema events and updates the activity types map.
- * @param events - Array of schema events
- * @param activityTypesMap - Map to update
- * @returns Updated map
- */
-export function processSchemaEvents(
-  events: any[],
-  activityTypesMap: Map<string, LiveActivityTypeData>
-): Map<string, LiveActivityTypeData> {
-  const newMap = new Map(activityTypesMap);
+export function extractSchemaDataFromEvents(
+  events: any[]
+): Map<string, { schema: LiveActivitySchema; examplePayload: any }> {
+  const schemaMap = new Map<string, { schema: LiveActivitySchema; examplePayload: any }>();
 
   events.forEach(event => {
-    const attributeType = extractAttributeType(
-      event.payload?.ACPExtensionEventName || '',
-      LIVE_ACTIVITY_EVENT_PATTERNS.SCHEMA
-    );
+    // Use type guard to filter for schema events
+    if (!isLiveActivityAssuranceDebugEvent(event)) return;
 
+    const attributeType = extractAttributeTypeFromSchemaEvent(event);
     if (!attributeType) return;
 
     const schema = extractSchemaFromEvent(event);
-    const existing = newMap.get(attributeType);
+    const examplePayload = extractExamplePayloadFromEvent(event);
 
-    newMap.set(attributeType, {
-      attributeType,
-      schema: schema || existing?.schema,
-      pushToStartToken: existing?.pushToStartToken,
-      updateToken: existing?.updateToken,
-      hasSchema: !!schema,
-      hasPushToStartToken: existing?.hasPushToStartToken || false,
-      hasUpdateToken: existing?.hasUpdateToken || false,
-      lastUpdated: event.timestamp || Date.now()
-    });
-  });
-
-  return newMap;
-}
-
-/**
- * Processes push-to-start token events and updates the activity types map.
- * @param events - Array of push-to-start token events
- * @param activityTypesMap - Map to update
- * @returns Updated map
- */
-export function processPushToStartTokenEvents(
-  events: any[],
-  activityTypesMap: Map<string, LiveActivityTypeData>
-): Map<string, LiveActivityTypeData> {
-  const newMap = new Map(activityTypesMap);
-
-  events.forEach(event => {
-    const attributeType = extractAttributeType(
-      event.payload?.ACPExtensionEventName || '',
-      LIVE_ACTIVITY_EVENT_PATTERNS.PUSH_TO_START
-    );
-
-    if (!attributeType) return;
-
-    const token = extractPushToStartTokenFromEvent(event);
-    const existing = newMap.get(attributeType);
-
-    newMap.set(attributeType, {
-      attributeType,
-      schema: existing?.schema,
-      pushToStartToken: token || existing?.pushToStartToken,
-      updateToken: existing?.updateToken,
-      hasSchema: existing?.hasSchema || false,
-      hasPushToStartToken: !!token,
-      hasUpdateToken: existing?.hasUpdateToken || false,
-      lastUpdated: event.timestamp || Date.now()
-    });
-  });
-
-  return newMap;
-}
-
-/**
- * Processes update token events and updates the activity types map.
- * @param events - Array of update token events
- * @param activityTypesMap - Map to update
- * @returns Updated map
- */
-export function processUpdateTokenEvents(
-  events: any[],
-  activityTypesMap: Map<string, LiveActivityTypeData>
-): Map<string, LiveActivityTypeData> {
-  const newMap = new Map(activityTypesMap);
-
-  events.forEach(event => {
-    const attributeType = extractAttributeType(
-      event.payload?.ACPExtensionEventName || '',
-      LIVE_ACTIVITY_EVENT_PATTERNS.UPDATE_TOKEN
-    );
-
-    if (!attributeType) return;
-
-    const token = extractUpdateTokenFromEvent(event);
-    const existing = newMap.get(attributeType);
-
-    newMap.set(attributeType, {
-      attributeType,
-      schema: existing?.schema,
-      pushToStartToken: existing?.pushToStartToken,
-      updateToken: token || existing?.updateToken,
-      hasSchema: existing?.hasSchema || false,
-      hasPushToStartToken: existing?.hasPushToStartToken || false,
-      hasUpdateToken: !!token,
-      lastUpdated: event.timestamp || Date.now()
-    });
-  });
-
-  return newMap;
-}
-
-/**
- * Processes edge events with multiple push-to-start tokens.
- * @param events - Array of edge events
- * @param activityTypesMap - Map to update
- * @returns Updated map
- */
-export function processEdgeEvents(
-  events: any[],
-  activityTypesMap: Map<string, LiveActivityTypeData>
-): Map<string, LiveActivityTypeData> {
-  const newMap = new Map(activityTypesMap);
-
-  events.forEach(event => {
-    try {
-      const details =
-        event?.payload?.ACPExtensionEventData?.data?.liveActivityPushNotificationDetails;
-      if (!Array.isArray(details)) return;
-
-      details.forEach((detail: any) => {
-        const attributeType = detail.liveActivityAttributeType;
-        if (!attributeType) return;
-
-        const token = detail.token;
-        const existing = newMap.get(attributeType);
-
-        newMap.set(attributeType, {
-          attributeType,
-          schema: existing?.schema,
-          pushToStartToken: token || existing?.pushToStartToken,
-          updateToken: existing?.updateToken,
-          hasSchema: existing?.hasSchema || false,
-          hasPushToStartToken: !!token,
-          hasUpdateToken: existing?.hasUpdateToken || false,
-          lastUpdated: event.timestamp || Date.now()
-        });
+    if (schema) {
+      schemaMap.set(attributeType, {
+        schema,
+        examplePayload
       });
-    } catch (error) {
-      console.warn('Failed to process edge event:', error);
     }
   });
 
-  return newMap;
+  return schemaMap;
 }
 
 /**
- * Main function to extract Live Activities data from events.
- * Pure function with no side effects.
- * @param events - Array of all events to process
+ * Extracts Live Activities data from the messaging state data.
+ * This is the primary method as it gets all data from a single source.
+ * @param liveActivityState - The live activity state from messaging
+ * @param schemaEvents - Optional array of events to extract schema information from
  * @returns LiveActivitiesExtractionResult with processed data
  */
-export function extractLiveActivitiesData(events: any[]): LiveActivitiesExtractionResult {
+export function extractLiveActivitiesDataFromState(
+  liveActivityState: any,
+  schemaEvents?: any[]
+): LiveActivitiesExtractionResult {
   try {
-    // Filter events by type
-    const schemaEvents = events.filter(event =>
-      event?.payload?.ACPExtensionEventName?.match(LIVE_ACTIVITY_EVENT_PATTERNS.SCHEMA)
-    );
+    if (!liveActivityState) {
+      return {
+        activityTypes: new Map(),
+        totalCount: 0,
+        hasAnySchema: false,
+        hasAnyPushToStartToken: false
+      };
+    }
 
-    const pushToStartEvents = events.filter(event =>
-      event?.payload?.ACPExtensionEventName?.match(LIVE_ACTIVITY_EVENT_PATTERNS.PUSH_TO_START)
-    );
+    const activityTypesMap = new Map<string, LiveActivityTypeData>();
 
-    const updateTokenEvents = events.filter(event =>
-      event?.payload?.ACPExtensionEventName?.match(LIVE_ACTIVITY_EVENT_PATTERNS.UPDATE_TOKEN)
-    );
+    // Extract schema information from events if provided
+    const schemaDataMap = schemaEvents ? extractSchemaDataFromEvents(schemaEvents) : new Map();
 
-    const edgeEvents = events.filter(
-      event =>
-        event?.payload?.ACPExtensionEventName === LIVE_ACTIVITY_EVENT_PATTERNS.PUSH_TO_START_EDGE
-    );
+    // Extract push-to-start tokens
+    const pushToStartTokens = liveActivityState.pushToStartTokens || {};
+    Object.entries(pushToStartTokens).forEach(([attributeType, tokenData]: [string, any]) => {
+      if (tokenData && tokenData.token) {
+        const schemaData = schemaDataMap.get(attributeType);
 
-    // Process events in order
-    let activityTypesMap = new Map<string, LiveActivityTypeData>();
+        activityTypesMap.set(attributeType, {
+          attributeType,
+          schema: schemaData?.schema,
+          pushToStartToken: tokenData.token,
+          updateToken: undefined,
+          hasSchema: !!schemaData?.schema,
+          hasPushToStartToken: true,
+          hasUpdateToken: false,
+          lastUpdated: tokenData.firstIssued || Date.now()
+        });
+      }
+    });
 
-    activityTypesMap = processSchemaEvents(schemaEvents, activityTypesMap);
-    activityTypesMap = processPushToStartTokenEvents(pushToStartEvents, activityTypesMap);
-    activityTypesMap = processUpdateTokenEvents(updateTokenEvents, activityTypesMap);
-    activityTypesMap = processEdgeEvents(edgeEvents, activityTypesMap);
+    // Extract update tokens and merge with existing push-to-start data
+    const updateTokens = liveActivityState.updateTokens || {};
+    Object.entries(updateTokens).forEach(([activityId, tokenData]: [string, any]) => {
+      if (tokenData && tokenData.token && tokenData.attributeType) {
+        const attributeType = tokenData.attributeType;
+        const existing = activityTypesMap.get(attributeType);
+        const schemaData = schemaDataMap.get(attributeType);
+
+        activityTypesMap.set(attributeType, {
+          attributeType,
+          schema: existing?.schema || schemaData?.schema,
+          pushToStartToken: existing?.pushToStartToken,
+          updateToken: tokenData.token,
+          hasSchema: existing?.hasSchema || !!schemaData?.schema,
+          hasPushToStartToken: existing?.hasPushToStartToken || false,
+          hasUpdateToken: true,
+          lastUpdated: tokenData.firstIssued || Date.now()
+        });
+      }
+    });
 
     // Calculate summary statistics
     const activityTypes = Array.from(activityTypesMap.values());
@@ -284,7 +183,7 @@ export function extractLiveActivitiesData(events: any[]): LiveActivitiesExtracti
       hasAnyPushToStartToken
     };
   } catch (error) {
-    console.error('Failed to extract Live Activities data:', error);
+    console.error('Failed to extract Live Activities data from state:', error);
     return {
       activityTypes: new Map(),
       totalCount: 0,
