@@ -24,6 +24,8 @@ export interface CopyableValueProps {
   copyFullValueTooltip?: string;
   /** Localized copied feedback message */
   copiedMessage?: string;
+  /** Test ID for the copy button */
+  testId?: string;
 }
 
 /**
@@ -36,7 +38,8 @@ export function CopyableValue({
   showFullValue = false,
   copyTooltip = 'Copy value',
   copyFullValueTooltip = 'Copy full value',
-  copiedMessage = 'Copied!'
+  copiedMessage = 'Copied!',
+  testId
 }: CopyableValueProps) {
   if (!value) return <UnknownBadge />;
   
@@ -45,10 +48,16 @@ export function CopyableValue({
   const [copied, setCopied] = useState(false);
   
   const handleCopy = async () => {
-    await copyToClipboard(stringValue);
-    setCopied(true);
-    // Reset the copied state after timeout
-    setTimeout(() => setCopied(false), COPYABLE_VALUE_CONSTANTS.COPY_FEEDBACK_TIMEOUT);
+    try {
+      await copyToClipboard(stringValue);
+      setCopied(true);
+      // Reset the copied state after timeout
+      setTimeout(() => setCopied(false), COPYABLE_VALUE_CONSTANTS.COPY_FEEDBACK_TIMEOUT);
+    } catch (error) {
+      // Silently handle clipboard errors - the user will see no feedback
+      // but the app won't crash
+      console.warn('Failed to copy to clipboard:', error);
+    }
   };
   
   if (!isLong || showFullValue) {
@@ -61,6 +70,7 @@ export function CopyableValue({
             onPress={handleCopy}
             aria-label="Copy"
             UNSAFE_style={{ cursor: 'pointer' }}
+            data-testid={testId}
           >
             {copied ? <Checkmark size="XS" color="positive" /> : <Copy size="XS" />}
           </ActionButton>
@@ -92,6 +102,7 @@ export function CopyableValue({
           onPress={handleCopy}
           aria-label="Copy full value"
           UNSAFE_style={{ cursor: 'pointer' }}
+          data-testid={testId}
         >
           {copied ? <Checkmark size="XS" color="positive" /> : <Copy size="XS" />}
         </ActionButton>
