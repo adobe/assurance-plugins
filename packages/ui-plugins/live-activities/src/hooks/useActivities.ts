@@ -204,7 +204,7 @@ export function useLiveActivitiesData(
         event?.payload?.ACPExtensionEventData?.jsonSchema ||
         event?.payload?.ACPExtensionEventData?.examplePayload
     );
-    
+
     return extractLiveActivitiesDataFromState(liveActivityState, schemaEvents);
   }, [liveActivityState, allEvents]);
 }
