@@ -20,6 +20,11 @@ export const LIVE_ACTIVITIES_MATCHERS = {
     'payload.ACPExtensionEventName==`Live Activity dismissed`',
     'payload.ACPExtensionEventName==`Live Activity push-to-start token to Edge`',
 
+    // Live Activity Schema events (for registered activities detection)
+    'payload.ACPExtensionEventName=~`Live Activity Schema`',
+    'payload.ACPExtensionEventData.jsonSchema',
+    'payload.ACPExtensionEventData.examplePayload',
+
     // Fallback: any event with Live Activity identifiers
     'payload.ACPExtensionEventData.liveActivityID',
     'payload.ACPExtensionEventData.data.liveActivityID',
@@ -49,6 +54,7 @@ export const LIVE_ACTIVITIES_MATCHERS = {
   ]),
 
   SCHEMA_EVENTS: combineAny([
+    'payload.ACPExtensionEventName=~`Live Activity Schema`',
     'payload.ACPExtensionEventData.jsonSchema',
     'payload.ACPExtensionEventData.examplePayload'
   ])
