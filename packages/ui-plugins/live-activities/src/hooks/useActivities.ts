@@ -181,13 +181,13 @@ export function useSelectedClientLiveActivityState() {
 /**
  * Hook to extract Live Activities data from messaging state.
  * This is the primary method as it gets all data from a single source.
- * Optionally includes schema information from events.
+ * Always includes schema information from events for better registered activities detection.
  *
- * @param includeSchema - Whether to include schema data from events (default: false)
+ * @param includeSchema - Whether to include schema data from events (default: true for better detection)
  * @returns LiveActivitiesExtractionResult with processed data
  */
 export function useLiveActivitiesData(
-  includeSchema: boolean = false
+  includeSchema: boolean = true
 ): LiveActivitiesExtractionResult {
   const liveActivityState = useSelectedClientLiveActivityState();
 
@@ -198,18 +198,15 @@ export function useLiveActivitiesData(
   });
 
   return useMemo(() => {
-    if (includeSchema) {
-      // Filter for schema events from the single source
-      const schemaEvents = allEvents.filter(
-        event =>
-          event?.payload?.ACPExtensionEventData?.jsonSchema ||
-          event?.payload?.ACPExtensionEventData?.examplePayload
-      );
-      return extractLiveActivitiesDataFromState(liveActivityState, schemaEvents);
-    }
-
-    return extractLiveActivitiesDataFromState(liveActivityState);
-  }, [liveActivityState, allEvents, includeSchema]);
+    // Always filter for schema events for better registered activities detection
+    const schemaEvents = allEvents.filter(
+      event =>
+        event?.payload?.ACPExtensionEventData?.jsonSchema ||
+        event?.payload?.ACPExtensionEventData?.examplePayload
+    );
+    
+    return extractLiveActivitiesDataFromState(liveActivityState, schemaEvents);
+  }, [liveActivityState, allEvents]);
 }
 
 /**

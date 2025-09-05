@@ -105,6 +105,44 @@ export function extractSchemaDataFromEvents(
 }
 
 /**
+ * Extracts registered activities from Live Activity Schema events.
+ * This is the primary source of truth for registered activities, especially for iOS 16.4.
+ * @param schemaEvents - Array of events containing schema information
+ * @returns Map of registered activity types with their metadata
+ */
+export function extractRegisteredActivitiesFromSchemaEvents(
+  schemaEvents: any[]
+): Map<string, LiveActivityTypeData> {
+  const registeredActivitiesMap = new Map<string, LiveActivityTypeData>();
+
+  schemaEvents.forEach(event => {
+    // Use type guard to filter for schema events
+    if (!isLiveActivityAssuranceDebugEvent(event)) return;
+
+    const attributeType = extractAttributeTypeFromSchemaEvent(event);
+    if (!attributeType) return;
+
+    const schema = extractSchemaFromEvent(event);
+    const examplePayload = extractExamplePayloadFromEvent(event);
+
+    if (schema) {
+      registeredActivitiesMap.set(attributeType, {
+        attributeType,
+        schema,
+        pushToStartToken: undefined, // Will be filled from state if available
+        updateToken: undefined, // Will be filled from state if available
+        hasSchema: true,
+        hasPushToStartToken: false, // Will be updated from state if available
+        hasUpdateToken: false, // Will be updated from state if available
+        lastUpdated: event.timestamp || Date.now()
+      });
+    }
+  });
+
+  return registeredActivitiesMap;
+}
+
+/**
  * Extracts Live Activities data from the messaging state data.
  * This is the primary method as it gets all data from a single source.
  * @param liveActivityState - The live activity state from messaging
@@ -116,59 +154,82 @@ export function extractLiveActivitiesDataFromState(
   schemaEvents?: any[]
 ): LiveActivitiesExtractionResult {
   try {
-    if (!liveActivityState) {
-      return {
-        activityTypes: new Map(),
-        totalCount: 0,
-        hasAnySchema: false,
-        hasAnyPushToStartToken: false
-      };
+    // Start with registered activities from schema events (primary source of truth)
+    const activityTypesMap = schemaEvents 
+      ? extractRegisteredActivitiesFromSchemaEvents(schemaEvents)
+      : new Map<string, LiveActivityTypeData>();
+
+    // If no schema events available, fall back to shared state
+    if (activityTypesMap.size === 0 && liveActivityState) {
+      // Extract schema information from events if provided
+      const schemaDataMap = schemaEvents ? extractSchemaDataFromEvents(schemaEvents) : new Map();
+
+      // Extract push-to-start tokens
+      const pushToStartTokens = liveActivityState.pushToStartTokens || {};
+      Object.entries(pushToStartTokens).forEach(([attributeType, tokenData]: [string, any]) => {
+        if (tokenData && tokenData.token) {
+          const schemaData = schemaDataMap.get(attributeType);
+
+          activityTypesMap.set(attributeType, {
+            attributeType,
+            schema: schemaData?.schema,
+            pushToStartToken: tokenData.token,
+            updateToken: undefined,
+            hasSchema: !!schemaData?.schema,
+            hasPushToStartToken: true,
+            hasUpdateToken: false,
+            lastUpdated: tokenData.firstIssued || Date.now()
+          });
+        }
+      });
+
+      // Extract update tokens and merge with existing push-to-start data
+      const updateTokens = liveActivityState.updateTokens || {};
+      Object.entries(updateTokens).forEach(([activityId, tokenData]: [string, any]) => {
+        if (tokenData && tokenData.token && tokenData.attributeType) {
+          const attributeType = tokenData.attributeType;
+          const existing = activityTypesMap.get(attributeType);
+          const schemaData = schemaDataMap.get(attributeType);
+
+          activityTypesMap.set(attributeType, {
+            attributeType,
+            schema: existing?.schema || schemaData?.schema,
+            pushToStartToken: existing?.pushToStartToken,
+            updateToken: tokenData.token,
+            hasSchema: existing?.hasSchema || !!schemaData?.schema,
+            hasPushToStartToken: existing?.hasPushToStartToken || false,
+            hasUpdateToken: true,
+            lastUpdated: tokenData.firstIssued || Date.now()
+          });
+        }
+      });
     }
 
-    const activityTypesMap = new Map<string, LiveActivityTypeData>();
+    // Enhance schema-based activities with token data from state if available
+    if (liveActivityState && activityTypesMap.size > 0) {
+      const pushToStartTokens = liveActivityState.pushToStartTokens || {};
+      const updateTokens = liveActivityState.updateTokens || {};
 
-    // Extract schema information from events if provided
-    const schemaDataMap = schemaEvents ? extractSchemaDataFromEvents(schemaEvents) : new Map();
+      // Update existing activities with token information
+      activityTypesMap.forEach((activity, attributeType) => {
+        const pushToStartTokenData = pushToStartTokens[attributeType];
+        const updateTokenData = Object.values(updateTokens).find((tokenData: any) => 
+          tokenData.attributeType === attributeType
+        ) as any;
 
-    // Extract push-to-start tokens
-    const pushToStartTokens = liveActivityState.pushToStartTokens || {};
-    Object.entries(pushToStartTokens).forEach(([attributeType, tokenData]: [string, any]) => {
-      if (tokenData && tokenData.token) {
-        const schemaData = schemaDataMap.get(attributeType);
+        if (pushToStartTokenData?.token) {
+          activity.pushToStartToken = pushToStartTokenData.token;
+          activity.hasPushToStartToken = true;
+          activity.lastUpdated = pushToStartTokenData.firstIssued || activity.lastUpdated;
+        }
 
-        activityTypesMap.set(attributeType, {
-          attributeType,
-          schema: schemaData?.schema,
-          pushToStartToken: tokenData.token,
-          updateToken: undefined,
-          hasSchema: !!schemaData?.schema,
-          hasPushToStartToken: true,
-          hasUpdateToken: false,
-          lastUpdated: tokenData.firstIssued || Date.now()
-        });
-      }
-    });
-
-    // Extract update tokens and merge with existing push-to-start data
-    const updateTokens = liveActivityState.updateTokens || {};
-    Object.entries(updateTokens).forEach(([activityId, tokenData]: [string, any]) => {
-      if (tokenData && tokenData.token && tokenData.attributeType) {
-        const attributeType = tokenData.attributeType;
-        const existing = activityTypesMap.get(attributeType);
-        const schemaData = schemaDataMap.get(attributeType);
-
-        activityTypesMap.set(attributeType, {
-          attributeType,
-          schema: existing?.schema || schemaData?.schema,
-          pushToStartToken: existing?.pushToStartToken,
-          updateToken: tokenData.token,
-          hasSchema: existing?.hasSchema || !!schemaData?.schema,
-          hasPushToStartToken: existing?.hasPushToStartToken || false,
-          hasUpdateToken: true,
-          lastUpdated: tokenData.firstIssued || Date.now()
-        });
-      }
-    });
+        if (updateTokenData?.token) {
+          activity.updateToken = updateTokenData.token;
+          activity.hasUpdateToken = true;
+          activity.lastUpdated = updateTokenData.firstIssued || activity.lastUpdated;
+        }
+      });
+    }
 
     // Calculate summary statistics
     const activityTypes = Array.from(activityTypesMap.values());
