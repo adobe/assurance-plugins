@@ -7,10 +7,14 @@ import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import ActivityStatus from './activity-status';
 import UpdateActivity from './update-activity';
-import useSelectedActivity from '../../hooks/useSelectedActivity';
+import { LiveActivity } from '../../hooks/useActivities';
 import './activity-info.scss';
 
 dayjs.extend(localizedFormat);
+
+interface ActivityInfoProps {
+  activity?: LiveActivity;
+}
 
 const messages = defineMessages({
   attributeSetLabel: {
@@ -59,12 +63,14 @@ const messages = defineMessages({
   }
 });
 
-function ActivityInfo() {
+function ActivityInfo({ activity }: ActivityInfoProps) {
   const { formatMessage } = useIntl();
-  const activity = useSelectedActivity();
+
+  console.log('ActivityInfo received activity:', activity);
 
   if (!activity) {
-    return null;
+    console.log('ActivityInfo: No activity provided');
+    return <div>No activity selected</div>;
   }
 
   // Get the latest content state from update events
@@ -72,7 +78,7 @@ function ActivityInfo() {
     activity.updateEvents?.[0]?.payload?.ACPExtensionEventData?.contentState;
 
   return (
-    <View marginY="size-200">
+    <View marginY="size-200" height="100%" overflow="auto">
       <div className="live-activity">
         <Flex alignItems="center" justifyContent="space-between">
           <Flex direction="row" alignItems="start" marginY="size-200" gap="size-200">

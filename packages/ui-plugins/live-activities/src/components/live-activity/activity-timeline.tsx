@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { Heading, Text, View, Flex, ActionGroup, Item } from '@adobe/react-spectrum';
 import { defineMessages, useIntl } from 'react-intl';
 import dayjs from 'dayjs';
-import useSelectedActivity from '../../hooks/useSelectedActivity';
+import { LiveActivity } from '../../hooks/useActivities';
 import Card from '../atoms/card';
 import MoreSmallListVert from '@spectrum-icons/workflow/MoreSmallListVert';
 import ClassicGridView from '@spectrum-icons/workflow/ClassicGridView';
+
+interface ActivityTimelineProps {
+  activity?: LiveActivity;
+}
 
 const messages = defineMessages({
   timelineLabel: {
@@ -18,9 +22,8 @@ const messages = defineMessages({
   }
 });
 
-function ActivityTimeline() {
+function ActivityTimeline({ activity }: ActivityTimelineProps) {
   const { formatMessage } = useIntl();
-  const activity = useSelectedActivity();
   const events = activity?.events || [];
   const [view, setView] = useState<'list' | 'grid'>('grid');
 
@@ -34,8 +37,9 @@ function ActivityTimeline() {
   }
 
   return (
-    <Card>
-      <Flex direction="row" alignItems="center" justifyContent="space-between">
+    <View height="100%" overflow="auto">
+      <Card>
+        <Flex direction="row" alignItems="center" justifyContent="space-between">
         <Heading level={2} marginY="size-0">
           {formatMessage(messages.timelineLabel)}
         </Heading>
@@ -113,7 +117,7 @@ function ActivityTimeline() {
                       </Text>
                     </View>
                     <View>
-                      <Text marginTop="size-75">{event.payload.ACPExtensionEventName}</Text>
+                      <Text marginTop="size-75">{event.payload?.ACPExtensionEventName || 'Unknown Event'}</Text>
                       <View marginTop="size-100">
                         <Text
                           UNSAFE_style={{
@@ -157,7 +161,7 @@ function ActivityTimeline() {
                     {dayjs(event.timestamp).toISOString()}
                   </Text>
                   <View>
-                    <Text marginTop="size-75">{event.payload.ACPExtensionEventName}</Text>
+                    <Text marginTop="size-75">{event.payload?.ACPExtensionEventName || 'Unknown Event'}</Text>
                     <View marginTop="size-100">
                       <Text
                         UNSAFE_style={{
@@ -179,7 +183,8 @@ function ActivityTimeline() {
           <Text>{formatMessage(messages.noEvents)}</Text>
         )}
       </View>
-    </Card>
+      </Card>
+    </View>
   );
 }
 

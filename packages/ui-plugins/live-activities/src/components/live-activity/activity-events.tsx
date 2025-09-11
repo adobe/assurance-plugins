@@ -1,10 +1,15 @@
 import React from 'react';
 import { combineAny } from '@adobe/griffon-toolkit';
-import { EventTable, defaultColumns, validationColumn, flaggedColumn } from '@assurance/event-table';
+import { EventTable, defaultColumns, flaggedColumn } from '@assurance/event-table';
 import { useEvents } from '@assurance/plugin-bridge-provider';
-import useSelectedActivity from '../../hooks/useSelectedActivity';
+import { View, Text, Heading, Flex } from '@adobe/react-spectrum';
+import { LiveActivity } from '../../hooks/useActivities';
 import { Event } from '@assurance/common-utils';
 import { ColumnDef } from '@tanstack/react-table';
+
+interface ActivityEventsProps {
+  activity?: LiveActivity;
+}
 
 interface LiveActivityEvent extends Event {
   payload?: {
@@ -24,37 +29,53 @@ const eventNameColumn: ColumnDef<LiveActivityEvent> = {
   accessorFn: (event) => event.payload?.ACPExtensionEventName,
 };
 
-function ActivityEvents() {
-  const activity = useSelectedActivity();
-  const events = useEvents<LiveActivityEvent[]>({
+function ActivityEvents({ activity }: ActivityEventsProps) {
+  if (!activity) {
+    return null;
+  }
+
+  // Fetch events for this specific Live Activity
+  const allEvents = useEvents<LiveActivityEvent[]>({
     matchers: [
       combineAny([
         'payload.ACPExtensionEventData.liveActivityID',
         'payload.ACPExtensionEventData.data.liveActivityID',
-        'payload.ACPExtensionEventData.isLiveActivityPushToStartTokenEvent'
+        'payload.ACPExtensionEventData.activityId'
       ])
     ],
     sorted: 'desc'
   });
 
-  if (!activity) {
-    return null;
-  }
-
-  // Filter events for the selected activity using the same ID logic as useActivities
-  const activityEvents = events.filter(event => {
-    const eventActivityId = event.payload?.ACPExtensionEventData?.liveActivityID ||
-      event.payload?.ACPExtensionEventData?.data?.liveActivityID ||
-      event.payload?.ACPExtensionEventData?.activityId;
+  // Filter events by Live Activity ID
+  const activityEvents = allEvents.filter(event => {
+    const eventLiveActivityID = event.payload?.ACPExtensionEventData?.liveActivityID ||
+                               event.payload?.ACPExtensionEventData?.data?.liveActivityID ||
+                               event.payload?.ACPExtensionEventData?.activityId;
     
-    return eventActivityId === activity.id;
+    return eventLiveActivityID === activity.id;
   });
 
+  if (activityEvents.length === 0) {
+    return (
+      <View height="100%" overflow="auto" padding="size-400">
+        <Flex justifyContent="center" alignItems="center" height="100%">
+          <Text>No events found for this Live Activity</Text>
+        </Flex>
+      </View>
+    );
+  }
+
   return (
-    <EventTable
-      columns={[...defaultColumns, eventNameColumn, validationColumn, flaggedColumn]}
-      data={activityEvents}
-    />
+    <View height="100%" overflow="auto" padding="size-200">
+      <Flex alignItems="center" gap="size-100" marginBottom="size-200">
+        <Heading level={3} marginY="size-0">Live Activity Events</Heading>
+        <Text UNSAFE_style={{ color: 'var(--spectrum-global-color-gray-700)' }}>({activityEvents.length} events)</Text>
+      </Flex>
+      <EventTable
+        columns={[...defaultColumns, eventNameColumn, flaggedColumn]}
+        data={activityEvents}
+      />
+    </View>
   );
 }
 

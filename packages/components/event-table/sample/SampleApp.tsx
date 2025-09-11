@@ -17,15 +17,15 @@
 import { Provider, defaultTheme } from "@adobe/react-spectrum";
 import {
   PluginBridgeProvider,
-  useFilteredEvents,
+  useEvents,
 } from "@assurance/plugin-bridge-provider";
 import { PluginView, TimelineToolbar } from "@assurance/timeline-bar";
 import React from "react";
 import EventTable from "../src/components/EventTable";
-import { defaultColumns } from "../src/data/defaultColumns";
+import { defaultColumns } from "../src/data/columns";
 
 const Inner = () => {
-  const events = useFilteredEvents();
+  const events = useEvents();
   return <EventTable columns={defaultColumns} data={events} />;
 };
 

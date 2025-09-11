@@ -20,6 +20,7 @@ export interface LiveActivityTypeData {
   hasPushToStartToken: boolean;
   hasUpdateToken: boolean;
   lastUpdated: number;
+  examplePayload?: any;
 }
 
 export interface LiveActivitiesExtractionResult {
@@ -51,3 +52,20 @@ export type LiveActivitiesValidationStatus =
   | 'full-support'
   | 'unknown'
   | 'not-ios';
+
+export interface RegisteredActivity {
+  attributeType: string;
+  schema?: any;
+  pushToStartToken?: string;
+  hasSchema: boolean;
+  hasPushToStartToken: boolean;
+  lastUpdated: number;
+  examplePayload?: any;
+}
+
+export interface FormValues {
+  activityId: string;
+  attributeType: string;
+  payload: string;
+  state: string;
+}

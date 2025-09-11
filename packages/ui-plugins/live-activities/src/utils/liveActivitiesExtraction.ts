@@ -3,12 +3,12 @@
  * No React dependencies - can be used anywhere.
  */
 
+import { isLiveActivityAssuranceDebugEvent } from '../types/events';
 import {
   LiveActivityTypeData,
   LiveActivitiesExtractionResult,
   LiveActivitySchema
 } from '../types/liveActivities';
-import { isLiveActivityAssuranceDebugEvent } from '../types/events';
 
 /**
  * Extracts attribute type from Live Activity schema event using type guards.
@@ -18,8 +18,18 @@ import { isLiveActivityAssuranceDebugEvent } from '../types/events';
 function extractAttributeTypeFromSchemaEvent(event: any): string | null {
   try {
     if (isLiveActivityAssuranceDebugEvent(event)) {
-      return event.payload.ACPExtensionEventData.jsonSchema?.['attributes-type'] || null;
+      const attributeType =
+        event.payload.ACPExtensionEventData.jsonSchema?.['attributes-type'] || null;
+      console.log(
+        `🔍 Extracting attribute type: ${attributeType} from event:`,
+        event.payload.ACPExtensionEventName
+      );
+      return attributeType;
     }
+    console.log(
+      '❌ Event is not a Live Activity Assurance Debug Event:',
+      event.payload.ACPExtensionEventName
+    );
     return null;
   } catch (error) {
     console.warn('Failed to extract attribute type from schema event:', error);
@@ -43,13 +53,22 @@ function extractSchemaFromEvent(event: any): LiveActivitySchema | null {
       return null;
     }
 
-    return {
+    const result: LiveActivitySchema = {
       $schema: (schema as any).$schema || '',
       'attributes-type': schema['attributes-type'],
       'content-state': schema['content-state'] || {},
       attributes: schema.attributes || {},
       title: (schema as any).title || ''
     };
+
+    // Add example data if available
+    if (event.payload.ACPExtensionEventData.examplePayload) {
+      (result as any).examplePayload = event.payload.ACPExtensionEventData.examplePayload;
+      (result as any).exampleState =
+        event.payload.ACPExtensionEventData.examplePayload['content-state'];
+    }
+
+    return result;
   } catch (error) {
     console.warn('Failed to extract schema from event:', error);
     return null;
@@ -134,7 +153,8 @@ export function extractRegisteredActivitiesFromSchemaEvents(
         hasSchema: true,
         hasPushToStartToken: false, // Will be updated from state if available
         hasUpdateToken: false, // Will be updated from state if available
-        lastUpdated: event.timestamp || Date.now()
+        lastUpdated: event.timestamp || Date.now(),
+        examplePayload
       });
     }
   });
@@ -155,7 +175,7 @@ export function extractLiveActivitiesDataFromState(
 ): LiveActivitiesExtractionResult {
   try {
     // Start with registered activities from schema events (primary source of truth)
-    const activityTypesMap = schemaEvents 
+    const activityTypesMap = schemaEvents
       ? extractRegisteredActivitiesFromSchemaEvents(schemaEvents)
       : new Map<string, LiveActivityTypeData>();
 
@@ -213,8 +233,8 @@ export function extractLiveActivitiesDataFromState(
       // Update existing activities with token information
       activityTypesMap.forEach((activity, attributeType) => {
         const pushToStartTokenData = pushToStartTokens[attributeType];
-        const updateTokenData = Object.values(updateTokens).find((tokenData: any) => 
-          tokenData.attributeType === attributeType
+        const updateTokenData = Object.values(updateTokens).find(
+          (tokenData: any) => tokenData.attributeType === attributeType
         ) as any;
 
         if (pushToStartTokenData?.token) {

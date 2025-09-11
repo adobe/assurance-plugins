@@ -15,7 +15,7 @@
  * from Adobe.
  **************************************************************************/
 import { EventDataViewer } from "@assurance/event-data-viewer";
-import { useFilteredEvents } from "@assurance/plugin-bridge-provider";
+import { useEvents } from "@assurance/plugin-bridge-provider";
 import React from "react";
 
 const prepareEvents = (events) => {
@@ -37,7 +37,7 @@ const prepareEvents = (events) => {
 };
 
 const Timing = () => {
-  const events = useFilteredEvents({
+  const events = useEvents({
     matchers: ["payload.name==`datastream`"],
   });
   return <EventDataViewer data={prepareEvents(events)} />;

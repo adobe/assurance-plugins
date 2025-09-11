@@ -14,12 +14,12 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  **************************************************************************/
-import { useFilteredEvents } from "@assurance/plugin-bridge-provider";
+import {  useEvents } from "@assurance/plugin-bridge-provider";
 import { TimingView } from "@assurance/timing-view";
 import React from "react";
 
 const Timing = () => {
-  const events = useFilteredEvents();
+  const events = useEvents();
   return <TimingView events={events} />;
 };
 

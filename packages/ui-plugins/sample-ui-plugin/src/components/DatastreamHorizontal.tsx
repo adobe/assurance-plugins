@@ -15,17 +15,18 @@
  * from Adobe.
  **************************************************************************/
 import { ProgressCircle } from "@adobe/react-spectrum";
+import { Event } from "@assurance/common-utils";
 import { HorizontalEvents } from "@assurance/horizontal-events";
-import { useFilteredEvents } from "@assurance/plugin-bridge-provider";
+import { useEvents } from "@assurance/plugin-bridge-provider";
 import React from "react";
 
-const prepareEvents = (events: Event[]): any[] => {
+const prepareEvents = (events: any[]): any[] => {
   const results = (events || []).map((event) => {
-    const message = event.payload?.messages?.[1];
+    const message = event?.payload?.messages?.[1];
     let data: any = {};
 
     try {
-      data = JSON.parse(message);
+      data = typeof message === "string" ? JSON.parse(message) : {};
     } catch (e) {
       console.log(e);
     }
@@ -42,7 +43,7 @@ const prepareEvents = (events: Event[]): any[] => {
 };
 
 const DatastreamHorizontal = () => {
-  const events: BridgeEvent[] = useFilteredEvents({
+  const events: Event[] = useEvents({
     matchers: ["payload.name==`datastream`"],
   });
 

@@ -19,7 +19,7 @@ import type { Event } from "@assurance/common-utils";
 import { flattenObject } from "@assurance/nested-table-toolkit";
 import {
   PluginBridgeProvider,
-  useFilteredEvents,
+  useEvents,
 } from "@assurance/plugin-bridge-provider";
 import { PluginView, TimelineToolbar } from "@assurance/timeline-bar";
 import React from "react";
@@ -48,7 +48,7 @@ const prepareEvents = (events: Event[]): EventData[] => {
 
 const Inner = () => {
   console.log(window.pluginBridge);
-  const events = useFilteredEvents({
+  const events = useEvents({
     matchers: ["payload.name==`datastream`"],
   });
 

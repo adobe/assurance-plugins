@@ -18,11 +18,13 @@ import {
 import {
   LiveActivityTypeData,
   LiveActivitiesExtractionResult,
-  LiveActivitySchema
+  LiveActivitySchema,
+  RegisteredActivity
 } from '../types/liveActivities';
 import {
   extractSchemaDataFromEvents,
-  extractLiveActivitiesDataFromState
+  extractLiveActivitiesDataFromState,
+  extractRegisteredActivitiesFromSchemaEvents
 } from '../utils/liveActivitiesExtraction';
 
 export interface LiveActivity {
@@ -260,3 +262,23 @@ export function useLiveActivitySchemas(): Map<
 }
 
 export default useActivities;
+
+/**
+ * Hook to fetch registered Live Activities that haven't been started yet.
+ * These are activities that have been registered on the client but no start event has occurred.
+ */
+export function useRegisteredActivities(): RegisteredActivity[] {
+  // Fetch all Live Activity events to extract registered activities
+  const allEvents = useEvents({
+    matchers: [LIVE_ACTIVITIES_MATCHERS.SCHEMA_EVENTS],
+    sorted: 'desc'
+  });
+
+  // Extract registered activities from schema events
+  const registeredActivitiesMap = extractRegisteredActivitiesFromSchemaEvents(allEvents);
+
+  // Convert map to array
+  const registeredActivities = Array.from(registeredActivitiesMap.values());
+
+  return registeredActivities;
+}
