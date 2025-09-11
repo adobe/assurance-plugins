@@ -40,8 +40,6 @@ export interface LiveActivityDisplayData {
 
 export interface LiveActivityDisplayRow {
   activityType: string;
-  pushToStartToken: string | 'Not available';
-  updateToken: string | 'Not available';
   hasSchema: boolean;
 }
 

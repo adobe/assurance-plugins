@@ -98,6 +98,27 @@ function useSelectedClientPushToken() {
 }
 
 /**
+ * Returns the pushToStart token for the currently selected client, if available.
+ *
+ * - Filters events to only include shared state updates where the stateowner is 'com.adobe.messaging'.
+ * - Extracts the pushToStart token from the most recent matching event's metadata.
+ * - Returns the pushToStart token as a string, or undefined if not available.
+ *
+ * Usage:
+ *   const pushToStartToken = useSelectedClientPushToStartToken();
+ *   // pushToStartToken will be a string (the pushToStart token) or undefined if not found or no matching event is present.
+ */
+function useSelectedClientPushToStartToken() {
+  const events = useEvents({
+    sorted: 'desc',
+    matchers: ["payload.ACPExtensionEventData.stateowner=='com.adobe.messaging'"]
+  });
+  const pushToStartToken =
+    events[0]?.payload?.metadata?.['state.data']?.liveActivity?.pushToStartToken;
+  return pushToStartToken;
+}
+
+/**
  * Returns the version of the Messaging extension for the currently selected client, if available.
  *
  * - Filters events to only include shared state updates where the stateowner is 'com.adobe.module.eventhub'.
@@ -272,6 +293,7 @@ export {
   useSelectedClientId,
   useECID,
   useSelectedClientPushToken,
+  useSelectedClientPushToStartToken,
   useClientMessagingVersion,
   getClientDataStream,
   getClientMessagingEventDataset,

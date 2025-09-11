@@ -3,17 +3,17 @@
  * No React dependencies - can be used anywhere.
  */
 
+import { VALIDATION_STATUS } from '../constants';
 import {
   LiveActivityTypeData,
   LiveActivityDisplayData,
   LiveActivityDisplayRow,
   LiveActivitiesValidationStatus
 } from '../types/liveActivities';
-import { VALIDATION_STATUS } from '../constants';
 
 /**
  * Creates horizontal table data for Live Activities display.
- * Returns data formatted for a table with columns: Activity Type, PushToStart Token, Update Token
+ * Returns data formatted for a table with columns: Activity Type
  * @param activityTypes - Map of activity type data
  * @param validationStatus - Current validation status
  * @param notAvailableText - Localized text for "Not available" (optional, defaults to "Not available")
@@ -21,8 +21,7 @@ import { VALIDATION_STATUS } from '../constants';
  */
 export function createLiveActivitiesTableData(
   activityTypes: Map<string, LiveActivityTypeData>,
-  validationStatus: LiveActivitiesValidationStatus,
-  notAvailableText: string = 'Not available'
+  validationStatus: LiveActivitiesValidationStatus
 ): LiveActivityDisplayRow[] {
   if (
     validationStatus !== VALIDATION_STATUS.BASIC_SUPPORT &&
@@ -35,11 +34,6 @@ export function createLiveActivitiesTableData(
 
   return activityTypesArray.map(activity => ({
     activityType: activity.attributeType,
-    pushToStartToken:
-      validationStatus === VALIDATION_STATUS.FULL_SUPPORT && activity.pushToStartToken
-        ? activity.pushToStartToken
-        : notAvailableText,
-    updateToken: activity.updateToken || notAvailableText,
     hasSchema: activity.hasSchema
   }));
 }

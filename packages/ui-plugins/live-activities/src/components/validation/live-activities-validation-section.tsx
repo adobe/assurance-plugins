@@ -33,7 +33,7 @@ import { TEST_IDS } from '../../constants/testIds';
 import { 
   useLiveActivitiesData
 } from '../../hooks/useActivities';
-import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType } from '../../hooks/useClientInfo';
+import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType, useSelectedClientPushToStartToken } from '../../hooks/useClientInfo';
 import { useLiveActivitiesValidationStatus } from '../../hooks/useLiveActivitiesValidationStatus';
 import { type LiveActivitiesValidationStatus } from '../../types/liveActivities';
 import { createLiveActivitiesTableData } from '../../utils/liveActivitiesDisplay';
@@ -140,10 +140,6 @@ const messages = defineMessages({
     id: 'liveActivities.validation.activityType',
     defaultMessage: 'Activity Type'
   },
-  pushToStartToken: {
-    id: 'liveActivities.validation.pushToStartToken',
-    defaultMessage: 'PushToStart Token'
-  },
   updateToken: {
     id: 'liveActivities.validation.updateToken',
     defaultMessage: 'Update Token'
@@ -192,6 +188,18 @@ const messages = defineMessages({
   liveActivities: {
     id: 'liveActivities.validation.liveActivities',
     defaultMessage: 'Live Activities'
+  },
+  pushToStartToken: {
+    id: 'liveActivities.validation.pushToStartToken',
+    defaultMessage: 'PushToStart Token'
+  },
+  pushToStartTokenTooltip: {
+    id: 'liveActivities.validation.pushToStartTokenTooltip',
+    defaultMessage: 'PushToStart token for Live Activities push notifications'
+  },
+  noPushToStartTokenTooltip: {
+    id: 'liveActivities.validation.noPushToStartTokenTooltip',
+    defaultMessage: 'No PushToStart token available'
   },
   // Additional localized strings
   unknownValue: {
@@ -256,6 +264,7 @@ const LiveActivitiesValidationSection = () => {
   const liveActivitiesSupport = useClientLiveActivitiesSupport();
   const deviceType = useClientDeviceType();
   const liveActivities = useLiveActivitiesData();
+  const pushToStartToken = useSelectedClientPushToStartToken();
 
   // Get status display configuration using utility function
   const statusConfig = getStatusDisplayConfig(validationStatus);
@@ -354,6 +363,19 @@ const LiveActivitiesValidationSection = () => {
           ? formatMessage(messages.noActivitiesTooltip)
           : formatMessage(messages.foundActivitiesTooltip, { count: activityCount })
       });
+
+      // Add PushToStart Token for iOS 17.1+ (full support only)
+      if (validationStatus === VALIDATION_STATUS.FULL_SUPPORT) {
+        dataRows.push({
+          label: formatMessage(messages.pushToStartToken),
+          value: pushToStartToken || formatMessage(messages.notAvailable),
+          showCopy: !!pushToStartToken,
+          isLongData: true,
+          tooltip: pushToStartToken 
+            ? formatMessage(messages.pushToStartTokenTooltip)
+            : formatMessage(messages.noPushToStartTokenTooltip)
+        });
+      }
     }
 
 
@@ -361,7 +383,7 @@ const LiveActivitiesValidationSection = () => {
 
   // Get registered Live Activities table data (always show activities, push-to-start tokens only for iOS 17.1+)
   const registeredActivitiesTableData = (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT)
-    ? createLiveActivitiesTableData(liveActivities.activityTypes, validationStatus, formatMessage(messages.notAvailable))
+    ? createLiveActivitiesTableData(liveActivities.activityTypes, validationStatus)
     : [];
 
 
@@ -440,72 +462,30 @@ const LiveActivitiesValidationSection = () => {
         </tbody>
       </table>
 
-      {/* Registered Live Activities Section - Show for iOS 16.1+ (push-to-start tokens only for iOS 17.1+) */}
+      {/* Registered Live Activities Section - Show for iOS 16.1+ */}
       {(validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT) && (
         <View marginTop="size-300">
           <Heading level={5} marginBottom="size-200">{formatMessage(messages.registeredActivities)}</Heading>
-          {validationStatus === VALIDATION_STATUS.FULL_SUPPORT ? (
-            // Full support table with push-to-start tokens
-            <TableView
-              aria-label={formatMessage(messages.registeredActivities)}
-              data-testid={TEST_IDS.REGISTERED_ACTIVITIES_TABLE}
-              renderEmptyState={renderRegisteredActivitiesEmptyState}
-            >
-              <TableHeader data-testid={TEST_IDS.REGISTERED_ACTIVITIES_HEADER}>
-                <Column data-testid={TEST_IDS.ACTIVITY_TYPE_COLUMN}>
-                  {formatMessage(messages.activityType)}
-                </Column>
-                <Column data-testid={TEST_IDS.PUSH_TO_START_TOKEN_COLUMN}>
-                  {formatMessage(messages.pushToStartToken)}
-                </Column>
-              </TableHeader>
-              <TableBody>
-                {registeredActivitiesTableData.map((activity, index) => (
-                  <Row key={index} data-testid={TEST_IDS.REGISTERED_ACTIVITY_ROW(index)}>
-                    <Cell data-testid={TEST_IDS.REGISTERED_ACTIVITY_TYPE_CELL(index)}>
-                      <Text>{activity.activityType}</Text>
-                    </Cell>
-                    <Cell data-testid={TEST_IDS.REGISTERED_PUSH_TO_START_TOKEN_CELL(index)}>
-                      {activity.pushToStartToken !== formatMessage(messages.notAvailable) ? (
-                        <CopyableValue 
-                          value={activity.pushToStartToken} 
-                          maxLength={COPYABLE_VALUE_CONSTANTS.TOKEN_MAX_LENGTH}
-                          copyTooltip={formatMessage(messages.copyValue)}
-                          copyFullValueTooltip={formatMessage(messages.copyFullValue)}
-                          copiedMessage={formatMessage(messages.copied)}
-                          testId={TEST_IDS.COPY_BUTTON('push-to-start', index)}
-                        />
-                      ) : (
-                        <Text UNSAFE_style={{ color: '#666' }}>{activity.pushToStartToken}</Text>
-                      )}
-                    </Cell>
-                  </Row>
-                ))}
-              </TableBody>
-            </TableView>
-          ) : (
-            // Basic support table without push-to-start tokens
-            <TableView
-              aria-label={formatMessage(messages.registeredActivities)}
-              data-testid={TEST_IDS.REGISTERED_ACTIVITIES_TABLE}
-              renderEmptyState={renderRegisteredActivitiesEmptyState}
-            >
-              <TableHeader data-testid={TEST_IDS.REGISTERED_ACTIVITIES_HEADER}>
-                <Column data-testid={TEST_IDS.ACTIVITY_TYPE_COLUMN}>
-                  {formatMessage(messages.activityType)}
-                </Column>
-              </TableHeader>
-              <TableBody>
-                {registeredActivitiesTableData.map((activity, index) => (
-                  <Row key={index} data-testid={TEST_IDS.REGISTERED_ACTIVITY_ROW(index)}>
-                    <Cell data-testid={TEST_IDS.REGISTERED_ACTIVITY_TYPE_CELL(index)}>
-                      <Text>{activity.activityType}</Text>
-                    </Cell>
-                  </Row>
-                ))}
-              </TableBody>
-            </TableView>
-          )}
+          <TableView
+            aria-label={formatMessage(messages.registeredActivities)}
+            data-testid={TEST_IDS.REGISTERED_ACTIVITIES_TABLE}
+            renderEmptyState={renderRegisteredActivitiesEmptyState}
+          >
+            <TableHeader data-testid={TEST_IDS.REGISTERED_ACTIVITIES_HEADER}>
+              <Column data-testid={TEST_IDS.ACTIVITY_TYPE_COLUMN}>
+                {formatMessage(messages.activityType)}
+              </Column>
+            </TableHeader>
+            <TableBody>
+              {registeredActivitiesTableData.map((activity, index) => (
+                <Row key={index} data-testid={TEST_IDS.REGISTERED_ACTIVITY_ROW(index)}>
+                  <Cell data-testid={TEST_IDS.REGISTERED_ACTIVITY_TYPE_CELL(index)}>
+                    <Text>{activity.activityType}</Text>
+                  </Cell>
+                </Row>
+              ))}
+            </TableBody>
+          </TableView>
         </View>
       )}
 

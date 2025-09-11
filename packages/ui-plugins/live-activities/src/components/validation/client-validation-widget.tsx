@@ -1,4 +1,3 @@
-import React, { useMemo } from 'react';
 import {
   View,
   Button,
@@ -8,12 +7,16 @@ import {
   Link,
   ProgressCircle
 } from '@adobe/react-spectrum';
-import Card from '../atoms/card';
+
+import React, { useMemo } from 'react';
+
 import { getHealthIcon } from '../../constants';
 import { CopyableValue } from '../atoms/CopyableValue';
-import { renderValue } from '../../utils/utils';
-import useClientValidationStatus from '../../hooks/useClientValidationStatus';
+import Card from '../atoms/card';
 import { useECID, useSelectedClientPushToken } from '../../hooks/useClientInfo';
+import useClientValidationStatus from '../../hooks/useClientValidationStatus';
+import { renderValue } from '../../utils/utils';
+
 import LiveActivitiesValidationSection from './live-activities-validation-section';
 
 const MSG = {
