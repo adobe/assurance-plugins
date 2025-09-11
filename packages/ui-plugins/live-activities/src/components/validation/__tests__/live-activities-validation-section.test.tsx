@@ -23,7 +23,6 @@ vi.mock('../../../hooks/useClientInfo', () => ({
 
 vi.mock('../../../hooks/useActivities', () => ({
   useLiveActivitiesData: vi.fn(),
-  default: vi.fn(), // Mock the default export (useActivities)
 }));
 
 vi.mock('../../../hooks/useLiveActivitiesValidationStatus', () => ({
@@ -37,7 +36,6 @@ vi.mock('../../../utils/clipboard', () => ({
 // Import mocked modules
 import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType } from '../../../hooks/useClientInfo';
 import { useLiveActivitiesData } from '../../../hooks/useActivities';
-import useActivities from '../../../hooks/useActivities';
 import { useLiveActivitiesValidationStatus } from '../../../hooks/useLiveActivitiesValidationStatus';
 import { copyToClipboard } from '../../../utils/clipboard';
 
@@ -45,7 +43,6 @@ const mockUseClientIOSVersion = useClientIOSVersion as ReturnType<typeof vi.fn>;
 const mockUseClientLiveActivitiesSupport = useClientLiveActivitiesSupport as ReturnType<typeof vi.fn>;
 const mockUseClientDeviceType = useClientDeviceType as ReturnType<typeof vi.fn>;
 const mockUseLiveActivitiesData = useLiveActivitiesData as ReturnType<typeof vi.fn>;
-const mockUseActivities = useActivities as ReturnType<typeof vi.fn>;
 const mockUseLiveActivitiesValidationStatus = useLiveActivitiesValidationStatus as ReturnType<typeof vi.fn>;
 const mockCopyToClipboard = copyToClipboard as ReturnType<typeof vi.fn>;
 
@@ -70,20 +67,11 @@ const mockActivityTypes = new Map([
   }]
 ]);
 
-const mockActiveActivities = [
-  {
-    id: 'activity-123',
-    attributes: 'FoodDeliveryLiveActivityAttributes',
-    updateToken: 'update-token-456',
-    status: 'active' as const
-  }
-];
 
 describe('LiveActivitiesValidationSection', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockCopyToClipboard.mockResolvedValue(undefined);
-    mockUseActivities.mockReturnValue([]);
   });
 
   describe('Basic Support', () => {
@@ -101,7 +89,6 @@ describe('LiveActivitiesValidationSection', () => {
         registeredActivities: [],
         activeActivities: []
       });
-      mockUseActivities.mockReturnValue([]);
 
       render(
         <TestWrapper>
@@ -114,7 +101,6 @@ describe('LiveActivitiesValidationSection', () => {
       
       // Check that the section headings are rendered
       expect(screen.getByText('Registered Live Activities')).toBeInTheDocument();
-      expect(screen.getByText('Active Live Activities')).toBeInTheDocument();
       
       // For now, just verify the headings are rendered - the TableView issue needs investigation
       // The TableView components should be rendered but they're not appearing in the DOM
@@ -134,7 +120,6 @@ describe('LiveActivitiesValidationSection', () => {
         registeredActivities: [],
         activeActivities: []
       });
-      mockUseActivities.mockReturnValue(mockActiveActivities);
 
       render(
         <TestWrapper>
@@ -144,7 +129,6 @@ describe('LiveActivitiesValidationSection', () => {
 
       // Check that the section headings are rendered
       expect(screen.getByText('Registered Live Activities')).toBeInTheDocument();
-      expect(screen.getByText('Active Live Activities')).toBeInTheDocument();
       
       // Check that data is rendered in the main status table
       expect(screen.getByText('Basic Live Activities Support')).toBeInTheDocument();
@@ -170,7 +154,6 @@ describe('LiveActivitiesValidationSection', () => {
         registeredActivities: [],
         activeActivities: []
       });
-      mockUseActivities.mockReturnValue([]);
 
       render(
         <TestWrapper>
@@ -180,7 +163,6 @@ describe('LiveActivitiesValidationSection', () => {
 
       // Check that the section headings are rendered
       expect(screen.getByText('Registered Live Activities')).toBeInTheDocument();
-      expect(screen.getByText('Active Live Activities')).toBeInTheDocument();
       
       // Check that full support status is displayed
       expect(screen.getByText('Full Live Activities Support')).toBeInTheDocument();
@@ -215,7 +197,6 @@ describe('LiveActivitiesValidationSection', () => {
       
       // Section headings should not be rendered for unsupported devices
       expect(screen.queryByText('Registered Live Activities')).not.toBeInTheDocument();
-      expect(screen.queryByText('Active Live Activities')).not.toBeInTheDocument();
     });
   });
 
@@ -234,7 +215,6 @@ describe('LiveActivitiesValidationSection', () => {
         registeredActivities: [],
         activeActivities: []
       });
-      mockUseActivities.mockReturnValue([]);
 
       expect(() => {
         render(
@@ -258,7 +238,6 @@ describe('LiveActivitiesValidationSection', () => {
         registeredActivities: [],
         activeActivities: []
       });
-      mockUseActivities.mockReturnValue([]);
 
       expect(() => {
         render(
@@ -288,7 +267,6 @@ describe('LiveActivitiesValidationSection', () => {
         registeredActivities: [],
         activeActivities: []
       });
-      mockUseActivities.mockReturnValue([]);
 
       render(
         <TestWrapper>

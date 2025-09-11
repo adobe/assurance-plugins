@@ -30,7 +30,7 @@ import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS } from '../../constants'
 import { COPYABLE_VALUE_CONSTANTS } from '../../constants';
 import { CopyableValue } from '../atoms/CopyableValue';
 import { TEST_IDS } from '../../constants/testIds';
-import useActivities, { 
+import { 
   useLiveActivitiesData
 } from '../../hooks/useActivities';
 import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType } from '../../hooks/useClientInfo';
@@ -152,10 +152,6 @@ const messages = defineMessages({
     id: 'liveActivities.validation.registeredActivities',
     defaultMessage: 'Registered Live Activities'
   },
-  activeActivities: {
-    id: 'liveActivities.validation.activeActivities',
-    defaultMessage: 'Active Live Activities'
-  },
   liveActivityId: {
     id: 'liveActivities.validation.liveActivityId',
     defaultMessage: 'Live Activity ID'
@@ -243,14 +239,6 @@ const messages = defineMessages({
     id: 'liveActivities.validation.noRegisteredActivitiesDescription',
     defaultMessage: 'No Live Activities have been registered in this session. This could indicate that the app does not have Live Activities configured or no activities have been started yet.'
   },
-  noActiveActivitiesTitle: {
-    id: 'liveActivities.validation.noActiveActivitiesTitle',
-    defaultMessage: 'No Active Live Activities'
-  },
-  noActiveActivitiesDescription: {
-    id: 'liveActivities.validation.noActiveActivitiesDescription',
-    defaultMessage: 'There are currently no active Live Activities running. Start a Live Activity in your app to see it appear here.'
-  },
   noLiveActivitiesDataTitle: {
     id: 'liveActivities.validation.noLiveActivitiesDataTitle',
     defaultMessage: 'No Live Activities Data'
@@ -268,7 +256,6 @@ const LiveActivitiesValidationSection = () => {
   const liveActivitiesSupport = useClientLiveActivitiesSupport();
   const deviceType = useClientDeviceType();
   const liveActivities = useLiveActivitiesData();
-  const activities = useActivities();
 
   // Get status display configuration using utility function
   const statusConfig = getStatusDisplayConfig(validationStatus);
@@ -377,8 +364,6 @@ const LiveActivitiesValidationSection = () => {
     ? createLiveActivitiesTableData(liveActivities.activityTypes, validationStatus, formatMessage(messages.notAvailable))
     : [];
 
-  // Get active Live Activities data
-  const activeActivities = activities.filter(activity => activity.status === 'active');
 
   // Empty state renderers
   const renderRegisteredActivitiesEmptyState = () => (
@@ -389,13 +374,6 @@ const LiveActivitiesValidationSection = () => {
     </IllustratedMessage>
   );
 
-  const renderActiveActivitiesEmptyState = () => (
-    <IllustratedMessage data-testid={TEST_IDS.NO_ACTIVE_ACTIVITIES_MESSAGE}>
-      <Alert />
-      <Heading>{formatMessage(messages.noActiveActivitiesTitle)}</Heading>
-      <Content>{formatMessage(messages.noActiveActivitiesDescription)}</Content>
-    </IllustratedMessage>
-  );
 
   return (
     <View data-testid={TEST_IDS.LIVE_ACTIVITIES_VALIDATION_SECTION}>
@@ -531,55 +509,6 @@ const LiveActivitiesValidationSection = () => {
         </View>
       )}
 
-      {/* Active Live Activities Section */}
-      {(validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT) && (
-        <View marginTop="size-300">
-          <Heading level={5} marginBottom="size-200">{formatMessage(messages.activeActivities)}</Heading>
-          <TableView
-            aria-label={formatMessage(messages.activeActivities)}
-            data-testid={TEST_IDS.ACTIVE_ACTIVITIES_TABLE}
-            renderEmptyState={renderActiveActivitiesEmptyState}
-          >
-            <TableHeader data-testid={TEST_IDS.ACTIVE_ACTIVITIES_HEADER}>
-              <Column data-testid={TEST_IDS.LIVE_ACTIVITY_ID_COLUMN}>
-                {formatMessage(messages.liveActivityId)}
-              </Column>
-              <Column data-testid={TEST_IDS.ACTIVITY_ATTRIBUTE_TYPE_COLUMN}>
-                {formatMessage(messages.activityAttributeType)}
-              </Column>
-              <Column data-testid={TEST_IDS.UPDATE_TOKEN_COLUMN}>
-                {formatMessage(messages.updateToken)}
-              </Column>
-            </TableHeader>
-            <TableBody>
-              {activeActivities.map((activity, index) => (
-                <Row key={index} data-testid={TEST_IDS.ACTIVE_ACTIVITY_ROW(index)}>
-                  <Cell data-testid={TEST_IDS.ACTIVE_ACTIVITY_ID_CELL(index)}>
-                    <Text>{activity.id}</Text>
-                  </Cell>
-                  <Cell data-testid={TEST_IDS.ACTIVE_ACTIVITY_ATTRIBUTE_TYPE_CELL(index)}>
-                    <Text>{activity.attributes || formatMessage(messages.notAvailable)}</Text>
-                  </Cell>
-                  <Cell data-testid={TEST_IDS.ACTIVE_UPDATE_TOKEN_CELL(index)}>
-                    {activity.updateToken ? (
-                      <CopyableValue 
-                        value={activity.updateToken} 
-                        maxLength={COPYABLE_VALUE_CONSTANTS.TOKEN_MAX_LENGTH}
-                        copyTooltip={formatMessage(messages.copyValue)}
-                        copyFullValueTooltip={formatMessage(messages.copyFullValue)}
-                        copiedMessage={formatMessage(messages.copied)}
-                        testId={TEST_IDS.COPY_BUTTON('update-token', index)}
-                      />
-                    ) : (
-                      <Text UNSAFE_style={{ color: '#666' }}>{formatMessage(messages.notAvailable)}</Text>
-                    )}
-                  </Cell>
-                </Row>
-              ))}
-            </TableBody>
-          </TableView>
-        </View>
-      )}
       
       <View marginTop="size-200">
         <Link 
