@@ -1,13 +1,12 @@
 import React from 'react';
-import { ActionButton, Flex, Heading, View, Text } from '@adobe/react-spectrum';
+import { Flex, Heading, View, Text } from '@adobe/react-spectrum';
 import { defineMessages, useIntl } from 'react-intl';
-import CopyIcon from '@spectrum-icons/workflow/Copy';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import ActivityStatus from './activity-status';
 import UpdateActivity from './update-activity';
 import { LiveActivity } from '../../hooks/useActivities';
+import { CopyableValue } from '../atoms/CopyableValue';
 import './activity-info.scss';
 
 dayjs.extend(localizedFormat);
@@ -17,6 +16,22 @@ interface ActivityInfoProps {
 }
 
 const messages = defineMessages({
+  liveActivityIdLabel: {
+    id: 'activities.details.liveActivityId',
+    defaultMessage: 'Live Activity ID'
+  },
+  copyValue: {
+    id: 'activities.details.copyValue',
+    defaultMessage: 'Copy value'
+  },
+  copyFullValue: {
+    id: 'activities.details.copyFullValue',
+    defaultMessage: 'Copy full value'
+  },
+  copied: {
+    id: 'activities.details.copied',
+    defaultMessage: 'Copied!'
+  },
   attributeSetLabel: {
     id: 'activities.details.attributeSet',
     defaultMessage: 'Attribute Set'
@@ -94,6 +109,15 @@ function ActivityInfo({ activity }: ActivityInfoProps) {
           Properties
         </Heading>
         <dl className="live-activity-details">
+          <dt>{formatMessage(messages.liveActivityIdLabel)}</dt>
+          <dd>
+            <CopyableValue 
+              value={activity.id}
+              copyTooltip={formatMessage(messages.copyValue)}
+              copyFullValueTooltip={formatMessage(messages.copyFullValue)}
+              copiedMessage={formatMessage(messages.copied)}
+            />
+          </dd>
           <dt>{formatMessage(messages.attributeSetLabel)}</dt>
           <dd>{activity.attributes}</dd>
           <dt>{formatMessage(messages.startTimeLabel)}</dt>
@@ -110,12 +134,12 @@ function ActivityInfo({ activity }: ActivityInfoProps) {
             <>
               <dt>{formatMessage(messages.pushToStartTokenLabel)}</dt>
               <dd>
-                <span className="token-value">{activity.pushToStartToken}</span>
-                <CopyToClipboard text={activity.pushToStartToken}>
-                  <ActionButton isQuiet>
-                    <CopyIcon marginEnd="size-50" />
-                  </ActionButton>
-                </CopyToClipboard>
+                <CopyableValue 
+                  value={activity.pushToStartToken}
+                  copyTooltip={formatMessage(messages.copyValue)}
+                  copyFullValueTooltip={formatMessage(messages.copyFullValue)}
+                  copiedMessage={formatMessage(messages.copied)}
+                />
               </dd>
             </>
           )}
@@ -123,12 +147,12 @@ function ActivityInfo({ activity }: ActivityInfoProps) {
             <>
               <dt>{formatMessage(messages.updateTokenLabel)}</dt>
               <dd>
-                <span className="token-value">{activity.updateToken}</span>
-                <CopyToClipboard text={activity.updateToken}>
-                  <ActionButton isQuiet>
-                    <CopyIcon marginEnd="size-50" />
-                  </ActionButton>
-                </CopyToClipboard>
+                <CopyableValue 
+                  value={activity.updateToken}
+                  copyTooltip={formatMessage(messages.copyValue)}
+                  copyFullValueTooltip={formatMessage(messages.copyFullValue)}
+                  copiedMessage={formatMessage(messages.copied)}
+                />
               </dd>
             </>
           )}
