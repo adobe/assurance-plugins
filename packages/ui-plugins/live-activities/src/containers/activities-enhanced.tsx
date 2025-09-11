@@ -72,7 +72,7 @@ const messages = defineMessages({
   },
   startLiveActivityTooltipIos: {
     id: 'activities.startLiveActivity.tooltip.ios',
-    defaultMessage: 'Start a new Live Activity remotely using registered activity types and push-to-start tokens. Requires iOS 16.1+ and proper push notification setup.'
+    defaultMessage: 'Start a new Live Activity remotely using registered activity types and push-to-start tokens. Requires iOS 17.1+ and proper push notification setup.'
   },
   startLiveActivityTooltipUnsupported: {
     id: 'activities.startLiveActivity.tooltip.unsupported',

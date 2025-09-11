@@ -18,6 +18,7 @@ export const LIVE_ACTIVITIES_MATCHERS = {
     'payload.ACPExtensionEventName==`Live Activity start event`',
     'payload.ACPExtensionEventName==`Live Activity start to Edge`',
     'payload.ACPExtensionEventName==`Live Activity dismissed`',
+    'payload.ACPExtensionEventName==`Live Activity ended`',
     'payload.ACPExtensionEventName==`Live Activity push-to-start token to Edge`',
 
     // Live Activity Schema events (for registered activities detection)
@@ -39,6 +40,7 @@ export const LIVE_ACTIVITIES_MATCHERS = {
     'payload.ACPExtensionEventName==`Live Activity start event`',
     'payload.ACPExtensionEventName==`Live Activity updated`',
     'payload.ACPExtensionEventName==`Live Activity dismissed`',
+    'payload.ACPExtensionEventName==`Live Activity ended`',
     'payload.ACPExtensionEventData.liveActivityID',
     'payload.ACPExtensionEventData.data.liveActivityID',
     'payload.ACPExtensionEventData.activityId'

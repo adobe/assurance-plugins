@@ -13,6 +13,7 @@ import { KeyValueRow } from '../atoms/KeyValueRow';
 const ProfileSectionWidget: React.FC = () => {
   const sandbox = useSandbox();
   const profile = useProfile();
+  console.log("🚀 ~ ProfileSectionWidget ~ profile:", profile)
   const sandboxName = sandbox?.name;
   const profilePush = profile?.data?.entity?.pushNotificationDetails?.[0];
   const validationStatus = useDataStreamValidationStatus();

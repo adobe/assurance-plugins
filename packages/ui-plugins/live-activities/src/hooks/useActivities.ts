@@ -9,11 +9,13 @@ import { useMemo } from 'react';
 import { LIVE_ACTIVITIES_MATCHERS } from '../constants/matchers';
 import {
   isLiveActivityDismissedEvent,
+  isLiveActivityEndEvent,
   isLiveActivityStartEvent,
   isLiveActivityUpdatedEvent,
   isLiveActivityUpdateTokenEvent,
   isLiveActivityAssuranceDebugEvent,
-  isLiveActivityPushToStartTokenEvent
+  isLiveActivityPushToStartTokenEvent,
+  isLiveActivityEndedEvent
 } from '../types/events';
 import {
   LiveActivityTypeData,
@@ -60,15 +62,6 @@ function extractActivityMetadata(event: any): { activityId: string; attributeTyp
 }
 
 /**
- * Determines activity status based on event type.
- * @param event - The event to check
- * @returns The status for this event type
- */
-function getActivityStatusFromEvent(event: any): 'active' | 'completed' {
-  return isLiveActivityDismissedEvent(event) ? 'completed' : 'active';
-}
-
-/**
  * Extracts active Live Activities from events using type guards.
  * @param events - Array of events to search for Live Activity events
  * @returns Array of active Live Activity data
@@ -82,7 +75,8 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
       isLiveActivityStartEvent(event) ||
       isLiveActivityUpdatedEvent(event) ||
       isLiveActivityDismissedEvent(event) ||
-      isLiveActivityUpdateTokenEvent(event);
+      isLiveActivityUpdateTokenEvent(event) ||
+      isLiveActivityEndedEvent(event);
 
     if (!isRelevantEvent) return;
 
@@ -101,10 +95,14 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
       });
     }
 
-    // Add event to activity and update status
+    // Add event to activity
     const activity = activitiesMap.get(activityId);
     activity.events.push(event);
-    activity.status = getActivityStatusFromEvent(event);
+
+    // Only update status to completed if this is an end event (dismissed or ended)
+    if (isLiveActivityEndEvent(event)) {
+      activity.status = 'completed';
+    }
   });
 
   return Array.from(activitiesMap.values());
@@ -136,11 +134,13 @@ function useActivities(): LiveActivity[] {
   // Create activities from the extracted active activities
   return activeActivities.map(activity => {
     const { id, attributeType, events, status } = activity;
+    console.log('🚀 ~ useActivities ~ events:', events);
 
     // Find specific events using type guards
     const updateTokenEvent = events.find(isLiveActivityUpdateTokenEvent);
     const startEvent = events.find(isLiveActivityStartEvent);
-    const endEvent = events.find(isLiveActivityDismissedEvent);
+    const endEvent = events.find(isLiveActivityEndEvent);
+    console.log('🚀 ~ useActivities ~ endEvent:', endEvent);
     const updateEvents = events.filter(isLiveActivityUpdatedEvent);
 
     // Find matching push-to-start token event by attribute type
