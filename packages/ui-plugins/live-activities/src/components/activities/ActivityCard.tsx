@@ -57,23 +57,86 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         onSelect(activity.id);
       }}
       marginBottom="size-100"
-      padding="size-200"
+      padding="2px"
+      UNSAFE_style={{
+        border: '2px solid',
+        borderColor: isSelected ? '#3b82f6' : '#d1d5db',
+        borderRadius: '8px',
+        backgroundColor: isSelected ? '#dbeafe' : '#ffffff',
+        boxShadow: isSelected 
+          ? '0 0 0 1px #3b82f6, 0 4px 12px rgba(59, 130, 246, 0.15)' 
+          : '0 1px 3px rgba(0, 0, 0, 0.1)',
+        transition: 'all 0.2s ease-in-out',
+        cursor: 'pointer',
+        minHeight: '80px',
+        margin: '2px'
+      }}
     >
-      <Flex direction="column" gap="size-100">
-        <Flex alignItems="center" gap="size-100">
-          <StatusLight variant={getStatusVariant(activity.status)} />
-          <Text UNSAFE_style={{ fontWeight: 'bold', fontSize: 'var(--spectrum-global-dimension-size-150)' }}>
-            {activity.name}
-          </Text>
+      <Flex 
+        direction="column" 
+        gap="size-75" 
+        height="100%"
+        justifyContent="space-between"        
+      >
+        {/* Header with status and name */}
+        <Flex alignItems="center" gap="size-100" justifyContent="space-between">
+          <Flex wrap alignItems="center" gap="size-100" flex="1" minWidth="0">
+            <StatusLight  variant={getStatusVariant(activity.status)} />
+            <Text 
+              UNSAFE_style={{ 
+                fontWeight: '600', 
+                fontSize: '14px',
+                lineHeight: '1.4',
+                color: '#1f2937',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                marginLeft: "-0.5rem"
+              }}
+            >
+              {activity.name}
+            </Text>
+          </Flex>  
         </Flex>
         
-        <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-100)', color: 'var(--spectrum-global-color-gray-700)' }}>
-          ID: {activity.id}
+        {/* Activity ID */}
+        <Text 
+          UNSAFE_style={{ 
+            fontSize: '12px', 
+            color: '#6b7280',
+            fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          {activity.id}
         </Text>
         
-        <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-100)', color: 'var(--spectrum-global-color-gray-700)' }}>
-          Status: {activity.status}
-        </Text>
+        {/* Footer with event count and timing */}
+        <Flex alignItems="center" justifyContent="space-between" gap="size-100">
+          <Text 
+            UNSAFE_style={{ 
+              fontSize: '11px', 
+              color: '#9ca3af',
+              fontWeight: '500'
+            }}
+          >
+            {eventCount} {formatMessage(messages.eventsCount)}
+          </Text>
+          
+          {lastActivityTime && (
+            <Text 
+              UNSAFE_style={{ 
+                fontSize: '11px', 
+                color: '#9ca3af',
+                fontWeight: '400'
+              }}
+            >
+              {formatRelativeTime(lastActivityTime)}
+            </Text>
+          )}
+        </Flex>
       </Flex>
     </SpectrumCard>
   );

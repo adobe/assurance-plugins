@@ -15,6 +15,15 @@ export interface PushNotificationDetail {
   appID: string;
 }
 
+export interface LiveActivityPushNotificationDetail {
+  token: string;
+  identity: Identity;
+  platform: string;
+  appID: string;
+  attributeType: string;
+  denylisted: boolean;
+}
+
 export interface ExtSourceSystemAudit {
   lastUpdatedDate: string;
 }
@@ -65,6 +74,7 @@ export interface UserActivityRegions {
 
 export interface ProfileEntity {
   pushNotificationDetails: PushNotificationDetail[];
+  liveActivityPushNotificationDetails?: LiveActivityPushNotificationDetail[];
   extSourceSystemAudit: ExtSourceSystemAudit;
   consents: Consents;
   identityMap: IdentityMap;

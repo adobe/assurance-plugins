@@ -1,21 +1,46 @@
-import React from 'react';
 import { View, Heading, Flex, ProgressCircle } from '@adobe/react-spectrum';
-import Card from '../atoms/card';
-import useProfile from '../../hooks/useProfile';
-import DataStreamStatusDetails from './DataStreamStatusDetails';
+
 import { useSandbox } from '@assurance/plugin-bridge-provider';
-import useDataStreamValidationStatus from '../../hooks/useDataStreamValidationStatus';
+
+import React from 'react';
+
+import { VALIDATION_STATUS } from '../../constants';
 import { tableStyles } from '../atoms/KeyValueRow';
-import { renderValue } from '../../utils/utils';
-import { UnknownBadge } from '../atoms/UnknownBadge';
 import { KeyValueRow } from '../atoms/KeyValueRow';
+import { UnknownBadge } from '../atoms/UnknownBadge';
+import Card from '../atoms/card';
+import useDataStreamValidationStatus from '../../hooks/useDataStreamValidationStatus';
+import { useLiveActivitiesValidationStatus } from '../../hooks/useLiveActivitiesValidationStatus';
+import useProfile from '../../hooks/useProfile';
+import { renderValue } from '../../utils/utils';
+import { CopyableValue } from '../atoms/CopyableValue';
+
+import DataStreamStatusDetails from './DataStreamStatusDetails';
+import { defineMessages, useIntl } from 'react-intl';
+
+const messages = defineMessages({
+  copyValue: {
+    id: 'profile.copyValue',
+    defaultMessage: 'Copy value'
+  },
+  copyFullValue: {
+    id: 'profile.copyFullValue',
+    defaultMessage: 'Copy full value'
+  },
+  copied: {
+    id: 'profile.copied',
+    defaultMessage: 'Copied!'
+  }
+});
 
 const ProfileSectionWidget: React.FC = () => {
+  const { formatMessage } = useIntl();
   const sandbox = useSandbox();
   const profile = useProfile();
-  console.log("🚀 ~ ProfileSectionWidget ~ profile:", profile)
+  const liveActivitiesValidationStatus = useLiveActivitiesValidationStatus();
   const sandboxName = sandbox?.name;
   const profilePush = profile?.data?.entity?.pushNotificationDetails?.[0];
+  const profilePushToStart = profile?.data?.entity?.liveActivityPushNotificationDetails?.[0];
   const validationStatus = useDataStreamValidationStatus();
   const isLoading = profile.isLoading || !profile.data;
 
@@ -57,6 +82,21 @@ const ProfileSectionWidget: React.FC = () => {
                       : undefined
                 )}
               </KeyValueRow>
+              {/* Only show PushToStart Token for iOS devices with full support */}
+              {liveActivitiesValidationStatus === VALIDATION_STATUS.FULL_SUPPORT && (
+                <KeyValueRow label="PushToStart Token" wrap>
+                  {profilePushToStart?.token ? (
+                    <CopyableValue
+                      value={profilePushToStart.token}
+                      copyTooltip={formatMessage(messages.copyValue)}
+                      copyFullValueTooltip={formatMessage(messages.copyFullValue)}
+                      copiedMessage={formatMessage(messages.copied)}
+                    />
+                  ) : (
+                    <UnknownBadge />
+                  )}
+                </KeyValueRow>
+              )}
             </tbody>
           </table>
         </View>
