@@ -70,7 +70,6 @@ export const useGripPosition = ({ isVisible }: UseGripPositionOptions): UseGripP
     // Ensure grip doesn't go beyond the middle 60% area
     const constrainedY = Math.max(availableTop, Math.min(clickY, availableBottom - gripHeight));
 
-
     setGripTop(constrainedY);
     setGripVisible(true);
   }, []);

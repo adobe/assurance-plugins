@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Flex, View, Tabs, TabList, TabPanels, Item, Text, Tooltip, TooltipTrigger, Button } from '@adobe/react-spectrum';
+import { Flex, View, Tabs, TabList, TabPanels, Item, Text, Tooltip, TooltipTrigger, Button, Heading } from '@adobe/react-spectrum';
 import Info from '@spectrum-icons/workflow/Info';
 import { defineMessages, useIntl } from 'react-intl';
 import useActivities, { useRegisteredActivities } from '../hooks/useActivities';
@@ -8,9 +8,9 @@ import usePluginState from '../hooks/usePluginState';
 import { useLiveActivitiesValidationStatus } from '../hooks/useLiveActivitiesValidationStatus';
 import { VALIDATION_STATUS } from '../constants';
 import ActivityList from '../components/activities/ActivityList';
-import ActivityInfo from '../components/live-activity/activity-info';
-import ActivityTimeline from '../components/live-activity/activity-timeline';
-import ActivityEvents from '../components/live-activity/activity-events';
+import ActivityOverview from '../components/live-activity/activity-overview';
+import ActivityFlow from '../components/live-activity/activity-flow';
+import ActivityEventDetails from '../components/live-activity/activity-event-details';
 import LaunchLiveActivity from '../components/live-activity/launch-live-activity';
 
 const messages = defineMessages({
@@ -18,17 +18,17 @@ const messages = defineMessages({
     id: 'activities.enhanced.title',
     defaultMessage: 'Activities Enhanced'
   },
-  infoTab: {
-    id: 'activities.tabs.info',
-    defaultMessage: 'Info'
+  overviewTab: {
+    id: 'activities.tabs.overview',
+    defaultMessage: 'Overview'
   },
-  timelineTab: {
-    id: 'activities.tabs.timeline',
-    defaultMessage: 'Timeline'
+  activityFlowTab: {
+    id: 'activities.tabs.activityFlow',
+    defaultMessage: 'Activity Flow'
   },
-  eventsTab: {
-    id: 'activities.tabs.events',
-    defaultMessage: 'Events'
+  eventDetailsTab: {
+    id: 'activities.tabs.eventDetails',
+    defaultMessage: 'Event Details'
   },
   noActivitiesMessage: {
     id: 'activities.noActivities',
@@ -77,6 +77,14 @@ const messages = defineMessages({
   startLiveActivityTooltipUnsupported: {
     id: 'activities.startLiveActivity.tooltip.unsupported',
     defaultMessage: 'Remote Live Activity start is not supported on this platform. Live Activities can only be started locally on iOS 16.1+ devices.'
+  },
+  selectActivity: {
+    id: 'activities.enhanced.selectActivity',
+    defaultMessage: 'Select an Activity'
+  },
+  selectActivityDescription: {
+    id: 'activities.enhanced.selectActivityDescription',
+    defaultMessage: 'Choose an activity from the list to view its overview, flow, and event details.'
   }
 });
 
@@ -283,26 +291,26 @@ function ActivitiesEnhanced() {
                   const selectedActivity = activities.find(a => a.id === selectedActivityId);
                   console.log('Selected activity found:', selectedActivity);
                   return (
-                <Tabs marginY="size-200" height="100%">
+                <Tabs height="100%">
                   <TabList>
-                    <Item key="info">{formatMessage(messages.infoTab)}</Item>
-                    <Item key="timeline">{formatMessage(messages.timelineTab)}</Item>
-                    <Item key="events">{formatMessage(messages.eventsTab)}</Item>
+                    <Item key="overview">{formatMessage(messages.overviewTab)}</Item>
+                    <Item key="activityFlow">{formatMessage(messages.activityFlowTab)}</Item>
+                    <Item key="eventDetails">{formatMessage(messages.eventDetailsTab)}</Item>
                   </TabList>
-                  <TabPanels flex="1" UNSAFE_style={{ maxHeight: 'calc(100vh - 10%)' }}>
-                    <Item key="info">
+                  <TabPanels flex="1" height="100%">
+                    <Item key="overview">
                       <View height="100%" overflow="auto">
-                        <ActivityInfo activity={selectedActivity} />
+                        <ActivityOverview activity={selectedActivity} />
                       </View>
                     </Item>
-                    <Item key="timeline">
+                    <Item key="activityFlow">
                       <View height="100%" overflow="auto">
-                        <ActivityTimeline activity={selectedActivity} />
+                        <ActivityFlow activity={selectedActivity} />
                       </View>
                     </Item>
-                    <Item key="events">
+                    <Item key="eventDetails">
                       <View height="100%" overflow="auto">
-                        <ActivityEvents activity={selectedActivity} />
+                        <ActivityEventDetails activity={selectedActivity} />
                       </View>
                     </Item>
                   </TabPanels>
@@ -310,16 +318,33 @@ function ActivitiesEnhanced() {
                   );
                 })()
               ) : (
-                <Flex
-                  justifyContent="center"
-                  alignItems="center"
-                  height="100%"
-                  direction="column"
-                  gap="size-200"
-                >
-                  <h3>Select an activity to view details</h3>
-                  <p>Choose an activity from the list to view its information, timeline, and events.</p>
-                </Flex>
+                <View padding="size-400">
+                  <Flex
+                    justifyContent="center"
+                    alignItems="center"
+                    height="100%"
+                    direction="column"
+                    gap="size-300"
+                  >
+                  <View
+                    UNSAFE_style={{
+                      textAlign: 'center',
+                      maxWidth: '400px'
+                    }}
+                  >
+                    <Heading level={2} marginY="size-0" marginBottom="size-200">
+                      {formatMessage(messages.selectActivity)}
+                    </Heading>
+                    <Text UNSAFE_style={{ 
+                      fontSize: 'var(--spectrum-global-dimension-size-200)',
+                      color: 'var(--spectrum-global-color-gray-700)',
+                      lineHeight: '1.5'
+                    }}>
+                      {formatMessage(messages.selectActivityDescription)}
+                    </Text>
+                  </View>
+                  </Flex>
+                </View>
               )}
             </View>
           </Flex>

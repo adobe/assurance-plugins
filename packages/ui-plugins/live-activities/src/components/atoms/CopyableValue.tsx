@@ -3,13 +3,13 @@
  * Supports truncation for long values and provides visual feedback.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { ActionButton, Flex, Tooltip, TooltipTrigger, Text } from '@adobe/react-spectrum';
 import Checkmark from '@spectrum-icons/workflow/Checkmark';
 import Copy from '@spectrum-icons/workflow/Copy';
 import { UnknownBadge } from './UnknownBadge';
-import { copyToClipboard } from '../../utils/clipboard';
-import { COPYABLE_VALUE_CONSTANTS } from '../../constants';
+import { useClipboard } from '../../hooks/useClipboard';
+import { COPYABLE_VALUE_CONSTANTS } from '../../constants/liveActivitiesConfig';
 
 export interface CopyableValueProps {
   /** The value to display and copy */
@@ -45,19 +45,10 @@ export function CopyableValue({
   
   const stringValue = String(value);
   const isLong = stringValue.length > maxLength;
-  const [copied, setCopied] = useState(false);
+  const { copyToClipboard, isCopied } = useClipboard();
   
   const handleCopy = async () => {
-    try {
-      await copyToClipboard(stringValue);
-      setCopied(true);
-      // Reset the copied state after timeout
-      setTimeout(() => setCopied(false), COPYABLE_VALUE_CONSTANTS.COPY_FEEDBACK_TIMEOUT);
-    } catch (error) {
-      // Silently handle clipboard errors - the user will see no feedback
-      // but the app won't crash
-      console.warn('Failed to copy to clipboard:', error);
-    }
+    await copyToClipboard(stringValue);
   };
   
   if (!isLong || showFullValue) {
@@ -72,10 +63,10 @@ export function CopyableValue({
             UNSAFE_style={{ cursor: 'pointer' }}
             data-testid={testId}
           >
-            {copied ? <Checkmark size="XS" color="positive" /> : <Copy size="XS" />}
+            {isCopied ? <Checkmark size="XS" color="positive" /> : <Copy size="XS" />}
           </ActionButton>
           <Tooltip>
-            <Text>{copied ? copiedMessage : copyTooltip}</Text>
+            <Text>{isCopied ? copiedMessage : copyTooltip}</Text>
           </Tooltip>
         </TooltipTrigger>
       </Flex>
@@ -104,10 +95,10 @@ export function CopyableValue({
           UNSAFE_style={{ cursor: 'pointer' }}
           data-testid={testId}
         >
-          {copied ? <Checkmark size="XS" color="positive" /> : <Copy size="XS" />}
+          {isCopied ? <Checkmark size="XS" color="positive" /> : <Copy size="XS" />}
         </ActionButton>
         <Tooltip>
-          <Text>{copied ? copiedMessage : copyFullValueTooltip}</Text>
+          <Text>{isCopied ? copiedMessage : copyFullValueTooltip}</Text>
         </Tooltip>
       </TooltipTrigger>
     </Flex>

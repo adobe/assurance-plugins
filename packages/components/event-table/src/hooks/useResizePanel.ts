@@ -128,7 +128,6 @@ export const useResizePanel = ({
       e.preventDefault();
       e.stopPropagation();
 
-
       const startX = e.clientX;
       const startWidth = panelWidth;
 
