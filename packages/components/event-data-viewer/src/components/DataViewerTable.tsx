@@ -16,6 +16,7 @@
  **************************************************************************/
 import {
   ActionButton,
+  Button,
   Cell,
   Column,
   Flex,
@@ -24,6 +25,8 @@ import {
   TableHeader,
   TableView,
   View,
+  TooltipTrigger,
+  Tooltip,
 } from "@adobe/react-spectrum";
 import {
   FlatDataRecord,
@@ -38,6 +41,8 @@ import { EventData } from "../types";
 type DataViewerProps = {
   autoExpand?: boolean;
   data: FlatDataRecord[];
+  showTooltips?: boolean;
+  tooltipThreshold?: number; // Character length threshold for showing tooltips
 };
 
 type SelectedDataRecord = {
@@ -67,7 +72,7 @@ const DataViewerColumnHeader = ({ column, allSelected, onToggleAll }) => {
   return <>{column.name}</>;
 };
 
-const DataViewerCell = ({ columnKey, item }) => {
+const DataViewerCell = ({ columnKey, item, showTooltips = false, tooltipThreshold = 50 }) => {
   if (columnKey === "recordKey") {
     const Icon = item.selected ? TreeCollapse : TreeExpand;
 
@@ -82,10 +87,55 @@ const DataViewerCell = ({ columnKey, item }) => {
       </Flex>
     );
   }
-  return <>{item[columnKey]}</>;
+  
+  const value = item[columnKey];
+  const shouldShowTooltip = showTooltips && value && value.toString().length > tooltipThreshold;
+  
+  if (shouldShowTooltip) {
+    return (
+      <TooltipTrigger placement="left top">
+        <Button
+          variant="secondary"
+          isQuiet
+          UNSAFE_style={{
+            width: '100%',
+            justifyContent: 'flex-start',
+            textAlign: 'left',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            maxWidth: '300px',
+            height: 'auto',
+            padding: '4px 8px',
+            backgroundColor: 'transparent',
+            border: 'none',
+            minWidth: 0,
+            fontWeight: "normal"
+          }}
+        >
+          <span style={{
+            display: 'block',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            width: '100%'
+          }}>
+            {value}
+          </span>
+        </Button>
+        <Tooltip>
+          <div style={{ maxWidth: '300px', wordBreak: 'break-word' }}>
+            {value}
+          </div>
+        </Tooltip>
+      </TooltipTrigger>
+    );
+  }
+  
+  return <>{value}</>;
 };
 
-const DataViewerTable = ({ data, autoExpand }: DataViewerProps) => {
+const DataViewerTable = ({ data, autoExpand, showTooltips = false, tooltipThreshold = 50 }: DataViewerProps) => {
   const [expanded, setExpanded] = React.useState<string[]>([]);
   const [hasAutoExpanded, setHasAutoExpanded] = React.useState<boolean>(false);
   const [rows, setRows] = React.useState<SelectedDataRecord[]>([]);
@@ -127,7 +177,6 @@ const DataViewerTable = ({ data, autoExpand }: DataViewerProps) => {
   const filtered = useMemo(() => {
     return filterUnexpanded(expanded, rows);
   }, [rows, expanded]);
-  console.log(filtered);
 
   return (
     <TableView
@@ -139,7 +188,6 @@ const DataViewerTable = ({ data, autoExpand }: DataViewerProps) => {
       onSelectionChange={(ids) => {
         const id = Array.from(ids)[0] as string;
         const index = expanded.indexOf(id);
-        console.log(id, index, expanded);
         let newExpanded = [...expanded];
         if (index >= 0) {
           newExpanded.splice(index, 1);
@@ -163,7 +211,6 @@ const DataViewerTable = ({ data, autoExpand }: DataViewerProps) => {
                 if (expanded.length === data?.length) {
                   collapseAll();
                 } else {
-                  console.log("Expand All");
                   expandAll();
                 }
               }}
@@ -176,7 +223,12 @@ const DataViewerTable = ({ data, autoExpand }: DataViewerProps) => {
           <Row>
             {(columnKey) => (
               <Cell>
-                <DataViewerCell columnKey={columnKey} item={item} />
+                <DataViewerCell 
+                  columnKey={columnKey} 
+                  item={item} 
+                  showTooltips={showTooltips}
+                  tooltipThreshold={tooltipThreshold}
+                />
               </Cell>
             )}
           </Row>
