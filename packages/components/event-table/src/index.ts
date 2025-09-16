@@ -16,7 +16,19 @@
  **************************************************************************/
 
 // Components
-export { default as EventTable } from "./components/EventTable";
+export { default as EventTable } from './components/EventTable';
+export { default as EventTableWithDetails } from './components/EventTableWithDetails';
+export { default as EventDetailsPanel } from './components/EventDetailsPanel';
+export { default as CopyableValue } from './components/CopyableValue';
+export { default as CopyableMonacoEditor } from './components/CopyableMonacoEditor';
+export { default as EventDataViewer } from './components/EventDataViewer';
+export { default as ResizeHandle } from './components/ResizeHandle';
+
+// Hooks
+export { useResizePanel } from './hooks/useResizePanel';
+export { useResizeObserver } from './hooks/useResizeObserver';
+export { useDocumentStyles } from './hooks/useDocumentStyles';
+export { useGripPosition } from './hooks/useDynamicGripPosition';
 
 // Data
-export * from "./data/columns";
+export * from './data/columns';

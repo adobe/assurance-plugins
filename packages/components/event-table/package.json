@@ -19,13 +19,17 @@
     "react": "^18.3.1"
   },
   "dependencies": {
-    "@adobe/react-spectrum": "^3.32.2",
+    "@adobe/react-spectrum": "^3.38.0",
     "@assurance/common-utils": "^1.0.0",
+    "@assurance/event-data-viewer": "^1.0.0",
     "@assurance/plugin-bridge-provider": "^1.0.0",
     "@assurance/nested-table-toolkit": "^1.0.0",
+    "@monaco-editor/react": "^4.6.0",
+    "@spectrum-icons/workflow": "^4.2.0",
     "@tanstack/react-table": "^8.20.5",
     "dayjs": "^1.11.13",
-    "ramda": "^0.29.1"
+    "ramda": "^0.29.1",
+    "react-intl": "^6.5.8"
   },
   "devDependencies": {
     "@spectrum-icons/workflow": "^4.2.0",
