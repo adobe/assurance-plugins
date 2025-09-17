@@ -59,6 +59,7 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
   const activityEvents = useActivityEvents(activity.id);
   const eventStats = useEventStatistics(activityEvents);
   const timeRange = useEventTimeRange(activityEvents);
+  
 
   // Filter events based on search and type filter
   const filteredEvents = useMemo(() => {
@@ -135,6 +136,11 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
                     tooltip="Number of update token refresh events for push notifications"
                   />
                   <MetricCard 
+                    label="Token Updates to Edge"
+                    value={eventStats.tokenUpdateEdge}
+                    tooltip="Number of update token events sent to Edge for Live Activity management"
+                  />
+                  <MetricCard 
                     label="Ended Events"
                     value={eventStats.ended}
                     tooltip="Number of Live Activity end events (natural completion)"
@@ -198,6 +204,9 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
             </Item>
             <Item key="token-update">
               Token Updates ({eventStats.tokenUpdate})
+            </Item>
+            <Item key="token-update-edge">
+              Token Updates to Edge ({eventStats.tokenUpdateEdge})
             </Item>
             <Item key="ended">
               {formatMessage(MESSAGES.endEvents)} ({eventStats.ended})

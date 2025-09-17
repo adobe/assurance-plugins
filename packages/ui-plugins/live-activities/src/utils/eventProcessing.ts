@@ -12,6 +12,7 @@ interface EventStatistics {
   start: number;
   contentUpdate: number;
   tokenUpdate: number;
+  tokenUpdateEdge: number;
   ended: number;
   dismissed: number;
   other: number;
@@ -41,7 +42,7 @@ export function useActivityEvents(activityId?: string): LiveActivityEvent[] {
   return useMemo(() => {
     if (!activityId) return [];
 
-    return allEvents.filter(event => {
+    const filteredEvents = allEvents.filter(event => {
       const eventLiveActivityID =
         event.payload?.ACPExtensionEventData?.liveActivityID ||
         event.payload?.ACPExtensionEventData?.data?.liveActivityID ||
@@ -49,6 +50,13 @@ export function useActivityEvents(activityId?: string): LiveActivityEvent[] {
 
       return eventLiveActivityID === activityId;
     });
+
+    // Deduplicate by uuid to avoid duplicate events
+    const uniqueEvents = filteredEvents.filter(
+      (event, index, self) => index === self.findIndex(e => e.uuid === event.uuid)
+    );
+
+    return uniqueEvents;
   }, [allEvents, activityId]);
 }
 
@@ -62,6 +70,7 @@ export function useEventStatistics(events: LiveActivityEvent[]): EventStatistics
       start: 0,
       contentUpdate: 0,
       tokenUpdate: 0,
+      tokenUpdateEdge: 0,
       ended: 0,
       dismissed: 0,
       other: 0
@@ -79,6 +88,9 @@ export function useEventStatistics(events: LiveActivityEvent[]): EventStatistics
           break;
         case EVENT_CONFIG.EVENT_NAMES.UPDATE_TOKEN:
           stats.tokenUpdate++;
+          break;
+        case EVENT_CONFIG.EVENT_NAMES.UPDATE_TOKEN_EDGE:
+          stats.tokenUpdateEdge++;
           break;
         case EVENT_CONFIG.EVENT_NAMES.ENDED:
           stats.ended++;
@@ -133,6 +145,8 @@ export function filterEventsByType(
         return eventName === EVENT_CONFIG.EVENT_NAMES.UPDATED;
       case 'token-update':
         return eventName === EVENT_CONFIG.EVENT_NAMES.UPDATE_TOKEN;
+      case 'token-update-edge':
+        return eventName === EVENT_CONFIG.EVENT_NAMES.UPDATE_TOKEN_EDGE;
       case 'ended':
         return eventName === EVENT_CONFIG.EVENT_NAMES.ENDED;
       case 'dismissed':

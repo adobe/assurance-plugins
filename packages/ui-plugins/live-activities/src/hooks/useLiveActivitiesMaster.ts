@@ -108,12 +108,10 @@ export function useLiveActivitiesMaster(): UseLiveActivitiesMasterReturn {
   // Actions (these would need to be implemented in the respective hooks)
   const selectActivity = (id: string) => {
     // This would need to be implemented in useSelectedActivity
-    console.log('Selecting activity:', id);
   };
 
   const refreshActivities = () => {
     // This would need to be implemented in useActivities
-    console.log('Refreshing activities');
   };
 
   return {

@@ -90,7 +90,6 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
   const [eventSearchQuery, setEventSearchQuery] = useState('');
   const [selectedEventFilter, setSelectedEventFilter] = useState<string>('all');
   
-  console.log('ActivityDetails received selectedActivity:', selectedActivity);
 
   const getStatusVariant = (status: string) => {
     switch (status) {

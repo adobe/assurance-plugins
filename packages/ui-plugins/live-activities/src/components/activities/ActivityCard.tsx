@@ -1,10 +1,14 @@
-import React from 'react';
 import { Flex, Text, StatusLight, Badge } from '@adobe/react-spectrum';
+
+import React from 'react';
+
 import { defineMessages, useIntl } from 'react-intl';
+
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { LiveActivity } from '../../hooks/useActivities';
+
 import SpectrumCard from '../atoms/SpectrumCard';
+import { LiveActivity } from '../../hooks/useActivities';
 
 dayjs.extend(relativeTime);
 
@@ -44,14 +48,14 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
     return dayjs(timestamp).fromNow();
   };
 
-  const eventCount = (activity.events?.length || 0) + (activity.updateEvents?.length || 0);
+  const eventCount = activity.events?.length || 0;
   const lastActivityTime = activity.updateEvents?.[0]?.timestamp || activity.startTime;
+  
 
   return (
     <SpectrumCard
       isSelected={isSelected}
       onPress={() => {
-        console.log('ActivityCard onPress called for:', activity.id);
         onSelect(activity.id);
       }}
       marginBottom="size-100"

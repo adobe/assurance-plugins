@@ -1,17 +1,23 @@
-import React, { useMemo } from 'react';
 import { Flex, Heading, View, Text, Grid, Well, Divider } from '@adobe/react-spectrum';
+
+import React, { useMemo } from 'react';
+
 import { defineMessages, useIntl } from 'react-intl';
+
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+
+import ContentStateCard from '../atoms/ContentStateCard';
+import { CopyableValue } from '../atoms/CopyableValue';
+import InfoField from '../atoms/InfoField';
+import MetricCard from '../atoms/MetricCard';
+import Card from '../atoms/card';
+import { LiveActivity } from '../../hooks/useActivities';
+import { useActivityEvents } from '../../utils/eventProcessing';
+
+import './activity-overview.scss';
 import ActivityStatus from './activity-status';
 import UpdateActivity from './update-activity';
-import { LiveActivity } from '../../hooks/useActivities';
-import { CopyableValue } from '../atoms/CopyableValue';
-import MetricCard from '../atoms/MetricCard';
-import InfoField from '../atoms/InfoField';
-import ContentStateCard from '../atoms/ContentStateCard';
-import './activity-overview.scss';
-import Card from '../atoms/card';
 
 dayjs.extend(localizedFormat);
 
@@ -89,6 +95,26 @@ const messages = defineMessages({
 function ActivityOverview({ activity }: ActivityOverviewProps) {
   const { formatMessage } = useIntl();
 
+  // Use the same deduplicated events as other components
+  const activityEvents = useActivityEvents(activity?.id);
+
+  // Get the latest content state from update events
+  const latestContentState = useMemo(() => {
+    if (!activity) return null;
+    
+    const updateEvent = activityEvents
+      .filter(event => event.payload?.ACPExtensionEventName === 'Live Activity updated')
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
+    
+    return updateEvent?.payload?.ACPExtensionEventData?.contentState;
+  }, [activity?.id, activityEvents]);
+
+  // Calculate duration
+  const startTime = activity?.startTime ? dayjs(activity.startTime) : null;
+  const endTime = activity?.endTime ? dayjs(activity.endTime) : null;
+  const now = dayjs();
+  const duration = startTime ? (endTime || now).diff(startTime, 'minute') : 0;
+
   if (!activity) {
     return (
       <View padding="size-400">
@@ -96,51 +122,6 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
       </View>
     );
   }
-
-  // Get the latest content state from update events
-  const latestContentState = useMemo(() => {
-    // Look for the most recent "Live Activity updated" event
-    const allEvents = [
-      ...(activity.events || []),
-      ...(activity.updateEvents || [])
-    ];
-    
-    // Filter events that belong to this activity
-    const activityEvents = allEvents.filter(event => {
-      const eventLiveActivityID = event.payload?.ACPExtensionEventData?.liveActivityID ||
-                                 event.payload?.ACPExtensionEventData?.data?.liveActivityID ||
-                                 event.payload?.ACPExtensionEventData?.activityId;
-      
-      return eventLiveActivityID === activity.id;
-    });
-    
-    const updateEvent = activityEvents
-      .filter(event => event.payload?.ACPExtensionEventName === 'Live Activity updated')
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
-    
-    return updateEvent?.payload?.ACPExtensionEventData?.contentState;
-  }, [activity]);
-
-  // Calculate duration
-  const startTime = activity.startTime ? dayjs(activity.startTime) : null;
-  const endTime = activity.endTime ? dayjs(activity.endTime) : null;
-  const now = dayjs();
-  const duration = startTime ? (endTime || now).diff(startTime, 'minute') : 0;
-
-  // Calculate metrics - only count events that belong to this specific activity
-  const allEvents = useMemo(() => [
-    ...(activity.events || []),
-    ...(activity.updateEvents || [])
-  ], [activity]);
-
-  // Filter events that actually belong to this activity (same logic as event details)
-  const activityEvents = allEvents.filter(event => {
-    const eventLiveActivityID = event.payload?.ACPExtensionEventData?.liveActivityID ||
-                               event.payload?.ACPExtensionEventData?.data?.liveActivityID ||
-                               event.payload?.ACPExtensionEventData?.activityId;
-    
-    return eventLiveActivityID === activity.id;
-  });
 
   const updateCount = activityEvents.filter(event => 
     event.payload?.ACPExtensionEventName === 'Live Activity updated'

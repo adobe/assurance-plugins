@@ -20,19 +20,10 @@ function extractAttributeTypeFromSchemaEvent(event: any): string | null {
     if (isLiveActivityAssuranceDebugEvent(event)) {
       const attributeType =
         event.payload.ACPExtensionEventData.jsonSchema?.['attributes-type'] || null;
-      console.log(
-        `🔍 Extracting attribute type: ${attributeType} from event:`,
-        event.payload.ACPExtensionEventName
-      );
       return attributeType;
     }
-    console.log(
-      '❌ Event is not a Live Activity Assurance Debug Event:',
-      event.payload.ACPExtensionEventName
-    );
     return null;
   } catch (error) {
-    console.warn('Failed to extract attribute type from schema event:', error);
     return null;
   }
 }
@@ -70,7 +61,6 @@ function extractSchemaFromEvent(event: any): LiveActivitySchema | null {
 
     return result;
   } catch (error) {
-    console.warn('Failed to extract schema from event:', error);
     return null;
   }
 }
@@ -87,7 +77,6 @@ function extractExamplePayloadFromEvent(event: any): any | null {
     }
     return event.payload.ACPExtensionEventData.examplePayload || null;
   } catch (error) {
-    console.warn('Failed to extract example payload from event:', error);
     return null;
   }
 }
@@ -264,7 +253,6 @@ export function extractLiveActivitiesDataFromState(
       hasAnyPushToStartToken
     };
   } catch (error) {
-    console.error('Failed to extract Live Activities data from state:', error);
     return {
       activityTypes: new Map(),
       totalCount: 0,

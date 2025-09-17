@@ -12,12 +12,21 @@ export const UI_CONFIG = {
 
 // Event Configuration
 export const EVENT_CONFIG = {
-  TYPES: ['start', 'content-update', 'token-update', 'ended', 'dismissed', 'other'] as const,
+  TYPES: [
+    'start',
+    'content-update',
+    'token-update',
+    'token-update-edge',
+    'ended',
+    'dismissed',
+    'other'
+  ] as const,
   STATUSES: ['active', 'completed'] as const,
   EVENT_NAMES: {
     START: 'Live Activity start event',
     UPDATED: 'Live Activity updated',
     UPDATE_TOKEN: 'Live Activity update token',
+    UPDATE_TOKEN_EDGE: 'Live Activity update token to Edge',
     ENDED: 'Live Activity ended',
     DISMISSED: 'Live Activity dismissed'
   } as const
@@ -56,7 +65,7 @@ export const MESSAGES = defineMessages({
     id: 'activities.overview.contentState',
     defaultMessage: 'Current Content State'
   },
-  
+
   // Activity Details
   liveActivityIdLabel: {
     id: 'activities.details.liveActivityId',
@@ -90,7 +99,7 @@ export const MESSAGES = defineMessages({
     id: 'activities.overview.lastUpdate',
     defaultMessage: 'Last Update'
   },
-  
+
   // Copy functionality
   copyValue: {
     id: 'activities.details.copyValue',
@@ -112,7 +121,7 @@ export const MESSAGES = defineMessages({
     id: 'contentState.copyContent',
     defaultMessage: 'Copy Content'
   },
-  
+
   // Content State
   noContentState: {
     id: 'activities.details.noContentState',
@@ -130,7 +139,7 @@ export const MESSAGES = defineMessages({
     id: 'contentState.raw',
     defaultMessage: 'Raw JSON'
   },
-  
+
   // Event Details
   eventDetails: {
     id: 'activities.eventDetails.title',
@@ -184,7 +193,7 @@ export const MESSAGES = defineMessages({
     id: 'activities.eventDetails.timeRange',
     defaultMessage: 'Time Range'
   },
-  
+
   // Activity Flow
   activityFlow: {
     id: 'activities.flow.title',
@@ -210,7 +219,7 @@ export const MESSAGES = defineMessages({
     id: 'activities.flow.details',
     defaultMessage: 'Details'
   },
-  
+
   // Activity List
   searchPlaceholder: {
     id: 'activities.list.searchPlaceholder',
@@ -236,7 +245,7 @@ export const MESSAGES = defineMessages({
     id: 'activities.list.loadingActivities',
     defaultMessage: 'Loading activities...'
   },
-  
+
   // Activity Details
   noActivitySelected: {
     id: 'activities.details.noActivitySelected',
@@ -266,17 +275,17 @@ export const MESSAGES = defineMessages({
     id: 'activities.details.lastActivity',
     defaultMessage: 'Last Activity'
   },
-  eventDetails: {
+  activityEventDetails: {
     id: 'activities.details.eventDetails',
     defaultMessage: 'Event Details'
   },
-  
+
   // Events Count
   eventsCount: {
     id: 'activities.card.eventsCount',
     defaultMessage: 'events'
   },
-  noEvents: {
+  cardNoEvents: {
     id: 'activities.card.noEvents',
     defaultMessage: 'No events'
   }

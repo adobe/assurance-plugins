@@ -212,12 +212,7 @@ function Activities() {
         {/* Header with Launch Button - Only show when there are activities */}
         {activities.length > 0 && (
           <View borderBottomWidth="thin" borderBottomColor="gray-300" padding="size-200">
-            <Flex direction="row" justifyContent="space-between" alignItems="center">
-              <View>
-                <Heading level={2} margin={0}>
-                  {formatMessage(messages.activities)} ({activities.length})
-                </Heading>
-              </View>
+            <Flex direction="row" justifyContent="end" alignItems="center">              
               {platform.hasLiveActivities && (
                 <Flex alignItems="center" gap="size-100">
                   <LaunchLiveActivity />
@@ -323,7 +318,6 @@ function Activities() {
               {selectedActivityId ? (
                 (() => {
                   const selectedActivity = activities.find(a => a.id === selectedActivityId);
-                  console.log('Selected activity found:', selectedActivity);
                   return (
                 <Tabs height="100%">
                   <TabList>

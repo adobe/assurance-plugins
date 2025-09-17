@@ -110,7 +110,6 @@ function SpectrumCard({
       role: isInteractive ? 'button' : undefined,
       tabIndex: isInteractive ? 0 : undefined,
       onClick: (e: React.MouseEvent) => {
-        console.log('SpectrumCard clicked!', { onPress, isInteractive });
         if (onPress) {
           onPress();
         }

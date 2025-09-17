@@ -13,6 +13,9 @@ import {
   isLiveActivityStartEvent,
   isLiveActivityUpdatedEvent,
   isLiveActivityUpdateTokenEvent,
+  isLiveActivityUpdateTokenToEdgeEvent,
+  isLiveActivityStartToEdgeEvent,
+  isLiveActivityPushToStartTokenToEdgeEvent,
   isLiveActivityAssuranceDebugEvent,
   isLiveActivityPushToStartTokenEvent,
   isLiveActivityEndedEvent
@@ -53,12 +56,23 @@ export interface LiveActivity {
  */
 function extractActivityMetadata(event: any): { activityId: string; attributeType: string } | null {
   const eventData = event.payload?.ACPExtensionEventData;
-  if (!eventData) return null;
+  if (!eventData) {
+    return null;
+  }
 
-  const activityId = eventData.liveActivityID || eventData.activityId;
-  const attributeType = eventData.attributeType;
+  // Use the same flexible matching logic as useActivityEvents
+  const activityId =
+    eventData.liveActivityID || eventData.data?.liveActivityID || eventData.activityId;
 
-  return activityId && attributeType ? { activityId, attributeType } : null;
+  // For attributeType, try multiple possible locations
+  const attributeType =
+    eventData.attributeType || eventData.data?.attributeType || eventData.type || 'unknown'; // Fallback for events without attributeType
+
+  if (!activityId) {
+    return null;
+  }
+
+  return { activityId, attributeType };
 }
 
 /**
@@ -76,6 +90,10 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
       isLiveActivityUpdatedEvent(event) ||
       isLiveActivityDismissedEvent(event) ||
       isLiveActivityUpdateTokenEvent(event) ||
+      isLiveActivityUpdateTokenToEdgeEvent(event) ||
+      isLiveActivityStartToEdgeEvent(event) ||
+      isLiveActivityPushToStartTokenToEdgeEvent(event) ||
+      isLiveActivityAssuranceDebugEvent(event) ||
       isLiveActivityEndedEvent(event);
 
     if (!isRelevantEvent) return;
@@ -95,9 +113,12 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
       });
     }
 
-    // Add event to activity
+    // Add event to activity (avoid duplicates)
     const activity = activitiesMap.get(activityId);
-    activity.events.push(event);
+    const isDuplicate = activity.events.some(existingEvent => existingEvent.uuid === event.uuid);
+    if (!isDuplicate) {
+      activity.events.push(event);
+    }
 
     // Only update status to completed if this is an end event (dismissed or ended)
     if (isLiveActivityEndEvent(event)) {
@@ -134,13 +155,11 @@ function useActivities(): LiveActivity[] {
   // Create activities from the extracted active activities
   return activeActivities.map(activity => {
     const { id, attributeType, events, status } = activity;
-    console.log('🚀 ~ useActivities ~ events:', events);
 
     // Find specific events using type guards
     const updateTokenEvent = events.find(isLiveActivityUpdateTokenEvent);
     const startEvent = events.find(isLiveActivityStartEvent);
     const endEvent = events.find(isLiveActivityEndEvent);
-    console.log('🚀 ~ useActivities ~ endEvent:', endEvent);
     const updateEvents = events.filter(isLiveActivityUpdatedEvent);
 
     // Find matching push-to-start token event by attribute type
