@@ -98,8 +98,6 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
         return 'info';
       case 'completed':
         return 'positive';
-      case 'inactive':
-        return 'negative';
       default:
         return 'neutral';
     }

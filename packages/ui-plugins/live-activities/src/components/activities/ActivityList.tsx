@@ -34,10 +34,6 @@ const messages = defineMessages({
     id: 'activities.list.completedActivities',
     defaultMessage: 'Completed'
   },
-  inactiveActivities: {
-    id: 'activities.list.inactiveActivities',
-    defaultMessage: 'Inactive'
-  },
   noActivitiesFound: {
     id: 'activities.list.noActivitiesFound',
     defaultMessage: 'No activities found'
@@ -80,8 +76,7 @@ function ActivityList({
     return {
       all: activities.length,
       active: activities.filter(a => a.status === 'active').length,
-      completed: activities.filter(a => a.status === 'completed').length,
-      inactive: activities.filter(a => a.status === 'inactive').length
+      completed: activities.filter(a => a.status === 'completed').length
     };
   }, [activities]);
 
@@ -130,9 +125,6 @@ function ActivityList({
             </Item>
             <Item key="completed">
               {formatMessage(messages.completedActivities)} ({activityCounts.completed})
-            </Item>
-            <Item key="inactive">
-              {formatMessage(messages.inactiveActivities)} ({activityCounts.inactive})
             </Item>
           </ActionGroup>
         </Flex>

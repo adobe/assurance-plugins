@@ -13,7 +13,7 @@ export const UI_CONFIG = {
 // Event Configuration
 export const EVENT_CONFIG = {
   TYPES: ['start', 'content-update', 'token-update', 'ended', 'dismissed', 'other'] as const,
-  STATUSES: ['active', 'inactive', 'completed'] as const,
+  STATUSES: ['active', 'completed'] as const,
   EVENT_NAMES: {
     START: 'Live Activity start event',
     UPDATED: 'Live Activity updated',
@@ -227,10 +227,6 @@ export const MESSAGES = defineMessages({
   completedActivities: {
     id: 'activities.list.completedActivities',
     defaultMessage: 'Completed'
-  },
-  inactiveActivities: {
-    id: 'activities.list.inactiveActivities',
-    defaultMessage: 'Inactive'
   },
   noActivitiesFound: {
     id: 'activities.list.noActivitiesFound',

@@ -297,7 +297,7 @@ function Activities() {
                     <Item key="activityFlow">{formatMessage(messages.activityFlowTab)}</Item>
                     <Item key="eventDetails">{formatMessage(messages.eventDetailsTab)}</Item>
                   </TabList>
-                  <TabPanels flex="1" height="100%">
+                  <TabPanels flex="1" maxHeight="calc(100vh - 14%)">
                     <Item key="overview">
                       <View height="100%" overflow="auto">
                         <ActivityOverview activity={selectedActivity} />

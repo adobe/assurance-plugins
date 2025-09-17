@@ -34,8 +34,6 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         return 'info';
       case 'completed':
         return 'positive';
-      case 'inactive':
-        return 'negative';
       default:
         return 'neutral';
     }
@@ -78,7 +76,7 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         height="100%"
         justifyContent="space-between"        
       >
-        {/* Header with status and name */}
+        {/* Header with status and Live Activity ID (primary identifier) */}
         <Flex alignItems="center" gap="size-100" justifyContent="space-between">
           <Flex wrap alignItems="center" gap="size-100" flex="1" minWidth="0">
             <StatusLight  variant={getStatusVariant(activity.status)} />
@@ -91,26 +89,27 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
-                marginLeft: "-0.5rem"
+                marginLeft: "-0.5rem",
+                fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace'
               }}
             >
-              {activity.name}
+              {activity.id}
             </Text>
           </Flex>  
         </Flex>
         
-        {/* Activity ID */}
+        {/* Attribute Type (secondary info) */}
         <Text 
           UNSAFE_style={{ 
             fontSize: '12px', 
             color: '#6b7280',
-            fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+            fontStyle: 'italic'
           }}
         >
-          {activity.id}
+          {activity.name}
         </Text>
         
         {/* Footer with event count and timing */}

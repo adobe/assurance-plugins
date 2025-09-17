@@ -7,10 +7,6 @@ const messages = defineMessages({
     id: 'activity.status.active',
     defaultMessage: 'Active'
   },
-  inactive: {
-    id: 'activity.status.inactive',
-    defaultMessage: 'Inactive'
-  },
   completed: {
     id: 'activity.status.completed',
     defaultMessage: 'Completed'
@@ -18,7 +14,7 @@ const messages = defineMessages({
 });
 
 interface ActivityStatusProps {
-  status: 'active' | 'inactive' | 'completed';
+  status: 'active' | 'completed';
 }
 
 function ActivityStatus({ status }: ActivityStatusProps) {
@@ -28,14 +24,6 @@ function ActivityStatus({ status }: ActivityStatusProps) {
     return (
       <StatusLight variant="info" UNSAFE_className="status-light-compact">
         {formatMessage(messages.active)}
-      </StatusLight>
-    );
-  }
-
-  if (status === 'inactive') {
-    return (
-      <StatusLight variant="negative" UNSAFE_className="status-light-compact">
-        {formatMessage(messages.inactive)}
       </StatusLight>
     );
   }

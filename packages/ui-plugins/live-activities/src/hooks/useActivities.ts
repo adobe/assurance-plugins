@@ -32,7 +32,7 @@ import {
 export interface LiveActivity {
   id: string;
   name: string;
-  status: 'active' | 'inactive' | 'completed';
+  status: 'active' | 'completed';
   pushToStartToken?: string;
   updateToken?: string;
   startEvent?: any;
@@ -160,7 +160,7 @@ function useActivities(): LiveActivity[] {
       schema: schemaDataForType?.schema,
       startEvent,
       startTime: startEvent?.timestamp,
-      status: status as 'active' | 'inactive' | 'completed',
+      status: status as 'active' | 'completed',
       pushToStartToken: pushToStartTokenEvent?.payload?.ACPExtensionEventData?.token,
       updateToken: updateTokenEvent?.payload?.ACPExtensionEventData?.token,
       updateEvents
