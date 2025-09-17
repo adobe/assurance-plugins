@@ -99,14 +99,17 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
   const activityEvents = useActivityEvents(activity?.id);
 
   // Get the latest content state from update events
-  const latestContentState = useMemo(() => {
-    if (!activity) return null;
+  const { latestContentState, latestContentStateEventId } = useMemo(() => {
+    if (!activity) return { latestContentState: null, latestContentStateEventId: null };
     
     const updateEvent = activityEvents
       .filter(event => event.payload?.ACPExtensionEventName === 'Live Activity updated')
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
     
-    return updateEvent?.payload?.ACPExtensionEventData?.contentState;
+    return {
+      latestContentState: updateEvent?.payload?.ACPExtensionEventData?.contentState,
+      latestContentStateEventId: updateEvent?.uuid
+    };
   }, [activity?.id, activityEvents]);
 
   // Calculate duration
@@ -247,6 +250,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
               contentState={latestContentState}
               noContentStateMessage={formatMessage(messages.noContentState)}
               lastUpdatedTimestamp={lastUpdate ? new Date(lastUpdate).getTime() : undefined}
+              eventId={latestContentStateEventId || undefined}
             />
           </View>
         </Grid>

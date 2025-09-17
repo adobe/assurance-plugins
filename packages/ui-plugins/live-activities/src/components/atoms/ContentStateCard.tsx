@@ -6,13 +6,16 @@ import { defineMessages, useIntl } from 'react-intl';
 import ViewList from '@spectrum-icons/workflow/ViewList';
 import Code from '@spectrum-icons/workflow/Code';
 import Copy from '@spectrum-icons/workflow/Copy';
+import ViewDetail from '@spectrum-icons/workflow/ViewDetail';
 import dayjs from 'dayjs';
 import MonacoEditor from '@monaco-editor/react';
+import usePluginState from '../../hooks/usePluginState';
 
 interface ContentStateCardProps {
   contentState: any;
   noContentStateMessage: string;
   lastUpdatedTimestamp?: number;
+  eventId?: string; // ID of the event that generated this content state
 }
 
 const messages = defineMessages({
@@ -35,13 +38,28 @@ const messages = defineMessages({
   contentCopied: {
     id: 'contentState.contentCopied',
     defaultMessage: 'Content copied to clipboard'
+  },
+  viewEventDetails: {
+    id: 'contentState.viewEventDetails',
+    defaultMessage: 'View Event Details'
+  },
+  viewEventDetailsTooltip: {
+    id: 'contentState.viewEventDetailsTooltip',
+    defaultMessage: 'Navigate to the event that generated this content state'
   }
 });
 
-function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTimestamp }: ContentStateCardProps) {
+function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTimestamp, eventId }: ContentStateCardProps) {
   const { formatMessage } = useIntl();
+  const { activityNavigation: { navigateToEventDetails } } = usePluginState();
   const [viewMode, setViewMode] = useState<'formatted' | 'raw'>('formatted');
   const [copySuccess, setCopySuccess] = useState(false);
+
+  const handleViewEventDetails = () => {
+    if (eventId) {
+      navigateToEventDetails(eventId);
+    }
+  };
 
   const handleCopy = async () => {
     const content = viewMode === 'formatted' 
@@ -299,26 +317,39 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
               <Well>
                 <Flex direction="column" gap="size-200">
                   {/* Content State Summary */}
-                  <View
-                    UNSAFE_style={{
-                      padding: 'var(--spectrum-global-dimension-size-150)',
-                      backgroundColor: 'var(--spectrum-global-color-blue-50)',
-                      borderRadius: 'var(--spectrum-global-dimension-size-50)',
-                      border: '1px solid var(--spectrum-global-color-blue-200)'
-                    }}
-                  >
-                    <Flex direction="row" justifyContent="space-between" alignItems="center">
-                      <Text 
-                        UNSAFE_style={{ 
-                          fontWeight: 'bold',
-                          color: 'var(--spectrum-global-color-blue-800)',
-                          fontSize: 'var(--spectrum-global-dimension-size-200)'
-                        }}
-                      >
-                        Content State ({Object.keys(contentState).length} properties)
-                      </Text>
-                    </Flex>
-                  </View>
+                  <Flex direction="row" justifyContent="space-between" alignItems="center" marginBottom="size-150">
+                    <Text 
+                      UNSAFE_style={{ 
+                        fontWeight: '600',
+                        color: 'var(--spectrum-global-color-gray-800)',
+                        fontSize: 'var(--spectrum-global-dimension-size-200)'
+                      }}
+                    >
+                      Content State ({Object.keys(contentState).length} properties)
+                    </Text>
+                    {eventId && (
+                      <TooltipTrigger>
+                        <Button
+                          variant="secondary"
+                          onPress={handleViewEventDetails}
+                          UNSAFE_style={{
+                            padding: 'var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-150)',
+                            fontSize: 'var(--spectrum-global-dimension-size-100)',
+                            height: 'var(--spectrum-global-dimension-size-300)',
+                            minWidth: 'auto'
+                          }}
+                        >
+                          <ViewDetail size="XS" />
+                          <Text UNSAFE_style={{ marginLeft: 'var(--spectrum-global-dimension-size-75)' }}>
+                            {formatMessage(messages.viewEventDetails)}
+                          </Text>
+                        </Button>
+                        <Tooltip>
+                          <Text>{formatMessage(messages.viewEventDetailsTooltip)}</Text>
+                        </Tooltip>
+                      </TooltipTrigger>
+                    )}
+                  </Flex>
                   
                   {viewMode === 'formatted' ? renderFormattedContent() : renderRawContent()}
                   

@@ -10,6 +10,31 @@ export const UI_CONFIG = {
   ELLIPSIS: '...'
 } as const;
 
+// Navigation Configuration
+export const NAVIGATION_CONFIG = {
+  // Top-level tabs (main plugin navigation)
+  TOP_LEVEL_TABS: {
+    CLIENT_INFO: 'clientInfo',
+    ACTIVITIES: 'activities',
+    EVENTS: 'events'
+  } as const,
+
+  // Activity-level tabs (within activities view)
+  ACTIVITY_TABS: {
+    OVERVIEW: 'overview',
+    ACTIVITY_FLOW: 'activityFlow',
+    EVENT_DETAILS: 'eventDetails'
+  } as const,
+
+  // Default states
+  DEFAULTS: {
+    TOP_LEVEL_TAB: 'clientInfo' as const,
+    ACTIVITY_TAB: 'overview' as const,
+    SELECTED_ACTIVITY: null as string | null,
+    SELECTED_EVENT: null as string | null
+  } as const
+} as const;
+
 // Event Configuration
 export const EVENT_CONFIG = {
   TYPES: [

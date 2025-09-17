@@ -24,7 +24,7 @@ import type { Key } from '@react-types/shared';
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, {  useCallback, useRef, useEffect, useMemo } from 'react';
 
 import EventDetailsPanel from './EventDetailsPanel';
 import EventTable from './EventTable';
@@ -45,6 +45,8 @@ interface EventTableWithDetailsProps<T = Event> {
   minPanelWidth?: number;
   /** Maximum width of the details panel (as percentage of container width) */
   maxPanelWidthPercentage?: number;
+  /** Scroll to specific event by ID */
+  scrollToEventId?: string | null;
 }
 
 function EventTableWithDetails<T = Event>({
@@ -57,7 +59,8 @@ function EventTableWithDetails<T = Event>({
   onDetailsPanelToggle,
   defaultPanelWidth = 500,
   minPanelWidth = 400,
-  maxPanelWidthPercentage = 0.7
+  maxPanelWidthPercentage = 0.7,
+  scrollToEventId
 }: EventTableWithDetailsProps<T>) {
   // Use resize observer hook for container width
   const { ref: containerRef, width: containerWidth } = useResizeObserver({
@@ -115,6 +118,51 @@ function EventTableWithDetails<T = Event>({
   const currentPanelOpen = detailsPanelOpen && selectedEvent;
   const currentSelectedEvent = selectedEvent;
 
+  // Ref for the table container to enable scrolling
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+  const detailsPanelRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to specific event when scrollToEventId changes
+  useEffect(() => {
+    if (scrollToEventId && tableContainerRef.current) {
+      const tableContainer = tableContainerRef.current;
+      const tableElement = tableContainer.querySelector('[role="table"]');
+      
+      if (tableElement) {
+        // Find the target row by event ID
+        const rows = tableElement.querySelectorAll('[role="row"]');
+        const targetRow = Array.from(rows).find(row => {
+          const cells = row.querySelectorAll('[role="gridcell"]');
+          return Array.from(cells).some(cell => 
+            cell.textContent?.includes(scrollToEventId)
+          );
+        });
+        
+        if (targetRow) {
+          // Scroll the row into view
+          targetRow.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+        }
+      }
+    }
+  }, [scrollToEventId]);
+
+  // Scroll details panel into view when it opens
+  useEffect(() => {
+    if (currentPanelOpen && detailsPanelRef.current) {
+      // Small delay to ensure the panel is rendered
+      setTimeout(() => {
+        detailsPanelRef.current?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'nearest',
+          inline: 'end'
+        });
+      }, 100);
+    }
+  }, [currentPanelOpen]);
+
   return (
     <div 
       ref={containerDivRef} 
@@ -123,6 +171,7 @@ function EventTableWithDetails<T = Event>({
     >
       {/* Event Table */}
       <div 
+        ref={tableContainerRef}
         className="event-table-container"
         style={{ 
           width: currentPanelOpen ? `calc(100% - ${panelWidth}px - 8px)` : '100%',
@@ -149,6 +198,7 @@ function EventTableWithDetails<T = Event>({
       {/* Details Panel */}
       {currentPanelOpen && (
         <div
+          ref={detailsPanelRef}
           className="details-panel-container"
           style={{
             width: `${panelWidth}px`,

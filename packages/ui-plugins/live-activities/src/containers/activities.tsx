@@ -10,8 +10,10 @@ import React, { useState, useMemo } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 
 import { VALIDATION_STATUS } from '../constants';
+import { NAVIGATION_CONFIG } from '../constants/liveActivitiesConfig';
 import useActivities, { useRegisteredActivities } from '../hooks/useActivities';
 import { useLiveActivitiesValidationStatus } from '../hooks/useLiveActivitiesValidationStatus';
+import type { ActivityTab } from '../hooks/usePluginState';
 import usePluginState from '../hooks/usePluginState';
 import ActivityList from '../components/activities/ActivityList';
 import ActivityEventDetails from '../components/live-activity/activity-event-details';
@@ -94,11 +96,21 @@ const messages = defineMessages({
   }
 });
 
+// Main activities component using Zustand
 function Activities() {
   const { formatMessage } = useIntl();
   const realActivities = useActivities();
   const registeredActivities = useRegisteredActivities();
-  const { selectedActivityId, setSelectedActivityId } = usePluginState();
+  const { 
+    activityNavigation: {
+      selectedActivityId, 
+      setSelectedActivityId, 
+      activeTab, 
+      setActiveTab, 
+      selectedEventId, 
+      setSelectedEventId 
+    }
+  } = usePluginState();
   const validationStatus = useLiveActivitiesValidationStatus();
   
   // Use only real activities - no mock data
@@ -319,26 +331,32 @@ function Activities() {
                 (() => {
                   const selectedActivity = activities.find(a => a.id === selectedActivityId);
                   return (
-                <Tabs height="100%">
+                <Tabs
+                  height="100%"
+                  selectedKey={activeTab}
+                  onSelectionChange={(key) => setActiveTab(key as ActivityTab)}
+                >
                   <TabList>
-                    <Item key="overview">{formatMessage(messages.overviewTab)}</Item>
-                    <Item key="activityFlow">{formatMessage(messages.activityFlowTab)}</Item>
-                    <Item key="eventDetails">{formatMessage(messages.eventDetailsTab)}</Item>
+                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>{formatMessage(messages.overviewTab)}</Item>
+                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.ACTIVITY_FLOW}>{formatMessage(messages.activityFlowTab)}</Item>
+                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS}>{formatMessage(messages.eventDetailsTab)}</Item>
                   </TabList>
                   <TabPanels flex="1" maxHeight="calc(100vh - 14%)">
-                    <Item key="overview">
+                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>
                       <View height="100%" overflow="auto">
                         <ActivityOverview activity={selectedActivity} />
                       </View>
                     </Item>
-                    <Item key="activityFlow">
+                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.ACTIVITY_FLOW}>
                       <View height="100%" overflow="auto">
                         <ActivityFlow activity={selectedActivity} />
                       </View>
                     </Item>
-                    <Item key="eventDetails">
+                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS}>
                       <View height="100%" overflow="auto">
-                        <ActivityEventDetails activity={selectedActivity} />
+                        <ActivityEventDetails 
+                          activity={selectedActivity} 
+                        />
                       </View>
                     </Item>
                   </TabPanels>

@@ -6,7 +6,7 @@ import { EventTableWithDetails } from '@assurance/event-table';
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 import dayjs from 'dayjs';
 
@@ -17,6 +17,7 @@ import MetricCard from '../atoms/MetricCard';
 import Card from '../atoms/card';
 import { MESSAGES, EVENT_CONFIG } from '../../constants/liveActivitiesConfig';
 import { LiveActivity } from '../../hooks/useActivities';
+import usePluginState from '../../hooks/usePluginState';
 import { LiveActivityEvent } from '../../types/liveActivityEvent';
 import { useActivityEvents, useEventStatistics, useEventTimeRange, filterEventsByType, filterEventsBySearch } from '../../utils/eventProcessing';
 
@@ -46,19 +47,33 @@ const eventTypeColumn: ColumnDef<LiveActivityEvent> = {
 
 function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
   const { formatMessage } = useIntl();
+  const { activityNavigation: { selectedEventId, setSelectedEventId } } = usePluginState();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
   const [selectedEvent, setSelectedEvent] = useState<LiveActivityEvent | undefined>();
   const [detailsPanelOpen, setDetailsPanelOpen] = useState(false);
 
+    // Use new event processing utilities
+    const activityEvents = useActivityEvents(activity?.id);
+    const eventStats = useEventStatistics(activityEvents);
+    const timeRange = useEventTimeRange(activityEvents);
+
+  // Auto-select event when selectedEventId changes
+  useEffect(() => {
+    if (selectedEventId && activityEvents.length > 0) {
+      const event = activityEvents.find(e => e.uuid === selectedEventId);
+      if (event) {
+        setSelectedEvent(event);
+        setDetailsPanelOpen(true);
+      }
+    }
+  }, [selectedEventId, activityEvents]);
+
   if (!activity) {
     return null;
   }
 
-  // Use new event processing utilities
-  const activityEvents = useActivityEvents(activity.id);
-  const eventStats = useEventStatistics(activityEvents);
-  const timeRange = useEventTimeRange(activityEvents);
+
   
 
   // Filter events based on search and type filter
@@ -229,6 +244,7 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
             defaultPanelWidth={500}
             minPanelWidth={400}
             maxPanelWidthPercentage={0.7}
+            scrollToEventId={selectedEventId}
           />
         </View>
       </Flex>
