@@ -44,7 +44,7 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
     return dayjs(timestamp).fromNow();
   };
 
-  const eventCount = activity.events?.length || 0;
+  const eventCount = (activity.events?.length || 0) + (activity.updateEvents?.length || 0);
   const lastActivityTime = activity.updateEvents?.[0]?.timestamp || activity.startTime;
 
   return (
@@ -99,18 +99,31 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         </Flex>
         
         {/* Attribute Type (secondary info) */}
-        <Text 
-          UNSAFE_style={{ 
-            fontSize: '12px', 
-            color: '#6b7280',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            fontStyle: 'italic'
-          }}
-        >
-          {activity.name}
-        </Text>
+        <Flex alignItems="center" gap="size-50">
+          <Text 
+            UNSAFE_style={{ 
+              fontSize: '11px', 
+              color: '#9ca3af',
+              fontWeight: '500',
+              textTransform: 'uppercase',
+              letterSpacing: '0.025em'
+            }}
+          >
+            Type:
+          </Text>
+          <Text 
+            UNSAFE_style={{ 
+              fontSize: '12px', 
+              color: '#6b7280',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              fontStyle: 'italic'
+            }}
+          >
+            {activity.name}
+          </Text>
+        </Flex>
         
         {/* Footer with event count and timing */}
         <Flex alignItems="center" justifyContent="space-between" gap="size-100">

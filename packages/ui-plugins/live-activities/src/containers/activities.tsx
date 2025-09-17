@@ -1,16 +1,22 @@
-import React, { useState, useMemo } from 'react';
 import { Flex, View, Tabs, TabList, TabPanels, Item, Text, Tooltip, TooltipTrigger, Button, Heading } from '@adobe/react-spectrum';
-import Info from '@spectrum-icons/workflow/Info';
-import { defineMessages, useIntl } from 'react-intl';
-import useActivities, { useRegisteredActivities } from '../hooks/useActivities';
 
-import usePluginState from '../hooks/usePluginState';
-import { useLiveActivitiesValidationStatus } from '../hooks/useLiveActivitiesValidationStatus';
+import { ResizeHandle } from '@assurance/event-table';
+import { useResizePanel, useResizeObserver } from '@assurance/common-utils';
+
+import Info from '@spectrum-icons/workflow/Info';
+
+import React, { useState, useMemo } from 'react';
+
+import { defineMessages, useIntl } from 'react-intl';
+
 import { VALIDATION_STATUS } from '../constants';
+import useActivities, { useRegisteredActivities } from '../hooks/useActivities';
+import { useLiveActivitiesValidationStatus } from '../hooks/useLiveActivitiesValidationStatus';
+import usePluginState from '../hooks/usePluginState';
 import ActivityList from '../components/activities/ActivityList';
-import ActivityOverview from '../components/live-activity/activity-overview';
-import ActivityFlow from '../components/live-activity/activity-flow';
 import ActivityEventDetails from '../components/live-activity/activity-event-details';
+import ActivityFlow from '../components/live-activity/activity-flow';
+import ActivityOverview from '../components/live-activity/activity-overview';
 import LaunchLiveActivity from '../components/live-activity/launch-live-activity';
 
 const messages = defineMessages({
@@ -98,37 +104,35 @@ function Activities() {
   // Use only real activities - no mock data
   const activities = realActivities;
   
-  // Debug logging
-  console.log('=== Activities Debug ===');
-  console.log('Real activities from useActivities():', realActivities);
-  console.log('Real activities length:', realActivities.length);
-  
-  // Log each real activity in detail
-  realActivities.forEach((activity, index) => {
-    console.log(`Real Activity ${index}:`, {
-      id: activity.id,
-      name: activity.name,
-      attributes: activity.attributes,
-      status: activity.status,
-      startTime: activity.startTime,
-      endTime: activity.endTime,
-      eventsCount: activity.events?.length || 0,
-      updateEventsCount: activity.updateEvents?.length || 0,
-      pushToStartToken: activity.pushToStartToken,
-      updateToken: activity.updateToken
-    });
+  // Resize functionality
+  const { ref: containerRef, width: containerWidth } = useResizeObserver({
+    onResize: () => {},
+    observeHeight: false,
+    debounceDelay: 50
   });
+
+  const {
+    panelWidth,
+    isResizing,
+    handleMouseDown,
+    updateContainerWidth
+  } = useResizePanel({
+    initialWidth: 400,
+    minWidth: 300,
+    maxWidthPercentage: 0.6,
+    containerWidth: containerWidth,
+    isOpen: activities.length > 0,
+    onWidthChange: () => {}
+  });
+
+  // Update panel width when container width changes
+  React.useEffect(() => {
+    updateContainerWidth(containerWidth);
+  }, [containerWidth, updateContainerWidth]);
   
-  console.log('Activities to display:', activities);
-  console.log('Activities length:', activities.length);
-  console.log('Current selectedActivityId:', selectedActivityId);
-  console.log('=== End Activities Debug ===');
 
   const handleActivitySelect = (activityId: string) => {
-    console.log('Activity selected:', activityId);
-    console.log('Current selectedActivityId before:', selectedActivityId);
-    setSelectedActivityId(activityId);
-    console.log('Activity selection handler called');
+    setSelectedActivityId(activityId);    
   };
 
   // Determine platform capabilities based on validation status
@@ -210,13 +214,9 @@ function Activities() {
           <View borderBottomWidth="thin" borderBottomColor="gray-300" padding="size-200">
             <Flex direction="row" justifyContent="space-between" alignItems="center">
               <View>
-                <h2 style={{ margin: 0 }}>
+                <Heading level={2} margin={0}>
                   {formatMessage(messages.activities)} ({activities.length})
-                </h2>
-                {/* Debug info */}
-                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#666' }}>
-                  Debug: {activities.length} activities loaded
-                </p>
+                </Heading>
               </View>
               {platform.hasLiveActivities && (
                 <Flex alignItems="center" gap="size-100">
@@ -234,27 +234,39 @@ function Activities() {
             justifyContent="center"
             alignItems="center"
             direction="column"
-            gap="size-300"
+            gap="size-400"
             flex="1"
-            UNSAFE_style={{ padding: 'size-400' }}
+            UNSAFE_style={{ padding: 'size-600' }}
           >
             <View
               backgroundColor="gray-100"
               borderWidth="thin"
               borderColor="gray-300"
               borderRadius="medium"
-              padding="size-400"
-              maxWidth="size-5000"
+              padding="size-600"
+              maxWidth="size-6000"
+              minWidth="size-4000"
             >
-              <Flex direction="column" alignItems="center" gap="size-200">
-                <Text UNSAFE_style={{ fontSize: 'size-300', color: 'text-secondary', textAlign: 'center' }}>
+              <Flex direction="column" alignItems="center" gap="size-300">
+                <Text UNSAFE_style={{ 
+                  fontSize: 'size-400', 
+                  color: 'text-secondary', 
+                  textAlign: 'center',
+                  fontWeight: '500',
+                  lineHeight: '1.4'
+                }}>
                   {getNoActivitiesMessage()}
                 </Text>
-                <Text UNSAFE_style={{ fontSize: 'size-100', color: 'text-secondary', textAlign: 'center' }}>
+                <Text UNSAFE_style={{ 
+                  fontSize: 'size-200', 
+                  color: 'text-secondary', 
+                  textAlign: 'center',
+                  lineHeight: '1.5'
+                }}>
                   {getStartActivityHint()}
                 </Text>
                 {platform.hasLiveActivities && (
-                  <Flex alignItems="center" gap="size-100">
+                  <Flex alignItems="center" gap="size-200" marginTop="size-200">
                     <LaunchLiveActivity />
                     <InfoButton />
                   </Flex>
@@ -264,17 +276,24 @@ function Activities() {
           </Flex>
         )}
 
-        {/* Main Content - Master Detail Layout */}
+        {/* Main Content - Resizable Split View */}
         {activities.length > 0 && (
-          <Flex direction="row" flex="1" gap="size-200" minHeight="0">
+          <div 
+            ref={containerRef as React.RefObject<HTMLDivElement>} 
+            className={`activities-resizable-container ${isResizing ? 'resizing' : ''}`}
+            style={{ height: '100%', display: 'flex', flexDirection: 'row' }}
+          >
             {/* Left Panel - Activities List */}
-            <View
-              width="size-4000"
-              minWidth="size-3000"
-              maxWidth="size-5000"
-              borderEndWidth="thin"
-              borderEndColor="gray-300"
-              height="100%"
+            <div
+              style={{
+                width: `${panelWidth}px`,
+                minWidth: '300px',
+                maxWidth: '600px',
+                borderRight: '1px solid var(--spectrum-global-color-gray-300)',
+                height: '100%',
+                overflow: 'hidden',
+                transition: isResizing ? 'none' : 'width 0.2s ease'
+              }}
             >
               <ActivityList
                 activities={activities}
@@ -282,10 +301,25 @@ function Activities() {
                 onActivitySelect={handleActivitySelect}
                 isLoading={false}
               />
-            </View>
+            </div>
+
+            {/* Resize Handle */}
+            <ResizeHandle
+              isResizing={isResizing}
+              onMouseDown={handleMouseDown}
+              isVisible={true}
+            />
 
             {/* Right Panel - Activity Details with Tabs */}
-            <View flex="1" minWidth="size-4000" overflow="hidden">
+            <div
+              style={{
+                flex: 1,
+                marginLeft: "var(--spectrum-global-dimension-size-100)",
+                minWidth: '400px',
+                overflow: 'hidden',
+                transition: isResizing ? 'none' : 'width 0.2s ease'
+              }}
+            >
               {selectedActivityId ? (
                 (() => {
                   const selectedActivity = activities.find(a => a.id === selectedActivityId);
@@ -346,8 +380,8 @@ function Activities() {
                   </Flex>
                 </View>
               )}
-            </View>
-          </Flex>
+            </div>
+          </div>
         )}
 
       </Flex>

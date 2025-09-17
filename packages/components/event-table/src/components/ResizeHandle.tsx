@@ -56,6 +56,16 @@ const ResizeHandle: React.FC<ResizeHandleProps> = ({
       ref={containerRef}
       className={`resize-handle ${isResizing ? 'resizing' : ''} ${disabled ? 'disabled' : ''} ${className}`}
       onMouseDown={disabled ? undefined : handleMouseDown}
+      onMouseEnter={(e) => {
+        if (!disabled && !isResizing) {
+          e.currentTarget.style.cursor = 'col-resize';
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!disabled && !isResizing) {
+          e.currentTarget.style.cursor = 'col-resize';
+        }
+      }}
       style={{
         width: '4px',
         backgroundColor: isResizing ? 'var(--spectrum-accent-color-500)' : 'var(--spectrum-global-color-gray-200)',
@@ -91,7 +101,8 @@ const ResizeHandle: React.FC<ResizeHandleProps> = ({
             transition: 'all 0.2s ease',
             boxShadow: isResizing 
               ? '0 2px 8px rgba(0, 123, 255, 0.3)' 
-              : '0 1px 3px rgba(0, 0, 0, 0.1)'
+              : '0 1px 3px rgba(0, 0, 0, 0.1)',
+            cursor: disabled ? 'default' : 'col-resize'
           }}
         >
           {[...Array(3)].map((_, i) => (

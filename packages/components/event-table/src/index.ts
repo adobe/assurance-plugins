@@ -25,7 +25,6 @@ export { default as EventDataViewer } from './components/EventDataViewer';
 export { default as ResizeHandle } from './components/ResizeHandle';
 
 // Hooks
-export { useResizePanel } from './hooks/useResizePanel';
 export { useResizeObserver } from './hooks/useResizeObserver';
 export { useDocumentStyles } from './hooks/useDocumentStyles';
 export { useGripPosition } from './hooks/useDynamicGripPosition';

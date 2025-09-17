@@ -18,15 +18,13 @@
 import { View, Flex } from '@adobe/react-spectrum';
 
 import { Event } from '@assurance/common-utils';
+import { useResizeObserver, useResizePanel } from '@assurance/common-utils';
 
 import type { Key } from '@react-types/shared';
 
 import { ColumnDef } from '@tanstack/react-table';
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-
-import { useResizeObserver } from '../hooks/useResizeObserver';
-import { useResizePanel } from '../hooks/useResizePanel';
 
 import EventDetailsPanel from './EventDetailsPanel';
 import EventTable from './EventTable';
@@ -85,6 +83,7 @@ function EventTableWithDetails<T = Event>({
     maxWidthPercentage: maxPanelWidthPercentage,
     containerWidth: containerWidth,
     isOpen: detailsPanelOpen && !!selectedEvent,
+    panelPosition: 'right', // This is a right panel, so dragging right should decrease width
     onWidthChange: (width) => {
       // Panel width changed
     }

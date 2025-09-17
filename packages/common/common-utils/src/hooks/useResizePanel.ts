@@ -19,7 +19,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useDocumentStyles } from './useDocumentStyles';
 
-interface UseResizePanelOptions {
+export interface UseResizePanelOptions {
   /** Initial panel width in pixels */
   initialWidth?: number;
   /** Minimum panel width in pixels */
@@ -32,9 +32,11 @@ interface UseResizePanelOptions {
   isOpen?: boolean;
   /** Callback when panel width changes */
   onWidthChange?: (width: number) => void;
+  /** Panel position - 'left' or 'right' - affects resize direction */
+  panelPosition?: 'left' | 'right';
 }
 
-interface UseResizePanelReturn {
+export interface UseResizePanelReturn {
   /** Current panel width */
   panelWidth: number;
   /** Whether currently resizing */
@@ -57,7 +59,8 @@ export const useResizePanel = ({
   maxWidthPercentage = 0.7,
   containerWidth = 0,
   isOpen = false,
-  onWidthChange
+  onWidthChange,
+  panelPosition = 'left'
 }: UseResizePanelOptions = {}): UseResizePanelReturn => {
   const [panelWidth, setPanelWidthState] = useState(initialWidth);
   const [isResizing, setIsResizing] = useState(false);
@@ -138,9 +141,12 @@ export const useResizePanel = ({
       // Add global mouse event listeners
       const handleMouseMove = (e: MouseEvent) => {
         // Calculate delta from the resize handle position
-        // Since we're resizing from the right edge, we need to subtract the delta
-        const deltaX = startX - e.clientX; // Reverse the direction
-        const newWidth = startWidth + deltaX;
+        const deltaX = e.clientX - startX;
+
+        // Apply direction logic based on panel position:
+        // - 'left' panel: dragging right should increase width (deltaX is positive)
+        // - 'right' panel: dragging right should decrease width (deltaX is positive, but we subtract)
+        const newWidth = panelPosition === 'left' ? startWidth + deltaX : startWidth - deltaX;
 
         // Apply constraints
         const constrainedWidth = Math.max(
@@ -171,7 +177,8 @@ export const useResizePanel = ({
       containerWidth,
       maxWidthPercentage,
       onWidthChange,
-      isResizing
+      isResizing,
+      panelPosition
     ]
   );
 

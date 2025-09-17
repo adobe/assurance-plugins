@@ -33,7 +33,7 @@
   flex-shrink: 0;
   width: 4px;
   background-color: var(--spectrum-global-color-gray-200);
-  cursor: col-resize;
+  cursor: col-resize !important;
   position: relative;
   z-index: 10;
   transition: all 0.2s ease;
@@ -44,6 +44,7 @@
 
   &:hover {
     background-color: var(--spectrum-global-color-gray-300);
+    cursor: col-resize !important;
     
     .resize-handle-hover {
       opacity: 0.2;
@@ -52,10 +53,11 @@
 
   &.resizing {
     background-color: var(--spectrum-global-color-gray-200);
+    cursor: col-resize !important;
   }
   
   &.disabled {
-    cursor: default;
+    cursor: default !important;
     opacity: 0.5;
   }
 }

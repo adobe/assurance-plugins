@@ -139,7 +139,7 @@ function ActivityList({
               direction="column"
               gap="size-100"
             >
-              <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-100)', color: 'var(--spectrum-global-color-gray-700)' }}>
+              <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-200)', color: 'var(--spectrum-global-color-gray-700)' }}>
                 {searchQuery || selectedFilter !== 'all' 
                   ? formatMessage(messages.noActivitiesFound)
                   : 'No activities available'
