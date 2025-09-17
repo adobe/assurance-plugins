@@ -1,6 +1,6 @@
 import React from 'react';
 import MonacoEditor from '@monaco-editor/react';
-import CopyableValue from './CopyableValue';
+import { CopyableValue } from '@assurance/common-utils';
 
 interface CopyableMonacoEditorProps {
   value: string;

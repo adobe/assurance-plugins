@@ -1,9 +1,7 @@
 import { EventDataViewer } from '@assurance/event-data-viewer';
-import { Event } from '@assurance/common-utils';
+import { Event, CopyableValue } from '@assurance/common-utils';
 
 import React from 'react';
-
-import CopyableValue from './CopyableValue';
 
 interface EventDataViewerProps {
   event: Event;
@@ -43,7 +41,8 @@ const EventDataViewerComponent: React.FC<EventDataViewerProps> = ({
           value={JSON.stringify(event.payload, null, 2)} 
           copyButtonSize="S"
           standalone={true}
-          tooltipText="Copy JSON"
+          tooltipText="Copy Payload JSON"
+          label="Copy Payload"
         />
       </div>
       <div style={{ 

@@ -1,6 +1,6 @@
-import { View, Text, Heading, Flex, Button, Divider, Well, Accordion, Disclosure, DisclosureTitle, DisclosurePanel } from '@adobe/react-spectrum';
+import { View, Text, Heading, Flex, Button, Divider, Well, Accordion, Disclosure, DisclosureTitle, DisclosurePanel, TooltipTrigger, Tooltip } from '@adobe/react-spectrum';
 
-import { Event } from '@assurance/common-utils';
+import { Event, CopyableValue } from '@assurance/common-utils';
 
 import MonacoEditor from '@monaco-editor/react';
 
@@ -13,7 +13,6 @@ import { defineMessages, useIntl } from 'react-intl';
 import dayjs from 'dayjs';
 
 import CopyableMonacoEditor from './CopyableMonacoEditor';
-import CopyableValue from './CopyableValue';
 import EventDataViewer from './EventDataViewer';
 
 interface EventDetailsPanelProps {
@@ -200,11 +199,22 @@ function EventDetailsPanel({ event, isOpen, onClose }: EventDetailsPanelProps) {
                 <Disclosure id="rawEventData">
                   <DisclosureTitle>{formatMessage(messages.rawEventData)}</DisclosureTitle>
                   <DisclosurePanel>
-                    <CopyableMonacoEditor
-                      value={JSON.stringify(event, null, 2)}
-                      title=""
-                      height="400px"
-                    />
+                    <Flex direction="column" gap="size-100">
+                      <Flex justifyContent="end" alignItems="center">
+                        <CopyableValue
+                          value={JSON.stringify(event, null, 2)}
+                          copyButtonSize="S"
+                          standalone={true}
+                          tooltipText="Copy raw event data to clipboard"
+                          label="Copy Raw Event"
+                        />
+                      </Flex>
+                      <CopyableMonacoEditor
+                        value={JSON.stringify(event, null, 2)}
+                        title=""
+                        height="400px"
+                      />
+                    </Flex>
                   </DisclosurePanel>
                 </Disclosure>
               </Accordion>

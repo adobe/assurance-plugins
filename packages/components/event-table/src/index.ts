@@ -19,7 +19,6 @@
 export { default as EventTable } from './components/EventTable';
 export { default as EventTableWithDetails } from './components/EventTableWithDetails';
 export { default as EventDetailsPanel } from './components/EventDetailsPanel';
-export { default as CopyableValue } from './components/CopyableValue';
 export { default as CopyableMonacoEditor } from './components/CopyableMonacoEditor';
 export { default as EventDataViewer } from './components/EventDataViewer';
 export { default as ResizeHandle } from './components/ResizeHandle';
