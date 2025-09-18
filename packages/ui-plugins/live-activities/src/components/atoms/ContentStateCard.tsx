@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
 import { View, Text, Flex, Heading, Divider, Button, Well, ActionGroup, Item, Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
-import Card from './card';
-import InfoField from './InfoField';
-import { defineMessages, useIntl } from 'react-intl';
+
+import MonacoEditor from '@monaco-editor/react';
+
 import ViewList from '@spectrum-icons/workflow/ViewList';
 import Code from '@spectrum-icons/workflow/Code';
 import Copy from '@spectrum-icons/workflow/Copy';
 import ViewDetail from '@spectrum-icons/workflow/ViewDetail';
+
+import React, { useState } from 'react';
+
+import { defineMessages, useIntl } from 'react-intl';
+
 import dayjs from 'dayjs';
-import MonacoEditor from '@monaco-editor/react';
+
 import usePluginState from '../../hooks/usePluginState';
+
+import InfoField from './InfoField';
+import Card from './card';
 
 interface ContentStateCardProps {
   contentState: any;
