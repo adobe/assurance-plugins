@@ -3,6 +3,7 @@ import { Heading, Text, View, Flex, ActionGroup, Item, Well, Divider } from '@ad
 import { defineMessages, useIntl } from 'react-intl';
 import dayjs from 'dayjs';
 import { LiveActivity } from '../../hooks/useActivities';
+import { EVENT_CONFIG } from '../../constants/liveActivitiesConfig';
 import Card from '../atoms/card';
 import MoreSmallListVert from '@spectrum-icons/workflow/MoreSmallListVert';
 import ClassicGridView from '@spectrum-icons/workflow/ClassicGridView';
@@ -79,7 +80,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
       const eventName = event.payload?.ACPExtensionEventName || '';
       const eventData = event.payload?.ACPExtensionEventData || {};
       
-      if (eventName === 'Live Activity start event') {
+      if (eventName === EVENT_CONFIG.EVENT_NAMES.START) {
         events.push({
           id: `start-${index}`,
           type: 'start',
@@ -91,7 +92,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
           color: 'positive',
           origin: eventData.origin
         });
-      } else if (eventName === 'Live Activity updated') {
+      } else if (eventName === EVENT_CONFIG.EVENT_NAMES.UPDATED) {
         events.push({
           id: `content-update-${index}`,
           type: 'content-update',

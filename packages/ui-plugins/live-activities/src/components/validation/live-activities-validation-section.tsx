@@ -408,11 +408,11 @@ const LiveActivitiesValidationSection = () => {
 
       <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 16 }}>
         <tbody>
-          {dataRows.map(row => {
+          {dataRows.map((row, index) => {
             // Handle separator rows
             if (row.label === '---') {
               return (
-                <tr key={`separator-${Math.random()}`} style={{ borderBottom: '2px solid #e1e1e1' }}>
+                <tr key={`separator-${index}`} style={{ borderBottom: '2px solid #e1e1e1' }}>
                   <td colSpan={2} style={{ padding: '8px 16px', backgroundColor: '#f5f5f5' }}>
                     <Text UNSAFE_style={{ fontSize: '12px', color: '#666' }}>Next Activity</Text>
                   </td>

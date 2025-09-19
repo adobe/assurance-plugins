@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-
 import { NAVIGATION_CONFIG } from '../constants/liveActivitiesConfig';
+import { navigationUtils } from '../utils/navigationUtils';
 
 // Type definitions for better type safety
 type TopLevelTab =
@@ -61,28 +61,31 @@ const usePluginState = create<PluginState>()(set => ({
       set(state => ({
         activityNavigation: {
           ...state.activityNavigation,
-          selectedActivityId: activityId,
-          // Reset event selection when activity changes
-          selectedEventId: null
+          ...navigationUtils.setSelectedActivity(activityId)
         }
       })),
 
     setActiveTab: tab =>
       set(state => ({
-        activityNavigation: { ...state.activityNavigation, activeTab: tab }
+        activityNavigation: {
+          ...state.activityNavigation,
+          ...navigationUtils.setActiveTab(tab)
+        }
       })),
 
     setSelectedEventId: eventId =>
       set(state => ({
-        activityNavigation: { ...state.activityNavigation, selectedEventId: eventId }
+        activityNavigation: {
+          ...state.activityNavigation,
+          ...navigationUtils.setSelectedEvent(eventId)
+        }
       })),
 
     navigateToEvent: (eventId, tab = NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS) =>
       set(state => ({
         activityNavigation: {
           ...state.activityNavigation,
-          selectedEventId: eventId,
-          activeTab: tab
+          ...navigationUtils.navigateToEvent(eventId, tab)
         }
       })),
 
@@ -90,8 +93,7 @@ const usePluginState = create<PluginState>()(set => ({
       set(state => ({
         activityNavigation: {
           ...state.activityNavigation,
-          selectedEventId: eventId,
-          activeTab: NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS
+          ...navigationUtils.navigateToEventDetails(eventId)
         }
       })),
 
@@ -99,8 +101,7 @@ const usePluginState = create<PluginState>()(set => ({
       set(state => ({
         activityNavigation: {
           ...state.activityNavigation,
-          selectedEventId: eventId,
-          activeTab: NAVIGATION_CONFIG.ACTIVITY_TABS.ACTIVITY_FLOW
+          ...navigationUtils.navigateToActivityFlow(eventId)
         }
       }))
   },

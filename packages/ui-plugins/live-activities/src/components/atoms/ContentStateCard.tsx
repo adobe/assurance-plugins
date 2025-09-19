@@ -73,57 +73,13 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
       ? JSON.stringify(contentState, null, 2)
       : JSON.stringify(contentState);
     
-    // Check if we're in a restricted environment (permissions policy)
-    const isRestricted = !navigator.permissions || 
-      (window.location !== window.parent.location); // iframe check
+    const { copyToClipboard } = await import('../../utils/clipboard');
+    const success = await copyToClipboard(content);
     
-    if (isRestricted) {
-      // Skip clipboard API and go straight to fallback
-      copyWithFallback(content);
-      return;
-    }
-    
-    try {
-      // Try modern clipboard API first
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(content);
-        setCopySuccess(true);
-        setTimeout(() => setCopySuccess(false), 2000);
-        return;
-      }
-    } catch (err) {
-      // If clipboard API fails, try fallback
-      console.warn('Clipboard API failed, trying fallback method:', err);
-    }
-    
-    // Fallback method
-    copyWithFallback(content);
-  };
-
-  const copyWithFallback = (content: string) => {
-    try {
-      const textArea = document.createElement('textarea');
-      textArea.value = content;
-      textArea.style.position = 'fixed';
-      textArea.style.left = '-999999px';
-      textArea.style.top = '-999999px';
-      textArea.style.opacity = '0';
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      
-      const successful = document.execCommand('copy');
-      document.body.removeChild(textArea);
-      
-      if (successful) {
-        setCopySuccess(true);
-        setTimeout(() => setCopySuccess(false), 2000);
-      } else {
-        throw new Error('Copy command failed');
-      }
-    } catch (err) {
-      console.error('Failed to copy content:', err);
-      setCopySuccess(false);
+    if (success) {
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } else {
       console.warn('Copy functionality is not available. Please manually select and copy the content from the display area.');
     }
   };
