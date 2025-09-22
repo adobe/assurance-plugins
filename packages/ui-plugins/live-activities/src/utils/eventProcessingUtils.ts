@@ -205,10 +205,13 @@ export function sortEventsByTimestamp(
   events: LiveActivityEvent[],
   direction: 'asc' | 'desc' = 'desc'
 ): LiveActivityEvent[] {
-  return [...events].sort((a, b) => {
-    const timeA = new Date(a.timestamp).getTime();
-    const timeB = new Date(b.timestamp).getTime();
+  // Cache timestamps to avoid creating Date objects repeatedly
+  const eventsWithTimestamps = events.map(event => ({
+    event,
+    timestamp: new Date(event.timestamp).getTime()
+  }));
 
-    return direction === 'desc' ? timeB - timeA : timeA - timeB;
-  });
+  return eventsWithTimestamps
+    .sort((a, b) => direction === 'desc' ? b.timestamp - a.timestamp : a.timestamp - b.timestamp)
+    .map(({ event }) => event);
 }

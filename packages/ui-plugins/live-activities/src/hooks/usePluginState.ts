@@ -86,15 +86,12 @@ const usePluginState = create<PluginState>()(set => ({
       eventId: string,
       tab: ActivityTab = NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS
     ) =>
-      set(
-        state =>
-          ({
-            activityNavigation: {
-              ...state.activityNavigation,
-              ...navigationUtils.navigateToEvent(eventId, tab)
-            }
-          }) as Partial<PluginState>
-      ),
+      set(state => ({
+        activityNavigation: {
+          ...state.activityNavigation,
+          ...navigationUtils.navigateToEvent(eventId, tab)
+        }
+      })),
 
     navigateToEventDetails: (eventId: string) =>
       set(state => ({

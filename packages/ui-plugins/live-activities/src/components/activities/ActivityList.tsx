@@ -62,15 +62,18 @@ function ActivityList({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
 
+  // Memoize lowercase search query to avoid repeated conversions
+  const lowerSearchQuery = useMemo(() => searchQuery.toLowerCase(), [searchQuery]);
+
   // Memoized filtering logic
   const filteredActivities = useMemo(() => {
     return activities.filter(activity => {
-      const matchesSearch = activity.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           activity.attributes?.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSearch = activity.name.toLowerCase().includes(lowerSearchQuery) ||
+                           activity.attributes?.toLowerCase().includes(lowerSearchQuery);
       const matchesFilter = selectedFilter === 'all' || activity.status === selectedFilter;
       return matchesSearch && matchesFilter;
     });
-  }, [activities, searchQuery, selectedFilter]);
+  }, [activities, lowerSearchQuery, selectedFilter]);
 
   // Count activities by status
   const activityCounts = useMemo(() => {

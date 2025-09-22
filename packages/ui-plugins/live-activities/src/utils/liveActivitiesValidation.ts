@@ -33,11 +33,12 @@ function isValidIOSVersionParts(versionParts: string[]): boolean {
 
 /**
  * Parses an iOS version string into major and minor version numbers.
+ * Note: Patch versions (e.g., "16.1.2") are ignored - only major and minor versions are extracted.
  * @param version - Version string like "16.1.2" or "18.0"
  * @returns Array of [majorVersion, minorVersion] as numbers
  *
  * @example
- * parseIOSVersion("16.1.2") // [16, 1]
+ * parseIOSVersion("16.1.2") // [16, 1] - patch version ignored
  * parseIOSVersion("18.0") // [18, 0]
  * parseIOSVersion("17") // [17, 0]
  * parseIOSVersion("") // null

@@ -16,16 +16,12 @@ import {
  * @returns The extracted attribute type or null if not found
  */
 function extractAttributeTypeFromSchemaEvent(event: any): string | null {
-  try {
-    if (isLiveActivityAssuranceDebugEvent(event)) {
-      const attributeType =
-        event.payload.ACPExtensionEventData.jsonSchema?.['attributes-type'] || null;
-      return attributeType;
-    }
-    return null;
-  } catch (error) {
-    return null;
+  if (isLiveActivityAssuranceDebugEvent(event)) {
+    const attributeType =
+      event.payload.ACPExtensionEventData.jsonSchema?.['attributes-type'] || null;
+    return attributeType;
   }
+  return null;
 }
 
 /**
