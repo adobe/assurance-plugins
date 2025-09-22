@@ -58,7 +58,7 @@
   resolved "https://registry.npmjs.org/@adobe/react-spectrum-workflow/-/react-spectrum-workflow-2.3.5.tgz"
   integrity sha512-b53VIPwPWKb/T5gzE3qs+QlGP5gVrw/LnWV3xMksDU+CRl3rzOKUwxIGiZO8ICyYh1WiyqY4myGlPU/nAynBUg==
 
-"@adobe/react-spectrum@^3.0.0", "@adobe/react-spectrum@^3.32.2", "@adobe/react-spectrum@^3.36.0", "@adobe/react-spectrum@^3.36.3", "@adobe/react-spectrum@^3.37.0", "@adobe/react-spectrum@^3.38.0":
+"@adobe/react-spectrum@^3.0.0", "@adobe/react-spectrum@^3.32.2", "@adobe/react-spectrum@^3.36.3", "@adobe/react-spectrum@^3.37.0", "@adobe/react-spectrum@^3.38.0":
   version "3.44.2"
   resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-platform-release/@adobe/react-spectrum/-/react-spectrum-3.44.2.tgz"
   integrity sha512-hHDH/uHMMmpwQE5gYVJTVSrjSIyR1DBVF/ijG17OuyyUyW0OODtYx2TQF31THMqXZ3n0Hu1DRDnNr9B7VqZErw==
@@ -9153,6 +9153,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.3.2:
+  version "2.5.1"
+  resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/classnames/-/classnames-2.5.1.tgz#ba774c614be0f016da105c858e7159eae8e7687b"
+  integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
 
 clean-css@^5.2.2:
   version "5.3.3"
