@@ -16,10 +16,16 @@ import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
  * parseIOSVersion("16.1.2") // [16, 1]
  * parseIOSVersion("18.0") // [18, 0]
  */
-export function parseIOSVersion(version: string): [number, number] {
+export function parseIOSVersion(version: string): [number, number] | null {
   const versionParts = version.split('.').map(part => parseInt(part, 10));
   const majorVersion = isNaN(versionParts[0]) ? NaN : versionParts[0];
   const minorVersion = isNaN(versionParts[1]) ? 0 : versionParts[1] || 0;
+  
+  // Return null if major version is invalid
+  if (isNaN(majorVersion)) {
+    return null;
+  }
+  
   return [majorVersion, minorVersion];
 }
 
@@ -72,13 +78,13 @@ export function validateIOSVersionForLiveActivities(
   iosVersion: string
 ): LiveActivitiesValidationStatus {
   try {
-    const [major, minor] = parseIOSVersion(iosVersion);
-
-    // Check for invalid version numbers
-    if (isNaN(major) || isNaN(minor)) {
+    const version = parseIOSVersion(iosVersion);
+    
+    if (!version) {
       return VALIDATION_STATUS.UNKNOWN;
     }
 
+    const [major, minor] = version;
     return getLiveActivitiesSupport(major, minor);
   } catch (error) {
     return VALIDATION_STATUS.UNKNOWN;
@@ -100,13 +106,16 @@ export function isDeviceVersionBelowAppMinimum(
   appMinVersion: string
 ): boolean {
   try {
-    const [deviceMajor, deviceMinor] = parseIOSVersion(deviceVersion);
-    const [appMinMajor, appMinMinor] = parseIOSVersion(appMinVersion);
+    const deviceVersionParsed = parseIOSVersion(deviceVersion);
+    const appMinVersionParsed = parseIOSVersion(appMinVersion);
 
-    // If either version is invalid (NaN), return false
-    if (isNaN(deviceMajor) || isNaN(deviceMinor) || isNaN(appMinMajor) || isNaN(appMinMinor)) {
+    // If either version is invalid, return false
+    if (!deviceVersionParsed || !appMinVersionParsed) {
       return false;
     }
+
+    const [deviceMajor, deviceMinor] = deviceVersionParsed;
+    const [appMinMajor, appMinMinor] = appMinVersionParsed;
 
     return deviceMajor < appMinMajor || (deviceMajor === appMinMajor && deviceMinor < appMinMinor);
   } catch (error) {

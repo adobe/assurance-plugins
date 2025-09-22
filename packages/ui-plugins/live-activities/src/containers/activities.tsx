@@ -141,6 +141,45 @@ function Activities() {
   React.useEffect(() => {
     updateContainerWidth(containerWidth);
   }, [containerWidth, updateContainerWidth]);
+
+  // Memoize the selected activity tabs content
+  const selectedActivityTabs = useMemo(() => {
+    if (!selectedActivityId) return null;
+    
+    const selectedActivity = activities.find(a => a.id === selectedActivityId);
+    return (
+      <Tabs
+        height="100%"
+        selectedKey={activeTab}
+        onSelectionChange={(key) => setActiveTab(key as ActivityTab)}
+      >
+        <TabList>
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>{formatMessage(messages.overviewTab)}</Item>
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.ACTIVITY_FLOW}>{formatMessage(messages.activityFlowTab)}</Item>
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS}>{formatMessage(messages.eventDetailsTab)}</Item>
+        </TabList>
+        <TabPanels flex="1" maxHeight="calc(100vh - 14%)">
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>
+            <View height="100%" overflow="auto">
+              <ActivityOverview activity={selectedActivity} />
+            </View>
+          </Item>
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.ACTIVITY_FLOW}>
+            <View height="100%" overflow="auto">
+              <ActivityFlow activity={selectedActivity} />
+            </View>
+          </Item>
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS}>
+            <View height="100%" overflow="auto">
+              <ActivityEventDetails 
+                activity={selectedActivity} 
+              />
+            </View>
+          </Item>
+        </TabPanels>
+      </Tabs>
+    );
+  }, [selectedActivityId, activities, activeTab, setActiveTab, formatMessage]);
   
 
   const handleActivitySelect = (activityId: string) => {
@@ -327,43 +366,7 @@ function Activities() {
                 transition: isResizing ? 'none' : 'width 0.2s ease'
               }}
             >
-              {selectedActivityId ? (
-                (() => {
-                  const selectedActivity = activities.find(a => a.id === selectedActivityId);
-                  return (
-                <Tabs
-                  height="100%"
-                  selectedKey={activeTab}
-                  onSelectionChange={(key) => setActiveTab(key as ActivityTab)}
-                >
-                  <TabList>
-                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>{formatMessage(messages.overviewTab)}</Item>
-                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.ACTIVITY_FLOW}>{formatMessage(messages.activityFlowTab)}</Item>
-                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS}>{formatMessage(messages.eventDetailsTab)}</Item>
-                  </TabList>
-                  <TabPanels flex="1" maxHeight="calc(100vh - 14%)">
-                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>
-                      <View height="100%" overflow="auto">
-                        <ActivityOverview activity={selectedActivity} />
-                      </View>
-                    </Item>
-                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.ACTIVITY_FLOW}>
-                      <View height="100%" overflow="auto">
-                        <ActivityFlow activity={selectedActivity} />
-                      </View>
-                    </Item>
-                    <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS}>
-                      <View height="100%" overflow="auto">
-                        <ActivityEventDetails 
-                          activity={selectedActivity} 
-                        />
-                      </View>
-                    </Item>
-                  </TabPanels>
-                </Tabs>
-                  );
-                })()
-              ) : (
+              {selectedActivityTabs || (
                 <View padding="size-400">
                   <Flex
                     justifyContent="center"

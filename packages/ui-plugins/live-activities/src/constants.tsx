@@ -9,8 +9,12 @@ import Help from '@spectrum-icons/workflow/Help';
 const allowedSizes = ['S', 'M', 'L'] as const;
 type AllowedSize = (typeof allowedSizes)[number];
 
+function isAllowedSize(size: string): size is AllowedSize {
+  return allowedSizes.includes(size as AllowedSize);
+}
+
 function getValidSize(size: string): AllowedSize {
-  return allowedSizes.includes(size as AllowedSize) ? (size as AllowedSize) : 'S';
+  return isAllowedSize(size) ? size : 'S';
 }
 
 /**

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import { NAVIGATION_CONFIG } from '../constants/liveActivitiesConfig';
 import { navigationUtils } from '../utils/navigationUtils';
 
@@ -69,7 +70,7 @@ const usePluginState = create<PluginState>()(set => ({
       set(state => ({
         activityNavigation: {
           ...state.activityNavigation,
-          ...navigationUtils.setActiveTab(tab)
+          activeTab: tab
         }
       })),
 
@@ -81,15 +82,21 @@ const usePluginState = create<PluginState>()(set => ({
         }
       })),
 
-    navigateToEvent: (eventId, tab = NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS) =>
-      set(state => ({
-        activityNavigation: {
-          ...state.activityNavigation,
-          ...navigationUtils.navigateToEvent(eventId, tab)
-        }
-      })),
+    navigateToEvent: (
+      eventId: string,
+      tab: ActivityTab = NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS
+    ) =>
+      set(
+        state =>
+          ({
+            activityNavigation: {
+              ...state.activityNavigation,
+              ...navigationUtils.navigateToEvent(eventId, tab)
+            }
+          }) as Partial<PluginState>
+      ),
 
-    navigateToEventDetails: eventId =>
+    navigateToEventDetails: (eventId: string) =>
       set(state => ({
         activityNavigation: {
           ...state.activityNavigation,

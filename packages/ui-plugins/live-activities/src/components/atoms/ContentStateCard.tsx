@@ -14,6 +14,7 @@ import { defineMessages, useIntl } from 'react-intl';
 import dayjs from 'dayjs';
 
 import usePluginState from '../../hooks/usePluginState';
+import { copyToClipboard } from '../../utils/clipboard';
 
 import InfoField from './InfoField';
 import Card from './card';
@@ -73,7 +74,6 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
       ? JSON.stringify(contentState, null, 2)
       : JSON.stringify(contentState);
     
-    const { copyToClipboard } = await import('../../utils/clipboard');
     const success = await copyToClipboard(content);
     
     if (success) {

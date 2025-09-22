@@ -26,9 +26,20 @@ const prepareEvents = (events: any[]): any[] => {
     let data: any = {};
 
     try {
-      data = typeof message === "string" ? JSON.parse(message) : {};
+      if (typeof message === "string") {
+        data = JSON.parse(message);
+      } else {
+        if (message !== undefined && message !== null) {
+          console.warn(
+            `Expected message to be a string, but got ${typeof message}:`,
+            message
+          );
+        }
+        data = {};
+      }
     } catch (e) {
-      console.log(e);
+      console.warn('Failed to parse message as JSON:', e);
+      data = {};
     }
 
     return {
