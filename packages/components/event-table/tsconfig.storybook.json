@@ -1,15 +1,21 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "composite": true
+    "jsx": "react",
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "strict": true,
+    "lib": ["DOM", "DOM.Iterable", "es2015.iterable", "ESNext", "ES2018.Intl"],
+    "outDir": "lib",
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "composite": true,
+    "noEmit": true
   },
-  "files": [
-    "../../../node_modules/@nx/react/typings/styled-jsx.d.ts",
-    "../../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../../node_modules/@nx/react/typings/image.d.ts"
-  ],
   "exclude": [
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
@@ -26,6 +32,8 @@
     "src/**/*.stories.jsx",
     "src/**/*.stories.tsx",
     "src/**/*.stories.mdx",
+    "src/**/*.tsx",
+    "src/**/*.ts",
     ".storybook/*.js",
     ".storybook/*.ts"
   ]

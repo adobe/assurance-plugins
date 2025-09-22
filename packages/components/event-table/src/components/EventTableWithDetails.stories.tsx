@@ -71,7 +71,7 @@ export const Primary: Story = {
         }
       }
     ],
-    columns: defaultColumns,
+    columns: defaultColumns as any,
     defaultPanelWidth: 500,
     minPanelWidth: 300,
     maxPanelWidthPercentage: 0.7
