@@ -41,7 +41,7 @@
   .formattedContentValueText {
     word-break: break-word;
     font-size: var(--spectrum-global-dimension-size-200);
-    
+
     &.monospace {
       font-family: monospace;
     }
