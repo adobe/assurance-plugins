@@ -22,7 +22,6 @@ import { CopyableValue } from '@assurance/common-utils';
 
 import Info from '@spectrum-icons/workflow/InfoOutline';
 import Search from '@spectrum-icons/workflow/Search';
-import Alert from '@spectrum-icons/workflow/Alert';
 
 import React from 'react';
 
@@ -406,10 +405,21 @@ const LiveActivitiesValidationSection = () => {
 
 
   return (
-    <View data-testid={TEST_IDS.LIVE_ACTIVITIES_VALIDATION_SECTION}>
+    <div 
+      data-testid={TEST_IDS.LIVE_ACTIVITIES_VALIDATION_SECTION}
+      role="region"
+      aria-labelledby="live-activities-validation-title"
+    >
       <Flex gap="size-100" alignItems="center" marginBottom="size-200">
-        <StatusLight variant={statusConfig.variant} data-testid={TEST_IDS.STATUS_LIGHT} />
-        <Heading level={4}>
+        <StatusLight 
+          variant={statusConfig.variant} 
+          data-testid={TEST_IDS.STATUS_LIGHT}
+          aria-label={`Live Activities validation status: ${statusConfig.title}`}
+        />
+        <Heading 
+          level={4}
+          id="live-activities-validation-title"
+        >
           {formatMessage(messages.title)}
         </Heading>
       </Flex>
@@ -508,7 +518,7 @@ const LiveActivitiesValidationSection = () => {
           {formatMessage(messages.learnMore)}
         </Link>
       </View>
-    </View>
+    </div>
   );
 };
 

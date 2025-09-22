@@ -16,6 +16,7 @@ import {
 } from '@adobe/react-spectrum';
 
 import { Editor, Monaco, MonacoDiffEditor } from '@monaco-editor/react';
+import classNames from 'classnames';
 
 import Rocket from '@spectrum-icons/workflow/Launch';
 

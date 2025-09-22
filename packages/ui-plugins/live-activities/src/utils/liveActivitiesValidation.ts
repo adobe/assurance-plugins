@@ -50,7 +50,13 @@ export function parseIOSVersion(version: string): [number, number] | null {
     return null;
   }
 
-  const versionParts = version.trim().split('.');
+  // Trim whitespace for more robust input handling
+  const trimmedVersion = version.trim();
+  if (!trimmedVersion) {
+    return null;
+  }
+
+  const versionParts = trimmedVersion.split('.');
   if (!isValidIOSVersionParts(versionParts)) {
     return null;
   }

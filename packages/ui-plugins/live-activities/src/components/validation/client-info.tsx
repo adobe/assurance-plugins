@@ -1,6 +1,5 @@
 import { View } from '@adobe/react-spectrum';
 import React from 'react';
-// @ts-ignore //Ignoring error as this is a style file
 import './client-info.css';
 import ClientValidationWidget from './client-validation-widget';
 import ProfileSectionWidget from './profile-section-widget';

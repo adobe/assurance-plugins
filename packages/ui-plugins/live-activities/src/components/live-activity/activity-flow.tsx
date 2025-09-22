@@ -12,6 +12,7 @@ import Play from '@spectrum-icons/workflow/Play';
 import Pause from '@spectrum-icons/workflow/Pause';
 import Checkmark from '@spectrum-icons/workflow/Checkmark';
 import Alert from '@spectrum-icons/workflow/Alert';
+import classNames from 'classnames';
 
 interface ActivityFlowProps {
   activity?: LiveActivity;
