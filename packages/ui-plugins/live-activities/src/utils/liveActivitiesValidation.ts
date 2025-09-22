@@ -14,14 +14,38 @@ import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
  * @example
  * parseIOSVersion("16.1.2") // [16, 1]
  * parseIOSVersion("18.0") // [18, 0]
+ * parseIOSVersion("17") // [17, 0]
+ * parseIOSVersion("") // null
+ * parseIOSVersion("invalid") // null
+ * parseIOSVersion("16.-1") // null
  */
 export function parseIOSVersion(version: string): [number, number] | null {
-  const versionParts = version.split('.').map(part => parseInt(part, 10));
-  const majorVersion = isNaN(versionParts[0]) ? NaN : versionParts[0];
-  const minorVersion = isNaN(versionParts[1]) ? 0 : versionParts[1];
+  // Handle edge cases
+  if (!version || typeof version !== 'string') {
+    return null;
+  }
 
-  // Return null if major version is invalid
-  if (isNaN(majorVersion)) {
+  // Trim whitespace and split by dots
+  const versionParts = version.trim().split('.');
+  
+  // Must have at least major version
+  if (versionParts.length === 0) {
+    return null;
+  }
+
+  // Parse major version (required)
+  const majorVersion = parseInt(versionParts[0], 10);
+  if (isNaN(majorVersion) || majorVersion < 0) {
+    return null;
+  }
+
+  // Parse minor version (optional, defaults to 0)
+  const minorVersion = versionParts.length > 1 
+    ? parseInt(versionParts[1], 10) 
+    : 0;
+  
+  // Minor version must be valid if provided
+  if (isNaN(minorVersion) || minorVersion < 0) {
     return null;
   }
 
