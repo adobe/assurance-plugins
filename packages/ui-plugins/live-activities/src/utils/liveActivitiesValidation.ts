@@ -4,7 +4,6 @@
  */
 
 import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS } from '../constants';
-
 import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
 
 /**
@@ -19,13 +18,13 @@ import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
 export function parseIOSVersion(version: string): [number, number] | null {
   const versionParts = version.split('.').map(part => parseInt(part, 10));
   const majorVersion = isNaN(versionParts[0]) ? NaN : versionParts[0];
-  const minorVersion = isNaN(versionParts[1]) ? 0 : versionParts[1] || 0;
-  
+  const minorVersion = isNaN(versionParts[1]) ? 0 : versionParts[1];
+
   // Return null if major version is invalid
   if (isNaN(majorVersion)) {
     return null;
   }
-  
+
   return [majorVersion, minorVersion];
 }
 
@@ -79,7 +78,7 @@ export function validateIOSVersionForLiveActivities(
 ): LiveActivitiesValidationStatus {
   try {
     const version = parseIOSVersion(iosVersion);
-    
+
     if (!version) {
       return VALIDATION_STATUS.UNKNOWN;
     }

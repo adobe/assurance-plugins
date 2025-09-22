@@ -109,11 +109,13 @@ function LaunchLiveActivity() {
       schemas: []
     });
 
-    // Set up auto-formatting on paste
+    // Set up auto-formatting on paste with debounced approach
+    let formatTimeout: NodeJS.Timeout;
     editor.onDidPaste(() => {
-      setTimeout(() => {
+      clearTimeout(formatTimeout);
+      formatTimeout = setTimeout(() => {
         editor.getAction('editor.action.formatDocument')?.run();
-      }, 100);
+      }, 300);
     });
   };
 

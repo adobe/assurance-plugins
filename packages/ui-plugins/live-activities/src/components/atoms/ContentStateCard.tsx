@@ -7,7 +7,7 @@ import Code from '@spectrum-icons/workflow/Code';
 import Copy from '@spectrum-icons/workflow/Copy';
 import ViewDetail from '@spectrum-icons/workflow/ViewDetail';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import { defineMessages, useIntl } from 'react-intl';
 
@@ -62,6 +62,11 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
   const { activityNavigation: { navigateToEventDetails } } = usePluginState();
   const [viewMode, setViewMode] = useState<'formatted' | 'raw'>('formatted');
   const [copySuccess, setCopySuccess] = useState(false);
+
+  // Memoize JSON stringify to avoid expensive recalculations on every render
+  const stringifiedContentState = useMemo(() => {
+    return JSON.stringify(contentState, null, 2);
+  }, [contentState]);
 
   const handleViewEventDetails = () => {
     if (eventId) {
@@ -199,7 +204,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
       <MonacoEditor
         height="200px"
         language="json"
-        value={JSON.stringify(contentState, null, 2)}
+        value={stringifiedContentState}
         options={{
           readOnly: true,
           minimap: { enabled: false },
