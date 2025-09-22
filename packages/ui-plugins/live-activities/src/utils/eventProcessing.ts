@@ -1,5 +1,9 @@
 // Re-export hooks from the hooks directory
-export { useActivityEvents, useEventStatistics, useEventTimeRange } from '../hooks/useActivityEvents';
+export {
+  useActivityEvents,
+  useEventStatistics,
+  useEventTimeRange
+} from '../hooks/useActivityEvents';
 
 // Re-export utilities from the utils directory
 export {

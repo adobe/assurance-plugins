@@ -40,15 +40,15 @@ function fallbackCopy(text: string): boolean {
     textarea.style.pointerEvents = 'none';
     document.body.appendChild(textarea);
     textarea.select();
-    
+
     const successful = document.execCommand('copy');
     document.body.removeChild(textarea);
-    
+
     if (!successful) {
       console.warn('document.execCommand("copy") returned false - copy may have failed');
       return false;
     }
-    
+
     return true;
   } catch (error) {
     console.warn('Fallback copy failed:', error);

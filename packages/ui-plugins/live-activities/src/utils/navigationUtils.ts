@@ -29,7 +29,10 @@ export const navigationUtils = {
   /**
    * Navigate to specific event and tab
    */
-  navigateToEvent: (eventId: string, tab: string = NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS) => ({
+  navigateToEvent: (
+    eventId: string,
+    tab: string = NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS
+  ) => ({
     selectedEventId: eventId,
     activeTab: tab
   }),

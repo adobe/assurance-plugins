@@ -22,7 +22,10 @@ export interface TimeRange {
 /**
  * Process events for a specific Live Activity
  */
-export function processActivityEvents(allEvents: LiveActivityEvent[], activityId: string): LiveActivityEvent[] {
+export function processActivityEvents(
+  allEvents: LiveActivityEvent[],
+  activityId: string
+): LiveActivityEvent[] {
   const filteredEvents = allEvents.filter(event => {
     const eventLiveActivityID =
       event.payload?.ACPExtensionEventData?.liveActivityID ||
