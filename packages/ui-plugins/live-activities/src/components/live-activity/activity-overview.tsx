@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 
 import ContentStateCard from '../atoms/ContentStateCard';
-import { CopyableValue } from '../atoms/CopyableValue';
+import { CopyableValue } from '@assurance/common-utils';
 import InfoField from '../atoms/InfoField';
 import MetricCard from '../atoms/MetricCard';
 import Card from '../atoms/card';

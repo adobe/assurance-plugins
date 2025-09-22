@@ -13,7 +13,7 @@ import useDataStreamValidationStatus from '../../hooks/useDataStreamValidationSt
 import { useLiveActivitiesValidationStatus } from '../../hooks/useLiveActivitiesValidationStatus';
 import useProfile from '../../hooks/useProfile';
 import { renderValue } from '../../utils/utils';
-import { CopyableValue } from '../atoms/CopyableValue';
+import { CopyableValue } from '@assurance/common-utils';
 
 import DataStreamStatusDetails from './DataStreamStatusDetails';
 import { defineMessages, useIntl } from 'react-intl';

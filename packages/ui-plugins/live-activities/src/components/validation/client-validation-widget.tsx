@@ -11,7 +11,7 @@ import {
 import React, { useMemo } from 'react';
 
 import { getHealthIcon } from '../../constants';
-import { CopyableValue } from '../atoms/CopyableValue';
+import { CopyableValue } from '@assurance/common-utils';
 import Card from '../atoms/card';
 import { useECID, useSelectedClientPushToken } from '../../hooks/useClientInfo';
 import useClientValidationStatus from '../../hooks/useClientValidationStatus';

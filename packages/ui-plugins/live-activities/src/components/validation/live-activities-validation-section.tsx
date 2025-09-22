@@ -28,7 +28,7 @@ import { defineMessages, useIntl } from 'react-intl';
 
 import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS } from '../../constants';
 import { COPYABLE_VALUE_CONSTANTS } from '../../constants';
-import { CopyableValue } from '../atoms/CopyableValue';
+import { CopyableValue } from '@assurance/common-utils';
 import { TEST_IDS } from '../../constants/testIds';
 import { 
   useLiveActivitiesData
