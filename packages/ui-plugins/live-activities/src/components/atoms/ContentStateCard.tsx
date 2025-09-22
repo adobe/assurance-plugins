@@ -18,7 +18,7 @@ import classNames from 'classnames';
 import usePluginState from '../../hooks/usePluginState';
 import { copyToClipboard } from '../../utils/clipboard';
 
-import styles from './ContentStateCard.module.css';
+import styles from './ContentStateCard.css';
 import InfoField from './InfoField';
 import Card from './card';
 
