@@ -1,6 +1,9 @@
 import { useEvents } from '@assurance/plugin-bridge-provider';
+
 import { combineAny } from '@adobe/griffon-toolkit';
+
 import { useMemo } from 'react';
+
 import { LiveActivityEvent } from '../types/liveActivityEvent';
 import {
   processActivityEvents,
