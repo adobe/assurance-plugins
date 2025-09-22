@@ -1,0 +1,11 @@
+.app {
+  .clientLabel {
+    font-weight: 500;
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .tabList {
+    flex: 1;
+  }
+}

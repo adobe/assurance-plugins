@@ -1,0 +1,33 @@
+.metricCard {
+  .labelText {
+    color: var(--spectrum-global-color-gray-700);
+    
+    &.sizeS {
+      font-size: var(--spectrum-global-dimension-size-100);
+    }
+    
+    &.sizeM {
+      font-size: var(--spectrum-global-dimension-size-200);
+    }
+    
+    &.sizeL {
+      font-size: var(--spectrum-global-dimension-size-300);
+    }
+  }
+
+  .valueText {
+    font-weight: bold;
+    
+    &.sizeS {
+      font-size: var(--spectrum-global-dimension-size-200);
+    }
+    
+    &.sizeM {
+      font-size: var(--spectrum-global-dimension-size-300);
+    }
+    
+    &.sizeL {
+      font-size: var(--spectrum-global-dimension-size-400);
+    }
+  }
+}

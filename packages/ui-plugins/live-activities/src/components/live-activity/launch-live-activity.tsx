@@ -28,6 +28,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useRegisteredActivities } from '../../hooks/useActivities';
 import useLaunchLiveActivity from '../../hooks/useLaunchLiveActivity';
 import { FormValues } from '../../types/liveActivities';
+import styles from './launch-live-activity.css';
 
 const messages = defineMessages({
   cancel: {
@@ -205,7 +206,7 @@ function LaunchLiveActivity() {
         <Dialog>
           <Heading>{formatMessage(messages.launchLiveActivity)}</Heading>
           <Divider />
-          <Content UNSAFE_style={{ overflow: 'scroll' }}>
+          <Content UNSAFE_className={styles.dialogContent}>
             <View marginBottom="size-200">
               <Controller
                 name="attributeType"
@@ -217,7 +218,7 @@ function LaunchLiveActivity() {
                     onSelectionChange={field.onChange}
                     isRequired
                     width="100%"
-                    UNSAFE_style={{ minWidth: '400px' }}
+                    UNSAFE_className={styles.pickerContainer}
                   >
                     {registeredActivities.map(activity => (
                       <Item key={activity.attributeType}>{activity.attributeType}</Item>
@@ -246,7 +247,7 @@ function LaunchLiveActivity() {
               />
             </View>
 
-            <View marginBottom="size-200" UNSAFE_style={{ minHeight: '200px' }}>
+            <View marginBottom="size-200" UNSAFE_className={styles.editorContainer}>
               <Text marginBottom="size-100">{formatMessage(messages.payload)}</Text>
               <Controller
                 name="payload"
@@ -268,7 +269,7 @@ function LaunchLiveActivity() {
               />
             </View>
 
-            <View UNSAFE_style={{ minHeight: '200px' }}>
+            <View UNSAFE_className={styles.editorContainer}>
               <Text marginBottom="size-100">{formatMessage(messages.state)}</Text>
               <Controller
                 name="state"

@@ -7,6 +7,31 @@ import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS } from '../constants';
 import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
 
 /**
+ * Helper to validate iOS version parts.
+ * @param versionParts - Array of version string parts
+ * @returns boolean indicating validity
+ */
+function isValidIOSVersionParts(versionParts: string[]): boolean {
+  if (!versionParts || versionParts.length === 0) {
+    return false;
+  }
+
+  const majorVersion = parseInt(versionParts[0], 10);
+  if (isNaN(majorVersion) || majorVersion < 0) {
+    return false;
+  }
+
+  if (versionParts.length > 1) {
+    const minorVersion = parseInt(versionParts[1], 10);
+    if (isNaN(minorVersion) || minorVersion < 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
  * Parses an iOS version string into major and minor version numbers.
  * @param version - Version string like "16.1.2" or "18.0"
  * @returns Array of [majorVersion, minorVersion] as numbers
@@ -20,32 +45,17 @@ import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
  * parseIOSVersion("16.-1") // null
  */
 export function parseIOSVersion(version: string): [number, number] | null {
-  // Handle edge cases
   if (!version || typeof version !== 'string') {
     return null;
   }
 
-  // Trim whitespace and split by dots
   const versionParts = version.trim().split('.');
-
-  // Must have at least major version
-  if (versionParts.length === 0) {
+  if (!isValidIOSVersionParts(versionParts)) {
     return null;
   }
 
-  // Parse major version (required)
   const majorVersion = parseInt(versionParts[0], 10);
-  if (isNaN(majorVersion) || majorVersion < 0) {
-    return null;
-  }
-
-  // Parse minor version (optional, defaults to 0)
   const minorVersion = versionParts.length > 1 ? parseInt(versionParts[1], 10) : 0;
-
-  // Minor version must be valid if provided
-  if (isNaN(minorVersion) || minorVersion < 0) {
-    return null;
-  }
 
   return [majorVersion, minorVersion];
 }

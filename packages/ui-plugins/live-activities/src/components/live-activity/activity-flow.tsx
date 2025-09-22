@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { LiveActivity } from '../../hooks/useActivities';
 import { EVENT_CONFIG } from '../../constants/liveActivitiesConfig';
 import Card from '../atoms/card';
+import styles from './activity-flow.css';
 import MoreSmallListVert from '@spectrum-icons/workflow/MoreSmallListVert';
 import ClassicGridView from '@spectrum-icons/workflow/ClassicGridView';
 import Play from '@spectrum-icons/workflow/Play';
@@ -258,24 +259,20 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
                         <View padding="size-200">
                           <Flex direction="column" gap="size-100">
                           <Flex direction="row" alignItems="center" justifyContent="space-between">
-                            <Text UNSAFE_style={{ fontWeight: 'bold', fontSize: 'var(--spectrum-global-dimension-size-300)' }}>
+                            <Text UNSAFE_className={styles.eventTitle}>
                               {event.title}
                             </Text>
-                            <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-200)', color: 'var(--spectrum-global-color-gray-700)' }}>
+                            <Text UNSAFE_className={styles.eventTimestamp}>
                               {dayjs(event.timestamp).format('HH:mm:ss.SSS')}
                             </Text>
                           </Flex>
-                          <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-200)', color: 'var(--spectrum-global-color-gray-700)' }}>
+                          <Text UNSAFE_className={styles.eventDescription}>
                             {event.description}
                           </Text>
                           
                           {/* Show origin for start events */}
                           {event.type === 'start' && event.origin && (
-                            <Text UNSAFE_style={{ 
-                              fontSize: 'var(--spectrum-global-dimension-size-200)', 
-                              color: 'var(--spectrum-global-color-gray-600)',
-                              fontStyle: 'italic'
-                            }}>
+                            <Text UNSAFE_className={styles.eventOrigin}>
                               Origin: {event.origin}
                             </Text>
                           )}
@@ -283,20 +280,11 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
                           {/* Show content state for content updates */}
                           {event.type === 'content-update' && event.contentState && (
                             <Well>
-                              <Text UNSAFE_style={{ 
-                                fontSize: 'var(--spectrum-global-dimension-size-200)', 
-                                fontWeight: 'bold',
-                                marginBottom: 'var(--spectrum-global-dimension-size-100)'
-                              }}>
+                              <Text UNSAFE_className={styles.contentStateLabel}>
                                 Content State:
                               </Text>
                               <Text
-                                UNSAFE_style={{
-                                  fontFamily: 'monospace',
-                                  fontSize: 'var(--spectrum-global-dimension-size-200)',
-                                  whiteSpace: 'pre-wrap',
-                                  overflowWrap: 'anywhere'
-                                }}
+                                UNSAFE_className={styles.contentStateText}
                               >
                                 {JSON.stringify(event.contentState, null, 2)}
                               </Text>
@@ -306,19 +294,11 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
                           {/* Show token for token updates */}
                           {event.type === 'token-update' && event.token && (
                             <Well>
-                              <Text UNSAFE_style={{ 
-                                fontSize: 'var(--spectrum-global-dimension-size-200)', 
-                                fontWeight: 'bold',
-                                marginBottom: 'var(--spectrum-global-dimension-size-100)'
-                              }}>
+                              <Text UNSAFE_className={styles.tokenLabel}>
                                 New Token:
                               </Text>
                               <Text
-                                UNSAFE_style={{
-                                  fontFamily: 'monospace',
-                                  fontSize: 'var(--spectrum-global-dimension-size-200)',
-                                  wordBreak: 'break-all'
-                                }}
+                                UNSAFE_className={styles.tokenText}
                               >
                                 {event.token}
                               </Text>
@@ -327,21 +307,13 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
                           
                           {/* Show state for end/dismissal events */}
                           {event.type === 'ended' && event.state && (
-                            <Text UNSAFE_style={{ 
-                              fontSize: 'var(--spectrum-global-dimension-size-200)', 
-                              color: 'var(--spectrum-global-color-gray-600)',
-                              fontStyle: 'italic'
-                            }}>
+                            <Text UNSAFE_className={styles.stateText}>
                               State: {event.state}
                             </Text>
                           )}
                           
                           {event.type === 'dismissed' && event.state && (
-                            <Text UNSAFE_style={{ 
-                              fontSize: 'var(--spectrum-global-dimension-size-200)', 
-                              color: 'var(--spectrum-global-color-gray-600)',
-                              fontStyle: 'italic'
-                            }}>
+                            <Text UNSAFE_className={styles.stateText}>
                               State: {event.state}
                             </Text>
                           )}
@@ -355,11 +327,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
             ) : (
               // Cards View
               <View
-                UNSAFE_style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                  gap: 'var(--spectrum-global-dimension-size-200)'
-                }}
+                UNSAFE_className={styles.cardsGrid}
               >
                 {flowEvents.map(event => (
                   <Card key={event.id}>
@@ -377,21 +345,16 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
                           {event.title}
                         </Text>
                       </Flex>
-                      <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-200)', color: 'var(--spectrum-global-color-gray-700)' }}>
+                      <Text UNSAFE_className={styles.eventTimestamp}>
                         {dayjs(event.timestamp).format('lll')}
                       </Text>
-                      <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-200)' }}>
+                      <Text UNSAFE_className={styles.eventDescription}>
                         {event.description}
                       </Text>
                       {event.payload && (
                         <Well>
                           <Text
-                            UNSAFE_style={{
-                              fontFamily: 'monospace',
-                              fontSize: 'var(--spectrum-global-dimension-size-200)',
-                              whiteSpace: 'pre-wrap',
-                              overflowWrap: 'anywhere'
-                            }}
+                            UNSAFE_className={styles.contentStateText}
                           >
                             {JSON.stringify(event.payload, null, 2)}
                           </Text>

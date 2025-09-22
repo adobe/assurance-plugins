@@ -8,6 +8,9 @@ import Info from '@spectrum-icons/workflow/Info';
 import React, { useState, useMemo } from 'react';
 
 import { defineMessages, useIntl } from 'react-intl';
+import classNames from 'classnames';
+
+import styles from './activities.css';
 
 import { VALIDATION_STATUS } from '../constants';
 import { NAVIGATION_CONFIG } from '../constants/liveActivitiesConfig';
@@ -276,39 +279,13 @@ function Activities() {
 
         {/* No Activities State */}
         {!activities.length && (
-          <Flex
-            justifyContent="center"
-            alignItems="center"
-            direction="column"
-            gap="size-400"
-            flex="1"
-            UNSAFE_style={{ padding: 'size-600' }}
-          >
-            <View
-              backgroundColor="gray-100"
-              borderWidth="thin"
-              borderColor="gray-300"
-              borderRadius="medium"
-              padding="size-600"
-              maxWidth="size-6000"
-              minWidth="size-4000"
-            >
+          <View UNSAFE_className={styles.noActivitiesContainer}>
+            <View UNSAFE_className={styles.noActivitiesContent}>
               <Flex direction="column" alignItems="center" gap="size-300">
-                <Text UNSAFE_style={{ 
-                  fontSize: 'size-400', 
-                  color: 'text-secondary', 
-                  textAlign: 'center',
-                  fontWeight: '500',
-                  lineHeight: '1.4'
-                }}>
+                <Text UNSAFE_className={styles.noActivitiesText}>
                   {getNoActivitiesMessage()}
                 </Text>
-                <Text UNSAFE_style={{ 
-                  fontSize: 'size-200', 
-                  color: 'text-secondary', 
-                  textAlign: 'center',
-                  lineHeight: '1.5'
-                }}>
+                <Text UNSAFE_className={styles.noActivitiesHint}>
                   {getStartActivityHint()}
                 </Text>
                 {platform.hasLiveActivities && (
@@ -319,26 +296,26 @@ function Activities() {
                 )}
               </Flex>
             </View>
-          </Flex>
+          </View>
         )}
 
         {/* Main Content - Resizable Split View */}
         {activities.length > 0 && (
           <div 
             ref={containerRef} 
-            className={`activities-resizable-container ${isResizing ? 'resizing' : ''}`}
-            style={{ height: '100%', display: 'flex', flexDirection: 'row' }}
+            className={classNames(styles.activitiesResizableContainer, {
+              [styles.resizing]: isResizing
+            })}
           >
             {/* Left Panel - Activities List */}
-            <div
-              style={{
+            <View
+              UNSAFE_className={classNames(styles.leftPanel, {
+                [styles.resizing]: isResizing
+              })}
+              UNSAFE_style={{
                 width: `${panelWidth}px`,
                 minWidth: '300px',
-                maxWidth: '600px',
-                borderRight: '1px solid var(--spectrum-global-color-gray-300)',
-                height: '100%',
-                overflow: 'hidden',
-                transition: isResizing ? 'none' : 'width 0.2s ease'
+                maxWidth: '600px'
               }}
             >
               <ActivityList
@@ -347,7 +324,7 @@ function Activities() {
                 onActivitySelect={handleActivitySelect}
                 isLoading={false}
               />
-            </div>
+            </View>
 
             {/* Resize Handle */}
             <ResizeHandle
@@ -357,14 +334,10 @@ function Activities() {
             />
 
             {/* Right Panel - Activity Details with Tabs */}
-            <div
-              style={{
-                flex: 1,
-                marginLeft: "var(--spectrum-global-dimension-size-100)",
-                minWidth: '400px',
-                overflow: 'hidden',
-                transition: isResizing ? 'none' : 'width 0.2s ease'
-              }}
+            <View
+              UNSAFE_className={classNames(styles.rightPanel, {
+                [styles.resizing]: isResizing
+              })}
             >
               {selectedActivityTabs || (
                 <View padding="size-400">
@@ -375,27 +348,18 @@ function Activities() {
                     direction="column"
                     gap="size-300"
                   >
-                  <View
-                    UNSAFE_style={{
-                      textAlign: 'center',
-                      maxWidth: '400px'
-                    }}
-                  >
+                  <View UNSAFE_className={styles.selectActivityContainer}>
                     <Heading level={2} marginY="size-0" marginBottom="size-200">
                       {formatMessage(messages.selectActivity)}
                     </Heading>
-                    <Text UNSAFE_style={{ 
-                      fontSize: 'var(--spectrum-global-dimension-size-200)',
-                      color: 'var(--spectrum-global-color-gray-700)',
-                      lineHeight: '1.5'
-                    }}>
+                    <Text UNSAFE_className={styles.selectActivityDescription}>
                       {formatMessage(messages.selectActivityDescription)}
                     </Text>
                   </View>
                   </Flex>
                 </View>
               )}
-            </div>
+            </View>
           </div>
         )}
 

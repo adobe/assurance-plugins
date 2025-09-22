@@ -18,6 +18,8 @@ import {
   Cell
 } from '@adobe/react-spectrum';
 
+import { CopyableValue } from '@assurance/common-utils';
+
 import Info from '@spectrum-icons/workflow/InfoOutline';
 import Search from '@spectrum-icons/workflow/Search';
 import Alert from '@spectrum-icons/workflow/Alert';
@@ -27,8 +29,10 @@ import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 
 import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS } from '../../constants';
+
+// Constants for UI elements
+const WARNING_EMOJI = '⚠️';
 import { COPYABLE_VALUE_CONSTANTS } from '../../constants';
-import { CopyableValue } from '@assurance/common-utils';
 import { TEST_IDS } from '../../constants/testIds';
 import { 
   useLiveActivitiesData
@@ -121,6 +125,10 @@ const messages = defineMessages({
   appMinimumOSVersionWarningTooltip: {
     id: 'liveActivities.validation.appMinimumOSVersionWarningTooltip',
     defaultMessage: 'The device iOS version is below the app\'s minimum required version. This may cause compatibility issues with Live Activities.'
+  },
+  appMinimumOSVersionWarning: {
+    id: 'liveActivities.validation.appMinimumOSVersionWarning',
+    defaultMessage: 'Device iOS {iosVersion} below app minimum'
   },
   // Copy functionality messages
   copyValue: {
@@ -337,7 +345,7 @@ const LiveActivitiesValidationSection = () => {
         if (isDeviceVersionBelowAppMinimum(iosVersion, appMinVersion)) {
           dataRows.push({
             label: formatMessage(messages.appMinimumOSVersion),
-            value: `${appMinVersion} (⚠️ Device iOS ${iosVersion} below app minimum)`,
+            value: `${appMinVersion} (${WARNING_EMOJI} ${formatMessage(messages.appMinimumOSVersionWarning, { iosVersion })})`,
             showCopy: false,
             tooltip: formatMessage(messages.appMinimumOSVersionWarningTooltip)
           });
@@ -406,23 +414,23 @@ const LiveActivitiesValidationSection = () => {
         </Heading>
       </Flex>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 16 }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 'var(--spectrum-global-dimension-size-200)' }}>
         <tbody>
           {dataRows.map((row, index) => {
             // Handle separator rows
             if (row.label === '---') {
               return (
-                <tr key={`separator-${index}`} style={{ borderBottom: '2px solid #e1e1e1' }}>
-                  <td colSpan={2} style={{ padding: '8px 16px', backgroundColor: '#f5f5f5' }}>
-                    <Text UNSAFE_style={{ fontSize: '12px', color: '#666' }}>Next Activity</Text>
+                <tr key={`separator-${index}`} style={{ backgroundColor: 'var(--spectrum-global-color-gray-100)' }}>
+                  <td colSpan={2} style={{ padding: 'var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-200)', textAlign: 'center', fontWeight: 600, color: 'var(--spectrum-global-color-gray-700)' }}>
+                    <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-100)', color: 'var(--spectrum-global-color-gray-700)' }}>Next Activity</Text>
                   </td>
                 </tr>
               );
             }
 
             return (
-              <tr key={row.label} style={{ borderBottom: '1px solid #e1e1e1' }}>
-                <td style={{ fontWeight: 500, padding: '12px 16px' }}>
+              <tr key={row.label} style={{ borderBottom: '1px solid var(--spectrum-global-color-gray-300)' }}>
+                <td style={{ padding: 'var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-200)', fontWeight: 600, verticalAlign: 'top', width: '40%' }}>
                   <Flex alignItems="center" gap="size-100">
                     <Text>{row.label}</Text>
                     {row.tooltip && (
@@ -438,10 +446,11 @@ const LiveActivitiesValidationSection = () => {
                   </Flex>
                 </td>
                 <td
-                  style={{
-                    padding: '12px 16px',
-                    maxWidth: row.isLongData ? 300 : undefined,
-                    wordBreak: row.isLongData ? 'break-all' : undefined
+                  style={{ 
+                    padding: 'var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-200)', 
+                    verticalAlign: 'top', 
+                    wordBreak: row.isLongData ? 'break-all' : 'break-word',
+                    maxWidth: row.isLongData ? '300px' : 'none'
                   }}
                 >
                   {row.showCopy ? (

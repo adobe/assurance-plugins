@@ -13,9 +13,12 @@ import { defineMessages, useIntl } from 'react-intl';
 
 import dayjs from 'dayjs';
 
+import classNames from 'classnames';
+
 import usePluginState from '../../hooks/usePluginState';
 import { copyToClipboard } from '../../utils/clipboard';
 
+import styles from './ContentStateCard.module.css';
 import InfoField from './InfoField';
 import Card from './card';
 
@@ -93,15 +96,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
     if (!contentState || typeof contentState !== 'object') {
       return (
         <View 
-          UNSAFE_style={{ 
-            height: '200px',
-            border: '1px solid var(--spectrum-global-color-gray-300)',
-            borderRadius: 'var(--spectrum-global-dimension-size-50)',
-            padding: 'var(--spectrum-global-dimension-size-200)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
+          UNSAFE_className={styles.noContentStateContainer}
         >
           <Text>{String(contentState)}</Text>
         </View>
@@ -145,43 +140,26 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
         {Object.entries(contentState).map(([key, value]) => (
           <View 
             key={key}
-            UNSAFE_style={{
-              padding: 'var(--spectrum-global-dimension-size-150)',
-              backgroundColor: 'var(--spectrum-global-color-gray-50)',
-              borderRadius: 'var(--spectrum-global-dimension-size-50)',
-              border: '1px solid var(--spectrum-global-color-gray-200)',
-              userSelect: 'text',
-              cursor: 'text'
-            }}
+            UNSAFE_className={styles.formattedContentItem}
           >
             <Flex direction="row" gap="size-200" alignItems="start">
-              <View UNSAFE_style={{ minWidth: '140px' }}>
+              <View UNSAFE_className={styles.formattedContentKey}>
                 <Text 
-                  UNSAFE_style={{ 
-                    fontWeight: 'bold',
-                    color: 'var(--spectrum-global-color-gray-800)',
-                    fontSize: 'var(--spectrum-global-dimension-size-200)'
-                  }}
+                  UNSAFE_className={styles.formattedContentKeyLabel}
                 >
                   {key}
                 </Text>
                 <Text 
-                  UNSAFE_style={{ 
-                    fontSize: 'var(--spectrum-global-dimension-size-100)',
-                    color: 'var(--spectrum-global-color-gray-600)',
-                    fontStyle: 'italic'
-                  }}
+                  UNSAFE_className={styles.formattedContentKeyType}
                 >
                   {getValueType(value)}
                 </Text>
               </View>
-              <View UNSAFE_style={{ flex: 1 }}>
+              <View UNSAFE_className={styles.formattedContentValue}>
                 <Text 
-                  UNSAFE_style={{ 
-                    wordBreak: 'break-word',
-                    fontSize: 'var(--spectrum-global-dimension-size-200)',
-                    fontFamily: getValueType(value) === 'string' ? 'inherit' : 'monospace'
-                  }}
+                  UNSAFE_className={classNames(styles.formattedContentValueText, {
+                    [styles.monospace]: getValueType(value) !== 'string'
+                  })}
                 >
                   {formatValue(value, key)}
                 </Text>
@@ -195,11 +173,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
 
   const renderRawContent = () => (
     <View 
-      UNSAFE_style={{ 
-        height: '200px',
-        border: '1px solid var(--spectrum-global-color-gray-300)',
-        borderRadius: 'var(--spectrum-global-dimension-size-50)'
-      }}
+      UNSAFE_className={styles.rawContentContainer}
     >
       <MonacoEditor
         height="200px"
@@ -235,13 +209,9 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                       variant="secondary"
                       isQuiet
                       onPress={handleCopy}
-                      UNSAFE_style={{ 
-                        backgroundColor: copySuccess ? 'var(--spectrum-global-color-green-400)' : undefined,
-                        color: copySuccess ? 'white' : undefined,
-                        padding: 'var(--spectrum-global-dimension-size-100)',
-                        minWidth: 'auto',
-                        cursor: 'pointer'
-                      }}
+                      UNSAFE_className={classNames({
+                        [styles.copyButton]: copySuccess
+                      })}
                     >
                       <Copy size="S" />
                     </Button>
@@ -261,12 +231,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                 }}
                 isEmphasized
                 density="compact"
-                UNSAFE_style={{
-                  border: '1px solid var(--spectrum-global-color-gray-300)',
-                  borderRadius: 'var(--spectrum-global-dimension-size-50)',
-                  backgroundColor: 'var(--spectrum-global-color-gray-50)',
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
-                }}
+                UNSAFE_className={styles.viewModeActionGroup}
               >
                 <Item key="formatted">
                   <ViewList size="S" />
@@ -287,11 +252,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                   {/* Content State Summary */}
                   <Flex direction="row" justifyContent="space-between" alignItems="center" marginBottom="size-150">
                     <Text 
-                      UNSAFE_style={{ 
-                        fontWeight: '600',
-                        color: 'var(--spectrum-global-color-gray-800)',
-                        fontSize: 'var(--spectrum-global-dimension-size-200)'
-                      }}
+                      UNSAFE_className={styles.contentStateSummary}
                     >
                       Content State ({Object.keys(contentState).length} properties)
                     </Text>
@@ -300,15 +261,10 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                         <Button
                           variant="secondary"
                           onPress={handleViewEventDetails}
-                          UNSAFE_style={{
-                            padding: 'var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-150)',
-                            fontSize: 'var(--spectrum-global-dimension-size-100)',
-                            height: 'var(--spectrum-global-dimension-size-300)',
-                            minWidth: 'auto'
-                          }}
+                          UNSAFE_className={styles.viewEventDetailsButton}
                         >
                           <ViewDetail size="XS" />
-                          <Text UNSAFE_style={{ marginLeft: 'var(--spectrum-global-dimension-size-75)' }}>
+                          <Text UNSAFE_className={styles.viewEventDetailsButtonText}>
                             {formatMessage(messages.viewEventDetails)}
                           </Text>
                         </Button>
@@ -341,19 +297,12 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                 gap="size-200"
               >
                 <Text 
-                  UNSAFE_style={{ 
-                    color: 'var(--spectrum-global-color-gray-700)',
-                    textAlign: 'center'
-                  }}
+                  UNSAFE_className={styles.noContentStateText}
                 >
                   {noContentStateMessage}
                 </Text>
                 <Text 
-                  UNSAFE_style={{ 
-                    fontSize: 'var(--spectrum-global-dimension-size-100)',
-                    color: 'var(--spectrum-global-color-gray-600)',
-                    textAlign: 'center'
-                  }}
+                  UNSAFE_className={styles.noContentStateHint}
                 >
                   Content state will appear here when the activity is updated
                 </Text>

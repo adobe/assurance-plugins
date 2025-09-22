@@ -1,15 +1,11 @@
 import { View } from '@adobe/react-spectrum';
 import React from 'react';
+import styles from './card.css';
 
 function Card({ children }: { children: React.ReactNode }) {
   return (
     <View
-      UNSAFE_style={{
-        border: '1px solid var(--spectrum-global-color-gray-400)',
-        borderRadius: '8px',
-        padding: '8px 16px',
-        backgroundColor: 'white'
-      }}
+      UNSAFE_className={styles.card}
     >
       {children}
     </View>

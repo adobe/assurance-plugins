@@ -3,6 +3,7 @@ import { View, Text, Flex, Button, Heading } from '@adobe/react-spectrum';
 import { defineMessages, useIntl } from 'react-intl';
 import Alert from '@spectrum-icons/workflow/Alert';
 import Refresh from '@spectrum-icons/workflow/Refresh';
+import styles from './ErrorBoundary.css';
 
 const messages = defineMessages({
   errorTitle: {
@@ -109,21 +110,13 @@ function ErrorFallback({ error, onRetry, onRefresh, showDetails = false }: Error
     <View 
       padding="size-400" 
       height="100%" 
-      UNSAFE_style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '300px'
-      }}
+      UNSAFE_className={styles.errorContainer}
     >
       <Flex 
         direction="column" 
         alignItems="center" 
         gap="size-300"
-        UNSAFE_style={{
-          textAlign: 'center',
-          maxWidth: '500px'
-        }}
+        UNSAFE_className={styles.errorContent}
       >
         <Alert size="XL" color="negative" />
         
@@ -131,7 +124,7 @@ function ErrorFallback({ error, onRetry, onRefresh, showDetails = false }: Error
           {formatMessage(messages.errorTitle)}
         </Heading>
         
-        <Text UNSAFE_style={{ color: 'var(--spectrum-global-color-gray-700)' }}>
+        <Text UNSAFE_className={styles.errorDescription}>
           {formatMessage(messages.errorDescription)}
         </Text>
         
@@ -139,7 +132,7 @@ function ErrorFallback({ error, onRetry, onRefresh, showDetails = false }: Error
           <Button 
             variant="primary" 
             onPress={onRetry}
-            UNSAFE_style={{ minWidth: '120px' }}
+            UNSAFE_className={styles.retryButton}
           >
             <Refresh size="S" />
             <Text>{formatMessage(messages.retryButton)}</Text>
@@ -148,7 +141,7 @@ function ErrorFallback({ error, onRetry, onRefresh, showDetails = false }: Error
           <Button 
             variant="secondary" 
             onPress={onRefresh}
-            UNSAFE_style={{ minWidth: '120px' }}
+            UNSAFE_className={styles.refreshButton}
           >
             <Text>{formatMessage(messages.refreshButton)}</Text>
           </Button>
@@ -156,30 +149,15 @@ function ErrorFallback({ error, onRetry, onRefresh, showDetails = false }: Error
         
         {showDetails && error && (
           <View 
-            UNSAFE_style={{
-              marginTop: 'var(--spectrum-global-dimension-size-300)',
-              padding: 'var(--spectrum-global-dimension-size-200)',
-              backgroundColor: 'var(--spectrum-global-color-gray-100)',
-              borderRadius: 'var(--spectrum-global-dimension-size-50)',
-              border: '1px solid var(--spectrum-global-color-gray-300)',
-              textAlign: 'left',
-              width: '100%'
-            }}
+            UNSAFE_className={styles.errorDetailsContainer}
           >
             <Text 
-              UNSAFE_style={{ 
-                fontWeight: 'bold',
-                marginBottom: 'var(--spectrum-global-dimension-size-100)'
-              }}
+              UNSAFE_className={styles.errorDetailsTitle}
             >
               {formatMessage(messages.errorDetails)}:
             </Text>
             <Text 
-              UNSAFE_style={{ 
-                fontFamily: 'monospace',
-                fontSize: 'var(--spectrum-global-dimension-size-100)',
-                wordBreak: 'break-word'
-              }}
+              UNSAFE_className={styles.errorDetailsText}
             >
               {error.message}
             </Text>

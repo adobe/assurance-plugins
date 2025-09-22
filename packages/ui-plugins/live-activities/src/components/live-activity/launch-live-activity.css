@@ -1,0 +1,11 @@
+.dialogContent {
+  overflow: scroll;
+}
+
+.pickerContainer {
+  min-width: 400px;
+}
+
+.editorContainer {
+  min-height: 200px;
+}

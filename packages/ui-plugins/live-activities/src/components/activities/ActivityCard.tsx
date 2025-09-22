@@ -9,6 +9,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 import SpectrumCard from '../atoms/SpectrumCard';
 import { LiveActivity } from '../../hooks/useActivities';
+import styles from './ActivityCard.css';
 
 dayjs.extend(relativeTime);
 
@@ -85,17 +86,7 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
           <Flex wrap alignItems="center" gap="size-100" flex="1" minWidth="0">
             <StatusLight  variant={getStatusVariant(activity.status)} />
             <Text 
-              UNSAFE_style={{ 
-                fontWeight: '600', 
-                fontSize: '14px',
-                lineHeight: '1.4',
-                color: '#1f2937',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-                marginLeft: "-0.5rem",
-                fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace'
-              }}
+              UNSAFE_className={styles.activityIdText}
             >
               {activity.id}
             </Text>
@@ -105,25 +96,12 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         {/* Attribute Type (secondary info) */}
         <Flex alignItems="center" gap="size-50">
           <Text 
-            UNSAFE_style={{ 
-              fontSize: '11px', 
-              color: '#9ca3af',
-              fontWeight: '500',
-              textTransform: 'uppercase',
-              letterSpacing: '0.025em'
-            }}
+            UNSAFE_className={styles.typeLabel}
           >
             Type:
           </Text>
           <Text 
-            UNSAFE_style={{ 
-              fontSize: '12px', 
-              color: '#6b7280',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              fontStyle: 'italic'
-            }}
+            UNSAFE_className={styles.typeValue}
           >
             {activity.name}
           </Text>
@@ -132,22 +110,14 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         {/* Footer with event count and timing */}
         <Flex alignItems="center" justifyContent="space-between" gap="size-100">
           <Text 
-            UNSAFE_style={{ 
-              fontSize: '11px', 
-              color: '#9ca3af',
-              fontWeight: '500'
-            }}
+            UNSAFE_className={styles.eventCountText}
           >
             {eventCount} {formatMessage(messages.eventsCount)}
           </Text>
           
           {lastActivityTime && (
             <Text 
-              UNSAFE_style={{ 
-                fontSize: '11px', 
-                color: '#9ca3af',
-                fontWeight: '400'
-              }}
+              UNSAFE_className={styles.timestampText}
             >
               {formatRelativeTime(lastActivityTime)}
             </Text>

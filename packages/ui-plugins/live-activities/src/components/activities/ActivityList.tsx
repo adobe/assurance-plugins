@@ -16,6 +16,7 @@ import { defineMessages, useIntl } from 'react-intl';
 import { LiveActivity } from '../../hooks/useActivities';
 
 import ActivityCard from './ActivityCard';
+import styles from './ActivityList.css';
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -99,7 +100,7 @@ function ActivityList({
           <Heading level={2} margin="size-0">
             Live Activities ({activities.length})
           </Heading>
-          <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-100)', color: 'var(--spectrum-global-color-gray-700)' }}>
+          <Text UNSAFE_className={styles.subtitleText}>
             Each activity is identified by its unique Live Activity ID
           </Text>
           
@@ -139,7 +140,7 @@ function ActivityList({
               direction="column"
               gap="size-100"
             >
-              <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-200)', color: 'var(--spectrum-global-color-gray-700)' }}>
+              <Text UNSAFE_className={styles.noActivitiesText}>
                 {searchQuery || selectedFilter !== 'all' 
                   ? formatMessage(messages.noActivitiesFound)
                   : 'No activities available'
