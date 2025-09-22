@@ -3,13 +3,14 @@ import { Flex, Text, StatusLight, Badge } from '@adobe/react-spectrum';
 import React from 'react';
 
 import { defineMessages, useIntl } from 'react-intl';
+import classNames from 'classnames';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import SpectrumCard from '../atoms/SpectrumCard';
 import { LiveActivity } from '../../hooks/useActivities';
-import styles from './ActivityCard.css';
+import './ActivityCard.css';
 
 dayjs.extend(relativeTime);
 
@@ -86,7 +87,7 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
           <Flex wrap alignItems="center" gap="size-100" flex="1" minWidth="0">
             <StatusLight  variant={getStatusVariant(activity.status)} />
             <Text 
-              UNSAFE_className={styles.activityIdText}
+              UNSAFE_className={classNames('activityIdText')}
             >
               {activity.id}
             </Text>
@@ -96,12 +97,12 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         {/* Attribute Type (secondary info) */}
         <Flex alignItems="center" gap="size-50">
           <Text 
-            UNSAFE_className={styles.typeLabel}
+            UNSAFE_className={classNames('typeLabel')}
           >
             Type:
           </Text>
           <Text 
-            UNSAFE_className={styles.typeValue}
+            UNSAFE_className={classNames('typeValue')}
           >
             {activity.name}
           </Text>
@@ -110,14 +111,14 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         {/* Footer with event count and timing */}
         <Flex alignItems="center" justifyContent="space-between" gap="size-100">
           <Text 
-            UNSAFE_className={styles.eventCountText}
+            UNSAFE_className={classNames('eventCountText')}
           >
             {eventCount} {formatMessage(messages.eventsCount)}
           </Text>
           
           {lastActivityTime && (
             <Text 
-              UNSAFE_className={styles.timestampText}
+              UNSAFE_className={classNames('timestampText')}
             >
               {formatRelativeTime(lastActivityTime)}
             </Text>

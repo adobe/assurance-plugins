@@ -15,7 +15,7 @@ import Card from '../atoms/card';
 import { LiveActivity } from '../../hooks/useActivities';
 import { useActivityEvents } from '../../utils/eventProcessing';
 
-import './activity-overview.scss';
+import './activity-overview.css';
 import ActivityStatus from './activity-status';
 import UpdateActivity from './update-activity';
 

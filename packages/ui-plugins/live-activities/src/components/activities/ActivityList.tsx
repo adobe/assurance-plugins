@@ -12,11 +12,12 @@ import {
 import React, { useState, useMemo } from 'react';
 
 import { defineMessages, useIntl } from 'react-intl';
+import classNames from 'classnames';
 
 import { LiveActivity } from '../../hooks/useActivities';
 
 import ActivityCard from './ActivityCard';
-import styles from './ActivityList.css';
+import './ActivityList.css';
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -103,7 +104,7 @@ function ActivityList({
           <Heading level={2} margin="size-0">
             Live Activities ({activities.length})
           </Heading>
-          <Text UNSAFE_className={styles.subtitleText}>
+          <Text UNSAFE_className={classNames('subtitleText')}>
             Each activity is identified by its unique Live Activity ID
           </Text>
           
@@ -143,7 +144,7 @@ function ActivityList({
               direction="column"
               gap="size-100"
             >
-              <Text UNSAFE_className={styles.noActivitiesText}>
+              <Text UNSAFE_className={classNames('noActivitiesText')}>
                 {searchQuery || selectedFilter !== 'all' 
                   ? formatMessage(messages.noActivitiesFound)
                   : 'No activities available'

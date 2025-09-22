@@ -22,7 +22,7 @@ import { NAVIGATION_CONFIG } from './constants/liveActivitiesConfig';
 
 import ClientPicker from '../../../components/timeline-bar/src/components/FilterBar/ClientPicker';
 import Card from './components/atoms/card';
-import styles from './App.css';
+import './App.css';
 
 // export { useDataStream, type DataStream } from "./hooks/useDataStream";
 // export { useEnvironment } from "./hooks/useEnvironment";
@@ -62,13 +62,13 @@ function Inner() {
   return (
     <View padding="size-200" paddingTop="size-0">
       <Flex gap="size-100" justifyContent="end" alignItems="center">
-        <Text UNSAFE_className={styles.clientLabel}>Client</Text>
+        <Text UNSAFE_className={classNames('clientLabel')}>Client</Text>
         <Card>
           <ClientPicker allowAllClients={false} />
         </Card>
       </Flex>
       <Tabs density='compact' onSelectionChange={(key) => setActiveTab(key as Key)} selectedKey={activeTab}>
-        <TabList UNSAFE_className={styles.tabList}>
+        <TabList UNSAFE_className={classNames('tabList')}>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>{formatMessage(messages.clientInfo)}</Item>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>{formatMessage(messages.activities)}</Item>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>{formatMessage(messages.events)}</Item>

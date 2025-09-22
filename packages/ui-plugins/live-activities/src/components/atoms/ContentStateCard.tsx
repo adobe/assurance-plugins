@@ -18,7 +18,7 @@ import classNames from 'classnames';
 import usePluginState from '../../hooks/usePluginState';
 import { copyToClipboard } from '../../utils/clipboard';
 
-import styles from './ContentStateCard.css';
+import './ContentStateCard.css';
 import InfoField from './InfoField';
 import Card from './card';
 
@@ -96,7 +96,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
     if (!contentState || typeof contentState !== 'object') {
       return (
         <View 
-          UNSAFE_className={styles.noContentStateContainer}
+          UNSAFE_className={classNames('noContentStateContainer')}
         >
           <Text>{String(contentState)}</Text>
         </View>
@@ -140,25 +140,25 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
         {Object.entries(contentState).map(([key, value]) => (
           <View 
             key={key}
-            UNSAFE_className={styles.formattedContentItem}
+            UNSAFE_className={classNames('formattedContentItem')}
           >
             <Flex direction="row" gap="size-200" alignItems="start">
-              <View UNSAFE_className={styles.formattedContentKey}>
+              <View UNSAFE_className={classNames('formattedContentKey')}>
                 <Text 
-                  UNSAFE_className={styles.formattedContentKeyLabel}
+                  UNSAFE_className={classNames('formattedContentKeyLabel')}
                 >
                   {key}
                 </Text>
                 <Text 
-                  UNSAFE_className={styles.formattedContentKeyType}
+                  UNSAFE_className={classNames('formattedContentKeyType')}
                 >
                   {getValueType(value)}
                 </Text>
               </View>
-              <View UNSAFE_className={styles.formattedContentValue}>
+              <View UNSAFE_className={classNames('formattedContentValue')}>
                 <Text 
-                  UNSAFE_className={classNames(styles.formattedContentValueText, {
-                    [styles.monospace]: getValueType(value) !== 'string'
+                  UNSAFE_className={classNames("formattedContentValueText", {
+                    "monospace": getValueType(value) !== 'string'
                   })}
                 >
                   {formatValue(value, key)}
@@ -173,7 +173,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
 
   const renderRawContent = () => (
     <View 
-      UNSAFE_className={styles.rawContentContainer}
+      UNSAFE_className={classNames('rawContentContainer')}
     >
       <MonacoEditor
         height="200px"
@@ -210,7 +210,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                       isQuiet
                       onPress={handleCopy}
                       UNSAFE_className={classNames({
-                        [styles.copyButton]: copySuccess
+                        "copyButton": copySuccess
                       })}
                     >
                       <Copy size="S" />
@@ -231,7 +231,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                 }}
                 isEmphasized
                 density="compact"
-                UNSAFE_className={styles.viewModeActionGroup}
+                UNSAFE_className={classNames('viewModeActionGroup')}
               >
                 <Item key="formatted">
                   <ViewList size="S" />
@@ -252,7 +252,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                   {/* Content State Summary */}
                   <Flex direction="row" justifyContent="space-between" alignItems="center" marginBottom="size-150">
                     <Text 
-                      UNSAFE_className={styles.contentStateSummary}
+                      UNSAFE_className={classNames('contentStateSummary')}
                     >
                       Content State ({Object.keys(contentState).length} properties)
                     </Text>
@@ -261,10 +261,10 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                         <Button
                           variant="secondary"
                           onPress={handleViewEventDetails}
-                          UNSAFE_className={styles.viewEventDetailsButton}
+                          UNSAFE_className={classNames('viewEventDetailsButton')}
                         >
                           <ViewDetail size="XS" />
-                          <Text UNSAFE_className={styles.viewEventDetailsButtonText}>
+                          <Text UNSAFE_className={classNames('viewEventDetailsButtonText')}>
                             {formatMessage(messages.viewEventDetails)}
                           </Text>
                         </Button>
@@ -297,12 +297,12 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                 gap="size-200"
               >
                 <Text 
-                  UNSAFE_className={styles.noContentStateText}
+                  UNSAFE_className={classNames('noContentStateText')}
                 >
                   {noContentStateMessage}
                 </Text>
                 <Text 
-                  UNSAFE_className={styles.noContentStateHint}
+                  UNSAFE_className={classNames('noContentStateHint')}
                 >
                   Content state will appear here when the activity is updated
                 </Text>

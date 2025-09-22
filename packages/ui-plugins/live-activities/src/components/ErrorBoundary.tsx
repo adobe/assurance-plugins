@@ -3,7 +3,7 @@ import { View, Text, Flex, Button, Heading } from '@adobe/react-spectrum';
 import { defineMessages, useIntl } from 'react-intl';
 import Alert from '@spectrum-icons/workflow/Alert';
 import Refresh from '@spectrum-icons/workflow/Refresh';
-import styles from './ErrorBoundary.css';
+import './ErrorBoundary.css';
 
 const messages = defineMessages({
   errorTitle: {
@@ -110,13 +110,13 @@ function ErrorFallback({ error, onRetry, onRefresh, showDetails = false }: Error
     <View 
       padding="size-400" 
       height="100%" 
-      UNSAFE_className={styles.errorContainer}
+      UNSAFE_className={classNames('errorContainer')}
     >
       <Flex 
         direction="column" 
         alignItems="center" 
         gap="size-300"
-        UNSAFE_className={styles.errorContent}
+        UNSAFE_className={classNames('errorContent')}
       >
         <Alert size="XL" color="negative" />
         
@@ -124,7 +124,7 @@ function ErrorFallback({ error, onRetry, onRefresh, showDetails = false }: Error
           {formatMessage(messages.errorTitle)}
         </Heading>
         
-        <Text UNSAFE_className={styles.errorDescription}>
+        <Text UNSAFE_className={classNames('errorDescription')}>
           {formatMessage(messages.errorDescription)}
         </Text>
         
@@ -132,7 +132,7 @@ function ErrorFallback({ error, onRetry, onRefresh, showDetails = false }: Error
           <Button 
             variant="primary" 
             onPress={onRetry}
-            UNSAFE_className={styles.retryButton}
+            UNSAFE_className={classNames('retryButton')}
           >
             <Refresh size="S" />
             <Text>{formatMessage(messages.retryButton)}</Text>
@@ -141,7 +141,7 @@ function ErrorFallback({ error, onRetry, onRefresh, showDetails = false }: Error
           <Button 
             variant="secondary" 
             onPress={onRefresh}
-            UNSAFE_className={styles.refreshButton}
+            UNSAFE_className={classNames('refreshButton')}
           >
             <Text>{formatMessage(messages.refreshButton)}</Text>
           </Button>
@@ -149,15 +149,15 @@ function ErrorFallback({ error, onRetry, onRefresh, showDetails = false }: Error
         
         {showDetails && error && (
           <View 
-            UNSAFE_className={styles.errorDetailsContainer}
+            UNSAFE_className={classNames('errorDetailsContainer')}
           >
             <Text 
-              UNSAFE_className={styles.errorDetailsTitle}
+              UNSAFE_className={classNames('errorDetailsTitle')}
             >
               {formatMessage(messages.errorDetails)}:
             </Text>
             <Text 
-              UNSAFE_className={styles.errorDetailsText}
+              UNSAFE_className={classNames('errorDetailsText')}
             >
               {error.message}
             </Text>

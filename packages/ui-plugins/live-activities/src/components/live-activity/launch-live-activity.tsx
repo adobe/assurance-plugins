@@ -28,7 +28,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useRegisteredActivities } from '../../hooks/useActivities';
 import useLaunchLiveActivity from '../../hooks/useLaunchLiveActivity';
 import { FormValues } from '../../types/liveActivities';
-import styles from './launch-live-activity.css';
+import './launch-live-activity.css';
 
 const messages = defineMessages({
   cancel: {
@@ -206,7 +206,7 @@ function LaunchLiveActivity() {
         <Dialog>
           <Heading>{formatMessage(messages.launchLiveActivity)}</Heading>
           <Divider />
-          <Content UNSAFE_className={styles.dialogContent}>
+          <Content UNSAFE_className={classNames('dialogContent')}>
             <View marginBottom="size-200">
               <Controller
                 name="attributeType"
@@ -218,7 +218,7 @@ function LaunchLiveActivity() {
                     onSelectionChange={field.onChange}
                     isRequired
                     width="100%"
-                    UNSAFE_className={styles.pickerContainer}
+                    UNSAFE_className={classNames('pickerContainer')}
                   >
                     {registeredActivities.map(activity => (
                       <Item key={activity.attributeType}>{activity.attributeType}</Item>
@@ -247,7 +247,7 @@ function LaunchLiveActivity() {
               />
             </View>
 
-            <View marginBottom="size-200" UNSAFE_className={styles.editorContainer}>
+            <View marginBottom="size-200" UNSAFE_className={classNames('editorContainer')}>
               <Text marginBottom="size-100">{formatMessage(messages.payload)}</Text>
               <Controller
                 name="payload"
@@ -269,7 +269,7 @@ function LaunchLiveActivity() {
               />
             </View>
 
-            <View UNSAFE_className={styles.editorContainer}>
+            <View UNSAFE_className={classNames('editorContainer')}>
               <Text marginBottom="size-100">{formatMessage(messages.state)}</Text>
               <Controller
                 name="state"

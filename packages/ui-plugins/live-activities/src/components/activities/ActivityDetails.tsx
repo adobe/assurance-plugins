@@ -13,13 +13,14 @@ import {
 import React, { useState, useMemo } from 'react';
 
 import { defineMessages, useIntl } from 'react-intl';
+import classNames from 'classnames';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import SpectrumCard from '../atoms/SpectrumCard';
 import { LiveActivity } from '../../hooks/useActivities';
-import styles from './ActivityDetails.css';
+import './ActivityDetails.css';
 
 dayjs.extend(relativeTime);
 
@@ -158,10 +159,10 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
           direction="column"
           gap="size-200"
         >
-          <Heading level={2} UNSAFE_className={styles.noActivityHeading}>
+          <Heading level={2} UNSAFE_className={classNames('noActivityHeading')}>
             {formatMessage(messages.noActivitySelected)}
           </Heading>
-          <Text UNSAFE_className={styles.noActivityText}>
+          <Text UNSAFE_className={classNames('noActivityText')}>
             Choose an activity from the list to view its details, timeline, and events.
           </Text>
         </Flex>
@@ -181,7 +182,7 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
             <Heading level={2} margin="size-0">
               {selectedActivity.name}
             </Heading>
-            <Text UNSAFE_className={styles.activitySubtitle}>
+            <Text UNSAFE_className={classNames('activitySubtitle')}>
               {selectedActivity.attributes} • {eventCount} events
             </Text>
           </Flex>
@@ -198,24 +199,24 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                 
                 <Flex direction="column" gap="size-100">
                   <Flex alignItems="center" gap="size-100">
-                    <Text UNSAFE_className={styles.infoLabel}>
+                    <Text UNSAFE_className={classNames('infoLabel')}>
                       {formatMessage(messages.status)}:
                     </Text>
                     <StatusLight variant={getStatusVariant(selectedActivity.status)} />
-                    <Text UNSAFE_className={styles.statusText}>
+                    <Text UNSAFE_className={classNames('statusText')}>
                       {selectedActivity.status}
                     </Text>
                   </Flex>
                   
                   <Flex alignItems="center" gap="size-100">
-                    <Text UNSAFE_className={styles.infoLabel}>
+                    <Text UNSAFE_className={classNames('infoLabel')}>
                       {formatMessage(messages.type)}:
                     </Text>
                     <Text>{selectedActivity.attributes}</Text>
                   </Flex>
                   
                   <Flex alignItems="center" gap="size-100">
-                    <Text UNSAFE_className={styles.infoLabel}>
+                    <Text UNSAFE_className={classNames('infoLabel')}>
                       {formatMessage(messages.events)}:
                     </Text>
                     <Text>{eventCount}</Text>
@@ -223,7 +224,7 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                   
                   {selectedActivity.startTime && (
                     <Flex alignItems="center" gap="size-100">
-                      <Text UNSAFE_className={styles.infoLabel}>
+                      <Text UNSAFE_className={classNames('infoLabel')}>
                         {formatMessage(messages.started)}:
                       </Text>
                       <Text>{formatRelativeTime(selectedActivity.startTime)}</Text>
@@ -232,7 +233,7 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                   
                   {lastActivityTime && lastActivityTime !== selectedActivity.startTime && (
                     <Flex alignItems="center" gap="size-100">
-                      <Text UNSAFE_className={styles.infoLabel}>
+                      <Text UNSAFE_className={classNames('infoLabel')}>
                         {formatMessage(messages.lastActivity)}:
                       </Text>
                       <Text>{formatRelativeTime(lastActivityTime)}</Text>
@@ -288,7 +289,7 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                       direction="column"
                       gap="size-100"
                     >
-                      <Text UNSAFE_className={styles.noEventsText}>
+                      <Text UNSAFE_className={classNames('noEventsText')}>
                         {eventSearchQuery || selectedEventFilter !== 'all' 
                           ? formatMessage(messages.noEventsFound)
                           : 'No events available'
@@ -301,17 +302,17 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                         <SpectrumCard key={event.id || index} isQuiet>
                           <Flex direction="column" gap="size-50">
                             <Flex alignItems="center" gap="size-100">
-                              <Text UNSAFE_className={styles.eventTitle}>
+                              <Text UNSAFE_className={classNames('eventTitle')}>
                                 {event.id || `Event ${index + 1}`}
                               </Text>
                               {event.timestamp && (
-                                <Text UNSAFE_className={styles.eventTimestamp}>
+                                <Text UNSAFE_className={classNames('eventTimestamp')}>
                                   {formatRelativeTime(event.timestamp)}
                                 </Text>
                               )}
                             </Flex>
                             {event.timestamp && (
-                              <Text UNSAFE_className={styles.eventDateTime}>
+                              <Text UNSAFE_className={classNames('eventDateTime')}>
                                 {new Date(event.timestamp).toLocaleString()}
                               </Text>
                             )}

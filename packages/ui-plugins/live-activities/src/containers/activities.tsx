@@ -10,7 +10,7 @@ import React, { useState, useMemo } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import classNames from 'classnames';
 
-import styles from './activities.css';
+import './activities.css';
 
 import { VALIDATION_STATUS } from '../constants';
 import { NAVIGATION_CONFIG } from '../constants/liveActivitiesConfig';
@@ -279,13 +279,13 @@ function Activities() {
 
         {/* No Activities State */}
         {!activities.length && (
-          <View UNSAFE_className={styles.noActivitiesContainer}>
-            <View UNSAFE_className={styles.noActivitiesContent}>
+          <View UNSAFE_className={classNames('noActivitiesContainer')}>
+            <View UNSAFE_className={classNames('noActivitiesContent')}>
               <Flex direction="column" alignItems="center" gap="size-300">
-                <Text UNSAFE_className={styles.noActivitiesText}>
+                <Text UNSAFE_className={classNames('noActivitiesText')}>
                   {getNoActivitiesMessage()}
                 </Text>
-                <Text UNSAFE_className={styles.noActivitiesHint}>
+                <Text UNSAFE_className={classNames('noActivitiesHint')}>
                   {getStartActivityHint()}
                 </Text>
                 {platform.hasLiveActivities && (
@@ -303,14 +303,14 @@ function Activities() {
         {activities.length > 0 && (
           <div 
             ref={containerRef} 
-            className={classNames(styles.activitiesResizableContainer, {
-              [styles.resizing]: isResizing
+            className={classNames('activitiesResizableContainer', {
+              'resizing': isResizing
             })}
           >
             {/* Left Panel - Activities List */}
             <View
-              UNSAFE_className={classNames(styles.leftPanel, {
-                [styles.resizing]: isResizing
+              UNSAFE_className={classNames('leftPanel', {
+                'resizing': isResizing
               })}
               UNSAFE_style={{
                 width: `${panelWidth}px`,
@@ -335,8 +335,8 @@ function Activities() {
 
             {/* Right Panel - Activity Details with Tabs */}
             <View
-              UNSAFE_className={classNames(styles.rightPanel, {
-                [styles.resizing]: isResizing
+              UNSAFE_className={classNames('rightPanel', {
+                'resizing': isResizing
               })}
             >
               {selectedActivityTabs || (
@@ -348,11 +348,11 @@ function Activities() {
                     direction="column"
                     gap="size-300"
                   >
-                  <View UNSAFE_className={styles.selectActivityContainer}>
+                  <View UNSAFE_className={classNames('selectActivityContainer')}>
                     <Heading level={2} marginY="size-0" marginBottom="size-200">
                       {formatMessage(messages.selectActivity)}
                     </Heading>
-                    <Text UNSAFE_className={styles.selectActivityDescription}>
+                    <Text UNSAFE_className={classNames('selectActivityDescription')}>
                       {formatMessage(messages.selectActivityDescription)}
                     </Text>
                   </View>
