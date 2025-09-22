@@ -117,7 +117,7 @@ function Activities() {
   const activities = realActivities;
   
   // Resize functionality
-  const { ref: containerRef, width: containerWidth } = useResizeObserver({
+  const { ref: containerRef, width: containerWidth } = useResizeObserver<HTMLDivElement>({
     onResize: () => {},
     observeHeight: false,
     debounceDelay: 50
@@ -325,7 +325,7 @@ function Activities() {
         {/* Main Content - Resizable Split View */}
         {activities.length > 0 && (
           <div 
-            ref={containerRef as React.RefObject<HTMLDivElement>} 
+            ref={containerRef} 
             className={`activities-resizable-container ${isResizing ? 'resizing' : ''}`}
             style={{ height: '100%', display: 'flex', flexDirection: 'row' }}
           >

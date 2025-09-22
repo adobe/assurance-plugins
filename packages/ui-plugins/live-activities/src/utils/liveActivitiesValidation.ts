@@ -27,7 +27,7 @@ export function parseIOSVersion(version: string): [number, number] | null {
 
   // Trim whitespace and split by dots
   const versionParts = version.trim().split('.');
-  
+
   // Must have at least major version
   if (versionParts.length === 0) {
     return null;
@@ -40,10 +40,8 @@ export function parseIOSVersion(version: string): [number, number] | null {
   }
 
   // Parse minor version (optional, defaults to 0)
-  const minorVersion = versionParts.length > 1 
-    ? parseInt(versionParts[1], 10) 
-    : 0;
-  
+  const minorVersion = versionParts.length > 1 ? parseInt(versionParts[1], 10) : 0;
+
   // Minor version must be valid if provided
   if (isNaN(minorVersion) || minorVersion < 0) {
     return null;

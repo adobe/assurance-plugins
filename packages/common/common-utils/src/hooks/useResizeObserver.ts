@@ -28,9 +28,9 @@ interface UseResizeObserverOptions {
   debounceDelay?: number;
 }
 
-interface UseResizeObserverReturn {
+interface UseResizeObserverReturn<T extends HTMLElement = HTMLElement> {
   /** Ref to attach to the element to observe */
-  ref: React.RefObject<HTMLElement>;
+  ref: React.RefObject<T>;
   /** Current width of the observed element */
   width: number;
   /** Current height of the observed element */
@@ -39,17 +39,17 @@ interface UseResizeObserverReturn {
   isObserving: boolean;
 }
 
-export const useResizeObserver = ({
+export const useResizeObserver = <T extends HTMLElement = HTMLElement>({
   onResize,
   observeWidth = true,
   observeHeight = true,
   debounceDelay = 0
-}: UseResizeObserverOptions = {}): UseResizeObserverReturn => {
-  const ref = useRef<HTMLElement>(null);
+}: UseResizeObserverOptions = {}): UseResizeObserverReturn<T> => {
+  const ref = useRef<T>(null);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [isObserving, setIsObserving] = useState(false);
-  const timeoutRef = useRef<number>();
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     const element = ref.current;

@@ -1,4 +1,10 @@
-import { parseIOSVersion, getLiveActivitiesSupport, validateIOSVersionForLiveActivities, isDeviceVersionBelowAppMinimum } from '../liveActivitiesValidation';
+import {
+  parseIOSVersion,
+  getLiveActivitiesSupport,
+  validateIOSVersionForLiveActivities,
+  isDeviceVersionBelowAppMinimum,
+  getStatusDisplayConfig
+} from '../liveActivitiesValidation';
 import { VALIDATION_STATUS } from '../../constants';
 
 describe('liveActivitiesValidation', () => {
@@ -155,6 +161,40 @@ describe('liveActivitiesValidation', () => {
     it('should handle single major versions', () => {
       expect(isDeviceVersionBelowAppMinimum('16', '16.1')).toBe(true);
       expect(isDeviceVersionBelowAppMinimum('17', '16.1')).toBe(false);
+    });
+  });
+
+  describe('getStatusDisplayConfig', () => {
+    it('should return correct config for each status', () => {
+      expect(getStatusDisplayConfig(VALIDATION_STATUS.NOT_SUPPORTED)).toEqual({
+        title: 'Live Activities Not Supported',
+        icon: 'invalid',
+        variant: 'negative'
+      });
+
+      expect(getStatusDisplayConfig(VALIDATION_STATUS.BASIC_SUPPORT)).toEqual({
+        title: 'Basic Live Activities Support',
+        icon: 'warning',
+        variant: 'notice'
+      });
+
+      expect(getStatusDisplayConfig(VALIDATION_STATUS.FULL_SUPPORT)).toEqual({
+        title: 'Full Live Activities Support',
+        icon: 'valid',
+        variant: 'positive'
+      });
+
+      expect(getStatusDisplayConfig(VALIDATION_STATUS.UNKNOWN)).toEqual({
+        title: 'iOS Version Unknown',
+        icon: 'info',
+        variant: 'neutral'
+      });
+
+      expect(getStatusDisplayConfig(VALIDATION_STATUS.NOT_IOS)).toEqual({
+        title: 'Not an iOS Device',
+        icon: 'info',
+        variant: 'neutral'
+      });
     });
   });
 });
