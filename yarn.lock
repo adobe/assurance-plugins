@@ -4725,7 +4725,7 @@
     "@react-types/shared" "^3.32.0"
     "@swc/helpers" "^0.5.0"
 
-"@react-aria/utils@^3.30.1":
+"@react-aria/utils@^3.25.5", "@react-aria/utils@^3.30.1":
   version "3.30.1"
   resolved "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-adobe-release/@react-aria/utils/-/utils-3.30.1.tgz"
   integrity sha512-zETcbDd6Vf9GbLndO6RiWJadIZsBU2MMm23rBACXLmpRztkrIqPEb2RVdlLaq1+GklDx0Ii6PfveVjx+8S5U6A==
@@ -6453,7 +6453,7 @@
     "@react-spectrum/icon" "^3.8.8"
     "@swc/helpers" "^0.5.0"
 
-"@spectrum-icons/workflow@^3.0.0":
+"@spectrum-icons/workflow@^3.0.0", "@spectrum-icons/workflow@^3.2.4":
   version "3.2.5"
   resolved "https://registry.npmjs.org/@spectrum-icons/workflow/-/workflow-3.2.5.tgz"
   integrity sha512-U8OBxHQHCArLIGla+/WEb3rv2/SWjZulDpd4OKRoMtwgsnMPKut7DzDzarowW2wlKlcYVwPpqjhcqyjpYVXdPA==
