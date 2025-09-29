@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { UnknownBadge } from '../components/atoms/UnknownBadge';
-import { useMemo } from 'react';
 import { getPropertyId, getClientDataStream } from '../hooks/useClientInfo';
 import useLaunchProperty from '../hooks/useLaunchProperty';
-import { useEnvironmentValue } from '@assurance/plugin-bridge-provider';
+import {
+  useEnvironmentValue,
+  useImsOrg,
+  useSandbox,
+  useTenant
+} from '@assurance/plugin-bridge-provider';
 
 /**
  * Utility function to render values with proper fallback handling.
@@ -25,6 +29,10 @@ function useExperienceRedirectionContext() {
   const propertyId = getPropertyId();
   const property = useLaunchProperty(propertyId);
   const datastream = getClientDataStream();
+  const sandbox = useSandbox();
+  const org = useImsOrg();
+  const tenant = useTenant();
+
   const env = useEnvironmentValue({
     local: 'local',
     dev: 'dev',
@@ -33,64 +41,142 @@ function useExperienceRedirectionContext() {
     prod: 'prod'
   });
 
-  // Print the full property data for debugging
-  console.log('[useExperienceRedirectionContext] property.data:', property.data);
-
   // Extract company from property data (adjust path as needed)
   const company = useMemo(() => {
-    const companyValue = property.data?.data?.attributes?.company || '';
-    console.log('[useExperienceRedirectionContext] company:', companyValue);
+    const companyValue =
+      property.data?.data?.attributes?.company ||
+      property.data?.data.relationships.company.data.id ||
+      '';
     return companyValue;
   }, [property.data]);
 
-  console.log('[useExperienceRedirectionContext] propertyId:', propertyId);
-  console.log('[useExperienceRedirectionContext] datastream:', datastream);
-  console.log('[useExperienceRedirectionContext] env:', env);
-
-  return { propertyId, company, env, datastream };
+  return { propertyId, company, env, datastream, tenant, sandbox, org };
 }
 
-/**
- * Opens an Experience Cloud URL in a new tab based on the provided mode and context.
- * @param {Object} params - The parameters for URL construction.
- * @param {string} params.mode - The mode for redirection (e.g., 'edgeConfig', 'catalog', etc.).
- */
-export function openExperienceUrl({ mode }) {
-  const { env, company, datastream, propertyId } = useExperienceRedirectionContext();
-  console.log('[openExperienceUrl] mode:', mode);
-  console.log('[openExperienceUrl] env:', env);
-  console.log('[openExperienceUrl] company:', company);
-  console.log('[openExperienceUrl] datastream:', datastream);
-  console.log('[openExperienceUrl] propertyId:', propertyId);
+// /**
+//  * Opens an Experience Cloud URL in a new tab based on the provided mode and context.
+//  * @param {Object} params - The parameters for URL construction.
+//  * @param {string} params.mode - The mode for redirection (e.g., 'edgeConfig', 'catalog', etc.).
+//  */
+export function openExperienceUrl({
+  mode,
+  env,
+  company,
+  datastream,
+  propertyId,
+  tenant,
+  sandbox
+}: any) {
   const BASE_URL = {
     local: 'https://experience-qa.adobe.com/',
     dev: 'https://experience-qa.adobe.com/',
     qa: 'https://experience-qa.adobe.com/',
-    stage: 'https://experience-stage.adobe.com/?shell_ims=prod#/',
+    stage: 'https://experience-stage.adobe.com/',
     prod: 'https://experience.adobe.com/'
   };
   const baseUrl = BASE_URL[env] || BASE_URL['prod'];
   let url: string;
   switch (mode) {
     case 'edgeConfig':
-      url = `${baseUrl}data-collection/scramjet/${datastream}`;
+      url = `${baseUrl}@${tenant}/sname:${sandbox.name}/data-collection/scramjet/${datastream}`;
       break;
     case 'catalog':
-      url = `${baseUrl}launch/companies/${company}/properties/${propertyId}/extensions/catalog`;
+      url = `${baseUrl}@${tenant}/sname:${sandbox.name}/data-collection/tags/companies/${company}/properties/${propertyId}/extensions/catalog`;
       break;
     case 'environments':
-      url = `${baseUrl}launch/companies/${company}/properties/${propertyId}/environments`;
+      url = `${baseUrl}@${tenant}/sname:${sandbox.name}/data-collection/tags/companies/${company}/properties/${propertyId}/environments`;
       break;
     case 'installed':
-      url = `${baseUrl}launch/companies/${company}/properties/${propertyId}/extensions/installed`;
+      url = `${baseUrl}@${tenant}/sname:${sandbox.name}/data-collection/tags/companies/${company}/properties/${propertyId}/extensions/installed`;
+      console.log(url, 'url made ********insallleddd');
       break;
     case 'publishing':
-      url = `${baseUrl}launch/companies/${company}/properties/${propertyId}/publishing`;
+      url = `${baseUrl}@${tenant}/sname:${sandbox.name}/data-collection/tags/companies/${company}/properties/${propertyId}/publishing`;
       break;
-    default:
-      url = `${baseUrl}data-collection/appSurfaces/companies/${company}/appSurfaces`;
+    default: // setupIos, setupAndroid, manage
+      url = `${baseUrl}@${tenant}/sname:${sandbox.name}/data-collection/appSurfaces/companies/${company}/appSurfaces`;
       break;
   }
-  console.log('[openExperienceUrl] final url:', url);
   window.open(url, '_blank');
 }
+
+export function useOpenExperienceUrl() {
+  const { env, company, datastream, propertyId, sandbox, tenant } =
+    useExperienceRedirectionContext();
+
+  const openExpUrl = useCallback(
+    ({ mode }: any) => {
+      openExperienceUrl({ mode, env, company, datastream, propertyId, tenant, sandbox });
+    },
+    [env, company, datastream, propertyId, tenant, sandbox]
+  );
+
+  return {
+    openExpUrl
+  };
+}
+
+export function openHelpUrl({ mode }: any) {
+  let url: string | undefined;
+
+  if (mode === 'setupIos') {
+    url =
+      'https://developer.apple.com/documentation/usernotifications/asking_permission_to_use_notifications';
+  } else if (mode === 'setupAndroid') {
+    url = 'https://firebase.google.com/docs/cloud-messaging/android/client';
+  }
+
+  if (url) {
+    window.open(url, '_blank');
+  }
+}
+
+// Helper to compute Experience Cloud base URL by environment
+function getExperienceBaseUrl(env: string) {
+  const BASE_URL: Record<string, string> = {
+    local: 'https://experience-qa.adobe.com/',
+    dev: 'https://experience-qa.adobe.com/',
+    qa: 'https://experience-qa.adobe.com/',
+    stage: 'https://experience-stage.adobe.com/',
+    prod: 'https://experience.adobe.com/'
+  };
+  return BASE_URL[env] || BASE_URL['prod'];
+}
+
+export function openProfileUrl({ env, sandbox, profileId }: any) {
+  const baseUrl = getExperienceBaseUrl(env);
+  const url = `${baseUrl}sname:${sandbox.name}/platform/profile/browse/${profileId}`;
+  window.open(url, '_blank');
+}
+
+export const onOpenTrackingSchema = ({
+  env,
+  sandbox,
+  messagingSchemaId
+}: {
+  env: string;
+  sandbox: any;
+  messagingSchemaId?: string;
+}) => {
+  const baseUrl = getExperienceBaseUrl(env);
+  const url = `${baseUrl}sname:${sandbox.name}/data-collection/platform/schema/browse/${encodeURIComponent(
+    messagingSchemaId || ''
+  )}`;
+  window.open(url, '_blank');
+};
+
+export const onOpenSchema = ({
+  env,
+  sandbox,
+  profileSchemaId
+}: {
+  env: string;
+  sandbox: any;
+  profileSchemaId?: string;
+}) => {
+  const baseUrl = getExperienceBaseUrl(env);
+  const url = `${baseUrl}sname:${sandbox.name}/data-collection/platform/schema/browse/${encodeURIComponent(
+    profileSchemaId || ''
+  )}`;
+  window.open(url, '_blank');
+};

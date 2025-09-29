@@ -5,8 +5,8 @@ import { useImsOrg } from "./useImsOrg";
 const URLs: EnvironmentMap = {
   local: "https://edge.adobe.io/",
   dev: "https://edge-stage.adobe.io/",
-  qe: "https://edge-stage.adobe.io/",
-  stage: "https://edge.adobe.io/",
+  qa: "https://edge-stage.adobe.io/",
+  stage: "https://edge-stage.adobe.io/",
   prod: "https://edge.adobe.io/",
 };
 

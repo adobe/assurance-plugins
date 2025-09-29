@@ -15,7 +15,7 @@ import { CopyableValue } from '../atoms/CopyableValue';
 import Card from '../atoms/card';
 import { useECID, useSelectedClientPushToken } from '../../hooks/useClientInfo';
 import useClientValidationStatus from '../../hooks/useClientValidationStatus';
-import { renderValue } from '../../utils/utils';
+import { openHelpUrl, renderValue, useOpenExperienceUrl } from '../../utils/utils';
 
 import LiveActivitiesValidationSection from './live-activities-validation-section';
 
@@ -96,19 +96,14 @@ const chooseStatusMessage = status => {
 
 const chooseStatusDetails = status => STATUS_DETAILS[status];
 
-// TODO: Implement these functions import the functionality of open.app.saga.js
-const onOpenCatalog = () => {};
-const onOpenEnvironments = () => {};
-const onOpenInstalled = () => {};
-const onOpenPublishing = () => {};
-const onSetupAndroid = () => {};
-const onSetupIos = () => {};
 
 const DeviceWidget = ({ ...extraProps }) => {
   const ecid = useECID();
   const token = useSelectedClientPushToken();
   const status = useClientValidationStatus();
   const isLoading = status === 'loading';
+  const { openExpUrl } = useOpenExperienceUrl();
+
   // Data rows for ECID and Push Token
   const dataRows = useMemo(
     () => [
@@ -179,7 +174,7 @@ const DeviceWidget = ({ ...extraProps }) => {
         )}
         <div>
           {MSG_NOT_INSTALLED.forFull}&nbsp;
-          <Link data-testid="openEnvironments" onPress={onOpenEnvironments}>
+          <Link data-testid="openEnvironments" onPress={() => openExpUrl({ mode: 'environments' })}>
             {MSG_NOT_INSTALLED.visitLaunch}
           </Link>
         </div>
@@ -194,7 +189,11 @@ const DeviceWidget = ({ ...extraProps }) => {
             <li>
               {MSG_NO_TOKEN.appNotSetup}
               <View margin="size-200">
-                <Button data-testid="openHelp" onPress={onSetupAndroid} variant="secondary">
+                <Button
+                  data-testid="openHelp"
+                  onPress={() => openHelpUrl({ mode: 'setupAndroid' })}
+                  variant="secondary"
+                >
                   <Text>{MSG_NO_TOKEN.androidSetup}</Text>
                 </Button>
               </View>
@@ -212,7 +211,11 @@ const DeviceWidget = ({ ...extraProps }) => {
             <li>
               {MSG_NO_TOKEN.appNotSetup}
               <View margin="size-200">
-                <Button data-testid="openHelp" onPress={onSetupIos} variant="secondary">
+                <Button
+                  data-testid="openHelp"
+                  onPress={() => openHelpUrl({ mode: 'setupIos' })}
+                  variant="secondary"
+                >
                   <Text>{MSG_NO_TOKEN.iosSetup}</Text>
                 </Button>
               </View>
@@ -235,19 +238,31 @@ const DeviceWidget = ({ ...extraProps }) => {
         <div>{MSG_NO_EDGE.para1}</div>
         <Flex margin="size-200" gap="size-100" direction="column">
           <span>
-            <Button data-testid="viewInstalled" variant="secondary" onPress={onOpenInstalled}>
+            <Button
+              data-testid="viewInstalled"
+              variant="secondary"
+              onPress={() => openExpUrl({ mode: 'installed' })}
+            >
               <Text>{MSG.viewInstalled}</Text>
             </Button>
           </span>
           <span>
-            <Button data-testid="viewCatalog" variant="secondary" onPress={onOpenCatalog}>
+            <Button
+              data-testid="viewCatalog"
+              variant="secondary"
+              onPress={() => openExpUrl({ mode: 'catalog' })}
+            >
               <Text>{MSG.viewCatalog}</Text>
             </Button>
           </span>
         </Flex>
         <div>{MSG_NO_EDGE.para2}</div>
         <View margin="size-200">
-          <Button data-testid="viewPublishing" variant="secondary" onPress={onOpenPublishing}>
+          <Button
+            data-testid="viewPublishing"
+            variant="secondary"
+            onPress={() => openExpUrl({ mode: 'publishing' })}
+          >
             <Text>{MSG.viewPublishing}</Text>
           </Button>
         </View>
@@ -262,19 +277,31 @@ const DeviceWidget = ({ ...extraProps }) => {
         <div>{MSG_NO_CONFIG.para1}</div>
         <Flex margin="size-200" gap="size-100" direction="column">
           <span>
-            <Button data-testid="viewInstalled" onPress={onOpenInstalled} variant="secondary">
+            <Button
+              data-testid="viewInstalled"
+              onPress={() => openExpUrl({ mode: 'installed' })}
+              variant="secondary"
+            >
               <Text>{MSG.viewInstalled}</Text>
             </Button>
           </span>
           <span>
-            <Button data-testid="viewCatalog" onPress={onOpenCatalog} variant="secondary">
+            <Button
+              data-testid="viewCatalog"
+              onPress={() => openExpUrl({ mode: 'catalog' })}
+              variant="secondary"
+            >
               <Text>{MSG.viewCatalog}</Text>
             </Button>
           </span>
         </Flex>
         <div>{MSG_NO_CONFIG.para2}</div>
         <View margin="size-200">
-          <Button data-testid="viewPublishing" onPress={onOpenPublishing} variant="secondary">
+          <Button
+            data-testid="viewPublishing"
+            onPress={() => openExpUrl({ mode: 'publishing' })}
+            variant="secondary"
+          >
             <Text>{MSG.viewPublishing}</Text>
           </Button>
         </View>
@@ -306,8 +333,6 @@ const DeviceWidget = ({ ...extraProps }) => {
               <Heading level={4}>{statusText}</Heading>
             </Flex>
             {statusDetails && <View marginTop="size-200">{statusDetails}</View>}
-            
-          
             <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 16 }}>
               <tbody>
                 {dataRows.map(row => (
@@ -332,7 +357,6 @@ const DeviceWidget = ({ ...extraProps }) => {
                 <LiveActivitiesValidationSection />
               </View>
             </View>
-            
           </>
         )}
       </Card>
