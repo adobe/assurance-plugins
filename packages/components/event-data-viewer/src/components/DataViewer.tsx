@@ -23,9 +23,11 @@ import DataViewerTable from "./DataViewerTable";
 type DataViewerProps = {
   autoExpand?: boolean;
   data: EventData[];
+  showTooltips?: boolean;
+  tooltipThreshold?: number;
 };
 
-const DataViewer = ({ data, autoExpand }: DataViewerProps) => {
+const DataViewer = ({ data, autoExpand, showTooltips = false, tooltipThreshold = 50 }: DataViewerProps) => {
   const records = useMemo(() => {
     return (data || []).map((record) => {
       return {
@@ -36,7 +38,12 @@ const DataViewer = ({ data, autoExpand }: DataViewerProps) => {
   }, [data]);
 
   return (
-    <DataViewerTable data={records?.[0]?.values} autoExpand={autoExpand} />
+    <DataViewerTable 
+      data={records?.[0]?.values} 
+      autoExpand={autoExpand}
+      showTooltips={showTooltips}
+      tooltipThreshold={tooltipThreshold}
+    />
   );
 };
 

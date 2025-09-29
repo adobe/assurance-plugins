@@ -146,6 +146,20 @@ export interface LiveActivityDismissedEvent extends BaseLiveActivityEvent {
   };
 }
 
+// Live Activity Ended Event
+export interface LiveActivityEndedEvent extends BaseLiveActivityEvent {
+  payload: BasePayload & {
+    ACPExtensionEventName: 'Live Activity ended';
+    ACPExtensionEventData: {
+      liveActivityID: string;
+      appleLiveActivityId: string;
+      attributeType: string;
+      state: 'ended';
+      isLiveActivityTrackStateEvent: boolean;
+    };
+  };
+}
+
 // Live Activity Assurance Debug Events
 export interface LiveActivityAssuranceDebugEvent extends BaseLiveActivityEvent {
   payload: BasePayload & {
@@ -175,6 +189,7 @@ export type LiveActivityEvent =
   | LiveActivityStartEvent
   | LiveActivityStartToEdgeEvent
   | LiveActivityDismissedEvent
+  | LiveActivityEndedEvent
   | LiveActivityAssuranceDebugEvent;
 
 // Type guard functions
@@ -199,7 +214,7 @@ export const isLiveActivityPushToStartTokenEvent = (
 ): event is LiveActivityPushToStartTokenEvent => {
   return (
     (event.payload?.ACPExtensionEventName?.includes('Live Activity push-to-start token') &&
-    event.payload?.ACPExtensionEventName?.includes('Attributes)')) ||
+      event.payload?.ACPExtensionEventName?.includes('Attributes)')) ||
     event.payload?.ACPExtensionEventData?.isLiveActivityPushToStartTokenEvent === true
   );
 };
@@ -222,6 +237,17 @@ export const isLiveActivityStartToEdgeEvent = (
 
 export const isLiveActivityDismissedEvent = (event: any): event is LiveActivityDismissedEvent => {
   return event.payload?.ACPExtensionEventName === 'Live Activity dismissed';
+};
+
+export const isLiveActivityEndedEvent = (event: any): event is LiveActivityEndedEvent => {
+  return event.payload?.ACPExtensionEventName === 'Live Activity ended';
+};
+
+// Combined type guard for any end event (dismissed or ended)
+export const isLiveActivityEndEvent = (
+  event: any
+): event is LiveActivityDismissedEvent | LiveActivityEndedEvent => {
+  return isLiveActivityDismissedEvent(event) || isLiveActivityEndedEvent(event);
 };
 
 export const isLiveActivityAssuranceDebugEvent = (
@@ -247,6 +273,7 @@ export const getEventType = (eventName: string): string => {
   if (eventName === 'Live Activity start event') return 'start';
   if (eventName === 'Live Activity start to Edge') return 'startToEdge';
   if (eventName === 'Live Activity dismissed') return 'dismissed';
+  if (eventName === 'Live Activity ended') return 'ended';
   if (eventName.includes('Live Activity Assurance Debug for type')) return 'assuranceDebug';
   return 'unknown';
 };

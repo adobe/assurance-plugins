@@ -16,7 +16,7 @@
  **************************************************************************/
 import {
   useEnvironment,
-  useFilteredEvents,
+  useEvents,
   useFlags,
   useImsAccessToken,
   useImsOrg,
@@ -33,7 +33,7 @@ const ProviderTable = () => {
   const imsOrg = useImsOrg();
   const tenant = useTenant();
   const navigation = useNavigationPath();
-  const events = useFilteredEvents();
+  const events = useEvents();
   const validation = useValidation();
 
   return (

@@ -14,27 +14,30 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  **************************************************************************/
-import * as kit from "@adobe/griffon-toolkit";
-import { logEvent } from "@adobe/griffon-toolkit-common";
-import * as R from "ramda";
-import { EventFilterConfig, Events, Maybe, ValidationRecords } from "../types";
-import sortEvents from "./event.sort";
+import * as kit from '@adobe/griffon-toolkit';
+import { logEvent } from '@adobe/griffon-toolkit-common';
+
+import * as R from 'ramda';
+
+import { EventFilterConfig, Events, Maybe, ValidationRecords } from '../types';
+
+import sortEvents from './event.sort';
 
 export const parseFilters = (filters: string[], ignoreFilters) => {
   let useFilters = filters;
   if (ignoreFilters && ignoreFilters.length) {
-    R.forEach((without) => {
+    R.forEach(without => {
       useFilters = R.dissoc(without, useFilters);
     }, ignoreFilters);
   }
   return useFilters;
 };
 
-export const parseCustomMatchers = (matchers) => {
+export const parseCustomMatchers = matchers => {
   let useFilters = {};
   let customCount = 0;
 
-  R.forEach((matcher) => {
+  R.forEach(matcher => {
     useFilters = R.assoc(`custom${++customCount}`, matcher, useFilters);
   }, matchers || []);
   return useFilters;
@@ -51,17 +54,15 @@ export const extractFilteredEvents = (
   config: EventFilterConfig,
   events: Events,
   filters,
-  validation?: ValidationRecords,
+  validation?: ValidationRecords
 ) => {
   let results = events || [];
 
   const filtersData = {
     ...parseFilters(filters, config.ignoreFilters),
     ...parseCustomMatchers(config.matchers),
-    ...parseHideLogs(config.excludeLogs),
+    ...parseHideLogs(config.excludeLogs)
   };
-
-  console.log(filtersData, 'filtersData ****');
 
   if (Object.keys(filtersData).length) {
     results = kit.filterData(filtersData, results);
@@ -70,10 +71,7 @@ export const extractFilteredEvents = (
     results = sortEvents(results, config.sorted);
   }
   if (config.validations) {
-    results = R.map(
-      (event) => R.assoc("validation", validation?.[event.uuid], event),
-      results,
-    );
+    results = R.map(event => R.assoc('validation', validation?.[event.uuid], event), results);
   }
   return results;
 };

@@ -1,16 +1,33 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Button, Flex, Heading, Text, ProgressCircle } from '@adobe/react-spectrum';
-import { getHealthIcon } from '../../utils/utils';
+import { getHealthIcon } from '../../constants';
+import {
+  openProfileUrl,
+  useOpenExperienceUrl,
+  onOpenTrackingSchema,
+  onOpenSchema
+} from '../../utils/utils';
+import { useSandbox, useEnvironmentValue } from '@assurance/plugin-bridge-provider';
+import {
+  extractProfileDatasetId,
+  extractSchemaFromDataset,
+  useDataset,
+  useDatastream,
+  useDatastreamId,
+  useEventDataset,
+} from '../../hooks/useDataStreamValidationStatus';
 
 interface DataStreamStatusDetailsProps {
   status: string | boolean;
+  profileId: string | undefined;
 }
 
 const MSG = {
   viewInstalled: 'View Installed Extensions',
   viewEdge: 'View Edge Configuration',
   viewSchema: 'View Profile Schema',
-  viewTrackingSchema: 'View Tracking Schema'
+  viewTrackingSchema: 'View Tracking Schema',
+  inspectProfile: 'Inspect Profile'
 };
 
 const STATUS_MESSAGE: Record<string, string> = {
@@ -76,32 +93,45 @@ const chooseStatusMessage = (status: string | boolean) =>
 
 const chooseStatusDetails = (status: string | boolean) => STATUS_DETAILS[status as string];
 
-const onManageApps = () => {
-  window.open('https://experience.adobe.com/#/apps/configurations', '_blank');
-};
-
-// Data Stream Status callback handlers
-const onOpenEdgeConfig = () => {
-  window.open('https://experience.adobe.com/#/data-collection/datastreams', '_blank');
-};
-
-const onOpenInstalled = () => {
-  window.open('https://experience.adobe.com/#/apps/configurations', '_blank');
-};
-
-const onOpenSchema = () => {
-  window.open('https://experience.adobe.com/#/data-management/schemas', '_blank');
-};
-
-const onOpenTrackingSchema = () => {
-  window.open('https://experience.adobe.com/#/data-management/schemas', '_blank');
-};
-
 /**
  * Renders status details for data stream validation based on the current status.
  */
-const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ status }) => {
+const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ status, profileId }) => {
   let details: React.ReactNode;
+  const sandbox = useSandbox();
+  const env = useEnvironmentValue({
+    local: 'local',
+    dev: 'dev',
+    qa: 'qa',
+    stage: 'stage',
+    prod: 'prod'
+  });
+  const eventDataset = useEventDataset();
+  const datastreamId = useDatastreamId();
+  const messagingDatasetQuery = useDataset(eventDataset, !!eventDataset);
+  const messagingSchemaId = extractSchemaFromDataset(messagingDatasetQuery.data);
+  const datastreamQuery = useDatastream(datastreamId, !!datastreamId);
+  const profileDatasetId = extractProfileDatasetId(datastreamQuery?.data?.data);
+  const profileDatasetQuery = useDataset(profileDatasetId, !!profileDatasetId);
+  const profileSchemaId = extractSchemaFromDataset(profileDatasetQuery.data);
+  const { openExpUrl } = useOpenExperienceUrl();
+
+  const buttons = useMemo(
+    () =>
+      status
+        ? []
+        : [
+            <Button
+              key="inspectProfile"
+              data-testid="inspectProfile"
+              onPress={() => openProfileUrl({ env: env || 'prod', sandbox, profileId })}
+              variant="secondary"
+            >
+              <Text>{MSG.inspectProfile}</Text>
+            </Button>
+          ],
+    [status]
+  );
 
   // Helper function to determine data stream status health icon
   const chooseDataStreamStatus = (status: string | boolean): string => {
@@ -117,7 +147,11 @@ const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ statu
         <div>
           {MESSAGES.noProfilePara1}
           <View margin="size-200">
-            <Button data-testid="viewEdgeConfig" onPress={onOpenEdgeConfig} variant="secondary">
+            <Button
+              data-testid="viewEdgeConfig"
+              onPress={() => openExpUrl({ mode: 'edgeConfig' })}
+              variant="secondary"
+            >
               <Text>{MESSAGES.noProfileButton1}</Text>
             </Button>
           </View>
@@ -129,7 +163,11 @@ const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ statu
       <div>
         <div>{MESSAGES.noEdgeInvalid}</div>
         <View margin="size-200">
-          <Button data-testid="viewInstalled" onPress={onOpenInstalled} variant="secondary">
+          <Button
+            data-testid="viewInstalled"
+            onPress={() => openExpUrl({ mode: 'installed' })}
+            variant="secondary"
+          >
             <Text>{MSG.viewInstalled}</Text>
           </Button>
         </View>
@@ -143,7 +181,11 @@ const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ statu
       <div>
         <div>{MESSAGES.invalidDsPara1}</div>
         <View margin="size-200">
-          <Button data-testid="viewEdgeConfig" onPress={onOpenEdgeConfig} variant="secondary">
+          <Button
+            data-testid="viewEdgeConfig"
+            onPress={() => openExpUrl({ mode: 'edgeConfig' })}
+            variant="secondary"
+          >
             <Text>{MSG.viewEdge}</Text>
           </Button>
         </View>
@@ -154,7 +196,11 @@ const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ statu
       <div>
         <div>{MESSAGES.missingDatasetPara1}</div>
         <View margin="size-200">
-          <Button data-testid="viewInstalled" onPress={onOpenInstalled} variant="secondary">
+          <Button
+            data-testid="viewInstalled"
+            onPress={() => openExpUrl({ mode: 'installed' })}
+            variant="secondary"
+          >
             <Text>{MSG.viewInstalled}</Text>
           </Button>
         </View>
@@ -181,7 +227,13 @@ const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ statu
         <View margin="size-200">
           <Button
             data-testid="viewTrackingSchema"
-            onPress={onOpenTrackingSchema}
+            onPress={() =>
+              onOpenTrackingSchema({
+                env: env || 'prod',
+                sandbox,
+                messagingSchemaId: messagingSchemaId || undefined
+              })
+            }
             variant="secondary"
           >
             <Text>{MSG.viewTrackingSchema}</Text>
@@ -195,7 +247,17 @@ const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ statu
         <div>
           {MESSAGES.invalidSchemaPara1}
           <View margin="size-200">
-            <Button data-testid="viewSchema" onPress={onOpenSchema} variant="secondary">
+          <Button
+            data-testid="viewSchema"
+            onPress={() =>
+              onOpenSchema({
+                env: env || 'prod',
+                sandbox,
+                profileSchemaId: profileSchemaId || undefined
+              })
+            }
+            variant="secondary"
+          >
               <Text>{MSG.viewSchema}</Text>
             </Button>
           </View>
@@ -232,6 +294,7 @@ const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ statu
             <Heading level={4}>{statusText}</Heading>
           </Flex>
           {details && <View marginTop="size-200">{details}</View>}
+          {buttons && buttons.length > 0 && <View marginTop="size-200">{buttons}</View>}
         </>
       )}
     </React.Fragment>

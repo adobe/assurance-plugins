@@ -60,20 +60,22 @@ function useSelectedClientId(): string | undefined {
 }
 
 /**
- * Returns the type of the currently selected client, or undefined if "All Clients" is selected.
+ * Returns the platform type of the currently selected client, or undefined if "All Clients" is selected.
  *
  * - Uses useSelectedClientObject to get the selected client object.
- * - Returns the 'type' property of the client object, or undefined if not available.
+ * - Returns the platform from deviceInfo['Canonical platform name'], or undefined if not available.
+ * - Note: This returns the actual device platform (e.g., 'iOS', 'Android'), not the event type.
  *
  * Usage:
- *   const type = useSelectedClientType();
- *   // type will be a string (the client type) or undefined if not found or no client is selected.
+ *   const platformType = useSelectedClientType();
+ *   // platformType will be 'iOS', 'Android', or undefined if not found or no client is selected.
  */
 function useSelectedClientType() {
   const selectedClientObj = useSelectedClientObject();
-  return selectedClientObj?.type;
-}
+  if (!selectedClientObj?.payload?.deviceInfo) return undefined;
 
+  return selectedClientObj.payload.deviceInfo['Canonical platform name'];
+}
 
 /**
  * Returns the push token for the currently selected client, if available.
@@ -95,6 +97,26 @@ function useSelectedClientPushToken() {
   return pushToken;
 }
 
+/**
+ * Returns the pushToStart token for the currently selected client, if available.
+ *
+ * - Filters events to only include shared state updates where the stateowner is 'com.adobe.messaging'.
+ * - Extracts the pushToStart token from the most recent matching event's metadata.
+ * - Returns the pushToStart token as a string, or undefined if not available.
+ *
+ * Usage:
+ *   const pushToStartToken = useSelectedClientPushToStartToken();
+ *   // pushToStartToken will be a string (the pushToStart token) or undefined if not found or no matching event is present.
+ */
+function useSelectedClientPushToStartToken() {
+  const events = useEvents({
+    sorted: 'desc',
+    matchers: ["payload.ACPExtensionEventData.stateowner=='com.adobe.messaging'"]
+  });
+  const pushToStartToken =
+    events[0]?.payload?.metadata?.['state.data']?.liveActivity?.pushToStartToken;
+  return pushToStartToken;
+}
 
 /**
  * Returns the version of the Messaging extension for the currently selected client, if available.
@@ -181,14 +203,105 @@ function getPropertyId() {
   return propertyId;
 }
 
+/**
+ * Returns the iOS version for the currently selected client, if available.
+ *
+ * - Gets the iOS version directly from the selected client's deviceInfo.
+ * - Extracts the iOS version from Operating system field.
+ * - Returns the version as a string, or undefined if not available.
+ *
+ * Usage:
+ *   const iosVersion = useClientIOSVersion();
+ *   // iosVersion will be a string (the version) or undefined if not found.
+ */
+function useClientIOSVersion() {
+  const selectedClientObj = useSelectedClientObject();
+  if (!selectedClientObj?.payload?.deviceInfo) return undefined;
+
+  const operatingSystem = selectedClientObj.payload.deviceInfo['Operating system'];
+  if (!operatingSystem || !operatingSystem.startsWith('iOS ')) return undefined;
+
+  // Extract version from "iOS 18.0" -> "18.0"
+  return operatingSystem.replace('iOS ', '');
+}
+
+/**
+ * Returns the Android version for the currently selected client, if available.
+ *
+ * - Gets the Android version directly from the selected client's deviceInfo.
+ * - Extracts the Android version from Operating system field.
+ * - Returns the version as a string, or undefined if not available.
+ *
+ * Usage:
+ *   const androidVersion = useClientAndroidVersion();
+ *   // androidVersion will be a string (the version) or undefined if not found.
+ */
+function useClientAndroidVersion() {
+  const selectedClientObj = useSelectedClientObject();
+  if (!selectedClientObj?.payload?.deviceInfo) return undefined;
+
+  const operatingSystem = selectedClientObj.payload.deviceInfo['Operating system'];
+  if (!operatingSystem || !operatingSystem.startsWith('Android ')) return undefined;
+
+  // Extract version from "Android 14.0" -> "14.0"
+  return operatingSystem.replace('Android ', '');
+}
+
+/**
+ * Returns whether the currently selected client supports Live Activities, if available.
+ *
+ * - Gets the Live Activities support information directly from the selected client's appSettings.
+ * - Checks NSSupportsLiveActivities and NSSupportsLiveActivitiesFrequentUpdates.
+ * - Returns an object with support details, or undefined if not available.
+ *
+ * Usage:
+ *   const liveActivitiesSupport = useClientLiveActivitiesSupport();
+ *   // liveActivitiesSupport will be an object with support details or undefined if not found.
+ */
+function useClientLiveActivitiesSupport() {
+  const selectedClientObj = useSelectedClientObject();
+  if (!selectedClientObj?.payload?.appSettings) return undefined;
+
+  const appSettings = selectedClientObj.payload.appSettings as any;
+
+  return {
+    supportsLiveActivities: appSettings.NSSupportsLiveActivities === true,
+    supportsFrequentUpdates: appSettings.NSSupportsLiveActivitiesFrequentUpdates === true,
+    minimumOSVersion: appSettings.MinimumOSVersion
+  };
+}
+
+/**
+ * Returns the device type information for the currently selected client, if available.
+ *
+ * - Gets the device type directly from the selected client's deviceInfo.
+ * - Extracts device type from Device type field.
+ * - Returns the device type as a string, or undefined if not available.
+ *
+ * Usage:
+ *   const deviceType = useClientDeviceType();
+ *   // deviceType will be a string (e.g., "iPhone or iPod touch") or undefined if not found.
+ */
+function useClientDeviceType() {
+  const selectedClientObj = useSelectedClientObject();
+  if (!selectedClientObj?.payload?.deviceInfo) return undefined;
+
+  return selectedClientObj.payload.deviceInfo['Device type'];
+}
+
 export {
   useSelectedClientId,
   useECID,
   useSelectedClientPushToken,
+  useSelectedClientPushToStartToken,
   useClientMessagingVersion,
   getClientDataStream,
   getClientMessagingEventDataset,
   useSelectedClientObject,
   useSelectedClientType,
-  getPropertyId
+  getPropertyId,
+  useClientIOSVersion,
+  useClientAndroidVersion,
+  useClientLiveActivitiesSupport,
+  useClientDeviceType
 };

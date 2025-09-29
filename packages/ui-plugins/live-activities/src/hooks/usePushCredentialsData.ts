@@ -14,7 +14,7 @@ const baseUrls: EnvironmentMap<string> = {
   local: 'https://exc-unifiedcontent.experience.adobe.net/',
   dev: 'https://exc-unifiedcontent.experience-stage.adobe.net/',
   qa: 'https://exc-unifiedcontent.experience-stage.adobe.net/',
-  stage: 'https://exc-unifiedcontent.experience.adobe.net/',
+  stage: 'https://exc-unifiedcontent.experience-stage.adobe.net/',
   prod: 'https://exc-unifiedcontent.experience.adobe.net/'
 };
 

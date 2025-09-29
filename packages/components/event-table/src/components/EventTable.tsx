@@ -22,6 +22,7 @@ import {
   TableHeader,
   TableView,
 } from "@adobe/react-spectrum";
+import type { Key } from "@react-types/shared";
 import { Event } from "@assurance/common-utils";
 import {
   ColumnDef,
@@ -43,9 +44,13 @@ export interface EventTableProps {
   data: Event[];
   /** Enables debug events emitted by React Table */
   enableDebug?: boolean;
+  /** Callback when selection changes */
+  onSelectionChange?: (selectedKeys: 'all' | Set<Key>) => void;
+  /** Currently selected rows */
+  selectedKeys?: 'all' | Set<Key>;
 }
 
-const EventTable = ({ columns, data, enableDebug = true }: EventTableProps) => {
+const EventTable = ({ columns, data, enableDebug = true, onSelectionChange, selectedKeys }: EventTableProps) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const table = useReactTable({
     columns,
@@ -59,10 +64,19 @@ const EventTable = ({ columns, data, enableDebug = true }: EventTableProps) => {
     },
   });
 
+  const handleSelectionChange = (keys: 'all' | Set<Key>) => {
+    if (onSelectionChange) {
+      onSelectionChange(keys);
+    }
+  };
+
   return (
     <TableView
-      selectionMode="multiple"
+      selectionMode="single"
       selectionStyle="highlight"
+      selectedKeys={selectedKeys}
+      onSelectionChange={handleSelectionChange}
+      height="100%"
       sortDescriptor={{
         column: sorting[0]?.id,
         direction: sorting[0]?.desc ? "descending" : "ascending",
@@ -78,15 +92,19 @@ const EventTable = ({ columns, data, enableDebug = true }: EventTableProps) => {
         ))}
       </TableHeader>
       <TableBody>
-        {table.getRowModel().rows.map((row) => (
-          <Row key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <Cell key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </Cell>
-            ))}
-          </Row>
-        ))}
+        {table.getRowModel().rows.map((row, index) => {
+          const event = row.original as any;
+          const rowKey = event?.uuid || row.id;
+          return (
+            <Row key={rowKey}>
+              {row.getVisibleCells().map((cell) => (
+                <Cell key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </Cell>
+              ))}
+            </Row>
+          );
+        })}
       </TableBody>
     </TableView>
   );

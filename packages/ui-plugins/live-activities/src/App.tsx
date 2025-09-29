@@ -3,7 +3,6 @@ import {
   Flex,
   Item,
   Key,
-  Picker,
   Provider,
   TabList,
   TabPanels,
@@ -12,12 +11,14 @@ import {
   Text
 } from '@adobe/react-spectrum';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React from 'react';
 import { PluginBridgeProvider } from '@assurance/plugin-bridge-provider';
 import Activities from './containers/activities';
 import Events from './containers/events';
 import ClientInfo from './components/validation/client-info';
 import { defineMessages, IntlProvider, useIntl } from 'react-intl';
+import usePluginState from './hooks/usePluginState';
+import { NAVIGATION_CONFIG } from './constants/liveActivitiesConfig';
 
 import ClientPicker from '../../../components/timeline-bar/src/components/FilterBar/ClientPicker';
 import Card from './components/atoms/card';
@@ -54,7 +55,7 @@ const messages = defineMessages({
 });
 
 function Inner() {
-  const [selectedTab, setSelectedTab] = useState<Key>('clientInfo');
+  const { topLevelNavigation: { activeTab, setActiveTab } } = usePluginState();
   const { formatMessage } = useIntl();
 
   return (
@@ -65,20 +66,20 @@ function Inner() {
           <ClientPicker allowAllClients={false} />
         </Card>
       </Flex>
-      <Tabs onSelectionChange={setSelectedTab} selectedKey={selectedTab}>
+      <Tabs density='compact' onSelectionChange={(key) => setActiveTab(key as Key)} selectedKey={activeTab}>
         <TabList UNSAFE_style={{ flex: 1 }}>
-          <Item key="clientInfo">{formatMessage(messages.clientInfo)}</Item>
-          <Item key="activities">{formatMessage(messages.activities)}</Item>
-          <Item key="events">{formatMessage(messages.events)}</Item>
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>{formatMessage(messages.clientInfo)}</Item>
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>{formatMessage(messages.activities)}</Item>
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>{formatMessage(messages.events)}</Item>
         </TabList>
-        <TabPanels>
-          <Item key="activities">
-            <Activities />
-          </Item>
-          <Item key="clientInfo">
+        <TabPanels marginTop="size-200">
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
             <ClientInfo />
           </Item>
-          <Item key="events">
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
+            <Activities />
+          </Item>
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
             <Events />
           </Item>
         </TabPanels>

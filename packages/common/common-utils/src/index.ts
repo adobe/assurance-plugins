@@ -15,7 +15,11 @@
  * from Adobe.
  **************************************************************************/
 
-export { default as chooseEventLabel } from "./choose.event.label";
-export { default as pluckEventData } from "./pluck.event.data";
+export { default as chooseEventLabel } from './choose.event.label';
+export { default as pluckEventData } from './pluck.event.data';
 
-export * from "./timestamp.util";
+export * from './timestamp.util';
+export * from './clipboard.util';
+
+export * from './hooks';
+export * from './components';
