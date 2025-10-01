@@ -36,7 +36,7 @@ const PLATFORM_ENDPOINTS: EnvironmentMap<string> = {
   local: 'https://platform.adobe.io/',
   dev: 'https://platform-stage.adobe.io/',
   qa: 'https://platform-stage.adobe.io/',
-  stage: 'https://platform.adobe.io/',
+  stage: 'https://platform-stage.adobe.io/',
   prod: 'https://platform.adobe.io/'
 };
 
@@ -45,7 +45,7 @@ const EDGE_ENDPOINTS: EnvironmentMap<string> = {
   local: 'https://edge.adobe.io/',
   dev: 'https://edge-stage.adobe.io/',
   qa: 'https://edge-stage.adobe.io/',
-  stage: 'https://edge.adobe.io/',
+  stage: 'https://edge-stage.adobe.io/',
   prod: 'https://edge.adobe.io/'
 };
 
@@ -74,7 +74,7 @@ const createHeaders = (token: string, org: string, sandboxName?: string) => ({
 });
 
 // Hook to extract event dataset from shared state events
-const useEventDataset = () => {
+export const useEventDataset = () => {
   const events = useEvents({
     sorted: 'desc',
     matchers: [
@@ -96,7 +96,7 @@ const useEventDataset = () => {
 };
 
 // Hook to extract datastream ID from configuration shared state
-const useDatastreamId = () => {
+export const useDatastreamId = () => {
   const events = useEvents({
     sorted: 'desc',
     matchers: [
@@ -142,7 +142,7 @@ const useCurrentPushToken = () => {
 };
 
 // Hook to fetch dataset information from Platform API
-const useDataset = (datasetId: string | null, enabled: boolean = true) => {
+export const useDataset = (datasetId: string | null, enabled: boolean = true) => {
   const baseUrl = useEnvironmentValue(PLATFORM_ENDPOINTS);
   const token = useImsAccessToken();
   const org = useImsOrg();
@@ -170,7 +170,7 @@ const useDataset = (datasetId: string | null, enabled: boolean = true) => {
 };
 
 // Hook to fetch schema information from Platform API
-const useSchema = (schemaId: string | null, enabled: boolean = true) => {
+export const useSchema = (schemaId: string | null, enabled: boolean = true) => {
   const baseUrl = useEnvironmentValue(PLATFORM_ENDPOINTS);
   const token = useImsAccessToken();
   const org = useImsOrg();
@@ -203,7 +203,7 @@ const useSchema = (schemaId: string | null, enabled: boolean = true) => {
 };
 
 // Hook to fetch datastream configuration
-const useDatastream = (datastreamId: string | null, enabled: boolean = true) => {
+export const useDatastream = (datastreamId: string | null, enabled: boolean = true) => {
   const baseUrl = useEnvironmentValue(EDGE_ENDPOINTS);
   const token = useImsAccessToken();
   const org = useImsOrg();
@@ -234,7 +234,7 @@ const useDatastream = (datastreamId: string | null, enabled: boolean = true) => 
 };
 
 // Hook to fetch profile entities from Platform API
-const useProfileEntities = (ecid: string | null, enabled: boolean = true) => {
+export const useProfileEntities = (ecid: string | null, enabled: boolean = true) => {
   const baseUrl = useEnvironmentValue(PLATFORM_ENDPOINTS);
   const token = useImsAccessToken();
   const org = useImsOrg();
@@ -268,14 +268,14 @@ const useProfileEntities = (ecid: string | null, enabled: boolean = true) => {
 };
 
 // Helper function to extract schema ID from dataset
-const extractSchemaFromDataset = (dataset: any): string | null => {
+export const extractSchemaFromDataset = (dataset: any): string | null => {
   if (!dataset) return null;
   const data = Object.values(dataset)[0] as any;
   return data?.schemaRef?.id || null;
 };
 
 // Helper function to extract profile dataset ID from datastream config
-const extractProfileDatasetId = (datastreamConfig: any): string | null => {
+export const extractProfileDatasetId = (datastreamConfig: any): string | null => {
   if (!datastreamConfig?.settings?.com_adobe_experience_platform?.datasets?.profile) {
     return null;
   }
@@ -285,7 +285,7 @@ const extractProfileDatasetId = (datastreamConfig: any): string | null => {
 };
 
 // Helper function to extract profile push token from entities data
-const extractProfilePushToken = (entitiesResponseData: any, ecid: string): string | null => {
+export const extractProfilePushToken = (entitiesResponseData: any, ecid: string): string | null => {
   const entitiesData = Object.values(entitiesResponseData || {})?.[0] as any;
   if (!entitiesData?.entity?.pushNotificationDetails) return null;
 
@@ -300,7 +300,7 @@ const extractProfilePushToken = (entitiesResponseData: any, ecid: string): strin
 
 // data/foundation/catalog/datasets
 // Helper function to validate tracking dataset status (equivalent to original selectTrackingDatasetStatus)
-const validateTrackingDatasetStatus = (
+export const validateTrackingDatasetStatus = (
   messagingDatasetQuery: ReturnType<typeof useDataset>,
   messagingSchemaQuery: ReturnType<typeof useSchema>
 ): string | false => {
@@ -376,7 +376,6 @@ export const useDataStreamValidationStatus = () => {
   }
 
   // Check if sandbox is available
-  // console.log(sandbox?.name, '*********** sandbox?.name');         
   if (!sandbox?.name) {
     return 'no-sandbox';
   }

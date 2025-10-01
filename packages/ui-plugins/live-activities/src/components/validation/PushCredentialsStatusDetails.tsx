@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Button, Flex, Heading } from '@adobe/react-spectrum';
 import { getHealthIcon } from '../../constants';
+import { useOpenExperienceUrl } from '../../utils/utils';
 
 interface ShouldMatch {
   app: string;
@@ -70,9 +71,6 @@ const serviceString = (platform?: string) =>
     ? 'Apple Push Notification Service'
     : 'Firebase Cloud Messaging V1';
 
-const onManageApps = () => {
-  window.open('https://experience.adobe.com/#/apps/configurations', '_blank');
-};
 
 /**
  * Renders status details for push credentials based on the current status.
@@ -82,6 +80,7 @@ const PushCredentialsStatusDetails: React.FC<PushCredentialsStatusDetailsProps> 
   shouldMatch,
   onRefresh
 }) => {
+  const { openExpUrl } = useOpenExperienceUrl();
   let details: React.ReactNode;
 
   if (status === 'no-apps' || status === 'no-matching-app') {
@@ -90,7 +89,7 @@ const PushCredentialsStatusDetails: React.FC<PushCredentialsStatusDetailsProps> 
         <div>{status === 'no-apps' ? STATUS_DETAILS.noAppsPara1 : STATUS_DETAILS.noMatchPara1}</div>
         <div>{STATUS_DETAILS.useTheFollowing}</div>
         <View margin="size-200">
-          <Button data-testid="manageApps" variant="secondary" onPress={onManageApps}>
+          <Button data-testid="manage" variant="secondary" onPress={()=> openExpUrl({ mode: 'manage' })}>
             {MSG.manageApps}
           </Button>
         </View>

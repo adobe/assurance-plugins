@@ -43,6 +43,7 @@ const ProfileSectionWidget: React.FC = () => {
   const profilePushToStart = profile?.data?.entity?.liveActivityPushNotificationDetails?.[0];
   const validationStatus = useDataStreamValidationStatus();
   const isLoading = profile.isLoading || !profile.data;
+  const profileId = profile?.data?.entityId;
 
   return (
     <Card>
@@ -53,7 +54,7 @@ const ProfileSectionWidget: React.FC = () => {
         </Flex>
       ) : (
         <View marginTop="size-200">
-          <DataStreamStatusDetails status={validationStatus} />
+          <DataStreamStatusDetails status={validationStatus} profileId={profileId} />
           <table style={tableStyles.table}>
             <thead>
               <tr>
@@ -63,8 +64,8 @@ const ProfileSectionWidget: React.FC = () => {
             </thead>
             <tbody>
               <KeyValueRow label="ECID">
-                {profile.data!.entity?.identityMap?.ecid?.[0]?.id || (
-                  <UnknownBadge/>
+                {profile.data!.entity?.pushNotificationDetails?.[0]?.identity?.id || (
+                  <UnknownBadge />
                 )}
               </KeyValueRow>
               <KeyValueRow label="Sandbox">{sandboxName}</KeyValueRow>
