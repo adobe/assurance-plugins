@@ -23,6 +23,7 @@ import { NAVIGATION_CONFIG } from './constants/liveActivitiesConfig';
 import ClientPicker from '../../../components/timeline-bar/src/components/FilterBar/ClientPicker';
 import Card from './components/atoms/card';
 import './App.css';
+import classNames from 'classnames';
 
 const messages = defineMessages({
   activities: {
@@ -51,7 +52,7 @@ function Inner() {
           <ClientPicker allowAllClients={false} />
         </Card>
       </Flex>
-      <Tabs density='compact' onSelectionChange={(key) => setActiveTab(key as Key)} selectedKey={activeTab}>
+      <Tabs density='compact' onSelectionChange={(key) => setActiveTab(key as any)} selectedKey={activeTab}>
         <TabList UNSAFE_className={classNames('tabList')}>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>{formatMessage(messages.clientInfo)}</Item>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>{formatMessage(messages.activities)}</Item>
