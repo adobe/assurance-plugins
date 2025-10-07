@@ -1,17 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import { useImsAccessToken, useImsOrg, useEnvironmentValue, useSandbox } from '@assurance/plugin-bridge-provider';
+import { useImsAccessToken, useImsOrg, useEnvironmentValue } from '@assurance/plugin-bridge-provider';
 import { getLaunchBaseUrl, fetchProperty } from '../api/launch';
+import { ENVIRONMENT_MAPPING } from '../utils/utils';
 
 function useLaunchProperty(propertyId) {
   const token = useImsAccessToken();
   const org = useImsOrg();
-  const env = useEnvironmentValue({
-    local: 'local',
-    dev: 'dev',
-    qa: 'qa',
-    stage: 'stage',
-    prod: 'prod'
-  });
+  const env = useEnvironmentValue(ENVIRONMENT_MAPPING);
   const baseUrl = getLaunchBaseUrl(env);
 
   return useQuery({

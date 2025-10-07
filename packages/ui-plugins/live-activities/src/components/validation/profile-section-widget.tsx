@@ -5,8 +5,7 @@ import { useSandbox } from '@assurance/plugin-bridge-provider';
 import React from 'react';
 
 import { VALIDATION_STATUS } from '../../constants';
-import { tableStyles } from '../atoms/KeyValueRow';
-import { KeyValueRow } from '../atoms/KeyValueRow';
+import { KeyValueRow, tableStyles } from '../atoms/KeyValueRow';
 import { UnknownBadge } from '../atoms/UnknownBadge';
 import Card from '../atoms/card';
 import useDataStreamValidationStatus from '../../hooks/useDataStreamValidationStatus';
@@ -15,7 +14,7 @@ import useProfile from '../../hooks/useProfile';
 import { renderValue } from '../../utils/utils';
 import { CopyableValue } from '@assurance/common-utils';
 
-import DataStreamStatusDetails from './DataStreamStatusDetails';
+import DataStreamStatusDetails from './data-stream-status-details';
 import { defineMessages, useIntl } from 'react-intl';
 
 const messages = defineMessages({
