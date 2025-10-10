@@ -20,7 +20,8 @@
     "dev": "npx nx start",
     "format": "prettier packages/**/*.{ts,tsx,js} --write",
     "test": "vitest run",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "prepare": "husky install"
   },
   "workspaces": {
     "packages": [
