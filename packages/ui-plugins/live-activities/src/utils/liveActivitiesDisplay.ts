@@ -32,8 +32,25 @@ export function createLiveActivitiesTableData(
 
   const activityTypesArray = Array.from(activityTypes.values());
 
-  return activityTypesArray.map(activity => ({
-    activityType: activity.attributeType,
-    hasSchema: activity.hasSchema
-  }));
+  return activityTypesArray.map(activity => {
+    // For basic support, pushToStartToken is not available (iOS 16.1 - 16.3)
+    // For full support, include pushToStartToken if available
+    const pushToStartToken =
+      validationStatus === VALIDATION_STATUS.FULL_SUPPORT ? activity.pushToStartToken : undefined;
+
+    // Handle cases where tokens are undefined
+    const displayPushToStartToken =
+      validationStatus === VALIDATION_STATUS.BASIC_SUPPORT
+        ? 'Not available'
+        : pushToStartToken || 'Not available';
+
+    const displayUpdateToken = activity.updateToken || 'Not available';
+
+    return {
+      activityType: activity.attributeType,
+      hasSchema: activity.hasSchema,
+      pushToStartToken: displayPushToStartToken,
+      updateToken: displayUpdateToken
+    };
+  });
 }

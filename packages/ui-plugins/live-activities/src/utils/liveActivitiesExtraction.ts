@@ -48,13 +48,6 @@ function extractSchemaFromEvent(event: any): LiveActivitySchema | null {
       title: (schema as any).title || ''
     };
 
-    // Add example data if available
-    if (event.payload.ACPExtensionEventData.examplePayload) {
-      (result as any).examplePayload = event.payload.ACPExtensionEventData.examplePayload;
-      (result as any).exampleState =
-        event.payload.ACPExtensionEventData.examplePayload['content-state'];
-    }
-
     return result;
   } catch (error) {
     return null;
@@ -127,7 +120,6 @@ export function extractRegisteredActivitiesFromSchemaEvents(
     if (!attributeType) return;
 
     const schema = extractSchemaFromEvent(event);
-    const examplePayload = extractExamplePayloadFromEvent(event);
 
     if (schema) {
       registeredActivitiesMap.set(attributeType, {
@@ -138,8 +130,7 @@ export function extractRegisteredActivitiesFromSchemaEvents(
         hasSchema: true,
         hasPushToStartToken: false, // Will be updated from state if available
         hasUpdateToken: false, // Will be updated from state if available
-        lastUpdated: event.timestamp || Date.now(),
-        examplePayload
+        lastUpdated: event.timestamp || Date.now()
       });
     }
   });

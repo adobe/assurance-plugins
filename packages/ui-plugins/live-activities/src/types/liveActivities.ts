@@ -41,6 +41,8 @@ export interface LiveActivityDisplayData {
 export interface LiveActivityDisplayRow {
   activityType: string;
   hasSchema: boolean;
+  pushToStartToken?: string;
+  updateToken?: string;
 }
 
 // Validation status for display logic
