@@ -5,8 +5,7 @@ import { useSandbox } from '@assurance/plugin-bridge-provider';
 import React from 'react';
 
 import { VALIDATION_STATUS } from '../../constants';
-import { tableStyles } from '../atoms/KeyValueRow';
-import { KeyValueRow } from '../atoms/KeyValueRow';
+import { KeyValueRow, tableStyles } from '../atoms/KeyValueRow';
 import { UnknownBadge } from '../atoms/UnknownBadge';
 import Card from '../atoms/card';
 import useDataStreamValidationStatus from '../../hooks/useDataStreamValidationStatus';
@@ -15,7 +14,7 @@ import useProfile from '../../hooks/useProfile';
 import { renderValue } from '../../utils/utils';
 import { CopyableValue } from '@assurance/common-utils';
 
-import DataStreamStatusDetails from './DataStreamStatusDetails';
+import DataStreamStatusDetails from './data-stream-status-details';
 import { defineMessages, useIntl } from 'react-intl';
 
 const messages = defineMessages({
@@ -43,6 +42,7 @@ const ProfileSectionWidget: React.FC = () => {
   const profilePushToStart = profile?.data?.entity?.liveActivityPushNotificationDetails?.[0];
   const validationStatus = useDataStreamValidationStatus();
   const isLoading = profile.isLoading || !profile.data;
+  const profileId = profile?.data?.entityId;
 
   return (
     <Card>
@@ -53,7 +53,7 @@ const ProfileSectionWidget: React.FC = () => {
         </Flex>
       ) : (
         <View marginTop="size-200">
-          <DataStreamStatusDetails status={validationStatus} />
+          <DataStreamStatusDetails status={validationStatus} profileId={profileId} />
           <table style={tableStyles.table}>
             <thead>
               <tr>
@@ -63,8 +63,8 @@ const ProfileSectionWidget: React.FC = () => {
             </thead>
             <tbody>
               <KeyValueRow label="ECID">
-                {profile.data!.entity?.identityMap?.ecid?.[0]?.id || (
-                  <UnknownBadge/>
+                {profile.data!.entity?.pushNotificationDetails?.[0]?.identity?.id || (
+                  <UnknownBadge />
                 )}
               </KeyValueRow>
               <KeyValueRow label="Sandbox">{sandboxName}</KeyValueRow>

@@ -1,16 +1,18 @@
-const LAUNCH_ENDPOINTS = {
-  local: 'https://reactor.adobe.io',
-  dev: 'https://reactor-qe.adobe.io',
-  qa: 'https://reactor-qe.adobe.io',
-  stage: 'https://reactor-integration.adobe.io',
-  prod: 'https://reactor.adobe.io'
-};
+export type Env = 'local' | 'dev' | 'qa' | 'stage' | 'prod';
 
-export function getLaunchBaseUrl(env) {
-  return LAUNCH_ENDPOINTS[env] || LAUNCH_ENDPOINTS['prod'];
+const LAUNCH_ENDPOINTS: Record<Env, string> = {
+  local: 'https://reactor.adobe.io',
+  dev: 'https://reactor-qa.adobe.io',
+  qa: 'https://reactor-qa.adobe.io',
+  stage: 'https://reactor-stage.adobe.io',
+  prod: 'https://reactor.adobe.io'
+} as const;
+
+export function getLaunchBaseUrl(env: string): string {
+  return LAUNCH_ENDPOINTS[env as Env] || LAUNCH_ENDPOINTS['prod'];
 }
 
-export function buildLaunchHeaders({ token, org }) {
+export function buildLaunchHeaders({ token, org }: { token: string; org: string }): Record<string, string> {
   return {
     Accept: 'application/vnd.api+json;revision=1',
     'X-API-Key': 'Activation-DTM',
@@ -25,13 +27,22 @@ export async function fetchProperty({
   propertyId,
   token,
   org
-}) {
+}: {
+  baseUrl: string;
+  propertyId: string;
+  token: string;
+  org: string;
+}): Promise<any> {
+
   const url = `${baseUrl}/properties/${propertyId}`;
   const headers = buildLaunchHeaders({ token, org });
+  
   const response = await fetch(url, { headers });
   if (!response.ok) {
-    throw new Error(`Failed to fetch property: ${response.statusText}`);
+    const message = `Failed to fetch property: ${response.statusText}`;
+    throw new Error(message);
   }
+  
   const data = await response.json();
   return data;
 }

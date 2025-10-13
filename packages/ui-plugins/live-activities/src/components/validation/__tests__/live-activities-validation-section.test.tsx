@@ -19,6 +19,7 @@ vi.mock('../../../hooks/useClientInfo', () => ({
   useClientIOSVersion: vi.fn(),
   useClientLiveActivitiesSupport: vi.fn(),
   useClientDeviceType: vi.fn(),
+  useSelectedClientPushToStartToken: vi.fn(),
 }));
 
 vi.mock('../../../hooks/useActivities', () => ({
@@ -34,7 +35,7 @@ vi.mock('../../../utils/clipboard', () => ({
 }));
 
 // Import mocked modules
-import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType } from '../../../hooks/useClientInfo';
+import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType, useSelectedClientPushToStartToken } from '../../../hooks/useClientInfo';
 import { useLiveActivitiesData } from '../../../hooks/useActivities';
 import { useLiveActivitiesValidationStatus } from '../../../hooks/useLiveActivitiesValidationStatus';
 import { copyToClipboard } from '../../../utils/clipboard';
@@ -42,6 +43,7 @@ import { copyToClipboard } from '../../../utils/clipboard';
 const mockUseClientIOSVersion = useClientIOSVersion as ReturnType<typeof vi.fn>;
 const mockUseClientLiveActivitiesSupport = useClientLiveActivitiesSupport as ReturnType<typeof vi.fn>;
 const mockUseClientDeviceType = useClientDeviceType as ReturnType<typeof vi.fn>;
+const mockUseSelectedClientPushToStartToken = useSelectedClientPushToStartToken as ReturnType<typeof vi.fn>;
 const mockUseLiveActivitiesData = useLiveActivitiesData as ReturnType<typeof vi.fn>;
 const mockUseLiveActivitiesValidationStatus = useLiveActivitiesValidationStatus as ReturnType<typeof vi.fn>;
 const mockCopyToClipboard = copyToClipboard as ReturnType<typeof vi.fn>;
@@ -72,6 +74,7 @@ describe('LiveActivitiesValidationSection', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockCopyToClipboard.mockResolvedValue(undefined);
+    mockUseSelectedClientPushToStartToken.mockReturnValue('test-push-to-start-token');
   });
 
   describe('Basic Support', () => {

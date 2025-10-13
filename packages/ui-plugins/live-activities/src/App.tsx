@@ -25,22 +25,6 @@ import Card from './components/atoms/card';
 import './App.css';
 import classNames from 'classnames';
 
-// export { useDataStream, type DataStream } from "./hooks/useDataStream";
-// export { useEnvironment } from "./hooks/useEnvironment";
-// export { useEnvironmentValue } from "./hooks/useEnvironmentValue";
-// export { useEvents, type UseEventsOptions } from "./hooks/useEvents";
-// export { useFlags, type Flags } from "./hooks/useFlags";
-// export { useImsAccessToken } from "./hooks/useImsAccessToken";
-// export { useImsOrg } from "./hooks/useImsOrg";
-// export { useNavigationFilters } from "./hooks/useNavigationFilters";
-// export { useNavigationPath } from "./hooks/useNavigationPath";
-// export { useSelectEvents } from "./hooks/useSelectEvents";
-// export { useSelectedEvents } from "./hooks/useSelectedEvents";
-// export { useSandbox } from "./hooks/useSandbox";
-// export { useTenant } from "./hooks/useTenant";
-
-// // Additional hooks from hooks.tsx
-
 const messages = defineMessages({
   activities: {
     id: 'activities',

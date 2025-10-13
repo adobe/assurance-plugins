@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Heading, Flex, ProgressCircle } from '@adobe/react-spectrum';
+import { Heading, Flex, ProgressCircle } from '@adobe/react-spectrum';
 import Card from '../atoms/card';
 import usePushCredentialsData from '../../hooks/usePushCredentialsData';
-import PushCredentialsStatusDetails from './PushCredentialsStatusDetails';
+import PushCredentialsStatusDetails from './push-credentials-status-details';
 import { useSandbox, useImsOrg, useEvents } from '@assurance/plugin-bridge-provider';
 import { KeyValueRow, tableStyles } from '../atoms/KeyValueRow';
 import { renderValue } from '../../utils/utils';
