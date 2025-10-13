@@ -2,7 +2,7 @@ import { combineAny } from '@adobe/griffon-toolkit';
 
 import { useEvents } from '@assurance/plugin-bridge-provider';
 
-import groupBy from 'lodash/groupBy';
+import { groupBy } from 'ramda';
 
 import { useMemo } from 'react';
 
