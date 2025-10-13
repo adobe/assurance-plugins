@@ -1,0 +1,40 @@
+[2K[1G[1myarn run v1.22.22[22m
+[2K[1G[2m$ parcel build src/index.ts --cache-dir ./.parcel-cache --no-cache[22m
+Building...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+🚨 [31m[1mBuild failed.[22m[39m
+
+[31m[1m@parcel/core[22m: Failed to resolve '@adobe/react-spectrum' from 
+'./packages/common/common-utils/src/components/CopyableValue.tsx'[39m
+
+  [90m[4m/Users/mashraf/Desktop/adobe-codes/assurance-plugins/packages/common/common-utils/src/components/CopyableValue.tsx:19:75[24m[39m
+    18 | [32mimport[39m React [32mfrom[39m [36m'react'[39m;
+  [31m>[39m 19 | [32mimport[39m { Button, TooltipTrigger, Tooltip, Text, ActionButton, Flex } [32mfrom[39m [36m'@adobe/react-spectrum'[39m;
+  [31m>[39m    |                                                                           [31m^^^^^^^^^^^^^^^^^^^^^^^[39m
+    20 | [32mimport[39m Copy [32mfrom[39m [36m'@spectrum-icons/workflow/Copy'[39m;
+    21 | [32mimport[39m Checkmark [32mfrom[39m [36m'@spectrum-icons/workflow/Checkmark'[39m;
+
+[31m[1m@parcel/resolver-default[22m: External dependency "@adobe/react-spectrum" is not declared in package.json.[39m
+
+  [90m[4m/Users/mashraf/Desktop/adobe-codes/assurance-plugins/packages/common/common-utils/package.json:17:3[24m[39m
+    16 |   },
+  [31m>[39m 17 |   [33m"dependencies"[39m: {
+  [31m>[39m    |   [31m^^^^^^^^^^^^^^[39m
+    18 |     [33m"ramda"[39m: [36m"^0.29.1"[39m,
+    19 |     [33m"react"[39m: [36m"^18.3.1"[39m
+
+  💡 [34m[1mAdd "@adobe/react-spectrum" as a dependency.[22m[39m
+
+[2K[1G[31merror[39m Command failed with exit code 1.
+[2K[1G[34minfo[39m Visit [1mhttps://yarnpkg.com/en/docs/cli/run[22m for documentation about this command.

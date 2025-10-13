@@ -1,0 +1,96 @@
+.noContentStateContainer {
+  height: 200px;
+  border: 1px solid var(--spectrum-global-color-gray-300);
+  border-radius: var(--spectrum-global-dimension-size-50);
+  padding: var(--spectrum-global-dimension-size-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formattedContentItem {
+  padding: var(--spectrum-global-dimension-size-150);
+  background-color: var(--spectrum-global-color-gray-50);
+  border-radius: var(--spectrum-global-dimension-size-50);
+  border: 1px solid var(--spectrum-global-color-gray-200);
+  user-select: text;
+  cursor: text;
+}
+
+.formattedContentKey {
+  min-width: 140px;
+}
+
+.formattedContentKeyLabel {
+  font-weight: bold;
+  color: var(--spectrum-global-color-gray-800);
+  font-size: var(--spectrum-global-dimension-size-200);
+}
+
+.formattedContentKeyType {
+  font-size: var(--spectrum-global-dimension-size-100);
+  color: var(--spectrum-global-color-gray-600);
+  font-style: italic;
+}
+
+.formattedContentValue {
+  flex: 1;
+}
+
+.formattedContentValueText {
+  word-break: break-word;
+  font-size: var(--spectrum-global-dimension-size-200);
+}
+
+.formattedContentValueText.monospace {
+  font-family: monospace;
+}
+
+.rawContentContainer {
+  height: 200px;
+  border: 1px solid var(--spectrum-global-color-gray-300);
+  border-radius: var(--spectrum-global-dimension-size-50);
+}
+
+.copyButton {
+  background-color: var(--spectrum-global-color-green-400);
+  color: white;
+  padding: var(--spectrum-global-dimension-size-100);
+  min-width: auto;
+  cursor: pointer;
+}
+
+.viewModeActionGroup {
+  border: 1px solid var(--spectrum-global-color-gray-300);
+  border-radius: var(--spectrum-global-dimension-size-50);
+  background-color: var(--spectrum-global-color-gray-50);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.contentStateSummary {
+  font-weight: 600;
+  color: var(--spectrum-global-color-gray-800);
+  font-size: var(--spectrum-global-dimension-size-200);
+}
+
+.viewEventDetailsButton {
+  padding: var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-150);
+  font-size: var(--spectrum-global-dimension-size-100);
+  height: var(--spectrum-global-dimension-size-300);
+  min-width: auto;
+}
+
+.viewEventDetailsButtonText {
+  margin-left: var(--spectrum-global-dimension-size-75);
+}
+
+.noContentStateText {
+  color: var(--spectrum-global-color-gray-700);
+  text-align: center;
+}
+
+.noContentStateHint {
+  font-size: var(--spectrum-global-dimension-size-100);
+  color: var(--spectrum-global-color-gray-600);
+  text-align: center;
+}

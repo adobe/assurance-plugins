@@ -1,0 +1,4 @@
+[2K[1G[2m$ parcel build src/index.tsx --cache-dir ./.parcel-cache --no-cache --ignore sample-ui-plugin[22m
+error: unknown option '--ignore'
+[2K[1G[31merror[39m Command failed with exit code 1.
+[2K[1G[34minfo[39m Visit [1mhttps://yarnpkg.com/en/docs/cli/run[22m for documentation about this command.

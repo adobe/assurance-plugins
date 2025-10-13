@@ -1,0 +1,47 @@
+[2K[1G[1myarn run v1.22.22[22m
+[2K[1G[33mwarning[39m package.json: License should be a valid SPDX license expression
+[2K[1G[2m$ parcel build src/index.ts --cache-dir ./.parcel-cache --no-cache[22m
+Building...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+DEPRECATION WARNING: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+
+[33m[1m@parcel/transformer-typescript-types[22m: Cannot find module './CopyableValue' or its corresponding type 
+declarations.[39m
+
+  [90m[4m/Users/mashraf/Desktop/adobe-codes/assurance-plugins/packages/components/event-table/src/components/CopyableMonacoEditor.tsx:3:27[24m[39m
+    2 | [33mimport MonacoEditor from '@monaco-editor/react';[39m
+  [31m>[39m 3 | [33mimport CopyableValue from './CopyableValue';[39m
+  [31m>[39m   |                           [31m^^^^^^^^^^^^^^^^^[39m [1m[31mCannot find module './CopyableValue' or its corresponding type declarations.[39m[22m
+    4 | [33m[39m
+    5 | [33minterface CopyableMonacoEditorProps {[39m
+
+🚨 [31m[1mBuild failed.[22m[39m
+
+[31m[1m@parcel/core[22m: Failed to resolve './CopyableValue' from 
+'./packages/components/event-table/src/components/CopyableMonacoEditor.tsx'[39m
+
+  [90m[4m/Users/mashraf/Desktop/adobe-codes/assurance-plugins/packages/components/event-table/src/components/CopyableMonacoEditor.tsx:3:27[24m[39m
+    2 | [33mimport MonacoEditor from '@monaco-editor/react';[39m
+  [31m>[39m 3 | [33mimport CopyableValue from './CopyableValue';[39m
+  [31m>[39m   |                           [31m^^^^^^^^^^^^^^^^^[39m
+    4 | [33m[39m
+    5 | [33minterface CopyableMonacoEditorProps {[39m
+
+[31m[1m@parcel/resolver-default[22m: Cannot load file './CopyableValue' in 
+'./packages/components/event-table/src/components'.[39m
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[2K[1G[31merror[39m Command failed with exit code 1.
+[2K[1G[34minfo[39m Visit [1mhttps://yarnpkg.com/en/docs/cli/run[22m for documentation about this command.

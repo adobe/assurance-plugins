@@ -1,0 +1,2750 @@
+{
+  "version": "6.0",
+  "nxVersion": "20.0.0",
+  "pathMappings": {},
+  "nxJsonPlugins": [
+    {
+      "name": "@nx/storybook/plugin",
+      "options": {
+        "buildStorybookTargetName": "build-storybook",
+        "serveStorybookTargetName": "storybook",
+        "testStorybookTargetName": "test-storybook",
+        "staticStorybookTargetName": "static-storybook"
+      }
+    }
+  ],
+  "fileMap": {
+    "nonProjectFiles": [],
+    "projectFileMap": {
+      "@assurance/event-table": [
+        {
+          "file": "packages/components/event-table/.storybook/main.ts",
+          "hash": "4301303906272067410",
+          "deps": [
+            "npm:@storybook/react-webpack5"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/.storybook/preview.ts",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "packages/components/event-table/package.json",
+          "hash": "13130135451952218513",
+          "deps": [
+            "npm:@spectrum-icons/workflow",
+            "npm:react",
+            "npm:parcel",
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "@assurance/event-data-viewer",
+            "@assurance/plugin-bridge-provider",
+            "@assurance/nested-table-toolkit",
+            "npm:@monaco-editor/react",
+            "npm:@tanstack/react-table",
+            "npm:dayjs",
+            "npm:ramda",
+            "npm:react-intl@6.8.9"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/sample/SampleApp.tsx",
+          "hash": "11020725143859979313",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "@assurance/timeline-bar",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/sample/entry.tsx",
+          "hash": "16357612807236851777",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/sample/index.html",
+          "hash": "14249031598725212723"
+        },
+        {
+          "file": "packages/components/event-table/src/components/CopyableMonacoEditor.tsx",
+          "hash": "12304858408932236579",
+          "deps": [
+            "npm:react",
+            "npm:@monaco-editor/react",
+            "@assurance/common-utils"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/components/EventDataViewer.tsx",
+          "hash": "13685521375255990460",
+          "deps": [
+            "@assurance/event-data-viewer",
+            "@assurance/common-utils",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/components/EventDetailsPanel.tsx",
+          "hash": "7499977656152419840",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "npm:@monaco-editor/react",
+            "npm:@spectrum-icons/workflow",
+            "npm:react",
+            "npm:react-intl@6.8.9",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/components/EventTable.stories.tsx",
+          "hash": "13192901560715399794",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:@storybook/react",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/components/EventTable.tsx",
+          "hash": "13161545014101308900",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:@react-types/shared",
+            "@assurance/common-utils",
+            "npm:@tanstack/react-table",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/components/EventTableWithDetails.scss",
+          "hash": "17696811310465154282"
+        },
+        {
+          "file": "packages/components/event-table/src/components/EventTableWithDetails.stories.tsx",
+          "hash": "17317544733301469106",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:@storybook/react",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/components/EventTableWithDetails.tsx",
+          "hash": "14289322850998823415",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "npm:@react-types/shared",
+            "npm:@tanstack/react-table",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/components/FlaggedCell.tsx",
+          "hash": "17631025266701690621",
+          "deps": [
+            "npm:@spectrum-icons/workflow",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/components/ResizeHandle.tsx",
+          "hash": "11869975669720386375",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/components/ValidationCell.tsx",
+          "hash": "6080805393678547505",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:@spectrum-icons/workflow",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/data/columns.tsx",
+          "hash": "13835066332307851012",
+          "deps": [
+            "@assurance/common-utils",
+            "npm:@tanstack/react-table",
+            "npm:dayjs",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/hooks/useDocumentStyles.ts",
+          "hash": "2654654785860201458",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/hooks/useDynamicGripPosition.ts",
+          "hash": "3221743081606153696",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/hooks/useResizeObserver.ts",
+          "hash": "14093103039829061368",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/src/index.ts",
+          "hash": "14422160380955291251"
+        },
+        {
+          "file": "packages/components/event-table/src/types.ts",
+          "hash": "12188317002448404324",
+          "deps": [
+            "@assurance/nested-table-toolkit"
+          ]
+        },
+        {
+          "file": "packages/components/event-table/tsconfig.json",
+          "hash": "17638536132342569193"
+        },
+        {
+          "file": "packages/components/event-table/tsconfig.storybook.json",
+          "hash": "11539601687290151516"
+        }
+      ],
+      "@assurance/event-data-viewer": [
+        {
+          "file": "packages/components/event-data-viewer/package.json",
+          "hash": "15638301019727902959",
+          "deps": [
+            "npm:@spectrum-icons/workflow",
+            "npm:react",
+            "npm:parcel",
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "@assurance/nested-table-toolkit",
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/components/event-data-viewer/src/components/DataViewer.tsx",
+          "hash": "16803573248121308212",
+          "deps": [
+            "@assurance/nested-table-toolkit",
+            "npm:ramda",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-data-viewer/src/components/DataViewerTable.tsx",
+          "hash": "10271971856789394876",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/nested-table-toolkit",
+            "npm:@spectrum-icons/workflow",
+            "npm:ramda",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-data-viewer/src/index.ts",
+          "hash": "1474455133987235506"
+        },
+        {
+          "file": "packages/components/event-data-viewer/src/sample/SampleApp.tsx",
+          "hash": "7307969374571372830",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "@assurance/nested-table-toolkit",
+            "@assurance/plugin-bridge-provider",
+            "@assurance/timeline-bar",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/event-data-viewer/src/sample/entry.tsx",
+          "hash": "16357612807236851777",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/components/event-data-viewer/src/sample/index.html",
+          "hash": "14249031598725212723"
+        },
+        {
+          "file": "packages/components/event-data-viewer/src/types.ts",
+          "hash": "12188317002448404324",
+          "deps": [
+            "@assurance/nested-table-toolkit"
+          ]
+        }
+      ],
+      "@assurance/ui-plugin-tutorial": [
+        {
+          "file": "packages/ui-plugins/tutorial-plugin/complete/src/components/App.tsx",
+          "hash": "3020979888280303456",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/tutorial-plugin/complete/src/components/Events.tsx",
+          "hash": "7279699140882217733",
+          "deps": [
+            "@assurance/event-table",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/tutorial-plugin/complete/src/components/GroupedEvents.tsx",
+          "hash": "6341093690692128436",
+          "deps": [
+            "@assurance/event-table",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/tutorial-plugin/complete/src/hooks/useGroupedEvents.tsx",
+          "hash": "9184568433926329484",
+          "deps": [
+            "@assurance/plugin-bridge-provider"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/tutorial-plugin/complete/src/index.html",
+          "hash": "1473705050742654409"
+        },
+        {
+          "file": "packages/ui-plugins/tutorial-plugin/complete/src/index.tsx",
+          "hash": "9834136442760717988",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/tutorial-plugin/package.json",
+          "hash": "16569976682840390730",
+          "deps": [
+            "npm:parcel",
+            "@assurance/plugin-bridge-provider",
+            "@assurance/timeline-bar",
+            "@assurance/timing-view"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/tutorial-plugin/start/src/components/App.tsx",
+          "hash": "2651761758074239968",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/tutorial-plugin/start/src/index.html",
+          "hash": "11390354982849604689"
+        },
+        {
+          "file": "packages/ui-plugins/tutorial-plugin/start/src/index.tsx",
+          "hash": "9834136442760717988",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        }
+      ],
+      "@assurance/plugin-optimize": [
+        {
+          "file": "packages/ui-plugins/optimize/example/index.html",
+          "hash": "8917513626942023979"
+        },
+        {
+          "file": "packages/ui-plugins/optimize/example/index.tsx",
+          "hash": "8027855963927645272",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/optimize/package.json",
+          "hash": "601010356441298433",
+          "deps": [
+            "npm:parcel",
+            "@assurance/plugin-bridge-provider",
+            "npm:@adobe/react-spectrum"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/optimize/src/App.tsx",
+          "hash": "2493515094569203660",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/optimize/src/components/events.tsx",
+          "hash": "17706795232484177454",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/optimize/src/components/requests.tsx",
+          "hash": "291402972375499325",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/optimize/src/components/simulate.tsx",
+          "hash": "5403017775217936943",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/optimize/src/components/validation.tsx",
+          "hash": "15255968944048431217",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/optimize/src/hooks/usePluginState.tsx",
+          "hash": "8305241665021402426",
+          "deps": [
+            "npm:zustand"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/optimize/src/hooks/usePropositions.tsx",
+          "hash": "2948238604249308837",
+          "deps": [
+            "npm:@adobe/griffon-toolkit-aep-mobile",
+            "@assurance/plugin-bridge-provider"
+          ]
+        }
+      ],
+      "assurance-plugins": [
+        {
+          "file": ".eslintignore",
+          "hash": "6094897039728610053"
+        },
+        {
+          "file": ".eslintrc.js",
+          "hash": "4949772942844272306"
+        },
+        {
+          "file": ".github/CONTRIBUTING.md",
+          "hash": "17459941725506734656"
+        },
+        {
+          "file": ".github/ISSUE_TEMPLATE.md",
+          "hash": "18065665684871754570"
+        },
+        {
+          "file": ".github/PULL_REQUEST_TEMPLATE.md",
+          "hash": "5728750149561504630"
+        },
+        {
+          "file": ".github/workflows/npm-publish.yml",
+          "hash": "9057302125421955560"
+        },
+        {
+          "file": ".gitignore",
+          "hash": "11048748372514271950"
+        },
+        {
+          "file": ".npmrc",
+          "hash": "15316539930513736635"
+        },
+        {
+          "file": ".prettierrc",
+          "hash": "17058337783881039995"
+        },
+        {
+          "file": ".storybook/main.ts",
+          "hash": "3290638716348633632",
+          "deps": [
+            "npm:@storybook/react-webpack5"
+          ]
+        },
+        {
+          "file": ".storybook/preview.ts",
+          "hash": "16846166727513379754",
+          "deps": [
+            "npm:@storybook/react"
+          ]
+        },
+        {
+          "file": "CODE_OF_CONDUCT.md",
+          "hash": "13138321725838905032"
+        },
+        {
+          "file": "LICENSE.md",
+          "hash": "4852920472337153843"
+        },
+        {
+          "file": "README.md",
+          "hash": "15578320868107890949"
+        },
+        {
+          "file": "assets/devPlugin.png",
+          "hash": "2402331540232665629"
+        },
+        {
+          "file": "assets/inputConsole.png",
+          "hash": "9547570424099034628"
+        },
+        {
+          "file": "assets/secureConnectionError.png",
+          "hash": "14009343319491114898"
+        },
+        {
+          "file": "babel-jest.config.js",
+          "hash": "3514616392276059317"
+        },
+        {
+          "file": "certs/server.crt",
+          "hash": "13436556334767651006"
+        },
+        {
+          "file": "certs/server.key",
+          "hash": "9327424776286285966"
+        },
+        {
+          "file": "certs/storybook.crt",
+          "hash": "10724551188865269464"
+        },
+        {
+          "file": "certs/storybook.key",
+          "hash": "636013735952735194"
+        },
+        {
+          "file": "docs/.eslintrc.json",
+          "hash": "2410745308925489546"
+        },
+        {
+          "file": "docs/.gitignore",
+          "hash": "15751075988610075934"
+        },
+        {
+          "file": "docs/.prettierrc",
+          "hash": "6511898209358731857"
+        },
+        {
+          "file": "docs/next.config.mjs",
+          "hash": "12379232907469222708"
+        },
+        {
+          "file": "docs/package.json",
+          "hash": "8474765483231927291"
+        },
+        {
+          "file": "docs/public/favicon.ico",
+          "hash": "9157999678830540297"
+        },
+        {
+          "file": "docs/src/assets/devPlugin.png",
+          "hash": "2402331540232665629"
+        },
+        {
+          "file": "docs/src/assets/inputConsole.png",
+          "hash": "9547570424099034628"
+        },
+        {
+          "file": "docs/src/assets/secureConnectionError.png",
+          "hash": "14009343319491114898"
+        },
+        {
+          "file": "docs/src/assets/tutorialEventTable.png",
+          "hash": "1367146216975924657"
+        },
+        {
+          "file": "docs/src/assets/tutorialGroupedEvents.png",
+          "hash": "16247372699836092340"
+        },
+        {
+          "file": "docs/src/assets/tutorialZero.png",
+          "hash": "13182997483943788873"
+        },
+        {
+          "file": "docs/src/pages/_meta.ts",
+          "hash": "17653803638214039282"
+        },
+        {
+          "file": "docs/src/pages/apis/_meta.ts",
+          "hash": "299278973688970752"
+        },
+        {
+          "file": "docs/src/pages/apis/index.mdx",
+          "hash": "7873189743469528086"
+        },
+        {
+          "file": "docs/src/pages/apis/plugin-bridge.mdx",
+          "hash": "16739658801485792527"
+        },
+        {
+          "file": "docs/src/pages/basics/_meta.ts",
+          "hash": "3096550340014351079"
+        },
+        {
+          "file": "docs/src/pages/basics/events.mdx",
+          "hash": "10360486030772366430"
+        },
+        {
+          "file": "docs/src/pages/basics/index.mdx",
+          "hash": "8975324971531868720"
+        },
+        {
+          "file": "docs/src/pages/basics/validations.mdx",
+          "hash": "15674092233736744505"
+        },
+        {
+          "file": "docs/src/pages/components/event-table.mdx",
+          "hash": "10455325533574772979"
+        },
+        {
+          "file": "docs/src/pages/getting-started/_meta.ts",
+          "hash": "3330691354104335373"
+        },
+        {
+          "file": "docs/src/pages/getting-started/connecting-your-app.mdx",
+          "hash": "4295692948093776117"
+        },
+        {
+          "file": "docs/src/pages/getting-started/index.mdx",
+          "hash": "15554464547630256142"
+        },
+        {
+          "file": "docs/src/pages/index.mdx",
+          "hash": "4549689959532489142"
+        },
+        {
+          "file": "docs/src/pages/resources.mdx",
+          "hash": "6256395015985190270"
+        },
+        {
+          "file": "docs/src/pages/testing/writing-tests.mdx",
+          "hash": "2662808415699379767"
+        },
+        {
+          "file": "docs/src/pages/tutorial/your-first-plugin.mdx",
+          "hash": "6021699429537623644"
+        },
+        {
+          "file": "docs/theme.config.tsx",
+          "hash": "12139204128287938426"
+        },
+        {
+          "file": "docs/tsconfig.json",
+          "hash": "11947368788152798359"
+        },
+        {
+          "file": "docs/yarn.lock",
+          "hash": "487256339247605538"
+        },
+        {
+          "file": "global.d.ts",
+          "hash": "6131168617019575085"
+        },
+        {
+          "file": "jest.config.js",
+          "hash": "5233639367011604907"
+        },
+        {
+          "file": "lerna.json",
+          "hash": "6243115693473344146"
+        },
+        {
+          "file": "lib/setup.js",
+          "hash": "611314622602479306",
+          "deps": [
+            "npm:@testing-library/jest-dom",
+            "@assurance/plugin-bridge-provider",
+            "npm:vitest"
+          ]
+        },
+        {
+          "file": "nx.json",
+          "hash": "13942650342552764653"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "1080817051402028229"
+        },
+        {
+          "file": "package.json",
+          "hash": "3757621966821904111",
+          "deps": [
+            "npm:@nx/js",
+            "npm:@nx/storybook",
+            "npm:@nx/vite",
+            "npm:@nx/web",
+            "npm:@parcel/packager-ts",
+            "npm:@parcel/transformer-sass",
+            "npm:@parcel/transformer-typescript-types",
+            "npm:@storybook/addon-essentials",
+            "npm:@storybook/addon-interactions",
+            "npm:@storybook/core-server",
+            "npm:@storybook/jest",
+            "npm:@storybook/react-vite",
+            "npm:@storybook/react-webpack5",
+            "npm:@storybook/test-runner",
+            "npm:@storybook/testing-library",
+            "npm:@swc-node/register",
+            "npm:@swc/core",
+            "npm:@swc/helpers",
+            "npm:@testing-library/dom",
+            "npm:@testing-library/react",
+            "npm:@trivago/prettier-plugin-sort-imports",
+            "npm:@types/react",
+            "npm:@types/react-dom",
+            "npm:@typescript-eslint/eslint-plugin",
+            "npm:@typescript-eslint/parser",
+            "npm:@vitejs/plugin-react-swc",
+            "npm:@vitest/coverage-v8",
+            "npm:@vitest/ui",
+            "npm:core-js",
+            "npm:eslint-config-prettier",
+            "npm:eslint-plugin-prettier",
+            "npm:jsdom",
+            "npm:nx",
+            "npm:parcel",
+            "npm:prettier",
+            "npm:storybook",
+            "npm:ts-node",
+            "npm:tslib",
+            "npm:vite",
+            "npm:vite-tsconfig-paths",
+            "npm:vitest",
+            "npm:@adobe/react-spectrum",
+            "npm:@babel/core",
+            "npm:@babel/node",
+            "npm:@babel/preset-env",
+            "npm:@babel/preset-react",
+            "npm:babel-loader",
+            "npm:husky",
+            "npm:lerna",
+            "npm:react",
+            "npm:react-dom",
+            "npm:react-intl",
+            "npm:sass",
+            "npm:sass-loader",
+            "npm:semver",
+            "npm:stylus",
+            "npm:stylus-loader",
+            "npm:svg-inline-loader",
+            "npm:typescript",
+            "npm:webpack"
+          ]
+        },
+        {
+          "file": "stories/Configure.mdx",
+          "hash": "17106132502095063150"
+        },
+        {
+          "file": "stories/assets/accessibility.png",
+          "hash": "8320090732909952534"
+        },
+        {
+          "file": "stories/assets/accessibility.svg",
+          "hash": "15602003233623176060"
+        },
+        {
+          "file": "stories/assets/addon-library.png",
+          "hash": "16374768047356923990"
+        },
+        {
+          "file": "stories/assets/assets.png",
+          "hash": "1689741917386238418"
+        },
+        {
+          "file": "stories/assets/avif-test-image.avif",
+          "hash": "4094029619605446073"
+        },
+        {
+          "file": "stories/assets/context.png",
+          "hash": "1348985643342670004"
+        },
+        {
+          "file": "stories/assets/discord.svg",
+          "hash": "6125630960371971211"
+        },
+        {
+          "file": "stories/assets/docs.png",
+          "hash": "18280049778802555454"
+        },
+        {
+          "file": "stories/assets/figma-plugin.png",
+          "hash": "6723570263244528263"
+        },
+        {
+          "file": "stories/assets/github.svg",
+          "hash": "2312545202508444152"
+        },
+        {
+          "file": "stories/assets/share.png",
+          "hash": "2975175390326490054"
+        },
+        {
+          "file": "stories/assets/styling.png",
+          "hash": "7588361746934983524"
+        },
+        {
+          "file": "stories/assets/testing.png",
+          "hash": "9937432921968504604"
+        },
+        {
+          "file": "stories/assets/theming.png",
+          "hash": "10878554446503237882"
+        },
+        {
+          "file": "stories/assets/tutorials.svg",
+          "hash": "6526954541826200653"
+        },
+        {
+          "file": "stories/assets/youtube.svg",
+          "hash": "14842170009963527645"
+        },
+        {
+          "file": "stories/button.css",
+          "hash": "9641850067687118932"
+        },
+        {
+          "file": "stories/header.css",
+          "hash": "14910923732737524866"
+        },
+        {
+          "file": "stories/page.css",
+          "hash": "6483440631415612345"
+        },
+        {
+          "file": "test/setup.ts",
+          "hash": "17544813101086023232",
+          "deps": [
+            "npm:@testing-library/jest-dom",
+            "@assurance/plugin-bridge-provider",
+            "npm:vitest"
+          ]
+        },
+        {
+          "file": "tests/mocks/fileMock.ts",
+          "hash": "12280474266923201378"
+        },
+        {
+          "file": "tests/mocks/styleMock.ts",
+          "hash": "17981274922028690832"
+        },
+        {
+          "file": "tests/setup.ts",
+          "hash": "1609828237328351289",
+          "deps": [
+            "npm:@testing-library/jest-dom"
+          ]
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "7389658269451039761"
+        },
+        {
+          "file": "vite.config.ts",
+          "hash": "15330259860129532133",
+          "deps": [
+            "npm:@vitejs/plugin-react-swc",
+            "npm:vitest"
+          ]
+        },
+        {
+          "file": "yarn.lock",
+          "hash": "1965170290785019287"
+        }
+      ],
+      "@assurance/component-rules": [
+        {
+          "file": "packages/components/rules/package.json",
+          "hash": "8769835805613575096",
+          "deps": [
+            "npm:parcel",
+            "npm:react",
+            "npm:react-dom",
+            "npm:@adobe/react-spectrum",
+            "npm:@spectrum-icons/workflow@3.2.5"
+          ]
+        },
+        {
+          "file": "packages/components/rules/src/RuleHeading.tsx",
+          "hash": "449348970653620144",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/rules/src/RuleItem.tsx",
+          "hash": "6304324710281925458",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/rules/src/index.ts",
+          "hash": "17157951527924584188"
+        }
+      ],
+      "@assurance/nested-table-toolkit": [
+        {
+          "file": "packages/common/nested-table-toolkit/package.json",
+          "hash": "11053359191340918974",
+          "deps": [
+            "npm:parcel",
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/common/nested-table-toolkit/src/const.js",
+          "hash": "17011787574813481124"
+        },
+        {
+          "file": "packages/common/nested-table-toolkit/src/filter.unexpanded.js",
+          "hash": "6343849689910609565",
+          "deps": [
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/common/nested-table-toolkit/src/flatten.object.ts",
+          "hash": "14974824001270487760",
+          "deps": [
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/common/nested-table-toolkit/src/index.ts",
+          "hash": "17427417968316953577"
+        },
+        {
+          "file": "packages/common/nested-table-toolkit/src/make.path.ts",
+          "hash": "11291815149790709275"
+        },
+        {
+          "file": "packages/common/nested-table-toolkit/src/search.flattened.js",
+          "hash": "8181741540640936923",
+          "deps": [
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/common/nested-table-toolkit/src/starts.with.string.js",
+          "hash": "16170894996274638297",
+          "deps": [
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/common/nested-table-toolkit/src/tree.sorter.js",
+          "hash": "8965546442414614271",
+          "deps": [
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/common/nested-table-toolkit/src/types.ts",
+          "hash": "10439025354839587381"
+        }
+      ],
+      "@assurance/campaign-details": [
+        {
+          "file": "packages/components/campaign-details/package.json",
+          "hash": "15156576218329366183",
+          "deps": [
+            "npm:react",
+            "npm:parcel",
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:@spectrum-icons/workflow",
+            "npm:@tanstack/react-query",
+            "npm:dayjs",
+            "npm:graphql-request"
+          ]
+        },
+        {
+          "file": "packages/components/campaign-details/src/components/campaign-details.tsx",
+          "hash": "13467225503039016522",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/campaign-details/src/components/campaign.tsx",
+          "hash": "2044171004439453343",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:@spectrum-icons/workflow",
+            "npm:dayjs",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/campaign-details/src/hooks/useCampaignQuery.tsx",
+          "hash": "12703319941276489234",
+          "deps": [
+            "@assurance/plugin-bridge-provider",
+            "npm:@tanstack/react-query",
+            "npm:graphql-request"
+          ]
+        },
+        {
+          "file": "packages/components/campaign-details/src/index.ts",
+          "hash": "11950000867361330254"
+        }
+      ],
+      "@assurance/plugin-bridge-provider": [
+        {
+          "file": "packages/components/plugin-bridge-provider/.parcelrc",
+          "hash": "5317947388455951052"
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/package.json",
+          "hash": "7130301252997916023",
+          "deps": [
+            "npm:react",
+            "npm:parcel",
+            "npm:@adobe/griffon-toolkit",
+            "npm:@adobe/griffon-toolkit-common",
+            "npm:@adobe/griffon-toolkit-edge",
+            "@assurance/common-utils",
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/Contexts.tsx",
+          "hash": "13586264650347661475",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/Provider.tsx",
+          "hash": "9434919121831797270",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/bridge.utils.ts",
+          "hash": "3749346007065266226",
+          "deps": [
+            "npm:@adobe/griffon-toolkit-common",
+            "@assurance/common-utils"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/checkContext.tsx",
+          "hash": "16283623010970192650"
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/hooks.tsx",
+          "hash": "1067229538479165200",
+          "deps": [
+            "npm:@adobe/griffon-toolkit-common",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/index.ts",
+          "hash": "12269587709425137941"
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useDataStream.tsx",
+          "hash": "13789371835102878991",
+          "deps": [
+            "npm:@adobe/griffon-toolkit",
+            "npm:@adobe/griffon-toolkit-common",
+            "npm:@adobe/griffon-toolkit-edge"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useEnvironment.tsx",
+          "hash": "2385084872953156795",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useEnvironmentValue.tsx",
+          "hash": "8442521569069494699"
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useEvents.tsx",
+          "hash": "733872577432670930",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useFetchDataStream.tsx",
+          "hash": "13642960754337882671"
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useFlags.tsx",
+          "hash": "12813155463795903559",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useImsAccessToken.tsx",
+          "hash": "11237917531729938344",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useImsOrg.tsx",
+          "hash": "3091106611311251219",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useNavigationFilters.tsx",
+          "hash": "9211064510829451445",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useNavigationPath.tsx",
+          "hash": "10851014271916828717",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useSandbox.tsx",
+          "hash": "207101553530764002",
+          "deps": [
+            "npm:@adobe/griffon-toolkit",
+            "npm:@adobe/griffon-toolkit-common",
+            "npm:@adobe/griffon-toolkit-edge"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useSelectEvents.tsx",
+          "hash": "5494548628373517378",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useSelectedEvents.tsx",
+          "hash": "12257557742532589777",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useTenant.tsx",
+          "hash": "14450550893232987566",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/hooks/useValidation.tsx",
+          "hash": "14611429149033612642",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/index.tsx",
+          "hash": "14118106048752122384"
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/types.ts",
+          "hash": "8613345348778548662",
+          "deps": [
+            "@assurance/common-utils"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/utils/event.sort.ts",
+          "hash": "15628905049873494724",
+          "deps": [
+            "@assurance/common-utils",
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/utils/extract.client.events.ts",
+          "hash": "12499037719047016381",
+          "deps": [
+            "npm:@adobe/griffon-toolkit-common",
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/utils/extract.filtered.events.ts",
+          "hash": "6481659088770593345",
+          "deps": [
+            "npm:@adobe/griffon-toolkit",
+            "npm:@adobe/griffon-toolkit-common",
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/utils/extract.navigation.ts",
+          "hash": "2046148083736734765",
+          "deps": [
+            "npm:@adobe/griffon-toolkit"
+          ]
+        },
+        {
+          "file": "packages/components/plugin-bridge-provider/src/utils/extract.selected.clients.ts",
+          "hash": "7698904594371357925",
+          "deps": [
+            "npm:@adobe/griffon-toolkit",
+            "npm:ramda"
+          ]
+        }
+      ],
+      "@assurance/horizontal-events": [
+        {
+          "file": "packages/components/horizontal-events/package.json",
+          "hash": "12627372678779911716",
+          "deps": [
+            "npm:parcel",
+            "npm:react",
+            "npm:lodash.get",
+            "npm:react-dom",
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "@assurance/common-utils",
+            "npm:@spectrum-icons/workflow@3.2.5"
+          ]
+        },
+        {
+          "file": "packages/components/horizontal-events/src/components/EventsTable.tsx",
+          "hash": "2712446893312562055",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/horizontal-events/src/index.ts",
+          "hash": "4400603142355178438"
+        },
+        {
+          "file": "packages/components/horizontal-events/src/sample/SampleApp.tsx",
+          "hash": "16484459665493444624",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/horizontal-events/src/sample/entry.tsx",
+          "hash": "16357612807236851777",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/components/horizontal-events/src/sample/index.html",
+          "hash": "14249031598725212723"
+        },
+        {
+          "file": "packages/components/horizontal-events/src/shared/types.ts",
+          "hash": "13824051996527768777"
+        },
+        {
+          "file": "packages/components/horizontal-events/src/shared/utils.ts",
+          "hash": "3243984726097365194",
+          "deps": [
+            "npm:lodash.get"
+          ]
+        }
+      ],
+      "@assurance/timing-view": [
+        {
+          "file": "packages/components/timing-view/package.json",
+          "hash": "4713120187438980292",
+          "deps": [
+            "npm:react",
+            "npm:parcel",
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "@assurance/plugin-bridge-provider",
+            "npm:react-xarrows",
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/components/timing-view/src/components/EventTooltip.tsx",
+          "hash": "5796388203895801515",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timing-view/src/components/TimingTree.tsx",
+          "hash": "11015983702073589898",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "@assurance/plugin-bridge-provider",
+            "npm:@react-types/shared",
+            "npm:react",
+            "npm:react-xarrows"
+          ]
+        },
+        {
+          "file": "packages/components/timing-view/src/components/TimingView.tsx",
+          "hash": "8401215651276531653",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "npm:ramda",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timing-view/src/components/TimingViz.tsx",
+          "hash": "9171621576089458713",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "@assurance/plugin-bridge-provider",
+            "npm:@react-types/shared",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timing-view/src/components/const.ts",
+          "hash": "12461404556576086301"
+        },
+        {
+          "file": "packages/components/timing-view/src/containers/App/index.tsx",
+          "hash": "10555370372475892459",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "@assurance/timeline-bar",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timing-view/src/index.html",
+          "hash": "12882719759549618362"
+        },
+        {
+          "file": "packages/components/timing-view/src/index.ts",
+          "hash": "5648823580757446279"
+        },
+        {
+          "file": "packages/components/timing-view/src/sample.tsx",
+          "hash": "11832616808138367585",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/components/timing-view/src/types.ts",
+          "hash": "9864751811558325304",
+          "deps": [
+            "@assurance/common-utils"
+          ]
+        }
+      ],
+      "sample-ui-plugin": [
+        {
+          "file": "packages/ui-plugins/sample-ui-plugin/package.json",
+          "hash": "13999343860148034496",
+          "deps": [
+            "npm:parcel",
+            "@assurance/event-data-viewer",
+            "@assurance/plugin-bridge-provider",
+            "@assurance/timeline-bar",
+            "@assurance/timing-view"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/sample-ui-plugin/src/components/DatastreamHorizontal.tsx",
+          "hash": "5179502764087921443",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "@assurance/horizontal-events",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/sample-ui-plugin/src/components/DatastreamViewer.tsx",
+          "hash": "8088491762913012307",
+          "deps": [
+            "@assurance/event-data-viewer",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/sample-ui-plugin/src/components/ProviderTable.tsx",
+          "hash": "10066504159642578958",
+          "deps": [
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/sample-ui-plugin/src/components/SampleUI.jsx",
+          "hash": "13326314923677913086",
+          "deps": [
+            "npm:react",
+            "@assurance/timeline-bar",
+            "npm:@adobe/react-spectrum"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/sample-ui-plugin/src/components/Timing.tsx",
+          "hash": "16220616471074708049",
+          "deps": [
+            "@assurance/plugin-bridge-provider",
+            "@assurance/timing-view",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/sample-ui-plugin/src/components/Validation.tsx",
+          "hash": "11395370932959176304",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/validation-summary",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/sample-ui-plugin/src/components/ValidationBuilder.tsx",
+          "hash": "544193186778633328",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "@assurance/validation-summary",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/sample-ui-plugin/src/containers/App/index.tsx",
+          "hash": "12282486533548544568",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/sample-ui-plugin/src/index.html",
+          "hash": "8917513626942023979"
+        },
+        {
+          "file": "packages/ui-plugins/sample-ui-plugin/src/index.tsx",
+          "hash": "11832616808138367585",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        }
+      ],
+      "@assurance/validation-summary": [
+        {
+          "file": "packages/components/validation-summary/package.json",
+          "hash": "11075988524556837973",
+          "deps": [
+            "npm:parcel",
+            "npm:react",
+            "npm:react-dom",
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "@assurance/common-utils",
+            "npm:@spectrum-icons/workflow@3.2.5"
+          ]
+        },
+        {
+          "file": "packages/components/validation-summary/src/components/ValidationItem.tsx",
+          "hash": "12388202499428162789",
+          "deps": [
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/validation-summary/src/components/ValidationWell.tsx",
+          "hash": "9570888238196594833",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:@spectrum-icons/workflow@3.2.5",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/validation-summary/src/index.ts",
+          "hash": "12234583626510930952"
+        },
+        {
+          "file": "packages/components/validation-summary/src/sample/SampleApp.tsx",
+          "hash": "939725972312118232",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/validation-summary/src/sample/entry.tsx",
+          "hash": "16357612807236851777",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/components/validation-summary/src/sample/index.html",
+          "hash": "14249031598725212723"
+        }
+      ],
+      "@assurance/ui-plugin-live-activities": [
+        {
+          "file": "packages/ui-plugins/live-activities/example/index.html",
+          "hash": "2720524678479097321"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/example/index.tsx",
+          "hash": "2354642991570630595",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/package.json",
+          "hash": "5044530848435856496",
+          "deps": [
+            "npm:parcel",
+            "npm:typescript",
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "npm:@spectrum-icons/workflow",
+            "npm:@adobe/griffon-toolkit",
+            "npm:@adobe/griffon-toolkit-aep-mobile",
+            "npm:@adobe/griffon-toolkit-edge",
+            "@assurance/component-rules",
+            "@assurance/event-table",
+            "@assurance/plugin-bridge-provider",
+            "npm:@monaco-editor/react",
+            "npm:@tanstack/react-query",
+            "npm:dayjs",
+            "npm:graphql",
+            "npm:immer",
+            "npm:json-schema-faker",
+            "npm:lodash",
+            "npm:react",
+            "npm:react-dom",
+            "npm:react-intl",
+            "npm:react-copy-to-clipboard",
+            "npm:react-hook-form",
+            "npm:zustand@5.0.3",
+            "npm:classnames"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/App.css",
+          "hash": "4244597028281696250"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/App.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/App.spec.tsx",
+          "hash": "16127986177363142954",
+          "deps": [
+            "npm:@testing-library/react",
+            "npm:@testing-library/jest-dom",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/App.tsx",
+          "hash": "17671780264408151147",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:@tanstack/react-query",
+            "npm:react",
+            "@assurance/plugin-bridge-provider",
+            "npm:react-intl",
+            "@assurance/timeline-bar",
+            "npm:classnames"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/api/__tests__/profile.test.ts",
+          "hash": "8819614139251921452"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/api/launch.ts",
+          "hash": "9940933090549129473"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/api/profile.ts",
+          "hash": "10894688592865933489",
+          "deps": [
+            "@assurance/plugin-bridge-provider"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/ErrorBoundary.css",
+          "hash": "10349683896550150172"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/ErrorBoundary.tsx",
+          "hash": "16482500051158110055",
+          "deps": [
+            "npm:react",
+            "npm:@adobe/react-spectrum",
+            "npm:react-intl",
+            "npm:@spectrum-icons/workflow"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/activities/ActivityCard.css",
+          "hash": "4944754093474713281"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/activities/ActivityCard.tsx",
+          "hash": "12538770499762662736",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react",
+            "npm:react-intl",
+            "npm:classnames",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/activities/ActivityDetails.css",
+          "hash": "6751864472605225657"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/activities/ActivityDetails.tsx",
+          "hash": "16141892861034010791",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react",
+            "npm:react-intl",
+            "npm:classnames",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/activities/ActivityList.css",
+          "hash": "7782343079251873971"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/activities/ActivityList.tsx",
+          "hash": "4091173166369486686",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react",
+            "npm:react-intl",
+            "npm:classnames"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/atoms/ContentStateCard.css",
+          "hash": "11005558870494227729"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/atoms/ContentStateCard.tsx",
+          "hash": "9865585599750300067",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:@monaco-editor/react",
+            "npm:@spectrum-icons/workflow",
+            "npm:react",
+            "npm:react-intl",
+            "npm:dayjs",
+            "npm:classnames"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/atoms/InfoField.tsx",
+          "hash": "13437417183689933857",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/atoms/KeyValueRow.tsx",
+          "hash": "12951972025665594417",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/atoms/MetricCard.css",
+          "hash": "10216787142189828421"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/atoms/MetricCard.tsx",
+          "hash": "4554734336235142268",
+          "deps": [
+            "npm:react",
+            "npm:@adobe/react-spectrum",
+            "npm:classnames"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/atoms/SpectrumCard.tsx",
+          "hash": "5312702908367508209",
+          "deps": [
+            "npm:react",
+            "npm:@react-aria/interactions",
+            "npm:@react-aria/focus",
+            "npm:@react-aria/utils"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/atoms/UnknownBadge.tsx",
+          "hash": "13040847209891632169",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/atoms/card.css",
+          "hash": "11159278731944175655"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/atoms/card.tsx",
+          "hash": "13182006782961460152",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/live-activity/activity-event-details.tsx",
+          "hash": "13077831170473121614",
+          "deps": [
+            "@assurance/event-table",
+            "npm:@adobe/react-spectrum",
+            "npm:@tanstack/react-table",
+            "npm:react",
+            "npm:dayjs",
+            "npm:react-intl"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/live-activity/activity-flow.css",
+          "hash": "5995649572491884955"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/live-activity/activity-flow.tsx",
+          "hash": "12191731494734636023",
+          "deps": [
+            "npm:react",
+            "npm:@adobe/react-spectrum",
+            "npm:react-intl",
+            "npm:dayjs",
+            "npm:@spectrum-icons/workflow",
+            "npm:classnames"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/live-activity/activity-overview.css",
+          "hash": "3549736115346059087"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/live-activity/activity-overview.tsx",
+          "hash": "14310508112567268521",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react",
+            "npm:react-intl",
+            "npm:dayjs",
+            "@assurance/common-utils"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/live-activity/activity-status.tsx",
+          "hash": "17596906210359584320",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react",
+            "npm:react-intl"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/live-activity/launch-live-activity.css",
+          "hash": "14701285192156868044"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/live-activity/launch-live-activity.tsx",
+          "hash": "3992106248556188500",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:@monaco-editor/react",
+            "npm:classnames",
+            "npm:@spectrum-icons/workflow",
+            "npm:react",
+            "npm:react-intl",
+            "npm:react-hook-form"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/live-activity/update-activity.tsx",
+          "hash": "15956392038249380382",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react",
+            "npm:react-intl",
+            "npm:@spectrum-icons/workflow",
+            "npm:react-hook-form",
+            "npm:@monaco-editor/react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/timeline.tsx",
+          "hash": "16551343183684406396",
+          "deps": [
+            "npm:react",
+            "npm:@adobe/react-spectrum"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/validation/DataStreamStatusDetails.tsx",
+          "hash": "12122538483639130876",
+          "deps": [
+            "npm:react",
+            "npm:@adobe/react-spectrum"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/validation/PushCredentialsStatusDetails.tsx",
+          "hash": "4555669156316678910",
+          "deps": [
+            "npm:react",
+            "npm:@adobe/react-spectrum"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/validation/__tests__/live-activities-validation-section.test.tsx",
+          "hash": "18052045517670176103",
+          "deps": [
+            "npm:react",
+            "npm:@testing-library/react",
+            "npm:@testing-library/jest-dom",
+            "npm:react-intl",
+            "npm:@adobe/react-spectrum",
+            "npm:vitest"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/validation/appstore-credentials-widget.tsx",
+          "hash": "16165554446006688954",
+          "deps": [
+            "npm:react",
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/validation/client-info.css",
+          "hash": "121736255971043714"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/validation/client-info.tsx",
+          "hash": "14523275602384121682",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react",
+            "npm:classnames"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/validation/client-validation-widget.tsx",
+          "hash": "17703364759502420212",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react",
+            "@assurance/common-utils"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/validation/live-activities-validation-section.tsx",
+          "hash": "10021927574082561035",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "npm:@spectrum-icons/workflow",
+            "npm:react",
+            "npm:react-intl"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/components/validation/profile-section-widget.tsx",
+          "hash": "7496846575115769065",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:react",
+            "@assurance/common-utils",
+            "npm:react-intl"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/constants.tsx",
+          "hash": "657450626172299922",
+          "deps": [
+            "npm:react",
+            "npm:@spectrum-icons/workflow",
+            "npm:@adobe/react-spectrum"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/constants/__tests__/testIds.test.ts",
+          "hash": "8541516705645936947"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/constants/liveActivitiesConfig.ts",
+          "hash": "9124339899050138255",
+          "deps": [
+            "npm:react-intl"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/constants/matchers.ts",
+          "hash": "2933320772530078982",
+          "deps": [
+            "npm:@adobe/griffon-toolkit"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/constants/testIds.ts",
+          "hash": "6459667385976994461"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/containers/activities.css",
+          "hash": "16600393992188523881"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/containers/activities.tsx",
+          "hash": "12198953489871777136",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/event-table",
+            "@assurance/common-utils",
+            "npm:@spectrum-icons/workflow",
+            "npm:react",
+            "npm:react-intl",
+            "npm:classnames"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/containers/events.tsx",
+          "hash": "11609575021481635519",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/event-table",
+            "@assurance/plugin-bridge-provider",
+            "npm:react",
+            "npm:@tanstack/react-table",
+            "@assurance/common-utils"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/containers/updateActivity.tsx",
+          "hash": "924198036834280846",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react",
+            "npm:react-hook-form",
+            "npm:@monaco-editor/react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/events.json",
+          "hash": "18417581069396921602"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useActivities.ts",
+          "hash": "16620669422190025860",
+          "deps": [
+            "npm:@adobe/griffon-toolkit",
+            "@assurance/plugin-bridge-provider",
+            "npm:lodash",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useActivityEvents.ts",
+          "hash": "13757329376123435201",
+          "deps": [
+            "@assurance/plugin-bridge-provider",
+            "npm:@adobe/griffon-toolkit",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useAppstoreCredentialsValidation.ts",
+          "hash": "14171211577841099406",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useClientInfo.ts",
+          "hash": "421253063512732222",
+          "deps": [
+            "@assurance/plugin-bridge-provider"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useClientValidationStatus.ts",
+          "hash": "3831091426414509786"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useDataStreamValidationStatus.ts",
+          "hash": "8638898247566395266",
+          "deps": [
+            "npm:@tanstack/react-query",
+            "@assurance/plugin-bridge-provider",
+            "npm:@adobe/griffon-toolkit"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useLaunchLiveActivity.ts",
+          "hash": "11211577052169333783",
+          "deps": [
+            "npm:@adobe/griffon-toolkit-aep-mobile",
+            "@assurance/plugin-bridge-provider",
+            "npm:uuid"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useLaunchProperty.ts",
+          "hash": "5023201858063923683",
+          "deps": [
+            "npm:@tanstack/react-query",
+            "@assurance/plugin-bridge-provider"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useLiveActivitiesMaster.ts",
+          "hash": "5606263464474436332",
+          "deps": [
+            "npm:react",
+            "@assurance/plugin-bridge-provider",
+            "npm:@adobe/griffon-toolkit"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useLiveActivitiesValidationStatus.ts",
+          "hash": "14647281034564133489",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/usePlatformData.ts",
+          "hash": "2443109520123176659",
+          "deps": [
+            "@assurance/plugin-bridge-provider",
+            "npm:@tanstack/react-query"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/usePluginState.ts",
+          "hash": "5620150837251292554",
+          "deps": [
+            "npm:zustand@5.0.3"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useProfile.ts",
+          "hash": "11662727918136524251",
+          "deps": [
+            "@assurance/plugin-bridge-provider",
+            "npm:@tanstack/react-query"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/usePushCredentialsData.ts",
+          "hash": "3957372057231215321",
+          "deps": [
+            "@assurance/plugin-bridge-provider",
+            "npm:@tanstack/react-query"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useSelectedActivity.ts",
+          "hash": "289065216223434806"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useSharedStateData.ts",
+          "hash": "7576727107800041077",
+          "deps": [
+            "@assurance/plugin-bridge-provider",
+            "npm:@adobe/griffon-toolkit-aep-mobile"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/hooks/useUpdateActivity.ts",
+          "hash": "590378199111532298",
+          "deps": [
+            "npm:@adobe/griffon-toolkit-aep-mobile",
+            "@assurance/plugin-bridge-provider",
+            "npm:uuid"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/types.d.ts",
+          "hash": "1707062540352187248"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/types/componentProps.ts",
+          "hash": "2879697442604430199",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/types/events.ts",
+          "hash": "12479432982144927285"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/types/liveActivities.ts",
+          "hash": "9631186589711239158"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/types/liveActivityEvent.ts",
+          "hash": "8783655345141682809",
+          "deps": [
+            "@assurance/common-utils"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/__tests__/liveActivitiesDisplay.test.ts",
+          "hash": "6127278242733840147"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/__tests__/liveActivitiesSchemaBasedExtraction.test.ts",
+          "hash": "4330448538020025128",
+          "deps": [
+            "npm:vitest"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/__tests__/liveActivitiesSchemaExtraction.test.ts",
+          "hash": "1005472143289440583"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/__tests__/liveActivitiesStateExtraction.test.ts",
+          "hash": "11415006908649938511"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/__tests__/liveActivitiesValidation.test.ts",
+          "hash": "7072416090625492049"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/clipboard.ts",
+          "hash": "11651342450260779475"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/eventProcessing.ts",
+          "hash": "10064386571910501152"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/eventProcessingUtils.ts",
+          "hash": "15853887466322354281",
+          "deps": [
+            "npm:@adobe/griffon-toolkit"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/liveActivitiesDisplay.ts",
+          "hash": "9564254003985008558"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/liveActivitiesExtraction.ts",
+          "hash": "13687525915829512394"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/liveActivitiesValidation.ts",
+          "hash": "732125493255735208"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/navigationUtils.ts",
+          "hash": "11808945998482200995"
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/src/utils/utils.tsx",
+          "hash": "7663067475186208024",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/live-activities/tsconfig.json",
+          "hash": "867973063078795382"
+        }
+      ],
+      "@assurance/timeline-bar": [
+        {
+          "file": "packages/components/timeline-bar/package.json",
+          "hash": "14729935531795046522",
+          "deps": [
+            "npm:@spectrum-icons/workflow",
+            "npm:react",
+            "npm:parcel",
+            "npm:@adobe/griffon-toolkit",
+            "npm:@adobe/griffon-toolkit-aep-mobile@0.12.0",
+            "npm:@adobe/griffon-toolkit-common",
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "@assurance/plugin-bridge-provider",
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/components/timeline-bar/src/components/FilterBar/ClientPicker.tsx",
+          "hash": "3030532189503553532",
+          "deps": [
+            "npm:@adobe/griffon-toolkit",
+            "npm:@adobe/griffon-toolkit-aep-mobile@0.12.0",
+            "npm:@adobe/griffon-toolkit-common",
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:@spectrum-icons/workflow",
+            "npm:ramda",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timeline-bar/src/components/FilterBar/FilterButtons.tsx",
+          "hash": "1255056226593597240",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:@spectrum-icons/workflow",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timeline-bar/src/components/FilterBar/SelectedEventPicker.tsx",
+          "hash": "6582497392332034741",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timeline-bar/src/components/FilterBar/index.tsx",
+          "hash": "15017448200215542076",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timeline-bar/src/components/PluginView.tsx",
+          "hash": "16590745227039322221",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timeline-bar/src/components/Timeline/ScrubberLine.tsx",
+          "hash": "4594643226924541720",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/common-utils",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timeline-bar/src/components/Timeline/hooks.ts",
+          "hash": "2933625128131330393",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timeline-bar/src/components/Timeline/index.tsx",
+          "hash": "16345014098455187350",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:@react-spectrum/utils",
+            "npm:@spectrum-icons/workflow",
+            "npm:ramda",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timeline-bar/src/components/TimelineToolbar.tsx",
+          "hash": "3881504635405565654",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timeline-bar/src/containers/App/index.tsx",
+          "hash": "15455447687195675712",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/timeline-bar/src/index.html",
+          "hash": "12882719759549618362"
+        },
+        {
+          "file": "packages/components/timeline-bar/src/index.ts",
+          "hash": "899376716824582939"
+        },
+        {
+          "file": "packages/components/timeline-bar/src/sample.tsx",
+          "hash": "11832616808138367585",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        }
+      ],
+      "code-based-experiences": [
+        {
+          "file": "packages/ui-plugins/code-based-experiences/example/index.html",
+          "hash": "8917513626942023979"
+        },
+        {
+          "file": "packages/ui-plugins/code-based-experiences/example/index.tsx",
+          "hash": "2354642991570630595",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/code-based-experiences/package.json",
+          "hash": "4131373707882720697",
+          "deps": [
+            "npm:parcel",
+            "npm:@adobe/griffon-toolkit",
+            "npm:@adobe/griffon-toolkit-aep-mobile",
+            "npm:@adobe/griffon-toolkit-edge",
+            "@assurance/event-table",
+            "@assurance/plugin-bridge-provider",
+            "npm:immer",
+            "npm:lodash",
+            "npm:react",
+            "npm:zustand"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/code-based-experiences/src/App.tsx",
+          "hash": "8526470469670302805",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:react",
+            "npm:react-intl"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/code-based-experiences/src/components/events/events.tsx",
+          "hash": "3117525145451232354",
+          "deps": [
+            "npm:@adobe/griffon-toolkit",
+            "npm:@adobe/griffon-toolkit-aep-mobile",
+            "@assurance/event-table",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/code-based-experiences/src/components/validation/validation.tsx",
+          "hash": "10753686702582703240",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/validation-summary",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/code-based-experiences/src/hooks/usePluginState.ts",
+          "hash": "5141809663902342183",
+          "deps": [
+            "npm:zustand"
+          ]
+        }
+      ],
+      "@assurance/proposition-card": [
+        {
+          "file": "packages/components/proposition-card/package.json",
+          "hash": "16039298162692537728",
+          "deps": [
+            "npm:@spectrum-icons/workflow",
+            "npm:react",
+            "npm:parcel",
+            "npm:@adobe/react-spectrum"
+          ]
+        },
+        {
+          "file": "packages/components/proposition-card/src/PropositionCard.tsx",
+          "hash": "16939483760133293205",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/proposition-card/src/index.ts",
+          "hash": "7911892813500490341"
+        }
+      ],
+      "@assurance/ui-plugin-content-cards": [
+        {
+          "file": "packages/ui-plugins/content-cards/example/index.html",
+          "hash": "8917513626942023979"
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/example/index.tsx",
+          "hash": "2354642991570630595",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/package.json",
+          "hash": "4956379413282332237",
+          "deps": [
+            "npm:parcel",
+            "npm:@adobe/griffon-toolkit",
+            "npm:@adobe/griffon-toolkit-aep-mobile",
+            "npm:@adobe/griffon-toolkit-edge",
+            "@assurance/component-rules",
+            "@assurance/event-table",
+            "@assurance/plugin-bridge-provider",
+            "npm:@tanstack/react-query",
+            "npm:graphql",
+            "npm:immer",
+            "npm:lodash",
+            "npm:react",
+            "npm:zustand"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/App.tsx",
+          "hash": "18351536682858559885",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:@tanstack/react-query",
+            "npm:react",
+            "npm:react-intl"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/components/cards-view/cards-view.tsx",
+          "hash": "7516693888726246463",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/components/cards-view/components/card-details/card-details.tsx",
+          "hash": "17093443584193001488",
+          "deps": [
+            "@assurance/campaign-details",
+            "npm:dayjs",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/components/cards-view/components/card-interactions/card-interactions.tsx",
+          "hash": "11978493865667257357",
+          "deps": [
+            "npm:@adobe/griffon-toolkit",
+            "npm:@adobe/griffon-toolkit-aep-mobile",
+            "@assurance/event-table",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/components/cards-view/components/card-preview/card-preview.tsx",
+          "hash": "7701302083283455418",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:@spectrum-icons/workflow",
+            "npm:react",
+            "npm:react-intl"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/components/cards-view/components/card-rules/card-rules.tsx",
+          "hash": "17777744886838969241",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/component-rules",
+            "npm:@spectrum-icons/workflow",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/components/cards-view/components/card-select/card-select.tsx",
+          "hash": "1056298402014988984",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/components/events/events.tsx",
+          "hash": "3361097578090460069",
+          "deps": [
+            "npm:@adobe/griffon-toolkit-aep-mobile",
+            "@assurance/event-table",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/components/requests/requests.tsx",
+          "hash": "16781912366669600317",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/proposition-card",
+            "npm:dayjs",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/components/validation/validation.tsx",
+          "hash": "10753686702582703240",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/validation-summary",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/hooks/useCards.ts",
+          "hash": "8734988320767982260",
+          "deps": [
+            "npm:@adobe/griffon-toolkit-aep-mobile",
+            "@assurance/plugin-bridge-provider",
+            "npm:lodash"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/src/hooks/usePluginState.ts",
+          "hash": "8429388944830728971",
+          "deps": [
+            "npm:zustand"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/content-cards/tests/App.test.tsx",
+          "hash": "1092387612238859782",
+          "deps": [
+            "npm:@testing-library/react",
+            "npm:react",
+            "npm:vitest"
+          ]
+        }
+      ],
+      "validation-editor": [
+        {
+          "file": "packages/ui-plugins/validation-editor/package.json",
+          "hash": "17765457215560441554",
+          "deps": [
+            "npm:parcel",
+            "@assurance/plugin-bridge-provider"
+          ]
+        }
+      ],
+      "validation-summary": [
+        {
+          "file": "packages/ui-plugins/validation-summary/package.json",
+          "hash": "17413843156760903775",
+          "deps": [
+            "npm:parcel",
+            "@assurance/plugin-bridge-provider"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/validation-summary/src/App.tsx",
+          "hash": "12600110267755461638",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/validation-summary/src/components/summary-view/summary-view.tsx",
+          "hash": "2062086983105125372",
+          "deps": [
+            "npm:@adobe/react-spectrum",
+            "@assurance/plugin-bridge-provider",
+            "@assurance/validation-summary",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/validation-summary/src/index.html",
+          "hash": "8917513626942023979"
+        },
+        {
+          "file": "packages/ui-plugins/validation-summary/src/index.tsx",
+          "hash": "3604495219900907084",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/ui-plugins/validation-summary/utils/groupBy.ts",
+          "hash": "13283085639029180351"
+        }
+      ],
+      "@assurance/common-utils": [
+        {
+          "file": "packages/common/common-utils/package.json",
+          "hash": "13160902632493468043",
+          "deps": [
+            "npm:parcel",
+            "npm:@adobe/react-spectrum",
+            "npm:@spectrum-icons/workflow",
+            "npm:ramda",
+            "npm:react",
+            "npm:react-intl@6.8.9"
+          ]
+        },
+        {
+          "file": "packages/common/common-utils/src/choose.event.label.ts",
+          "hash": "2326637697469245946"
+        },
+        {
+          "file": "packages/common/common-utils/src/clipboard.util.ts",
+          "hash": "10015994368988343085"
+        },
+        {
+          "file": "packages/common/common-utils/src/components/CopyableValue.tsx",
+          "hash": "5566665618449745385",
+          "deps": [
+            "npm:react",
+            "npm:@adobe/react-spectrum",
+            "npm:@spectrum-icons/workflow",
+            "npm:react-intl@6.8.9"
+          ]
+        },
+        {
+          "file": "packages/common/common-utils/src/components/index.ts",
+          "hash": "15271169352718187594"
+        },
+        {
+          "file": "packages/common/common-utils/src/hooks/index.ts",
+          "hash": "18092809050924975080"
+        },
+        {
+          "file": "packages/common/common-utils/src/hooks/useClipboard.ts",
+          "hash": "7210830402639730186",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/common/common-utils/src/hooks/useDocumentStyles.ts",
+          "hash": "2654654785860201458",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/common/common-utils/src/hooks/useResizeObserver.ts",
+          "hash": "15977031849627944753",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/common/common-utils/src/hooks/useResizePanel.ts",
+          "hash": "16144756962247005806",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/common/common-utils/src/index.ts",
+          "hash": "13694161967628076703"
+        },
+        {
+          "file": "packages/common/common-utils/src/pluck.event.data.ts",
+          "hash": "2946036272716552075",
+          "deps": [
+            "npm:ramda"
+          ]
+        },
+        {
+          "file": "packages/common/common-utils/src/timestamp.util.ts",
+          "hash": "161627034260715687"
+        },
+        {
+          "file": "packages/common/common-utils/src/types.ts",
+          "hash": "16299334226895627547"
+        }
+      ]
+    }
+  }
+}

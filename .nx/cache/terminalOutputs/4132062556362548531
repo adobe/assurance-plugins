@@ -1,0 +1,18 @@
+[2K[1G[2m$ parcel build src/index.ts --cache-dir ./.parcel-cache --no-cache[22m
+Building...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Bundling...
+Packaging & Optimizing...
+✨ [32m[1mBuilt in 1.36s[22m[39m
+
+[2mdist/[22m[36m[1mindex.cjs.js[22m[39m    [1m[35m2.34 KB[39m[22m    [32m[1m47ms[22m[39m
+[2mdist/[22m[36m[1mindex.esm.js[22m[39m    [1m[35m2.09 KB[39m[22m    [32m[1m42ms[22m[39m
+[2mdist/[22m[36m[1mindex.d.ts[22m[39m        [1m[35m542 B[39m[22m    [32m[1m18ms[22m[39m

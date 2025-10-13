@@ -1,0 +1,31 @@
+[2K[1G[2m$ parcel build src/index.tsx --cache-dir ./.parcel-cache --no-cache[22m
+Building...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+[33m[1m@parcel/transformer-typescript-types[22m: Property 'datastreamId' does not exist on type '{}'.[39m
+
+  [90m[4m/Users/mashraf/Desktop/adobe-codes/assurance-plugins/packages/components/plugin-bridge-provider/src/hooks/useDataStream.tsx:32:54[24m[39m
+    31 |   });
+  [31m>[39m 32 |   const match = events.find(e => e.payload?.context?.datastreamId);
+  [31m>[39m    |                                                      [31m^^^^^^^^^^^^[39m [1m[31mProperty 'datastreamId' does not exist on type '{}'.[39m[22m
+    33 |   const messages = match?.payload?.messages;
+    34 |   return {
+
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Bundling...
+Packaging & Optimizing...
+✨ [32m[1mBuilt in 1.34s[22m[39m
+
+[2mdist/[22m[36m[1mindex.cjs.js[22m[39m    [1m[35m27.94 KB[39m[22m    [32m[1m51ms[22m[39m
+[2mdist/[22m[36m[1mindex.esm.js[22m[39m    [1m[35m26.66 KB[39m[22m    [32m[1m47ms[22m[39m
+[2mdist/[22m[36m[1mindex.d.ts[22m[39m       [1m[35m6.28 KB[39m[22m    [32m[1m21ms[22m[39m

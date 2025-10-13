@@ -1,0 +1,2467 @@
+[
+  {
+    "uuid": "3956fc92-4524-43dc-ab8a-32c5da0b5e6b",
+    "eventNumber": 219,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070781489,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity updated",
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventTimestamp": 1749070781487.3008,
+      "ACPExtensionEventData": {
+        "liveActivityID": "Flight1",
+        "appleLiveActivityId": "243318EA-7CB4-4456-AABC-A6234E717A3A",
+        "isLiveActivityTrackStateEvent": true,
+        "contentState": { "journeyProgress": 0 },
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventUniqueIdentifier": "A29DAB5D-D14B-4F61-AB80-52006989F3CB",
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "1f50a6cc-2d81-41f2-9b2f-cbfb08641faa",
+    "eventNumber": 218,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070779087,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug",
+      "ACPExtensionEventName": "Live Activity updated",
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventData": {
+        "attributeType": "AirplaneTrackingAttributes",
+        "appleLiveActivityId": "E72C5674-260F-4145-9F0C-B5E554D96A3B",
+        "contentState": { "journeyProgress": 100 },
+        "liveActivityID": "Flight3",
+        "isLiveActivityTrackStateEvent": true
+      },
+      "ACPExtensionEventTimestamp": 1749070779086.144,
+      "ACPExtensionEventUniqueIdentifier": "A3E81676-AB15-4662-ADCE-C68E870CDEDF"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "085334be-f4cb-40ad-85b7-805358fc3220",
+    "eventNumber": 217,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070772937,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventTimestamp": 1749070772935.1921,
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug",
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventName": "Live Activity updated",
+      "ACPExtensionEventData": {
+        "contentState": { "journeyProgress": 50 },
+        "appleLiveActivityId": "243318EA-7CB4-4456-AABC-A6234E717A3A",
+        "attributeType": "AirplaneTrackingAttributes",
+        "isLiveActivityTrackStateEvent": true,
+        "liveActivityID": "Flight1"
+      },
+      "ACPExtensionEventUniqueIdentifier": "6B686D1E-168E-4FC5-A7AA-0DF323D4BC1B"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "12faa9dd-a8c8-4ba2-8da3-d007f821ce0a",
+    "eventNumber": 216,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070766541,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug",
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventData": {
+        "contentState": { "journeyProgress": 42 },
+        "appleLiveActivityId": "493EC80D-00EC-49CF-A64F-82B1192EF946",
+        "liveActivityID": "Flight2",
+        "isLiveActivityTrackStateEvent": true,
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventUniqueIdentifier": "5F286AF3-9DD9-48B7-8CFA-AD4655A014A9",
+      "ACPExtensionEventTimestamp": 1749070766540.023,
+      "ACPExtensionEventName": "Live Activity updated"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "50986ac5-10f1-45e2-8d3f-181982a9c5b1",
+    "eventNumber": 215,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070758123,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventData": {
+        "isLiveActivityTrackStateEvent": true,
+        "attributeType": "GameScoreLiveActivityAttributes",
+        "appleLiveActivityId": "01D52173-A350-49F3-99C3-12C655D0045C",
+        "contentState": {
+          "awayTeamScore": 22,
+          "homeTeamScore": 52,
+          "statusText": "Wingdom won the toss and choose to receive the ball"
+        },
+        "liveActivityID": "Game2"
+      },
+      "ACPExtensionEventUniqueIdentifier": "31F023EF-57F4-443E-BAD5-0D06A2D8AAA6",
+      "ACPExtensionEventTimestamp": 1749070758122.244,
+      "ACPExtensionEventName": "Live Activity updated",
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "41ca5aee-0017-4200-8201-120515921557",
+    "eventNumber": 214,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070746447,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "B4D0921E-8569-4D60-B63A-3D12A5045C2F",
+      "ACPExtensionEventData": {
+        "isLiveActivityTrackStateEvent": true,
+        "attributeType": "GameScoreLiveActivityAttributes",
+        "contentState": {
+          "awayTeamScore": 4,
+          "homeTeamScore": 34,
+          "statusText": "Wingdom won the toss and choose to receive the ball"
+        },
+        "liveActivityID": "Game1",
+        "appleLiveActivityId": "76ADECBD-240D-49C1-ACB7-F1311DB8290F"
+      },
+      "ACPExtensionEventTimestamp": 1749070746446.121,
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug",
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventName": "Live Activity updated"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "c030a489-422e-4921-aae4-0ea1395a2ab6",
+    "eventNumber": 203,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732965,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventUniqueIdentifier": "FCED7031-4346-4D7A-B2B5-7F09BE13E6D6",
+      "ACPExtensionEventData": {
+        "data": {
+          "liveActivityID": "Game1",
+          "token": "8052a2c508c82eed8c0bcad01c9ff5886e1ba29c279f858b32186de826e50d4af86323be953868aab06281fbbd447b5dc0c4ec0d34c57aba619b018aab2c9e4a5ed25bd2d37f8e9e5f751f0a1b565120536c2ecfc370967df3f77d66ae8b74f8377d395a5f7856eb878666929e395bcd6bee4119c649fecf09df554f804b97b3"
+        },
+        "xdm": { "eventType": "liveActivity.updateToken" }
+      },
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070732962.2778,
+      "ACPExtensionEventParentIdentifier": "528EFDD6-F451-4E1A-9136-1F875010FB31",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "04582c0c-0685-4118-be8b-d7b3381cb3e2",
+    "eventNumber": 201,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732963,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventUniqueIdentifier": "CCC63F06-A7C6-4B25-9115-29E92B351425",
+      "ACPExtensionEventData": {
+        "data": {
+          "liveActivityID": "Flight1",
+          "token": "8056db56786610883fa7389696dc39f3050acf6f0597bbf54e32b6a77bf3c09a4d95e6065c38ce5caae088889e0d54206e4e2a44fb43e9bfccbf27f32ee5456e32b938e36254f3a3d54bc2602df5ded10312ab47c04dd064209c11a795cc1e9c8a9fb04cb94969d7d3d8ab956b149a2e0a497019a042aa589cbd2a0ee602bfa0"
+        },
+        "xdm": { "eventType": "liveActivity.updateToken" }
+      },
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070732959.4531,
+      "ACPExtensionEventParentIdentifier": "1286B038-FB9D-4E9D-B93C-0CC3EC35121F",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "ac5787aa-9a1b-496c-946e-33c2626b43aa",
+    "eventNumber": 199,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732959,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070732957.1199,
+      "ACPExtensionEventData": {
+        "data": {
+          "token": "80f216f1c190a19976804d7023f391e87ca470ac9c7796b5b7df198148eb24de2d5124517f729a367f60c30e38f35021b3ac85f3c33c41d4883a42373002102b2d01d14d8a75e92fa891a5a899e440ef45cf7fb61d580f159fec92e8fb0560f45722454d85034c1b79075a4f96e3c0513a00b57593043d3c58c9715514d34ea3",
+          "liveActivityID": "Flight2"
+        },
+        "xdm": { "eventType": "liveActivity.updateToken" }
+      },
+      "ACPExtensionEventParentIdentifier": "84CA7E98-E59B-4CBB-A8D3-9B24B63612BC",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventUniqueIdentifier": "E4FD003C-049F-4835-9829-1A4BB6002B2A",
+      "ACPExtensionEventName": "Live Activity update token to Edge"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "2b93ec82-a60a-42fe-a939-1fd919148b47",
+    "eventNumber": 197,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732957,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventParentIdentifier": "0406E2A6-CF1F-4D9D-9935-552747D75D30",
+      "ACPExtensionEventData": {
+        "data": {
+          "liveActivityID": "Flight3",
+          "token": "8059c67e2aa41358f645dd4e7e7e5fe1e71525a0ccddab80b27a7874e360c81e065cd6fab970eb05630a459e2d1a76d5991b50630c060f087ba1d6a6f0d13148acc2291b7b8f0a779bbe1389b93e7b6dec450cfda31c9f37901c27623bab26cb1b762719720c84f18a4e1286179970015ce8b230500ed92c06b535086427aefd"
+        },
+        "xdm": { "eventType": "liveActivity.updateToken" }
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventUniqueIdentifier": "1DF8A226-47BD-456D-A597-4F62408D8AE8",
+      "ACPExtensionEventTimestamp": 1749070732951.331,
+      "ACPExtensionEventName": "Live Activity update token to Edge"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "9c463fa2-ae46-442d-8c9e-53b01d820293",
+    "eventNumber": 195,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732951,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.updateToken" },
+        "data": {
+          "token": "8095a738df9e3d1ede6c8abc65acd02ab71c952fe2e69385b9100394369006bebe9e871902ec8f0b5d90e162b30c9a8b8f138eaa2000a5a935acd75af635c34867808bfb993ad4bc1accf4d7df86374632fcaffbf0cb4968e91ef6bb6f7e081236989098d9aca3bc28a898cc633132569cf2a7ce74d39a97ccc3efad8e81e8a2",
+          "liveActivityID": "Game2"
+        }
+      },
+      "ACPExtensionEventParentIdentifier": "EDFA6179-E51E-4A9A-9205-2F08081D71AF",
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventUniqueIdentifier": "F75EE249-5C54-4F59-889D-0427B5FF4414",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventTimestamp": 1749070732946.8333,
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "18be620e-3c4b-469a-97a0-56dcf1f70a6d",
+    "eventNumber": 193,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732946,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventData": {
+        "attributeType": "GameScoreLiveActivityAttributes",
+        "isLiveActivityUpdateTokenEvent": true,
+        "appleLiveActivityId": "76ADECBD-240D-49C1-ACB7-F1311DB8290F",
+        "liveActivityID": "Game1",
+        "token": "8052a2c508c82eed8c0bcad01c9ff5886e1ba29c279f858b32186de826e50d4af86323be953868aab06281fbbd447b5dc0c4ec0d34c57aba619b018aab2c9e4a5ed25bd2d37f8e9e5f751f0a1b565120536c2ecfc370967df3f77d66ae8b74f8377d395a5f7856eb878666929e395bcd6bee4119c649fecf09df554f804b97b3"
+      },
+      "ACPExtensionEventTimestamp": 1749070732937.636,
+      "ACPExtensionEventUniqueIdentifier": "528EFDD6-F451-4E1A-9136-1F875010FB31",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "e29a8593-0a5f-45a2-a3b7-a49299a83b9b",
+    "eventNumber": 192,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732945,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventData": {
+        "attributeType": "AirplaneTrackingAttributes",
+        "isLiveActivityUpdateTokenEvent": true,
+        "appleLiveActivityId": "243318EA-7CB4-4456-AABC-A6234E717A3A",
+        "liveActivityID": "Flight1",
+        "token": "8056db56786610883fa7389696dc39f3050acf6f0597bbf54e32b6a77bf3c09a4d95e6065c38ce5caae088889e0d54206e4e2a44fb43e9bfccbf27f32ee5456e32b938e36254f3a3d54bc2602df5ded10312ab47c04dd064209c11a795cc1e9c8a9fb04cb94969d7d3d8ab956b149a2e0a497019a042aa589cbd2a0ee602bfa0"
+      },
+      "ACPExtensionEventTimestamp": 1749070732937.1792,
+      "ACPExtensionEventUniqueIdentifier": "1286B038-FB9D-4E9D-B93C-0CC3EC35121F",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "25a6c0b5-5df9-4396-ab2c-9ca320dd79b3",
+    "eventNumber": 191,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732944,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "84CA7E98-E59B-4CBB-A8D3-9B24B63612BC",
+      "ACPExtensionEventTimestamp": 1749070732936.9568,
+      "ACPExtensionEventData": {
+        "isLiveActivityUpdateTokenEvent": true,
+        "liveActivityID": "Flight2",
+        "appleLiveActivityId": "493EC80D-00EC-49CF-A64F-82B1192EF946",
+        "token": "80f216f1c190a19976804d7023f391e87ca470ac9c7796b5b7df198148eb24de2d5124517f729a367f60c30e38f35021b3ac85f3c33c41d4883a42373002102b2d01d14d8a75e92fa891a5a899e440ef45cf7fb61d580f159fec92e8fb0560f45722454d85034c1b79075a4f96e3c0513a00b57593043d3c58c9715514d34ea3",
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "888f5317-15b4-4083-ab33-83fc78fd970e",
+    "eventNumber": 190,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732942,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventUniqueIdentifier": "0406E2A6-CF1F-4D9D-9935-552747D75D30",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventTimestamp": 1749070732936.976,
+      "ACPExtensionEventData": {
+        "isLiveActivityUpdateTokenEvent": true,
+        "token": "8059c67e2aa41358f645dd4e7e7e5fe1e71525a0ccddab80b27a7874e360c81e065cd6fab970eb05630a459e2d1a76d5991b50630c060f087ba1d6a6f0d13148acc2291b7b8f0a779bbe1389b93e7b6dec450cfda31c9f37901c27623bab26cb1b762719720c84f18a4e1286179970015ce8b230500ed92c06b535086427aefd",
+        "appleLiveActivityId": "E72C5674-260F-4145-9F0C-B5E554D96A3B",
+        "attributeType": "AirplaneTrackingAttributes",
+        "liveActivityID": "Flight3"
+      }
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "28aeb356-27fd-4dc1-8622-96fc16c3ebb9",
+    "eventNumber": 189,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732940,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventData": {
+        "appleLiveActivityId": "01D52173-A350-49F3-99C3-12C655D0045C",
+        "token": "8095a738df9e3d1ede6c8abc65acd02ab71c952fe2e69385b9100394369006bebe9e871902ec8f0b5d90e162b30c9a8b8f138eaa2000a5a935acd75af635c34867808bfb993ad4bc1accf4d7df86374632fcaffbf0cb4968e91ef6bb6f7e081236989098d9aca3bc28a898cc633132569cf2a7ce74d39a97ccc3efad8e81e8a2",
+        "attributeType": "GameScoreLiveActivityAttributes",
+        "isLiveActivityUpdateTokenEvent": true,
+        "liveActivityID": "Game2"
+      },
+      "ACPExtensionEventUniqueIdentifier": "EDFA6179-E51E-4A9A-9205-2F08081D71AF",
+      "ACPExtensionEventTimestamp": 1749070732934.4229,
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "68159e6a-4d43-44b0-a706-68b7e57cfe92",
+    "eventNumber": 188,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732938,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventData": {
+        "attributeType": "FoodDeliveryLiveActivityAttributes",
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "isLiveActivityPushToStartTokenEvent": true
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "2B99E2C0-5594-4CD9-B06D-F597B113B70E",
+      "ACPExtensionEventTimestamp": 1749070732934.198,
+      "ACPExtensionEventName": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "81cf1925-6153-41d5-953c-94940aa0d2ee",
+    "eventNumber": 187,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732937,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventTimestamp": 1749070732934.14,
+      "ACPExtensionEventName": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "B3E8ECD0-B8DA-431A-BADA-9C8C594FE9A9",
+      "ACPExtensionEventData": {
+        "isLiveActivityPushToStartTokenEvent": true,
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "attributeType": "GameScoreLiveActivityAttributes"
+      }
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "b98a5819-5c63-4293-a76c-75efd717030c",
+    "eventNumber": 186,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070732935,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventName": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+      "ACPExtensionEventData": {
+        "isLiveActivityPushToStartTokenEvent": true,
+        "attributeType": "AirplaneTrackingAttributes",
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349"
+      },
+      "ACPExtensionEventTimestamp": 1749070732934.142,
+      "ACPExtensionEventUniqueIdentifier": "17D55530-DAA9-4E61-BAC1-0737E43AC55C",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "6b109e33-f43c-43c8-8b10-1d6fdd9c9a2c",
+    "eventNumber": 183,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070731849,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventParentIdentifier": "790D20D2-2EAC-4AA4-803E-CC82B96DF858",
+      "ACPExtensionEventUniqueIdentifier": "380872AA-D206-4966-9A21-0A2E4ABCF554",
+      "ACPExtensionEventTimestamp": 1749070731847.6602,
+      "ACPExtensionEventData": {
+        "xdm": {
+          "liveActivity": {
+            "appID": "com.adobe.MessagingDemoAppSwiftUI",
+            "liveActivityID": "Game2",
+            "origin": "local"
+          },
+          "eventType": "liveActivity.start"
+        }
+      },
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventName": "Live Activity start to Edge"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "8b5988ef-ec5c-42bf-b083-5901b19cc1bb",
+    "eventNumber": 182,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070731847,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventName": "Live Activity updated",
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug",
+      "ACPExtensionEventUniqueIdentifier": "5730146D-4C77-443B-8C45-C5AC1DC6DF99",
+      "ACPExtensionEventTimestamp": 1749070731846.3398,
+      "ACPExtensionEventData": {
+        "liveActivityID": "Game2",
+        "appleLiveActivityId": "01D52173-A350-49F3-99C3-12C655D0045C",
+        "contentState": {
+          "statusText": "Wingdom won the toss and choose to receive the ball",
+          "awayTeamScore": 0,
+          "homeTeamScore": 0
+        },
+        "attributeType": "GameScoreLiveActivityAttributes",
+        "isLiveActivityTrackStateEvent": true
+      }
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "5aaa7271-4143-4f9f-b05b-f9e48bb7f6de",
+    "eventNumber": 181,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070731847,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "790D20D2-2EAC-4AA4-803E-CC82B96DF858",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventName": "Live Activity start event",
+      "ACPExtensionEventData": {
+        "origin": {},
+        "attributeType": "GameScoreLiveActivityAttributes",
+        "isLiveActivityTrackStartEvent": true,
+        "appleLiveActivityId": "01D52173-A350-49F3-99C3-12C655D0045C",
+        "liveActivityID": "Game2"
+      },
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070731845.896
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start event",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "c75c5e12-3c97-43d7-b475-27ddab560099",
+    "eventNumber": 172,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070725651,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.updateToken" },
+        "data": {
+          "token": "8056db56786610883fa7389696dc39f3050acf6f0597bbf54e32b6a77bf3c09a4d95e6065c38ce5caae088889e0d54206e4e2a44fb43e9bfccbf27f32ee5456e32b938e36254f3a3d54bc2602df5ded10312ab47c04dd064209c11a795cc1e9c8a9fb04cb94969d7d3d8ab956b149a2e0a497019a042aa589cbd2a0ee602bfa0",
+          "liveActivityID": "Flight1"
+        }
+      },
+      "ACPExtensionEventUniqueIdentifier": "1DD6749B-92F9-4BA9-BFC1-AD40C16A8A82",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventParentIdentifier": "0FC13BC0-397B-488A-B6C2-3748EFB74904",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventTimestamp": 1749070725648.8818
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "1435fa44-a34f-4441-9515-d468c337f469",
+    "eventNumber": 170,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070725648,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.updateToken" },
+        "data": {
+          "liveActivityID": "Flight2",
+          "token": "80f216f1c190a19976804d7023f391e87ca470ac9c7796b5b7df198148eb24de2d5124517f729a367f60c30e38f35021b3ac85f3c33c41d4883a42373002102b2d01d14d8a75e92fa891a5a899e440ef45cf7fb61d580f159fec92e8fb0560f45722454d85034c1b79075a4f96e3c0513a00b57593043d3c58c9715514d34ea3"
+        }
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070725645.878,
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventParentIdentifier": "A95C3E3C-7063-44F2-8848-9194342779F6",
+      "ACPExtensionEventUniqueIdentifier": "FC5F861E-A39B-498D-AEB6-C08DC3FB2123"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "725a251f-a892-4d4b-a778-ea7ebef2748f",
+    "eventNumber": 168,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070725645,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventParentIdentifier": "AFF1BB00-174F-4449-AE37-7B3EE17D736D",
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.updateToken" },
+        "data": {
+          "token": "8052a2c508c82eed8c0bcad01c9ff5886e1ba29c279f858b32186de826e50d4af86323be953868aab06281fbbd447b5dc0c4ec0d34c57aba619b018aab2c9e4a5ed25bd2d37f8e9e5f751f0a1b565120536c2ecfc370967df3f77d66ae8b74f8377d395a5f7856eb878666929e395bcd6bee4119c649fecf09df554f804b97b3",
+          "liveActivityID": "Game1"
+        }
+      },
+      "ACPExtensionEventUniqueIdentifier": "3472C19A-4827-4C4C-BC37-43B6F82C4802",
+      "ACPExtensionEventTimestamp": 1749070725641.579,
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "9d4fc11d-f059-4eac-9d13-9f49e1a0db7f",
+    "eventNumber": 166,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070725642,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventUniqueIdentifier": "4CB3AA3F-CC25-42E2-8BB6-431EB731D5FB",
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.updateToken" },
+        "data": {
+          "token": "8059c67e2aa41358f645dd4e7e7e5fe1e71525a0ccddab80b27a7874e360c81e065cd6fab970eb05630a459e2d1a76d5991b50630c060f087ba1d6a6f0d13148acc2291b7b8f0a779bbe1389b93e7b6dec450cfda31c9f37901c27623bab26cb1b762719720c84f18a4e1286179970015ce8b230500ed92c06b535086427aefd",
+          "liveActivityID": "Flight3"
+        }
+      },
+      "ACPExtensionEventParentIdentifier": "36CF9055-76B8-4712-8234-22B033BB98D9",
+      "ACPExtensionEventTimestamp": 1749070725635.533,
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "5b193f39-83d0-4d09-9fb9-8b8cf5655552",
+    "eventNumber": 164,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070725638,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "0FC13BC0-397B-488A-B6C2-3748EFB74904",
+      "ACPExtensionEventData": {
+        "isLiveActivityUpdateTokenEvent": true,
+        "liveActivityID": "Flight1",
+        "appleLiveActivityId": "243318EA-7CB4-4456-AABC-A6234E717A3A",
+        "attributeType": "AirplaneTrackingAttributes",
+        "token": "8056db56786610883fa7389696dc39f3050acf6f0597bbf54e32b6a77bf3c09a4d95e6065c38ce5caae088889e0d54206e4e2a44fb43e9bfccbf27f32ee5456e32b938e36254f3a3d54bc2602df5ded10312ab47c04dd064209c11a795cc1e9c8a9fb04cb94969d7d3d8ab956b149a2e0a497019a042aa589cbd2a0ee602bfa0"
+      },
+      "ACPExtensionEventTimestamp": 1749070725628.968,
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "1f6f6539-e3c3-4129-bb64-aef499435068",
+    "eventNumber": 163,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070725636,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "A95C3E3C-7063-44F2-8848-9194342779F6",
+      "ACPExtensionEventData": {
+        "isLiveActivityUpdateTokenEvent": true,
+        "liveActivityID": "Flight2",
+        "appleLiveActivityId": "493EC80D-00EC-49CF-A64F-82B1192EF946",
+        "attributeType": "AirplaneTrackingAttributes",
+        "token": "80f216f1c190a19976804d7023f391e87ca470ac9c7796b5b7df198148eb24de2d5124517f729a367f60c30e38f35021b3ac85f3c33c41d4883a42373002102b2d01d14d8a75e92fa891a5a899e440ef45cf7fb61d580f159fec92e8fb0560f45722454d85034c1b79075a4f96e3c0513a00b57593043d3c58c9715514d34ea3"
+      },
+      "ACPExtensionEventTimestamp": 1749070725628.628,
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "05ca7b00-b472-47cb-994e-bf2d9506f27c",
+    "eventNumber": 162,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070725634,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "AFF1BB00-174F-4449-AE37-7B3EE17D736D",
+      "ACPExtensionEventData": {
+        "isLiveActivityUpdateTokenEvent": true,
+        "appleLiveActivityId": "76ADECBD-240D-49C1-ACB7-F1311DB8290F",
+        "attributeType": "GameScoreLiveActivityAttributes",
+        "liveActivityID": "Game1",
+        "token": "8052a2c508c82eed8c0bcad01c9ff5886e1ba29c279f858b32186de826e50d4af86323be953868aab06281fbbd447b5dc0c4ec0d34c57aba619b018aab2c9e4a5ed25bd2d37f8e9e5f751f0a1b565120536c2ecfc370967df3f77d66ae8b74f8377d395a5f7856eb878666929e395bcd6bee4119c649fecf09df554f804b97b3"
+      },
+      "ACPExtensionEventTimestamp": 1749070725628.439,
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventName": "Live Activity update token"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "d5d95004-b73c-44fb-8785-ebdbc643caf4",
+    "eventNumber": 161,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070725633,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "1B986906-2D02-4F28-B9E8-E71BAB7ABB94",
+      "ACPExtensionEventData": {
+        "isLiveActivityPushToStartTokenEvent": true,
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "attributeType": "GameScoreLiveActivityAttributes"
+      },
+      "ACPExtensionEventTimestamp": 1749070725627.264,
+      "ACPExtensionEventName": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "5e6d6c12-a6c1-4b46-8d34-73a8e28d1404",
+    "eventNumber": 160,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070725631,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "36CF9055-76B8-4712-8234-22B033BB98D9",
+      "ACPExtensionEventData": {
+        "isLiveActivityUpdateTokenEvent": true,
+        "token": "8059c67e2aa41358f645dd4e7e7e5fe1e71525a0ccddab80b27a7874e360c81e065cd6fab970eb05630a459e2d1a76d5991b50630c060f087ba1d6a6f0d13148acc2291b7b8f0a779bbe1389b93e7b6dec450cfda31c9f37901c27623bab26cb1b762719720c84f18a4e1286179970015ce8b230500ed92c06b535086427aefd",
+        "appleLiveActivityId": "E72C5674-260F-4145-9F0C-B5E554D96A3B",
+        "liveActivityID": "Flight3",
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventTimestamp": 1749070725626.467,
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "9c95f7da-1841-453b-aead-9eacdc629a9b",
+    "eventNumber": 159,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070725630,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "8F0FFFC6-195A-4302-A879-D1994CEEADA5",
+      "ACPExtensionEventData": {
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "isLiveActivityPushToStartTokenEvent": true,
+        "attributeType": "FoodDeliveryLiveActivityAttributes"
+      },
+      "ACPExtensionEventTimestamp": 1749070725626.1038,
+      "ACPExtensionEventName": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "bcd37623-07b8-4560-b68c-414bc5b3f47b",
+    "eventNumber": 158,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070725628,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "FBAC2C50-3001-45DF-99D8-61CEDD0529F3",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventTimestamp": 1749070725626.097,
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventName": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+      "ACPExtensionEventData": {
+        "attributeType": "AirplaneTrackingAttributes",
+        "isLiveActivityPushToStartTokenEvent": true,
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349"
+      }
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "e5bb0d0c-5958-47a0-a3a4-e20cf81d8291",
+    "eventNumber": 155,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070724540,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventTimestamp": 1749070724537.33,
+      "ACPExtensionEventParentIdentifier": "13DC099B-20C5-49F7-B485-812012E632DE",
+      "ACPExtensionEventUniqueIdentifier": "B0BE9EEB-E437-43D3-B5A0-50B9E527129D",
+      "ACPExtensionEventName": "Live Activity start to Edge",
+      "ACPExtensionEventData": {
+        "xdm": {
+          "eventType": "liveActivity.start",
+          "liveActivity": {
+            "liveActivityID": "Game1",
+            "origin": "local",
+            "appID": "com.adobe.MessagingDemoAppSwiftUI"
+          }
+        }
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "2072e1b1-c739-4bfa-96a3-f386c32d16a8",
+    "eventNumber": 154,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070724538,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventTimestamp": 1749070724535.9458,
+      "ACPExtensionEventData": {
+        "isLiveActivityTrackStateEvent": true,
+        "contentState": {
+          "homeTeamScore": 0,
+          "statusText": "Wingdom won the toss and choose to receive the ball",
+          "awayTeamScore": 0
+        },
+        "attributeType": "GameScoreLiveActivityAttributes",
+        "appleLiveActivityId": "76ADECBD-240D-49C1-ACB7-F1311DB8290F",
+        "liveActivityID": "Game1"
+      },
+      "ACPExtensionEventName": "Live Activity updated",
+      "ACPExtensionEventUniqueIdentifier": "D6F2BBFF-3BE3-4FC3-A11C-6420A7708F74",
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "51db6e07-cac9-4db5-be71-860707752c72",
+    "eventNumber": 153,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070724537,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity start event",
+      "ACPExtensionEventTimestamp": 1749070724534.872,
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventData": {
+        "liveActivityID": "Game1",
+        "origin": {},
+        "attributeType": "GameScoreLiveActivityAttributes",
+        "isLiveActivityTrackStartEvent": true,
+        "appleLiveActivityId": "76ADECBD-240D-49C1-ACB7-F1311DB8290F"
+      },
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventUniqueIdentifier": "13DC099B-20C5-49F7-B485-812012E632DE"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start event",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "fd50f2e6-1c2d-4d6e-a8bd-19adca7a4892",
+    "eventNumber": 146,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070713182,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventTimestamp": 1749070713177.6052,
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventParentIdentifier": "84774FF6-1680-4EC7-A05F-A23E6A6CFB25",
+      "ACPExtensionEventUniqueIdentifier": "A0AC07A3-35C5-4615-BFD0-E1827D0F98FA",
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.updateToken" },
+        "data": {
+          "token": "8056db56786610883fa7389696dc39f3050acf6f0597bbf54e32b6a77bf3c09a4d95e6065c38ce5caae088889e0d54206e4e2a44fb43e9bfccbf27f32ee5456e32b938e36254f3a3d54bc2602df5ded10312ab47c04dd064209c11a795cc1e9c8a9fb04cb94969d7d3d8ab956b149a2e0a497019a042aa589cbd2a0ee602bfa0",
+          "liveActivityID": "Flight1"
+        }
+      }
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "ba75452a-f020-4309-ae42-0bfcbfb4901d",
+    "eventNumber": 144,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070713177,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventParentIdentifier": "589268D8-15A7-43E2-BF02-B5873C4E8233",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventTimestamp": 1749070713174.0798,
+      "ACPExtensionEventUniqueIdentifier": "8815ACC3-5B9A-473B-9F79-23D5607269E0",
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.updateToken" },
+        "data": {
+          "token": "80f216f1c190a19976804d7023f391e87ca470ac9c7796b5b7df198148eb24de2d5124517f729a367f60c30e38f35021b3ac85f3c33c41d4883a42373002102b2d01d14d8a75e92fa891a5a899e440ef45cf7fb61d580f159fec92e8fb0560f45722454d85034c1b79075a4f96e3c0513a00b57593043d3c58c9715514d34ea3",
+          "liveActivityID": "Flight2"
+        }
+      }
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "8ea49193-b025-4f1c-a18d-96a8dfa41160",
+    "eventNumber": 142,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070713173,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "3362A2ED-6824-4689-A716-A1B716E86A6D",
+      "ACPExtensionEventParentIdentifier": "CB554F3C-16AD-432F-A388-19090278D309",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.updateToken" },
+        "data": {
+          "liveActivityID": "Flight3",
+          "token": "8059c67e2aa41358f645dd4e7e7e5fe1e71525a0ccddab80b27a7874e360c81e065cd6fab970eb05630a459e2d1a76d5991b50630c060f087ba1d6a6f0d13148acc2291b7b8f0a779bbe1389b93e7b6dec450cfda31c9f37901c27623bab26cb1b762719720c84f18a4e1286179970015ce8b230500ed92c06b535086427aefd"
+        }
+      },
+      "ACPExtensionEventTimestamp": 1749070713159.167,
+      "ACPExtensionEventName": "Live Activity update token to Edge"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "a7a6c0c7-d2a3-4add-84ab-58592cf5b0da",
+    "eventNumber": 140,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070713159,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "EFA223EF-F6C2-452B-A038-D7BBC096EECB",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "attributeType": "FoodDeliveryLiveActivityAttributes",
+        "isLiveActivityPushToStartTokenEvent": true
+      },
+      "ACPExtensionEventTimestamp": 1749070713152.142
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "0d750e8c-bdbd-4734-b25b-76c8499e85ca",
+    "eventNumber": 139,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070713159,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "84774FF6-1680-4EC7-A05F-A23E6A6CFB25",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "isLiveActivityUpdateTokenEvent": true,
+        "appleLiveActivityId": "243318EA-7CB4-4456-AABC-A6234E717A3A",
+        "attributeType": "AirplaneTrackingAttributes",
+        "liveActivityID": "Flight1",
+        "token": "8056db56786610883fa7389696dc39f3050acf6f0597bbf54e32b6a77bf3c09a4d95e6065c38ce5caae088889e0d54206e4e2a44fb43e9bfccbf27f32ee5456e32b938e36254f3a3d54bc2602df5ded10312ab47c04dd064209c11a795cc1e9c8a9fb04cb94969d7d3d8ab956b149a2e0a497019a042aa589cbd2a0ee602bfa0"
+      },
+      "ACPExtensionEventTimestamp": 1749070713151.877
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "16b94a4e-d907-4ed3-aa20-b1dc28e283de",
+    "eventNumber": 138,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070713158,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "823EBCE6-58D0-4514-BA27-AC70E278145A",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "isLiveActivityPushToStartTokenEvent": true,
+        "attributeType": "GameScoreLiveActivityAttributes"
+      },
+      "ACPExtensionEventTimestamp": 1749070713151.0469
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "07e77723-863d-45db-aba7-ac2d75eef49e",
+    "eventNumber": 137,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070713155,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventTimestamp": 1749070713150.6682,
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "token": "80f216f1c190a19976804d7023f391e87ca470ac9c7796b5b7df198148eb24de2d5124517f729a367f60c30e38f35021b3ac85f3c33c41d4883a42373002102b2d01d14d8a75e92fa891a5a899e440ef45cf7fb61d580f159fec92e8fb0560f45722454d85034c1b79075a4f96e3c0513a00b57593043d3c58c9715514d34ea3",
+        "appleLiveActivityId": "493EC80D-00EC-49CF-A64F-82B1192EF946",
+        "attributeType": "AirplaneTrackingAttributes",
+        "liveActivityID": "Flight2",
+        "isLiveActivityUpdateTokenEvent": true
+      },
+      "ACPExtensionEventUniqueIdentifier": "589268D8-15A7-43E2-BF02-B5873C4E8233"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "1fedb30a-0822-4784-b818-a6fd5661bab1",
+    "eventNumber": 136,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070713153,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070713149.589,
+      "ACPExtensionEventUniqueIdentifier": "80EAB69B-5AD1-4154-A589-3FAF91CA59A2",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventName": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+      "ACPExtensionEventData": {
+        "isLiveActivityPushToStartTokenEvent": true,
+        "attributeType": "AirplaneTrackingAttributes",
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349"
+      }
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "ac5631c2-ff76-4384-b45a-82d9289b2489",
+    "eventNumber": 135,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070713152,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070713149.5981,
+      "ACPExtensionEventUniqueIdentifier": "CB554F3C-16AD-432F-A388-19090278D309",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventData": {
+        "appleLiveActivityId": "E72C5674-260F-4145-9F0C-B5E554D96A3B",
+        "isLiveActivityUpdateTokenEvent": true,
+        "token": "8059c67e2aa41358f645dd4e7e7e5fe1e71525a0ccddab80b27a7874e360c81e065cd6fab970eb05630a459e2d1a76d5991b50630c060f087ba1d6a6f0d13148acc2291b7b8f0a779bbe1389b93e7b6dec450cfda31c9f37901c27623bab26cb1b762719720c84f18a4e1286179970015ce8b230500ed92c06b535086427aefd",
+        "attributeType": "AirplaneTrackingAttributes",
+        "liveActivityID": "Flight3"
+      }
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "ffbea835-8829-4155-8861-3e8f3ac6be4f",
+    "eventNumber": 132,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070712064,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventData": {
+        "xdm": {
+          "eventType": "liveActivity.start",
+          "liveActivity": {
+            "origin": "local",
+            "appID": "com.adobe.MessagingDemoAppSwiftUI",
+            "liveActivityID": "Flight3"
+          }
+        }
+      },
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventName": "Live Activity start to Edge",
+      "ACPExtensionEventUniqueIdentifier": "57AC56B2-6A4B-4CF0-A197-8606BA1C0F7B",
+      "ACPExtensionEventParentIdentifier": "56C31623-F7B9-4EBA-8509-E8B9CDE9C35B",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventTimestamp": 1749070712062.326
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "11e7175a-2fe0-43e2-8801-5bd834c50a50",
+    "eventNumber": 131,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070712062,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity updated",
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug",
+      "ACPExtensionEventData": {
+        "appleLiveActivityId": "E72C5674-260F-4145-9F0C-B5E554D96A3B",
+        "contentState": { "journeyProgress": 0 },
+        "isLiveActivityTrackStateEvent": true,
+        "liveActivityID": "Flight3",
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventUniqueIdentifier": "047C499D-E8B3-499A-8829-AE043C201209",
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventTimestamp": 1749070712060.69
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "5ce7dedc-45b0-4afe-b64a-f1be4653ad01",
+    "eventNumber": 130,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070712061,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventData": {
+        "appleLiveActivityId": "E72C5674-260F-4145-9F0C-B5E554D96A3B",
+        "attributeType": "AirplaneTrackingAttributes",
+        "liveActivityID": "Flight3",
+        "origin": {},
+        "isLiveActivityTrackStartEvent": true
+      },
+      "ACPExtensionEventTimestamp": 1749070712060.3308,
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "56C31623-F7B9-4EBA-8509-E8B9CDE9C35B",
+      "ACPExtensionEventName": "Live Activity start event",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start event",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "c7ee5d80-8193-4ec9-a254-8f61da446649",
+    "eventNumber": 125,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070705080,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventParentIdentifier": "3C61608B-8DEC-4E60-A8B5-2A392793B2B4",
+      "ACPExtensionEventUniqueIdentifier": "594BADB3-5F5B-4997-A6D1-FC0A25028A60",
+      "ACPExtensionEventTimestamp": 1749070705070.6538,
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.updateToken" },
+        "data": {
+          "liveActivityID": "Flight2",
+          "token": "80f216f1c190a19976804d7023f391e87ca470ac9c7796b5b7df198148eb24de2d5124517f729a367f60c30e38f35021b3ac85f3c33c41d4883a42373002102b2d01d14d8a75e92fa891a5a899e440ef45cf7fb61d580f159fec92e8fb0560f45722454d85034c1b79075a4f96e3c0513a00b57593043d3c58c9715514d34ea3"
+        }
+      }
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "f5e47679-7baa-4d8b-999a-f3352777ecc5",
+    "eventNumber": 123,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070705072,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventParentIdentifier": "2D685F4F-AA35-4F4E-AEA6-CC517FBAF3F3",
+      "ACPExtensionEventTimestamp": 1749070705066.701,
+      "ACPExtensionEventUniqueIdentifier": "F5C612F0-F7B9-4955-9684-6025C632E9D1",
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.updateToken" },
+        "data": {
+          "liveActivityID": "Flight1",
+          "token": "8056db56786610883fa7389696dc39f3050acf6f0597bbf54e32b6a77bf3c09a4d95e6065c38ce5caae088889e0d54206e4e2a44fb43e9bfccbf27f32ee5456e32b938e36254f3a3d54bc2602df5ded10312ab47c04dd064209c11a795cc1e9c8a9fb04cb94969d7d3d8ab956b149a2e0a497019a042aa589cbd2a0ee602bfa0"
+        }
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.edge"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "d942ae2e-a2b4-4b82-9246-f763e8a5ba71",
+    "eventNumber": 121,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070705064,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "3C61608B-8DEC-4E60-A8B5-2A392793B2B4",
+      "ACPExtensionEventTimestamp": 1749070705060.645,
+      "ACPExtensionEventData": {
+        "isLiveActivityUpdateTokenEvent": true,
+        "liveActivityID": "Flight2",
+        "attributeType": "AirplaneTrackingAttributes",
+        "token": "80f216f1c190a19976804d7023f391e87ca470ac9c7796b5b7df198148eb24de2d5124517f729a367f60c30e38f35021b3ac85f3c33c41d4883a42373002102b2d01d14d8a75e92fa891a5a899e440ef45cf7fb61d580f159fec92e8fb0560f45722454d85034c1b79075a4f96e3c0513a00b57593043d3c58c9715514d34ea3",
+        "appleLiveActivityId": "493EC80D-00EC-49CF-A64F-82B1192EF946"
+      },
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "a10e7d61-2625-4882-99b9-ba8413ac5448",
+    "eventNumber": 120,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070705064,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "2D685F4F-AA35-4F4E-AEA6-CC517FBAF3F3",
+      "ACPExtensionEventTimestamp": 1749070705059.065,
+      "ACPExtensionEventData": {
+        "appleLiveActivityId": "243318EA-7CB4-4456-AABC-A6234E717A3A",
+        "liveActivityID": "Flight1",
+        "attributeType": "AirplaneTrackingAttributes",
+        "token": "8056db56786610883fa7389696dc39f3050acf6f0597bbf54e32b6a77bf3c09a4d95e6065c38ce5caae088889e0d54206e4e2a44fb43e9bfccbf27f32ee5456e32b938e36254f3a3d54bc2602df5ded10312ab47c04dd064209c11a795cc1e9c8a9fb04cb94969d7d3d8ab956b149a2e0a497019a042aa589cbd2a0ee602bfa0",
+        "isLiveActivityUpdateTokenEvent": true
+      },
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "6dfb0442-9337-4c04-84ad-9f574e5b0551",
+    "eventNumber": 119,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070705062,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070705058.892,
+      "ACPExtensionEventData": {
+        "attributeType": "AirplaneTrackingAttributes",
+        "isLiveActivityPushToStartTokenEvent": true,
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349"
+      },
+      "ACPExtensionEventName": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "C7973BCA-52F6-4766-8660-AD108E39C42B"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "d0997fa2-958c-4361-be0c-61a77888b75f",
+    "eventNumber": 118,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070705061,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "C1F11351-D6C3-4764-B14C-CBC3DA109495",
+      "ACPExtensionEventName": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+      "ACPExtensionEventData": {
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "isLiveActivityPushToStartTokenEvent": true,
+        "attributeType": "GameScoreLiveActivityAttributes"
+      },
+      "ACPExtensionEventTimestamp": 1749070705058.833,
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "ec5a11f0-27b5-4e27-9e0c-c12e2cc40469",
+    "eventNumber": 117,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070705061,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "6191F924-E3C5-46B7-BF46-5DA78CC78058",
+      "ACPExtensionEventName": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+      "ACPExtensionEventData": {
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "isLiveActivityPushToStartTokenEvent": true,
+        "attributeType": "FoodDeliveryLiveActivityAttributes"
+      },
+      "ACPExtensionEventTimestamp": 1749070705058.836,
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "6277aed0-2e7d-4a78-baaf-332da2e2b25d",
+    "eventNumber": 114,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070703969,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventTimestamp": 1749070703966.962,
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventParentIdentifier": "42FAE4CA-BD65-4842-93EA-05EB15424225",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventName": "Live Activity start to Edge",
+      "ACPExtensionEventUniqueIdentifier": "ECFA9AA6-8296-4EBB-BCB4-47635DA7A272",
+      "ACPExtensionEventData": {
+        "xdm": {
+          "liveActivity": {
+            "appID": "com.adobe.MessagingDemoAppSwiftUI",
+            "liveActivityID": "Flight2",
+            "origin": "local"
+          },
+          "eventType": "liveActivity.start"
+        }
+      }
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "8fb09e0c-9812-41b2-88ed-223de1892420",
+    "eventNumber": 113,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070703967,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity updated",
+      "ACPExtensionEventTimestamp": 1749070703965.6802,
+      "ACPExtensionEventUniqueIdentifier": "1CE9C7F9-FF2F-491C-8F77-23CBADEDF0C1",
+      "ACPExtensionEventData": {
+        "isLiveActivityTrackStateEvent": true,
+        "liveActivityID": "Flight2",
+        "contentState": { "journeyProgress": 0 },
+        "appleLiveActivityId": "493EC80D-00EC-49CF-A64F-82B1192EF946",
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "7aa9e0ba-515a-4050-8b95-114d5628b0b7",
+    "eventNumber": 112,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070703966,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity start event",
+      "ACPExtensionEventTimestamp": 1749070703965.373,
+      "ACPExtensionEventUniqueIdentifier": "42FAE4CA-BD65-4842-93EA-05EB15424225",
+      "ACPExtensionEventData": {
+        "origin": {},
+        "liveActivityID": "Flight2",
+        "isLiveActivityTrackStartEvent": true,
+        "appleLiveActivityId": "493EC80D-00EC-49CF-A64F-82B1192EF946",
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start event",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "7e66934e-95b8-4f14-b026-8442cae1d079",
+    "eventNumber": 109,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070698441,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventParentIdentifier": "99160B5F-3CFB-4635-AB70-7FC5F4948309",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventTimestamp": 1749070698435.7869,
+      "ACPExtensionEventData": {
+        "data": {
+          "liveActivityID": "Flight1",
+          "token": "8056db56786610883fa7389696dc39f3050acf6f0597bbf54e32b6a77bf3c09a4d95e6065c38ce5caae088889e0d54206e4e2a44fb43e9bfccbf27f32ee5456e32b938e36254f3a3d54bc2602df5ded10312ab47c04dd064209c11a795cc1e9c8a9fb04cb94969d7d3d8ab956b149a2e0a497019a042aa589cbd2a0ee602bfa0"
+        },
+        "xdm": { "eventType": "liveActivity.updateToken" }
+      },
+      "ACPExtensionEventUniqueIdentifier": "C145C828-4DAE-4A8F-ACD1-7715AA73AFFF",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "e28396da-d99a-478d-bcdc-b62328fe6dc7",
+    "eventNumber": 107,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070698434,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventData": {
+        "appleLiveActivityId": "243318EA-7CB4-4456-AABC-A6234E717A3A",
+        "isLiveActivityUpdateTokenEvent": true,
+        "liveActivityID": "Flight1",
+        "attributeType": "AirplaneTrackingAttributes",
+        "token": "8056db56786610883fa7389696dc39f3050acf6f0597bbf54e32b6a77bf3c09a4d95e6065c38ce5caae088889e0d54206e4e2a44fb43e9bfccbf27f32ee5456e32b938e36254f3a3d54bc2602df5ded10312ab47c04dd064209c11a795cc1e9c8a9fb04cb94969d7d3d8ab956b149a2e0a497019a042aa589cbd2a0ee602bfa0"
+      },
+      "ACPExtensionEventTimestamp": 1749070698429.054,
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "99160B5F-3CFB-4635-AB70-7FC5F4948309",
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "ae6258ed-15e5-468c-af53-7f00f46c6b1d",
+    "eventNumber": 106,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070698433,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventData": {
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "attributeType": "GameScoreLiveActivityAttributes",
+        "isLiveActivityPushToStartTokenEvent": true
+      },
+      "ACPExtensionEventTimestamp": 1749070698428.2188,
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "A3C46717-95B2-4C2B-BB70-8766823255AC",
+      "ACPExtensionEventName": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "b9d469a2-9abb-4241-ac1a-94dfd9cd9f10",
+    "eventNumber": 105,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070698432,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+      "ACPExtensionEventData": {
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "isLiveActivityPushToStartTokenEvent": true,
+        "attributeType": "FoodDeliveryLiveActivityAttributes"
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventTimestamp": 1749070698428.172,
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventUniqueIdentifier": "A336CEEC-BA0C-4AE6-9AC7-98B35DE54BEC"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "c61dfc18-4abd-4a10-8a80-979d70c9d4cb",
+    "eventNumber": 104,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070698430,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070698428.146,
+      "ACPExtensionEventUniqueIdentifier": "34682B96-065B-413C-B418-9E41B9BD4914",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventData": {
+        "attributeType": "AirplaneTrackingAttributes",
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "isLiveActivityPushToStartTokenEvent": true
+      },
+      "ACPExtensionEventName": "Live Activity push-to-start token (AirplaneTrackingAttributes)"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "f9bdabe7-7311-4018-a8e5-e7f7e0719826",
+    "eventNumber": 101,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070697346,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "93D8E60C-36A9-4850-ADB9-5E4BBA78124F",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "xdm": {
+          "liveActivity": {
+            "liveActivityID": "Flight1",
+            "appID": "com.adobe.MessagingDemoAppSwiftUI",
+            "origin": "local"
+          },
+          "eventType": "liveActivity.start"
+        }
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventName": "Live Activity start to Edge",
+      "ACPExtensionEventTimestamp": 1749070697344.043,
+      "ACPExtensionEventParentIdentifier": "ADA5D55A-8228-43D9-9141-A7A0D833454F"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "7d015187-d1b7-4d2c-ab30-3243e4ed7531",
+    "eventNumber": 100,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070697344,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug",
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventName": "Live Activity updated",
+      "ACPExtensionEventUniqueIdentifier": "C32A72BF-1CD0-46FC-A4E7-CCF8938439D5",
+      "ACPExtensionEventData": {
+        "attributeType": "AirplaneTrackingAttributes",
+        "liveActivityID": "Flight1",
+        "contentState": { "journeyProgress": 0 },
+        "appleLiveActivityId": "243318EA-7CB4-4456-AABC-A6234E717A3A",
+        "isLiveActivityTrackStateEvent": true
+      },
+      "ACPExtensionEventTimestamp": 1749070697341.852
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "76e671cd-22b3-4be4-bfa4-46ce642c259d",
+    "eventNumber": 99,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070697342,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventTimestamp": 1749070697341.521,
+      "ACPExtensionEventData": {
+        "attributeType": "AirplaneTrackingAttributes",
+        "liveActivityID": "Flight1",
+        "appleLiveActivityId": "243318EA-7CB4-4456-AABC-A6234E717A3A",
+        "origin": {},
+        "isLiveActivityTrackStartEvent": true
+      },
+      "ACPExtensionEventUniqueIdentifier": "ADA5D55A-8228-43D9-9141-A7A0D833454F",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventName": "Live Activity start event",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start event",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "76849c8a-35f7-4973-ae47-6bd6b3ff1651",
+    "eventNumber": 95,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070694102,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "EC4DCB0A-9399-4932-A611-5B0AA4C82799",
+      "ACPExtensionEventTimestamp": 1749070694101.1309,
+      "ACPExtensionEventName": "Live Activity dismissed",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "appleLiveActivityId": "7BFBF305-5EC1-4C43-9CF3-1ED230C75A66",
+        "isLiveActivityTrackStateEvent": true,
+        "liveActivityID": "Flight1",
+        "state": "dismissed",
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity dismissed",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "f1fc3033-067c-49cd-a5c1-d40cf73c8341",
+    "eventNumber": 93,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070691944,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity dismissed",
+      "ACPExtensionEventData": {
+        "liveActivityID": "Flight1",
+        "attributeType": "AirplaneTrackingAttributes",
+        "appleLiveActivityId": "FD6DB19A-044F-40E2-BAE3-B6D1F2232947",
+        "isLiveActivityTrackStateEvent": true,
+        "state": "dismissed"
+      },
+      "ACPExtensionEventUniqueIdentifier": "38E8681E-2B00-4EDB-AE7B-FB739BB1E8FD",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventTimestamp": 1749070691942.755
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity dismissed",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "3c493200-fe47-427d-8154-7a536a7aeaee",
+    "eventNumber": 86,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070675961,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventParentIdentifier": "594F3599-4149-4B37-8BC4-EA822D777B8B",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventTimestamp": 1749070675958.552,
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.updateToken" },
+        "data": {
+          "liveActivityID": "Flight1",
+          "token": "804d1e972fd677f99b8c1c87d18c7471b99f6cab6bc82e896424cee08d4756bd3aa41a4b6aafaafce7d99f1367b133eb9db380611b3f53a7f574d00571d017e19788b2ef58b24821f29a2a9251cd8282e1f9d9fa4d5d501e8c98b6f850f797c75cc6803e53cf31a33b6e1dd2140f0ecdae3833867a1267f9a667998dcc1d4489"
+        }
+      },
+      "ACPExtensionEventUniqueIdentifier": "94D3D123-BA7A-46D2-AD1D-288612455704"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "a7f91cff-7e27-4a87-977c-ce291404d386",
+    "eventNumber": 84,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070675959,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventName": "Live Activity update token to Edge",
+      "ACPExtensionEventParentIdentifier": "4D33420F-BB09-4E2E-BB85-9B8A1FE9C937",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventTimestamp": 1749070675957.0232,
+      "ACPExtensionEventData": {
+        "data": {
+          "token": "808413d281495a08a34f0dd1ad9a137f8e895584158a9b6506ee00350bbaf4ceca9ba1f5d6f3de7849c3790dc41e9b2a2f2b3634729cffefa480f57da575b8db91f53c10bebc75ad4e1b908cde308b8284644c6f3105efacf2d7dd26410b629ad6e9ad074ccdb5e3f6a54e225d1e37529f3e4456f0a36f6c08d566a8b7b8acc2",
+          "liveActivityID": "Flight1"
+        },
+        "xdm": { "eventType": "liveActivity.updateToken" }
+      },
+      "ACPExtensionEventUniqueIdentifier": "A9EC8BA2-5011-4C3B-B280-6DADE4F8E81C"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "e314c2db-739a-42b4-a512-e2fb4c515f39",
+    "eventNumber": 82,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070675950,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "token": "804d1e972fd677f99b8c1c87d18c7471b99f6cab6bc82e896424cee08d4756bd3aa41a4b6aafaafce7d99f1367b133eb9db380611b3f53a7f574d00571d017e19788b2ef58b24821f29a2a9251cd8282e1f9d9fa4d5d501e8c98b6f850f797c75cc6803e53cf31a33b6e1dd2140f0ecdae3833867a1267f9a667998dcc1d4489",
+        "appleLiveActivityId": "7BFBF305-5EC1-4C43-9CF3-1ED230C75A66",
+        "liveActivityID": "Flight1",
+        "isLiveActivityUpdateTokenEvent": true,
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventTimestamp": 1749070675947.8801,
+      "ACPExtensionEventName": "Live Activity update token",
+      "ACPExtensionEventUniqueIdentifier": "594F3599-4149-4B37-8BC4-EA822D777B8B"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "8277c49d-e809-4ed3-b64b-32af816aa523",
+    "eventNumber": 81,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070675950,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventUniqueIdentifier": "4D33420F-BB09-4E2E-BB85-9B8A1FE9C937",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "attributeType": "AirplaneTrackingAttributes",
+        "isLiveActivityUpdateTokenEvent": true,
+        "liveActivityID": "Flight1",
+        "token": "808413d281495a08a34f0dd1ad9a137f8e895584158a9b6506ee00350bbaf4ceca9ba1f5d6f3de7849c3790dc41e9b2a2f2b3634729cffefa480f57da575b8db91f53c10bebc75ad4e1b908cde308b8284644c6f3105efacf2d7dd26410b629ad6e9ad074ccdb5e3f6a54e225d1e37529f3e4456f0a36f6c08d566a8b7b8acc2",
+        "appleLiveActivityId": "FD6DB19A-044F-40E2-BAE3-B6D1F2232947"
+      },
+      "ACPExtensionEventTimestamp": 1749070675947.4539,
+      "ACPExtensionEventName": "Live Activity update token"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity update token",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "e3cb0d62-7c18-4d75-a733-afdf19455ec6",
+    "eventNumber": 80,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070675949,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventData": {
+        "isLiveActivityPushToStartTokenEvent": true,
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "attributeType": "GameScoreLiveActivityAttributes"
+      },
+      "ACPExtensionEventName": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+      "ACPExtensionEventTimestamp": 1749070675946.521,
+      "ACPExtensionEventUniqueIdentifier": "E2355067-6CA2-449A-B26B-F9A83367D5A4"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "ea91209b-3506-4b12-b64b-1bd7c37369e0",
+    "eventNumber": 79,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070675948,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventData": {
+        "isLiveActivityPushToStartTokenEvent": true,
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "attributeType": "FoodDeliveryLiveActivityAttributes"
+      },
+      "ACPExtensionEventName": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+      "ACPExtensionEventUniqueIdentifier": "0A5E22A2-00DE-45D5-9783-C20601F1DEC9",
+      "ACPExtensionEventTimestamp": 1749070675946.205,
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "e8b465bc-2e77-4905-bb21-bb915a954ac9",
+    "eventNumber": 78,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070675948,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070675946.166,
+      "ACPExtensionEventName": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+      "ACPExtensionEventData": {
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "attributeType": "AirplaneTrackingAttributes",
+        "isLiveActivityPushToStartTokenEvent": true
+      },
+      "ACPExtensionEventUniqueIdentifier": "D19C5C97-E9A2-47AD-8FB2-DEEE721853BD"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "a3689d4f-8274-4207-9070-97653e9de242",
+    "eventNumber": 73,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070674866,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventParentIdentifier": "7A1B1A33-FEC2-4390-ACC5-A6629250E281",
+      "ACPExtensionEventName": "Live Activity start to Edge",
+      "ACPExtensionEventUniqueIdentifier": "53041C98-08EA-4A3F-AF65-E6BDB052029F",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventTimestamp": 1749070674864.028,
+      "ACPExtensionEventData": {
+        "xdm": {
+          "liveActivity": {
+            "origin": "local",
+            "liveActivityID": "Flight1",
+            "appID": "com.adobe.MessagingDemoAppSwiftUI"
+          },
+          "eventType": "liveActivity.start"
+        }
+      },
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "78ff41cd-692a-49dc-ac6b-1c7edac3a773",
+    "eventNumber": 72,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070674864,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug",
+      "ACPExtensionEventData": {
+        "appleLiveActivityId": "FD6DB19A-044F-40E2-BAE3-B6D1F2232947",
+        "contentState": { "journeyProgress": 0 },
+        "liveActivityID": "Flight1",
+        "isLiveActivityTrackStateEvent": true,
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventTimestamp": 1749070674862.525,
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventName": "Live Activity updated",
+      "ACPExtensionEventUniqueIdentifier": "49AADF76-F72C-46C8-91A9-903FD7103D1A"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "0456ccee-db5a-48db-b797-2061350d1a28",
+    "eventNumber": 71,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070674863,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventTimestamp": 1749070674862.3171,
+      "ACPExtensionEventData": {
+        "appleLiveActivityId": "FD6DB19A-044F-40E2-BAE3-B6D1F2232947",
+        "isLiveActivityTrackStartEvent": true,
+        "origin": {},
+        "liveActivityID": "Flight1",
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventName": "Live Activity start event",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventUniqueIdentifier": "7A1B1A33-FEC2-4390-ACC5-A6629250E281",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start event",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "6d058838-514f-49fe-a875-3b8ecbcdad80",
+    "eventNumber": 70,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070674560,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventData": {
+        "xdm": {
+          "liveActivity": {
+            "liveActivityID": "Flight1",
+            "origin": "local",
+            "appID": "com.adobe.MessagingDemoAppSwiftUI"
+          },
+          "eventType": "liveActivity.start"
+        }
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventParentIdentifier": "1A3581E6-905B-474A-8561-2BA0D44FDC2F",
+      "ACPExtensionEventUniqueIdentifier": "DFE3E89E-C7C3-42E2-A794-2CE2C459F17E",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventName": "Live Activity start to Edge",
+      "ACPExtensionEventTimestamp": 1749070674558.6582
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "df1c4bf7-a471-4426-93f0-edf675032b1b",
+    "eventNumber": 69,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070674559,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventData": {
+        "attributeType": "AirplaneTrackingAttributes",
+        "isLiveActivityTrackStateEvent": true,
+        "appleLiveActivityId": "7BFBF305-5EC1-4C43-9CF3-1ED230C75A66",
+        "liveActivityID": "Flight1",
+        "contentState": { "journeyProgress": 0 }
+      },
+      "ACPExtensionEventTimestamp": 1749070674557.539,
+      "ACPExtensionEventName": "Live Activity updated",
+      "ACPExtensionEventType": "com.adobe.eventtype.generic.data",
+      "ACPExtensionEventUniqueIdentifier": "D410FB4E-5584-4768-8BF4-33F2DD8E4C9C",
+      "ACPExtensionEventSource": "com.adobe.eventsource.debug"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity updated",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "1812d1d9-4521-40ca-97cd-501eb3435a43",
+    "eventNumber": 68,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070674558,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventTimestamp": 1749070674556.237,
+      "ACPExtensionEventData": {
+        "liveActivityID": "Flight1",
+        "appleLiveActivityId": "7BFBF305-5EC1-4C43-9CF3-1ED230C75A66",
+        "isLiveActivityTrackStartEvent": true,
+        "attributeType": "AirplaneTrackingAttributes",
+        "origin": {}
+      },
+      "ACPExtensionEventUniqueIdentifier": "1A3581E6-905B-474A-8561-2BA0D44FDC2F",
+      "ACPExtensionEventName": "Live Activity start event",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity start event",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "ed8b1e2c-607f-4678-bf8e-6a9a0d9585e0",
+    "eventNumber": 43,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070640898,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "xdm": { "eventType": "liveActivity.pushToStart" },
+        "data": {
+          "liveActivityPushNotificationDetails": [
+            {
+              "denylisted": false,
+              "platform": "apnsSandbox",
+              "liveActivityAttributeType": "GameScoreLiveActivityAttributes",
+              "identity": {
+                "namespace": { "code": "ECID" },
+                "id": "90296481826512371504715314516119412966"
+              },
+              "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+              "appID": "com.adobe.MessagingDemoAppSwiftUI"
+            },
+            {
+              "platform": "apnsSandbox",
+              "denylisted": false,
+              "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+              "liveActivityAttributeType": "AirplaneTrackingAttributes",
+              "identity": {
+                "namespace": { "code": "ECID" },
+                "id": "90296481826512371504715314516119412966"
+              },
+              "appID": "com.adobe.MessagingDemoAppSwiftUI"
+            },
+            {
+              "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+              "platform": "apnsSandbox",
+              "identity": {
+                "namespace": { "code": "ECID" },
+                "id": "90296481826512371504715314516119412966"
+              },
+              "appID": "com.adobe.MessagingDemoAppSwiftUI",
+              "denylisted": false,
+              "liveActivityAttributeType": "FoodDeliveryLiveActivityAttributes"
+            }
+          ]
+        }
+      },
+      "ACPExtensionEventParentIdentifier": "7185A1BE-EE51-43B6-B13D-EB86F24DB81F",
+      "ACPExtensionEventName": "Live Activity push-to-start token to Edge",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventTimestamp": 1749070640896.1912,
+      "ACPExtensionEventUniqueIdentifier": "DA95E1A3-30BB-459E-80AA-150B549F4F9E"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "d56a721c-82b5-4b6b-aaab-518f2a30eace",
+    "eventNumber": 41,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070640895,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "data": {
+          "liveActivityPushNotificationDetails": [
+            {
+              "denylisted": false,
+              "platform": "apnsSandbox",
+              "liveActivityAttributeType": "GameScoreLiveActivityAttributes",
+              "identity": {
+                "id": "90296481826512371504715314516119412966",
+                "namespace": { "code": "ECID" }
+              },
+              "token": "8009f4998625dae1266cfb8b24f9db1a5858e343278f169ee60bbbb82ae49f00a658b28131b1194f720719fdf88269de8a8604f7f7e99c6ddb36a4f6f820e2e7c78666343b82bd1d98e06fabf897926f2eb06867601efe37ea08160252b3219c2d1b543c4c9d6b9d42c1c49083e738372f6afda4a158a0011a5ae8850f821f98",
+              "appID": "com.adobe.MessagingDemoAppSwiftUI"
+            },
+            {
+              "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+              "platform": "apnsSandbox",
+              "identity": {
+                "id": "90296481826512371504715314516119412966",
+                "namespace": { "code": "ECID" }
+              },
+              "appID": "com.adobe.MessagingDemoAppSwiftUI",
+              "denylisted": false,
+              "liveActivityAttributeType": "AirplaneTrackingAttributes"
+            },
+            {
+              "platform": "apnsSandbox",
+              "denylisted": false,
+              "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+              "liveActivityAttributeType": "FoodDeliveryLiveActivityAttributes",
+              "identity": {
+                "namespace": { "code": "ECID" },
+                "id": "90296481826512371504715314516119412966"
+              },
+              "appID": "com.adobe.MessagingDemoAppSwiftUI"
+            }
+          ]
+        },
+        "xdm": { "eventType": "liveActivity.pushToStart" }
+      },
+      "ACPExtensionEventParentIdentifier": "98CBAEA9-DF7E-4B4E-AFAC-0BE65B72771F",
+      "ACPExtensionEventName": "Live Activity push-to-start token to Edge",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventTimestamp": 1749070640891.259,
+      "ACPExtensionEventUniqueIdentifier": "6A76DA86-DEEA-47F8-8BFC-D3A32BE99165"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "0cc1f837-7010-4867-b424-16390c07ce61",
+    "eventNumber": 39,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070640874,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventData": {
+        "data": {
+          "liveActivityPushNotificationDetails": [
+            {
+              "denylisted": false,
+              "platform": "apnsSandbox",
+              "liveActivityAttributeType": "GameScoreLiveActivityAttributes",
+              "identity": {
+                "namespace": { "code": "ECID" },
+                "id": "90296481826512371504715314516119412966"
+              },
+              "token": "8009f4998625dae1266cfb8b24f9db1a5858e343278f169ee60bbbb82ae49f00a658b28131b1194f720719fdf88269de8a8604f7f7e99c6ddb36a4f6f820e2e7c78666343b82bd1d98e06fabf897926f2eb06867601efe37ea08160252b3219c2d1b543c4c9d6b9d42c1c49083e738372f6afda4a158a0011a5ae8850f821f98",
+              "appID": "com.adobe.MessagingDemoAppSwiftUI"
+            },
+            {
+              "platform": "apnsSandbox",
+              "denylisted": false,
+              "token": "8009f4998625dae1266cfb8b24f9db1a5858e343278f169ee60bbbb82ae49f00a658b28131b1194f720719fdf88269de8a8604f7f7e99c6ddb36a4f6f820e2e7c78666343b82bd1d98e06fabf897926f2eb06867601efe37ea08160252b3219c2d1b543c4c9d6b9d42c1c49083e738372f6afda4a158a0011a5ae8850f821f98",
+              "liveActivityAttributeType": "AirplaneTrackingAttributes",
+              "identity": {
+                "namespace": { "code": "ECID" },
+                "id": "90296481826512371504715314516119412966"
+              },
+              "appID": "com.adobe.MessagingDemoAppSwiftUI"
+            },
+            {
+              "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+              "platform": "apnsSandbox",
+              "identity": {
+                "namespace": { "code": "ECID" },
+                "id": "90296481826512371504715314516119412966"
+              },
+              "appID": "com.adobe.MessagingDemoAppSwiftUI",
+              "denylisted": false,
+              "liveActivityAttributeType": "FoodDeliveryLiveActivityAttributes"
+            }
+          ]
+        },
+        "xdm": { "eventType": "liveActivity.pushToStart" }
+      },
+      "ACPExtensionEventParentIdentifier": "43D67CCA-CCB5-4574-820F-68FFFC36D43C",
+      "ACPExtensionEventName": "Live Activity push-to-start token to Edge",
+      "ACPExtensionEventType": "com.adobe.eventtype.edge",
+      "ACPExtensionEventTimestamp": 1749070640872.2349,
+      "ACPExtensionEventUniqueIdentifier": "83A91E37-CAF5-4E3E-8525-33C9FE6D1538"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token to Edge",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "2154c897-4ebb-4fab-a50d-22adb4b6ed59",
+    "eventNumber": 37,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070640865,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+      "ACPExtensionEventData": {
+        "isLiveActivityPushToStartTokenEvent": true,
+        "attributeType": "GameScoreLiveActivityAttributes",
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349"
+      },
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventTimestamp": 1749070640857.9888,
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventUniqueIdentifier": "7185A1BE-EE51-43B6-B13D-EB86F24DB81F"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (GameScoreLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "a045eae8-09af-40a2-98b6-a6382b4d7d83",
+    "eventNumber": 36,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070640864,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventTimestamp": 1749070640857.815,
+      "ACPExtensionEventName": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventData": {
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "isLiveActivityPushToStartTokenEvent": true,
+        "attributeType": "AirplaneTrackingAttributes"
+      },
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventUniqueIdentifier": "98CBAEA9-DF7E-4B4E-AFAC-0BE65B72771F"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (AirplaneTrackingAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "756531b5-8b1c-462a-aa53-6e4d89f10db8",
+    "eventNumber": 35,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070640863,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventTimestamp": 1749070640857.816,
+      "ACPExtensionEventName": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventData": {
+        "token": "802e53fe3ebf27fddfc5948edbced4d78a897e38228ef3db42c57e96939dc00a5fbe58fbd6f4858843699cf867621522cc22ff13404d475a3633f43694a18e960b2dc2c346fef52bfb8020fbcff9cd9bf9184de73371aa50c14f294bd0453cfe76b36ad31c51dd00968498a421494a38caa98063ba95a10e2b3340577f22d349",
+        "isLiveActivityPushToStartTokenEvent": true,
+        "attributeType": "FoodDeliveryLiveActivityAttributes"
+      },
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventUniqueIdentifier": "43D67CCA-CCB5-4574-820F-68FFFC36D43C"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity push-to-start token (FoodDeliveryLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "ca6cc085-a199-4143-869d-6f1cf204d7b3",
+    "eventNumber": 3,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070639776,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity Assurance Debug for type (GameScoreLiveActivityAttributes)",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070639727.005,
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventData": {
+        "examplePayload": {
+          "content-state": {
+            "awayTeamScore": 34,
+            "statusText": "Nail biting finish. Tune in",
+            "homeTeamScore": 32
+          },
+          "attributes": { "liveActivityData": { "origin": {}, "liveActivityID": "game244" } },
+          "attributes-type": "GameScoreLiveActivityAttributes"
+        },
+        "jsonSchema": {
+          "attributes": {
+            "type": "object",
+            "required": ["liveActivityData"],
+            "properties": {
+              "liveActivityData": {
+                "properties": {
+                  "channelID": { "type": ["null"] },
+                  "liveActivityID": { "type": ["string", "null"] },
+                  "origin": { "type": "object" }
+                },
+                "type": "object",
+                "required": ["origin"]
+              }
+            }
+          },
+          "attributes-type": "GameScoreLiveActivityAttributes",
+          "content-state": {
+            "required": ["homeTeamScore", "awayTeamScore", "statusText"],
+            "type": "object",
+            "properties": {
+              "homeTeamScore": { "type": "integer" },
+              "awayTeamScore": { "type": "integer" },
+              "statusText": { "type": "string" }
+            }
+          }
+        }
+      },
+      "ACPExtensionEventUniqueIdentifier": "9BBC6941-5830-4426-83F7-1EC82A05FC25"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity Assurance Debug for type (GameScoreLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "6cbb4d7a-e7c5-49a9-82a1-d332b16ad2cf",
+    "eventNumber": 2,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070639774,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity Assurance Debug for type (FoodDeliveryLiveActivityAttributes)",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070639723.922,
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventData": {
+        "examplePayload": {
+          "content-state": { "orderStatus": "Ordered" },
+          "attributes": {
+            "liveActivityData": { "origin": {}, "liveActivityID": "order52d224dafd5g" },
+            "restaurantName": "Chuck E. Cheese"
+          },
+          "attributes-type": "FoodDeliveryLiveActivityAttributes"
+        },
+        "jsonSchema": {
+          "attributes": {
+            "properties": {
+              "restaurantName": { "type": "string" },
+              "liveActivityData": {
+                "required": ["origin"],
+                "properties": {
+                  "channelID": { "type": ["null"] },
+                  "liveActivityID": { "type": ["string", "null"] },
+                  "origin": { "type": "object" }
+                },
+                "type": "object"
+              }
+            },
+            "required": ["liveActivityData", "restaurantName"],
+            "type": "object"
+          },
+          "content-state": {
+            "required": ["orderStatus"],
+            "type": "object",
+            "properties": { "orderStatus": { "type": "string" } }
+          },
+          "attributes-type": "FoodDeliveryLiveActivityAttributes"
+        }
+      },
+      "ACPExtensionEventUniqueIdentifier": "1214F87A-C24A-440C-B14D-4CBE8BB6B86F"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity Assurance Debug for type (FoodDeliveryLiveActivityAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  },
+  {
+    "uuid": "7ccda38f-c474-4861-b0bd-d17365ded0a0",
+    "eventNumber": 1,
+    "clientId": "a4d1583e-d800-4d74-9a55-eaae89965672",
+    "timestamp": 1749070639773,
+    "vendor": "com.adobe.griffon.mobile",
+    "type": "generic",
+    "payload": {
+      "ACPExtensionEventName": "Live Activity Assurance Debug for type (AirplaneTrackingAttributes)",
+      "ACPExtensionEventSource": "com.adobe.eventsource.requestcontent",
+      "ACPExtensionEventTimestamp": 1749070639720.766,
+      "ACPExtensionEventType": "com.adobe.eventtype.messaging",
+      "ACPExtensionEventData": {
+        "jsonSchema": {
+          "attributes": {
+            "required": [
+              "liveActivityData",
+              "arrivalAirport",
+              "departureAirport",
+              "arrivalTerminal"
+            ],
+            "type": "object",
+            "properties": {
+              "departureAirport": { "type": "string" },
+              "arrivalAirport": { "type": "string" },
+              "arrivalTerminal": { "type": "string" },
+              "liveActivityData": {
+                "properties": {
+                  "origin": { "type": "object" },
+                  "liveActivityID": { "type": ["null"] },
+                  "channelID": { "type": ["string", "null"] }
+                },
+                "type": "object",
+                "required": ["origin"]
+              }
+            }
+          },
+          "attributes-type": "AirplaneTrackingAttributes",
+          "content-state": {
+            "properties": { "journeyProgress": { "type": "integer" } },
+            "type": "object",
+            "required": ["journeyProgress"]
+          }
+        },
+        "examplePayload": {
+          "attributes": {
+            "arrivalAirport": "SFO",
+            "arrivalTerminal": "Terminal 3",
+            "liveActivityData": { "channelID": "channelID", "origin": {} },
+            "departureAirport": "MIA"
+          },
+          "content-state": { "journeyProgress": 0 },
+          "attributes-type": "AirplaneTrackingAttributes"
+        }
+      },
+      "ACPExtensionEventUniqueIdentifier": "21D4E380-6823-4633-B347-E8F721ABDAE8"
+    },
+    "annotations": [],
+    "_internal_adb_props.label": "Live Activity Assurance Debug for type (AirplaneTrackingAttributes)",
+    "_internal_annotations.visibility.payload.important": ""
+  }
+]

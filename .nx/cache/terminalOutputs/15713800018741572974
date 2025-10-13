@@ -1,0 +1,45 @@
+[2K[1G[1myarn run v1.22.22[22m
+[2K[1G[2m$ parcel build src/index.ts --cache-dir ./.parcel-cache --no-cache[22m
+[0J[0J[?25l[32m⠋[39m [90m[1mBuilding index.ts...[22m[39m
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[2K[1G[1A[2K[1G[32m⠙[39m [90m[1mBuilding index.ts...[22m[39m
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[2K[1G[1A[2K[1G[32m⠹[39m [90m[1mBuilding index.ts...[22m[39m
+[2K[1G[1A[2K[1G[32m⠸[39m [90m[1mBuilding index.ts...[22m[39m
+[2K[1G[1A[2K[1G[32m⠼[39m [90m[1mBuilding index.ts...[22m[39m
+[2K[1G[1A[2K[1G[32m⠴[39m [90m[1mBuilding index.ts...[22m[39m
+[2K[1G[1A[2K[1G[32m⠦[39m [90m[1mBuilding index.ts...[22m[39m
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[0J[0J[2K[1G[1A[2K[1G[?25h🚨 [31m[1mBuild failed.[22m[39m
+
+[31m[1m@parcel/core[22m: Failed to resolve 'react' from './packages/common/common-utils/src/useResizePanel.ts'[39m
+
+  [90m[4m/Users/mashraf/Desktop/adobe-codes/assurance-plugins/packages/common/common-utils/src/useResizePanel.ts:18:58[24m[39m
+    17 | 
+  [31m>[39m 18 | [32mimport[39m { useCallback, useEffect, useRef, useState } [32mfrom[39m [36m'react'[39m;
+  [31m>[39m    |                                                          [31m^^^^^^^[39m
+    19 | 
+    20 | [32mimport[39m { useDocumentStyles } [32mfrom[39m [36m'./useDocumentStyles'[39m;
+
+[31m[1m@parcel/resolver-default[22m: External dependency "react" is not declared in package.json.[39m
+
+  [90m[4m/Users/mashraf/Desktop/adobe-codes/assurance-plugins/packages/common/common-utils/package.json:17:3[24m[39m
+    16 |   },
+  [31m>[39m 17 |   [33m"dependencies"[39m: {
+  [31m>[39m    |   [31m^^^^^^^^^^^^^^[39m
+    18 |     [33m"ramda"[39m: [36m"^0.29.1"[39m
+    19 |   },
+
+  💡 [34m[1mAdd "react" as a dependency.[22m[39m
+
+[?25h[2K[1G[31merror[39m Command failed with exit code 1.
+[2K[1G[34minfo[39m Visit [1mhttps://yarnpkg.com/en/docs/cli/run[22m for documentation about this command.

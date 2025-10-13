@@ -1,0 +1,45 @@
+.activityDetails {
+  .noActivityHeading {
+    font-size: var(--spectrum-global-dimension-size-100);
+    color: var(--spectrum-global-color-gray-700);
+  }
+
+  .noActivityText {
+    font-size: var(--spectrum-global-dimension-size-100);
+    color: var(--spectrum-global-color-gray-700);
+  }
+
+  .activitySubtitle {
+    font-size: var(--spectrum-global-dimension-size-100);
+    color: var(--spectrum-global-color-gray-700);
+  }
+
+  .infoLabel {
+    font-weight: bold;
+    width: var(--spectrum-global-dimension-size-2000);
+  }
+
+  .statusText {
+    text-transform: capitalize;
+  }
+
+  .noEventsText {
+    font-size: var(--spectrum-global-dimension-size-100);
+    color: var(--spectrum-global-color-gray-700);
+  }
+
+  .eventTitle {
+    font-weight: bold;
+    font-size: var(--spectrum-global-dimension-size-100);
+  }
+
+  .eventTimestamp {
+    font-size: var(--spectrum-global-dimension-size-100);
+    color: var(--spectrum-global-color-gray-700);
+  }
+
+  .eventDateTime {
+    font-size: var(--spectrum-global-dimension-size-100);
+    color: var(--spectrum-global-color-gray-700);
+  }
+}

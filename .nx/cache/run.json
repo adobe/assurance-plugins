@@ -1,0 +1,142 @@
+{
+  "run": {
+    "command": "nx run-many --projects=packages/components/* -t build",
+    "startTime": "2025-10-03T03:50:02.644Z",
+    "endTime": "2025-10-03T03:50:03.528Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "@assurance/common-utils:build",
+      "target": "build",
+      "projectName": "@assurance/common-utils",
+      "hash": "11043214462110663633",
+      "startTime": "2025-10-03T03:50:02.653Z",
+      "endTime": "2025-10-03T03:50:02.662Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "@assurance/nested-table-toolkit:build",
+      "target": "build",
+      "projectName": "@assurance/nested-table-toolkit",
+      "hash": "1142363806870100361",
+      "startTime": "2025-10-03T03:50:02.653Z",
+      "endTime": "2025-10-03T03:50:02.671Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "@assurance/component-rules:build",
+      "target": "build",
+      "projectName": "@assurance/component-rules",
+      "hash": "4132062556362548531",
+      "startTime": "2025-10-03T03:50:02.654Z",
+      "endTime": "2025-10-03T03:50:02.680Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "@assurance/plugin-bridge-provider:build",
+      "target": "build",
+      "projectName": "@assurance/plugin-bridge-provider",
+      "hash": "15792040432972812193",
+      "startTime": "2025-10-03T03:50:02.686Z",
+      "endTime": "2025-10-03T03:50:02.759Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "@assurance/proposition-card:build",
+      "target": "build",
+      "projectName": "@assurance/proposition-card",
+      "hash": "6653978004715573666",
+      "startTime": "2025-10-03T03:50:02.689Z",
+      "endTime": "2025-10-03T03:50:02.811Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "@assurance/timeline-bar:build",
+      "target": "build",
+      "projectName": "@assurance/timeline-bar",
+      "hash": "7671427476112870362",
+      "startTime": "2025-10-03T03:50:02.819Z",
+      "endTime": "2025-10-03T03:50:02.830Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "@assurance/validation-summary:build",
+      "target": "build",
+      "projectName": "@assurance/validation-summary",
+      "hash": "10963194466687857834",
+      "startTime": "2025-10-03T03:50:02.820Z",
+      "endTime": "2025-10-03T03:50:02.839Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "@assurance/horizontal-events:build",
+      "target": "build",
+      "projectName": "@assurance/horizontal-events",
+      "hash": "10438996865032867920",
+      "startTime": "2025-10-03T03:50:02.822Z",
+      "endTime": "2025-10-03T03:50:02.850Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "@assurance/event-data-viewer:build",
+      "target": "build",
+      "projectName": "@assurance/event-data-viewer",
+      "hash": "10329294871477210256",
+      "startTime": "2025-10-03T03:50:02.854Z",
+      "endTime": "2025-10-03T03:50:02.873Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "@assurance/timing-view:build",
+      "target": "build",
+      "projectName": "@assurance/timing-view",
+      "hash": "15895626198464262418",
+      "startTime": "2025-10-03T03:50:02.857Z",
+      "endTime": "2025-10-03T03:50:02.882Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "@assurance/campaign-details:build",
+      "target": "build",
+      "projectName": "@assurance/campaign-details",
+      "hash": "7427844425054320177",
+      "startTime": "2025-10-03T03:50:02.861Z",
+      "endTime": "2025-10-03T03:50:02.901Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "@assurance/event-table:build",
+      "target": "build",
+      "projectName": "@assurance/event-table",
+      "hash": "15744841024176088176",
+      "startTime": "2025-10-03T03:50:02.906Z",
+      "endTime": "2025-10-03T03:50:03.009Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    }
+  ]
+}
