@@ -264,7 +264,7 @@ function Activities() {
     <View height="100vh" overflow="hidden">
       <Flex direction="column" height="100%">
         {/* Header with Launch Button - Only show when there are activities */}
-        {activities.length > 0 && (
+        {/* {activities.length > 0 && (
           <View borderBottomWidth="thin" borderBottomColor="gray-300" padding="size-200">
             <Flex direction="row" justifyContent="end" alignItems="center">              
               {platform.hasLiveActivities && (
@@ -275,7 +275,7 @@ function Activities() {
               )}
             </Flex>
           </View>
-        )}
+        )} */}
 
         {/* No Activities State */}
         {!activities.length && (
@@ -288,12 +288,12 @@ function Activities() {
                 <Text UNSAFE_className={classNames('noActivitiesHint')}>
                   {getStartActivityHint()}
                 </Text>
-                {platform.hasLiveActivities && (
+                {/* {platform.hasLiveActivities && (
                   <Flex alignItems="center" gap="size-200" marginTop="size-200">
                     <LaunchLiveActivity />
                     <InfoButton />
                   </Flex>
-                )}
+                )} */}
               </Flex>
             </View>
           </View>
