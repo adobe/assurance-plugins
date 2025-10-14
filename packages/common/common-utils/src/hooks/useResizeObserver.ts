@@ -49,7 +49,7 @@ export const useResizeObserver = <T extends HTMLElement = HTMLElement>({
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [isObserving, setIsObserving] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     const element = ref.current;

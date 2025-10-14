@@ -175,7 +175,6 @@ export function CopyableValue({
           <Text UNSAFE_style={{ 
             textOverflow: 'ellipsis',
             overflow: 'hidden',
-            whiteSpace: 'nowrap',
             maxWidth: '200px',
             color: 'inherit'
           }}>
