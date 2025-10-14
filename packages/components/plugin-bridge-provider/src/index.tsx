@@ -23,6 +23,7 @@ export { useDataStream, type DataStream } from "./hooks/useDataStream";
 export { useEnvironment } from "./hooks/useEnvironment";
 export { useEnvironmentValue } from "./hooks/useEnvironmentValue";
 export { useEvents, type UseEventsOptions } from "./hooks/useEvents";
+export { useFilteredEvents } from "./hooks/useFilteredEvents";
 export { useFlags, type Flags } from "./hooks/useFlags";
 export { useImsAccessToken } from "./hooks/useImsAccessToken";
 export { useImsOrg } from "./hooks/useImsOrg";
