@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 import React from 'react';
 import { render, screen, within, act } from '@testing-library/react';
 import { TimelineToolbar, PluginView } from '../src';
-import { PluginBridgeProvider } from '@adobe/assurance-plugin-bridge-provider';
+import { PluginBridgeProvider } from '@assurance/plugin-bridge-provider';
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
 import { initBridge, setupBridge, receiveSelectedEvents, receiveEvents, navigateTo as receiveNavigation, receiveSession } from '@adobe/assurance-testing-library';
 import { EVENTS, SINGLE_CLIENT_EVENTS } from './mocks';

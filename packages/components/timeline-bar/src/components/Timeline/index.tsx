@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 import * as R from 'ramda';
 import { View, Flex, ActionButton } from "@adobe/react-spectrum";
-import { selectEvents, useFilteredEvents, useSelectedEvents } from '@adobe/assurance-plugin-bridge-provider';
+import { selectEvents, useFilteredEvents, useSelectedEvents } from '@assurance/plugin-bridge-provider';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import * as kit from '@adobe/griffon-toolkit';
 import { useScrollPosition, useScrollToCentered, useWindowSize } from './hooks';

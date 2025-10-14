@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 import React from 'react';
 import { 
   PluginBridgeProvider
-} from '@adobe/assurance-plugin-bridge-provider';
+} from '@assurance/plugin-bridge-provider';
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
 import TimelineToolbar from '../components/TimelineToolbar';
 import PluginView from '../components/PluginView';

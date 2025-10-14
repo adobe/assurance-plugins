@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 import { MenuTrigger, ActionButton, Menu, Flex, Item, Text } from "@adobe/react-spectrum";
-import { annotateSession, useSelectedEvents, useSession } from "@adobe/assurance-plugin-bridge-provider";
+import { annotateSession, useSelectedEvents, useSession } from "@assurance/plugin-bridge-provider";
 import React from "react";
 
 import Filter from "@spectrum-icons/workflow/Filter";

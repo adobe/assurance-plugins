@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 import React from "react";
 import { Flex, Text } from "@adobe/react-spectrum";
-import { useSelectedEvents } from "@adobe/assurance-plugin-bridge-provider";
+import { useSelectedEvents } from "@assurance/plugin-bridge-provider";
 import { chooseEventLabel } from "@adobe/assurance-common-utils";
 
 const SelectedEventLabel = () => {

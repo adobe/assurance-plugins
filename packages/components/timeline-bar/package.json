@@ -29,7 +29,7 @@
     "@adobe/griffon-toolkit-common": "^0.3.3",
     "@adobe/react-spectrum": "^3.32.2",
     "@adobe/assurance-common-utils": "^1.0.1",
-    "@adobe/assurance-plugin-bridge-provider": "1.0.1",
+    "@assurance/plugin-bridge-provider": "1.0.1",
     "ramda": "^0.29.1"
   },
   "devDependencies": {

@@ -21,7 +21,7 @@ import {
   useNavigationFilters,
   useNavigationPath,
   useSelectedClients, 
-} from "@adobe/assurance-plugin-bridge-provider";
+} from "@assurance/plugin-bridge-provider";
 import { event as rootEvent } from '@adobe/griffon-toolkit-common';
 import { clientInfoIos, clientInfoAndroid } from '@adobe/griffon-toolkit-aep-mobile';
 import Devices from "@spectrum-icons/workflow/Devices";
