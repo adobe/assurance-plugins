@@ -151,7 +151,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
             </Heading>
             <ActivityStatus status={activity.status} />
           </Flex>
-          <UpdateActivity activity={activity} />
+          {/* <UpdateActivity activity={activity} /> */}
         </Flex>
 
         {/* Metrics Cards */}
