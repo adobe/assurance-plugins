@@ -69,13 +69,6 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
     }
   }, [selectedEventId, activityEvents]);
 
-  if (!activity) {
-    return null;
-  }
-
-
-  
-
   // Filter events based on search and type filter
   const filteredEvents = useMemo(() => {
     let filtered = activityEvents;
@@ -92,6 +85,12 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
     
     return filtered;
   }, [activityEvents, searchQuery, selectedFilter]);
+
+  
+  if (!activity) {
+    return null;
+  }
+
 
   if (activityEvents.length === 0) {
     return (
