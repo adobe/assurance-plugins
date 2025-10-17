@@ -52,8 +52,6 @@ function Inner() {
   const realActivities = useActivities();
   const showActivitiesTab = (validationStatus === 'basic-support' || validationStatus === 'full-support') && messagingVersion && realActivities.length > 0;
 
-  console.log({showActivitiesTab, validationStatus, messagingVersion, realActivities}, '(((******((((');
-
   return (
     <View padding="size-200" paddingTop="size-0">
       <Flex gap="size-100" justifyContent="end" alignItems="center">
@@ -65,17 +63,17 @@ function Inner() {
       <Tabs density='compact' onSelectionChange={(key) => setActiveTab(key as any)} selectedKey={activeTab}>
         <TabList UNSAFE_className={classNames('tabList')}>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>{formatMessage(messages.clientInfo)}</Item>
-   <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>{formatMessage(messages.activities)}</Item>
+          {showActivitiesTab && <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>{formatMessage(messages.activities)}</Item>}
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>{formatMessage(messages.events)}</Item>
         </TabList>
         <TabPanels marginTop="size-200">
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
             <ClientInfo />
           </Item>
-   
-          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
+          {showActivitiesTab &&  
+           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
             <Activities />
-          </Item>
+           </Item>}
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
             <Events />
           </Item>
