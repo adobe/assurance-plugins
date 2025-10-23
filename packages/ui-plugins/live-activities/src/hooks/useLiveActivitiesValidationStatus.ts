@@ -36,11 +36,6 @@ export function useLiveActivitiesValidationStatus(): LiveActivitiesValidationSta
       return 'unknown';
     }
 
-    // Check if the app explicitly supports Live Activities
-    if (liveActivitiesSupport && !liveActivitiesSupport.supportsLiveActivities) {
-      return 'not-supported';
-    }
-
     // Use pure utility function for version validation logic
     return validateIOSVersionForLiveActivities(iosVersion);
   }, [iosVersion, clientType, liveActivitiesSupport]);
