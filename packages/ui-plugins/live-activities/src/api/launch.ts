@@ -3,7 +3,7 @@ export type Env = 'local' | 'dev' | 'qa' | 'stage' | 'prod';
 const LAUNCH_ENDPOINTS: Record<Env, string> = {
   local: 'https://reactor.adobe.io',
   dev: 'https://reactor-qa.adobe.io',
-  qa: 'https://reactor-qa.adobe.io',
+  qa: 'https://reactor-stage.adobe.io',
   stage: 'https://reactor-stage.adobe.io',
   prod: 'https://reactor.adobe.io'
 } as const;

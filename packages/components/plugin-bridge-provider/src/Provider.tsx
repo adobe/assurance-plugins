@@ -20,6 +20,7 @@ import {
   EventContext,
   NavigationContext,
   SelectedEventContext,
+  SessionContext,
   SettingsContext,
   ValidationContext,
 } from "./Contexts";
@@ -28,6 +29,7 @@ import type {
   BridgeEvents,
   BridgeNavigation,
   BridgeSelectedEvents,
+  BridgeSession,
   BridgeSettings,
   BridgeValidation,
 } from "./types";
@@ -51,6 +53,7 @@ const PluginBridgeProvider = ({ children }: PropsWithChildren) => {
     React.useState<BridgeSettings | null>(null);
   const [bridgeValidation, setBridgeValidation] =
     React.useState<BridgeValidation | null>(null);
+  const [bridgeSession, setBridgeSession] = React.useState<BridgeSession | null>(null);
 
   useEffect(() => {
     window.pluginBridge.register({
@@ -79,6 +82,7 @@ const PluginBridgeProvider = ({ children }: PropsWithChildren) => {
       },
       receiveSession(session) {
         console.log("session", session);
+        setBridgeSession(session);
       },
       receiveSettings(settings) {
         console.log("receiveSettings", settings);
@@ -98,6 +102,7 @@ const PluginBridgeProvider = ({ children }: PropsWithChildren) => {
     { context: EventContext, value: bridgeEvents },
     { context: SelectedEventContext, value: bridgeSelectedEvents },
     { context: ValidationContext, value: bridgeValidation },
+    { context: SessionContext, value: bridgeSession },
   ];
 
   let Result: React.ReactElement | null = null;

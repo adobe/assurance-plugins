@@ -2,13 +2,13 @@ import {
   defaultTheme,
   Flex,
   Item,
-  Key,
   Provider,
   TabList,
   TabPanels,
   Tabs,
   View,
-  Text
+  Text,
+  ToastContainer
 } from '@adobe/react-spectrum';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
@@ -72,15 +72,14 @@ function Inner() {
       <Tabs density='compact' onSelectionChange={(key) => setActiveTab(key as any)} selectedKey={activeTab}>
         <TabList UNSAFE_className={classNames('tabList')}>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>{formatMessage(messages.clientInfo)}</Item>
-          {showActivitiesTab && <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>{formatMessage(messages.activities)}</Item>}
+          { <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>{formatMessage(messages.activities)}</Item>}
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>{formatMessage(messages.events)}</Item>
         </TabList>
         <TabPanels marginTop="size-200">
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
             <ClientInfo />
           </Item>
-          {showActivitiesTab &&  
-           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
+          {<Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
             <Activities />
            </Item>}
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
@@ -96,15 +95,16 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <PluginBridgeProvider>
-      <IntlProvider locale="en">
-        <Provider theme={defaultTheme}>
-          <QueryClientProvider client={queryClient}>
-            <Inner />
-          </QueryClientProvider>
-        </Provider>
-      </IntlProvider>
-    </PluginBridgeProvider>
+    <Provider theme={defaultTheme}>
+      <PluginBridgeProvider>
+        <IntlProvider locale="en">
+            <QueryClientProvider client={queryClient}>
+              <Inner />
+              {/* <ToastContainer/> */}
+            </QueryClientProvider>
+        </IntlProvider>
+      </PluginBridgeProvider>
+    </Provider>
   );
 }
 

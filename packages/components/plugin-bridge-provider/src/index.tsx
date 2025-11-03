@@ -33,7 +33,7 @@ export { useSelectedEvents } from "./hooks/useSelectedEvents";
 export { useSandbox } from "./hooks/useSandbox";
 export { useTenant } from "./hooks/useTenant";
 export { useValidation } from "./hooks/useValidation";
-
+export { useSession } from "./hooks/useSession";
 // Additional hooks from hooks.tsx
 export { useClients, useSelectedClients, useValidationMap } from "./hooks/hooks";
 
@@ -46,5 +46,5 @@ export {
   navigateTo,
   selectEvents,
   sendCommand,
-  uploadPlugin
+  uploadPlugin,
 } from "./bridge.utils";

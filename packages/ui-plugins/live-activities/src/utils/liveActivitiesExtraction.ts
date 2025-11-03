@@ -155,6 +155,7 @@ export function extractLiveActivitiesDataFromState(
       ? extractRegisteredActivitiesFromSchemaEvents(schemaEvents)
       : new Map<string, LiveActivityTypeData>();
 
+      console.log('activityTypesMap **********', activityTypesMap);
     // If no schema events available, fall back to shared state
     if (activityTypesMap.size === 0 && liveActivityState) {
       // Extract schema information from events if provided
@@ -162,6 +163,7 @@ export function extractLiveActivitiesDataFromState(
 
       // Extract push-to-start tokens
       const pushToStartTokens = liveActivityState.pushToStartTokens || {};
+      console.log('pushToStartTokens **********', pushToStartTokens);
       Object.entries(pushToStartTokens).forEach(([attributeType, tokenData]: [string, any]) => {
         if (tokenData && tokenData.token) {
           const schemaData = schemaDataMap.get(attributeType);
