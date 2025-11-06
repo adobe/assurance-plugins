@@ -68,6 +68,7 @@ function extractActivityMetadata(event: any): { activityId: string; attributeTyp
   const attributeType =
     eventData.attributeType || eventData.data?.attributeType || eventData.type || 'unknown'; // Fallback for events without attributeType
 
+  console.log('attributeType ****', {attributeType, eventData, activityId});
   if (!activityId) {
     return null;
   }
@@ -99,6 +100,7 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
     if (!isRelevantEvent) return;
 
     const metadata = extractActivityMetadata(event);
+    console.log('metadata ****', {metadata, event});
     if (!metadata) return;
 
     const { activityId, attributeType } = metadata;
@@ -118,6 +120,11 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
     const isDuplicate = activity.events.some(existingEvent => existingEvent.uuid === event.uuid);
     if (!isDuplicate) {
       activity.events.push(event);
+    }
+
+    // Update attribute type if it differs from the current attribute type (might get updated from "unknown" to some value)
+    if(activity.attributeType !== attributeType) {
+      activity.attributeType = attributeType;
     }
 
     // Only update status to completed if this is an end event (dismissed or ended)

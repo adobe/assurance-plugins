@@ -5,7 +5,7 @@
  * and sending it through the Griffon API using the activity's update token.
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   DialogTrigger,
   Button,
@@ -15,6 +15,8 @@ import {
   Content,
   View,
   Text,
+  RadioGroup,
+  Radio,
   ToastQueue
 } from '@adobe/react-spectrum';
 import { defineMessages, useIntl } from 'react-intl';
@@ -24,7 +26,9 @@ import { Controller, useForm } from 'react-hook-form';
 import {
   buildApiUrl,
   generateLiveActivityPayload,
-  sendLiveActivityNotification
+  sendLiveActivityNotification,
+  generateUpdateTemplate,
+  buildCompleteApsPayload
 } from '../../api/liveActivityApi';
 import { LiveActivity } from '../../hooks/useActivities';
 import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
@@ -50,7 +54,19 @@ const messages = defineMessages({
   },
   apsPayloadDescription: {
     id: 'apsPayloadDescription',
-    defaultMessage: 'Paste the updated APS payload content below'
+    defaultMessage: 'Edit the payload content below to update the activity'
+  },
+  eventType: {
+    id: 'eventType',
+    defaultMessage: 'Event Type'
+  },
+  eventUpdate: {
+    id: 'eventUpdate',
+    defaultMessage: 'Update'
+  },
+  eventEnd: {
+    id: 'eventEnd',
+    defaultMessage: 'End'
   }
 });
 
@@ -74,22 +90,31 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
   const { formatMessage } = useIntl();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [eventType, setEventType] = useState<'update' | 'end'>('update');
 
   // Context (doesn't require push token for update operations)
   const context = useLiveActivityContext({ requirePushToken: false });
 
   console.log('activity ****', activity);
 
-  // Form
+  // Form - Initialize with simplified template
   const {
     control,
     handleSubmit,
-    reset
+    reset,
   } = useForm<FormValues>({
     defaultValues: {
-      payload: JSON.stringify(activity.examplePayload?.['content-state'] || {}, null, 2)
+      payload: JSON.stringify(generateUpdateTemplate(activity), null, 2)
     }
   });
+
+  useEffect(() => {
+    if (activity?.id) {
+      reset({
+        payload: JSON.stringify(generateUpdateTemplate(activity), null, 2)
+      });
+    }
+  }, [activity?.id]);
 
   // Handlers
   const handleUpdate = useCallback(async (data: FormValues) => {
@@ -97,24 +122,29 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
     setError(null);
 
     try {
-      // Parse and validate APS payload
-      let parsedAps;
+      // Parse user's JSON input
+      let userPayload;
       try {
-        parsedAps = JSON.parse(data.payload);
+        userPayload = JSON.parse(data.payload)
       } catch {
-        // ToastQueue.negative('Invalid JSON format in APS payload');
-        return;
+        throw new Error('Invalid JSON format in payload');
       }
 
       // Validate update token exists
       if (!activity.updateToken) {
-        // ToastQueue.negative('Update token not available for this activity');
-        return;
+        throw new Error('Update token not available for this activity');
       }
+
+      // Build complete APS payload by merging user input with auto-generated fields
+      const completeApsPayload = buildCompleteApsPayload({
+        userPayload,
+        eventType,
+        attributesType: activity.attributes || 'unknown',
+      });
 
       // Generate complete payload using update token
       const payload = generateLiveActivityPayload({
-        apsContent: parsedAps,
+        apsContent: completeApsPayload,
         appId: context.appId!,
         platform: context.platform,
         token: activity.updateToken, // Using updateToken for updates
@@ -132,27 +162,24 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         token: context.token!,
         payload
       });
-
-      console.log('Live Activity updated successfully');
-      
+      ToastQueue.positive('Live Activity updated successfully. Please refresh the page', {timeout: 3000});
     } catch (err: any) {
-      console.error('Failed to update Live Activity:', err);
       const errorMessage = err.response?.data?.message || err.message || 'Failed to update Live Activity';
       setError(errorMessage);
-      // ToastQueue.negative(`Failed to update Live Activity: ${errorMessage}`);
       throw err; // Re-throw to prevent dialog from closing on error
     } finally {
       setIsLoading(false);
     }
-  }, [activity, context]);
+  }, [activity, context, eventType]);
 
   const handleReset = useCallback(() => {
     reset();
+    setEventType('update');
     setError(null);
   }, [reset]);
 
   // Computed values
-  const isButtonDisabled = !context.isReady || isLoading || !activity.updateToken;
+  const isButtonDisabled = !context.isReady || isLoading || !activity.updateToken || activity.status === 'completed';
 
   return (
     <DialogTrigger>
@@ -176,6 +203,18 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
           <Content>
             <View marginBottom="size-200">
               <Text>{formatMessage(messages.apsPayloadDescription)}</Text>
+            </View>
+
+            <View marginBottom="size-200">
+              <RadioGroup 
+                label={formatMessage(messages.eventType)}
+                value={eventType}
+                onChange={(value) => setEventType(value as 'update' | 'end')}
+                orientation="horizontal"
+              >
+                <Radio value="update">{formatMessage(messages.eventUpdate)}</Radio>
+                <Radio value="end">{formatMessage(messages.eventEnd)}</Radio>
+              </RadioGroup>
             </View>
 
             <Controller

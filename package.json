@@ -95,7 +95,8 @@
     "vitest": "^2.1.2"
   },
   "resolutions": {
-    "@types/react": "18.3.11"
+    "@types/react": "18.3.11",
+    "lightningcss": "1.29.0"
   },
   "@parcel/resolver-default": {
     "packageExports": true

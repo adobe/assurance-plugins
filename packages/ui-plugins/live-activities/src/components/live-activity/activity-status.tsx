@@ -22,14 +22,14 @@ function ActivityStatus({ status }: ActivityStatusProps) {
 
   if (status === 'active') {
     return (
-      <StatusLight variant="info" UNSAFE_className="status-light-compact">
+      <StatusLight variant="positive" UNSAFE_className="status-light-compact">
         {formatMessage(messages.active)}
       </StatusLight>
     );
   }
 
   return (
-    <StatusLight variant="positive" UNSAFE_className="status-light-compact">
+    <StatusLight variant="info" UNSAFE_className="status-light-compact">
       {formatMessage(messages.completed)}
     </StatusLight>
   );

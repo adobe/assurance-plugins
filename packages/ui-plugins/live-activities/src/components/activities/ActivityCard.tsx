@@ -36,10 +36,10 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
 
   const getStatusVariant = (status: string) => {
     switch (status) {
-      case 'active':
-        return 'info';
-      case 'completed':
+      case 'active': 
         return 'positive';
+      case 'completed':
+        return 'info';
       default:
         return 'neutral';
     }

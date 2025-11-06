@@ -73,6 +73,68 @@ export interface ApiCallConfig {
 // ============================================================================
 
 /**
+ * Gets current Unix timestamp in seconds
+ */
+export function getCurrentTimestamp(): number {
+  return Math.floor(Date.now() / 1000);
+}
+
+/**
+ * Generates minimal APS template for launching a Live Activity
+ * Only includes fields user needs to fill/edit
+ */
+export function generateLaunchTemplate(): any {
+  return {
+    "content-state": {},
+    "attributes": {
+      "liveActivityData": {
+        "liveActivityID": ""
+      }
+    },
+    "alert": {
+      "title": "",
+      "body": ""
+    }
+  };
+}
+
+/**
+ * Generates minimal APS template for updating a Live Activity
+ * Pre-fills known data from the activity, user only updates dynamic fields
+ */
+export function generateUpdateTemplate(activity: any): any {
+  return {
+    "content-state": activity.examplePayload?.['content-state'] || {},
+    "attributes": {
+      "liveActivityData": {
+        "liveActivityID": activity.id || ""
+      }
+    }
+  };
+}
+
+/**
+ * Builds complete APS payload by merging user input with auto-generated fields
+ */
+export function buildCompleteApsPayload(params: {
+  userPayload: any;
+  eventType: 'start' | 'update' | 'end';
+  attributesType: string;
+}): any {
+  return {
+    "content-available": 1,
+    "timestamp": getCurrentTimestamp(),
+    "event": params.eventType,
+    "attributes-type": params.attributesType,
+    "alert": {
+      "title": "",
+      "body": ""
+    },
+    ...params.userPayload
+  };
+}
+
+/**
  * Normalizes APS payload to ensure numeric fields are numbers, not strings
  */
 export function normalizeApsPayload(apsContent: any): any {
@@ -95,8 +157,7 @@ export function normalizeApsPayload(apsContent: any): any {
  * Constructs the API URL for sending Live Activity notifications
  */
 export function buildApiUrl(environment: string): string {
-  // TODO: Remove hardcoded 'qa' once environment detection is properly working
-  const env = 'qa' as keyof typeof API_ENDPOINTS;
+  const env = environment as keyof typeof API_ENDPOINTS;
   return `${API_ENDPOINTS[env]}/pipeline/topics/${PIPELINE_TOPICS[env]}/messages`;
 }
 

@@ -327,7 +327,7 @@ const StatusDetailsRenderer: React.FC<{
   };
 
   // Render status-specific details
-  if (String(status).indexOf('messaging-not-installed') !== 0) {
+  if (String(status).indexOf('messaging-not-installed') === 0) {
     return renderMessagingNotInstalled();
   }
   if (String(status).indexOf('no-token') === 0) {

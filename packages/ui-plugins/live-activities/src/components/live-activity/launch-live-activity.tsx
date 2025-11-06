@@ -10,7 +10,7 @@ import {
   Text,
   Picker,
   Item,
-  
+  ToastQueue
 } from '@adobe/react-spectrum';
 import classNames from 'classnames';
 import Rocket from '@spectrum-icons/workflow/Launch';
@@ -19,7 +19,9 @@ import { useLiveActivitiesData, useRegisteredActivities } from '../../hooks/useA
 import {
   buildApiUrl,
   generateLiveActivityPayload,
-  sendLiveActivityNotification
+  sendLiveActivityNotification,
+  generateLaunchTemplate,
+  buildCompleteApsPayload
 } from '../../api/liveActivityApi';
 import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
 import { ErrorMessage, JsonEditor, DialogActions } from '../activities/shared';
@@ -41,7 +43,7 @@ const messages = defineMessages({
   },
   apsPayloadDescription: {
     id: 'apsPayloadDescription',
-    defaultMessage: 'Select a live activity and provide the APS payload content'
+    defaultMessage: 'Select a live activity and fill in the required fields below'
   },
   noActivitiesAvailable: {
     id: 'noActivitiesAvailable',
@@ -92,7 +94,9 @@ function LaunchLiveActivity() {
   
   // State
   const [selectedActivityType, setSelectedActivityType] = useState<string>('');
-  const [apsPayload, setApsPayload] = useState('{}');
+  const [apsPayload, setApsPayload] = useState(
+    JSON.stringify(generateLaunchTemplate(), null, 2)
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const editorRef = useRef<any>(null);
@@ -100,6 +104,8 @@ function LaunchLiveActivity() {
   // Live Activities Data
   const registeredActivities = useRegisteredActivities();
   const liveActivitiesData = useLiveActivitiesData();
+
+  console.log('registeredActivities ****', {registeredActivities, liveActivitiesData});
   
   // Context (requires push token for launch operations)
   const context = useLiveActivityContext({ requirePushToken: true });
@@ -119,24 +125,29 @@ function LaunchLiveActivity() {
     setError(null);
 
     try {
-      // Parse and validate APS payload
-      let parsedAps;
+      // Parse user's JSON input
+      let userPayload;
       try {
-        parsedAps = JSON.parse(apsPayload);
+        userPayload = JSON.parse(apsPayload);
       } catch {
-        throw new Error('Invalid JSON format in APS payload');
+        throw new Error('Invalid JSON format in payload');
       }
 
       // Validate selected activity
       if (!selectedActivity || !pushToStartToken) {
-        // ToastQueue.negative('Please select a live activity with push-to-start token')
-        console.error('Please select a live activity with push-to-start token');
-        return;
+        throw new Error('Please select a live activity with push-to-start token');
       }
+
+      // Build complete APS payload by merging user input with auto-generated fields
+      const completeApsPayload = buildCompleteApsPayload({
+        userPayload,
+        eventType: 'start',
+        attributesType: selectedActivityType
+      });
 
       // Generate complete payload
       const payload = generateLiveActivityPayload({
-        apsContent: parsedAps,
+        apsContent: completeApsPayload,
         appId: context.appId!,
         platform: context.platform,
         token: pushToStartToken, // Using pushToStartToken for launch
@@ -147,7 +158,7 @@ function LaunchLiveActivity() {
         environment: context.environment
       });
 
-      console.log('payload ****', payload);
+      console.log('payload ****', payload, context.environment);
 
       // Make API call
       const url = buildApiUrl(context.environment);
@@ -156,21 +167,19 @@ function LaunchLiveActivity() {
         token: context.token!,
         payload
       });
-
-      console.log('Live Activity started successfully');
+      ToastQueue.positive('Live Activity started successfully. Please refresh the page.', {timeout: 3000});
     } catch (err: any) {
-      console.error('Failed to start Live Activity:', err);
       const errorMessage = err.response?.data?.message || err.message || 'Failed to start Live Activity';
       setError(errorMessage);
       throw err;
     } finally {
       setIsLoading(false);
     }
-  }, [apsPayload, context, selectedActivity, pushToStartToken]);
+  }, [apsPayload, context, selectedActivity, pushToStartToken, selectedActivityType]);
 
   const handleReset = useCallback(() => {
     setSelectedActivityType('');
-    setApsPayload('{}');
+    setApsPayload(JSON.stringify(generateLaunchTemplate(), null, 2));
     setError(null);
   }, []);
 
@@ -191,7 +200,7 @@ function LaunchLiveActivity() {
 
   // Computed values
   const hasRegisteredActivities = registeredActivities.length > 0;
-  const canSubmit = selectedActivityType && apsPayload !== '{}' && context.isReady && !isLoading;
+  const canSubmit = selectedActivityType && apsPayload.trim() !== '' && context.isReady && !isLoading;
   const isButtonDisabled = !context.isReady || isLoading || !hasRegisteredActivities;
   const buttonTooltip = hasRegisteredActivities 
     ? formatMessage(messages.launchLiveActivity)

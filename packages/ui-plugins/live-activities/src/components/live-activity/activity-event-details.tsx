@@ -15,7 +15,7 @@ import { useIntl } from 'react-intl';
 import InfoField from '../atoms/InfoField';
 import MetricCard from '../atoms/MetricCard';
 import Card from '../atoms/card';
-import { MESSAGES, EVENT_CONFIG } from '../../constants/liveActivitiesConfig';
+import { MESSAGES } from '../../constants/liveActivitiesConfig';
 import { LiveActivity } from '../../hooks/useActivities';
 import usePluginState from '../../hooks/usePluginState';
 import { LiveActivityEvent } from '../../types/liveActivityEvent';
@@ -47,7 +47,7 @@ const eventTypeColumn: ColumnDef<LiveActivityEvent> = {
 
 function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
   const { formatMessage } = useIntl();
-  const { activityNavigation: { selectedEventId, setSelectedEventId } } = usePluginState();
+  const { activityNavigation: { selectedEventId } } = usePluginState();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
   const [selectedEvent, setSelectedEvent] = useState<LiveActivityEvent | undefined>();

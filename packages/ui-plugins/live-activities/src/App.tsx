@@ -44,7 +44,9 @@ const messages = defineMessages({
 });
 
 function Inner() {
-  const { topLevelNavigation: { activeTab, setActiveTab } } = usePluginState();
+  const {
+    topLevelNavigation: { activeTab, setActiveTab }
+  } = usePluginState();
   const { formatMessage } = useIntl();
 
   const validationStatus = useLiveActivitiesValidationStatus();
@@ -52,14 +54,16 @@ function Inner() {
   const realActivities = useActivities();
   const selectedClients = useSelectedClients();
   const currentClient = selectedClients[0];
-  const showActivitiesTab = (validationStatus === 'basic-support' || validationStatus === 'full-support') && messagingVersion && realActivities.length > 0;
+  const showActivitiesTab =
+    (validationStatus === 'basic-support' || validationStatus === 'full-support') &&
+    messagingVersion &&
+    realActivities.length > 0;
 
   useEffect(() => {
     if (currentClient) {
       setActiveTab(NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO);
     }
   }, [currentClient]);
-
 
   return (
     <View padding="size-200" paddingTop="size-0">
@@ -69,19 +73,37 @@ function Inner() {
           <ClientPicker allowAllClients={false} />
         </Card>
       </Flex>
-      <Tabs density='compact' onSelectionChange={(key) => setActiveTab(key as any)} selectedKey={activeTab}>
+      <Tabs
+        density="compact"
+        onSelectionChange={key => setActiveTab(key as any)}
+        selectedKey={activeTab}
+      >
         <TabList UNSAFE_className={classNames('tabList')}>
-          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>{formatMessage(messages.clientInfo)}</Item>
-          { <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>{formatMessage(messages.activities)}</Item>}
-          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>{formatMessage(messages.events)}</Item>
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
+            {formatMessage(messages.clientInfo)}
+          </Item>
+          {
+            showActivitiesTab && (
+              <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
+                {formatMessage(messages.activities)}
+              </Item>
+            )
+          }
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
+            {formatMessage(messages.events)}
+          </Item>
         </TabList>
         <TabPanels marginTop="size-200">
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
             <ClientInfo />
           </Item>
-          {<Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
-            <Activities />
-           </Item>}
+          {
+            showActivitiesTab && (
+              <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
+                <Activities />
+              </Item>
+            )
+          }
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
             <Events />
           </Item>
@@ -96,14 +118,14 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <Provider theme={defaultTheme}>
-      <PluginBridgeProvider>
-        <IntlProvider locale="en">
+        <PluginBridgeProvider>
+          <IntlProvider locale="en">
             <QueryClientProvider client={queryClient}>
               <Inner />
-              {/* <ToastContainer/> */}
+              <ToastContainer placement="top end" />
             </QueryClientProvider>
-        </IntlProvider>
-      </PluginBridgeProvider>
+          </IntlProvider>
+        </PluginBridgeProvider>
     </Provider>
   );
 }
