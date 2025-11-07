@@ -6,14 +6,12 @@ import useSelectedActivity from '../hooks/useSelectedActivity';
 
 function UpdateActivity() {
   const selectedActivity = useSelectedActivity();
-  console.log('selectedActivity ****', selectedActivity);
   const { control } = useForm({
     defaultValues: {
       payload: JSON.stringify(selectedActivity?.examplePayload, null, 2)
     }
   });
 
-  console.log('updateActivity', selectedActivity?.examplePayload);
   const fields = [];
 
   return (

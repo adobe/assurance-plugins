@@ -63,7 +63,6 @@ export function JsonEditor({
 
   return (
     <View UNSAFE_className={className}>
-      {/* <View marginBottom="size-100">{label}</View> */}
       <Editor
         onMount={(editor, monaco) => {
           if (editorRef) {

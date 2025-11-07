@@ -84,7 +84,6 @@ async function fetchPlatformEntity({
   ecid: string;
 }): Promise<PlatformEntityResponse> {
   const config = sandboxProcessor(token, org, sandbox, baseURL);
-  console.log({ sandbox, baseURL, token, org, ecid }, 'sandbox, baseURL, token, org, ecid');
   const url = `${config.baseURL}data/core/ups/access/entities?entityId=${ecid}&entityIdNS=ECID&schema.name=_xdm.context.profile&sandbox=${sandbox}`;
 
   const response = await fetch(url, {
@@ -168,7 +167,6 @@ export function usePlatformEntity(ecid?: string) {
       if (!token || !org || !sandbox?.name || !ecid) {
         return null;
       }
-      console.log({ sandbox, baseURL, token, org, ecid }, 'sandbox, baseURL, token, org, ecid usePLatform 888');
 
       return fetchPlatformEntity({
         baseURL,

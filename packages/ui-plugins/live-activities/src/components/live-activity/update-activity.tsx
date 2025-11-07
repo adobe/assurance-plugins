@@ -95,8 +95,6 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
   // Context (doesn't require push token for update operations)
   const context = useLiveActivityContext({ requirePushToken: false });
 
-  console.log('activity ****', activity);
-
   // Form - Initialize with simplified template
   const {
     control,

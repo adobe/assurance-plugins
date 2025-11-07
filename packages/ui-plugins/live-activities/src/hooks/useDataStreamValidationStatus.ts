@@ -148,9 +148,6 @@ export const useDataset = (datasetId: string | null, enabled: boolean = true) =>
   const org = useImsOrg();
   const sandbox = useSandbox();
 
-  // console.log({ baseUrl, token, org, sandbox }, 'baseUrl, token, org, sandbox?.name useDatastream ***^^^^ 5678');
-
-
   return useQuery({
     queryKey: ['dataset', datasetId, org, sandbox?.name],
     queryFn: async () => {
@@ -178,8 +175,6 @@ export const useSchema = (schemaId: string | null, enabled: boolean = true) => {
   const token = useImsAccessToken();
   const org = useImsOrg();
   const sandbox = useSandbox();
-  // console.log({ baseUrl, token, org, sandbox }, 'baseUrl, token, org, sandbox?.name useDatastream ***^^^^ 5674');
-
 
   return useQuery({
     queryKey: ['schema', schemaId, org, sandbox?.name],
@@ -214,9 +209,6 @@ export const useDatastream = (datastreamId: string | null, enabled: boolean = tr
   const org = useImsOrg();
   const sandbox = useSandbox();
 
-  // console.log({ baseUrl, token, org, sandbox }, 'baseUrl, token, org, sandbox?.name useDatastream ***^^^^ 7855');
-
-
   return useQuery({
     queryKey: ['datastream', datastreamId, org, sandbox?.name],
     queryFn: async () => {
@@ -247,9 +239,6 @@ export const useProfileEntities = (ecid: string | null, enabled: boolean = true)
   const token = useImsAccessToken();
   const org = useImsOrg();
   const sandbox = useSandbox();
-
-  console.log({ baseUrl, token, org, sandbox }, 'baseUrl, token, org, sandbox?.name useDatastream ***^^^^ 565656');
-
 
   return useQuery({
     queryKey: ['entities', ecid, org, sandbox?.name],
@@ -381,7 +370,6 @@ export const useDataStreamValidationStatus = () => {
 
   // Check if device is configured (has ECID and push token)
   const deviceConfigured = ecid && currentPushToken;
-  // console.log(deviceConfigured, '*********** deviceConfigured');
   if (!deviceConfigured) {
     return 'device-not-configured';
   }

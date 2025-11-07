@@ -104,8 +104,6 @@ function LaunchLiveActivity() {
   // Live Activities Data
   const registeredActivities = useRegisteredActivities();
   const liveActivitiesData = useLiveActivitiesData();
-
-  console.log('registeredActivities ****', {registeredActivities, liveActivitiesData});
   
   // Context (requires push token for launch operations)
   const context = useLiveActivityContext({ requirePushToken: true });
@@ -157,8 +155,6 @@ function LaunchLiveActivity() {
         sandboxName: context.sandbox?.name || LIVE_ACTIVITY_DEFAULTS.SANDBOX,
         environment: context.environment
       });
-
-      console.log('payload ****', payload, context.environment);
 
       // Make API call
       const url = buildApiUrl(context.environment);

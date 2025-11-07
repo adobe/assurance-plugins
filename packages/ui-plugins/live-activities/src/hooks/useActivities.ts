@@ -68,7 +68,6 @@ function extractActivityMetadata(event: any): { activityId: string; attributeTyp
   const attributeType =
     eventData.attributeType || eventData.data?.attributeType || eventData.type || 'unknown'; // Fallback for events without attributeType
 
-  console.log('attributeType ****', {attributeType, eventData, activityId});
   if (!activityId) {
     return null;
   }
@@ -100,7 +99,6 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
     if (!isRelevantEvent) return;
 
     const metadata = extractActivityMetadata(event);
-    console.log('metadata ****', {metadata, event});
     if (!metadata) return;
 
     const { activityId, attributeType } = metadata;
