@@ -49,15 +49,8 @@ function Inner() {
   } = usePluginState();
   const { formatMessage } = useIntl();
 
-  const validationStatus = useLiveActivitiesValidationStatus();
-  const messagingVersion = useClientMessagingVersion();
-  const realActivities = useActivities();
   const selectedClients = useSelectedClients();
   const currentClient = selectedClients[0];
-  const showActivitiesTab =
-    (validationStatus === 'basic-support' || validationStatus === 'full-support') &&
-    messagingVersion &&
-    realActivities.length > 0;
 
   useEffect(() => {
     if (currentClient) {
@@ -82,13 +75,9 @@ function Inner() {
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
             {formatMessage(messages.clientInfo)}
           </Item>
-          {
-            showActivitiesTab && (
-              <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
-                {formatMessage(messages.activities)}
-              </Item>
-            )
-          }
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
+            {formatMessage(messages.activities)}
+          </Item>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
             {formatMessage(messages.events)}
           </Item>
@@ -97,13 +86,9 @@ function Inner() {
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
             <ClientInfo />
           </Item>
-          {
-            showActivitiesTab && (
-              <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
-                <Activities />
-              </Item>
-            )
-          }
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
+            <Activities />
+          </Item>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
             <Events />
           </Item>
@@ -118,14 +103,14 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <Provider theme={defaultTheme}>
-        <PluginBridgeProvider>
-          <IntlProvider locale="en">
-            <QueryClientProvider client={queryClient}>
-              <Inner />
-              <ToastContainer placement="top end" />
-            </QueryClientProvider>
-          </IntlProvider>
-        </PluginBridgeProvider>
+      <PluginBridgeProvider>
+        <IntlProvider locale="en">
+          <QueryClientProvider client={queryClient}>
+            <Inner />
+            <ToastContainer placement="top end" />
+          </QueryClientProvider>
+        </IntlProvider>
+      </PluginBridgeProvider>
     </Provider>
   );
 }

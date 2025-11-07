@@ -48,6 +48,7 @@ export interface LiveActivityDisplayRow {
 // Validation status for display logic
 export type LiveActivitiesValidationStatus =
   | 'not-supported'
+  | 'la-flags-not-configured'
   | 'basic-support'
   | 'full-support'
   | 'unknown'

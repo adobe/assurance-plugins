@@ -61,6 +61,10 @@ const messages = defineMessages({
     id: 'activities.noActivities.unsupported',
     defaultMessage: 'Live Activities are not supported on this platform'
   },
+  noActivitiesMessageLaFlagsNotConfigured: {
+    id: 'activities.noActivities.laFlagsNotConfigured',
+    defaultMessage: 'Live Activities build flags are not configured in this app'
+  },
   startActivityHintIosSupported: {
     id: 'activities.startHint.ios.supported',
     defaultMessage: 'Start a Live Activity on your iOS device to see it appear here'
@@ -76,6 +80,10 @@ const messages = defineMessages({
   startActivityHintUnsupported: {
     id: 'activities.startHint.unsupported',
     defaultMessage: 'Live Activities are only supported on iOS devices'
+  },
+  startActivityHintLaFlagsNotConfigured: {
+    id: 'activities.startHint.laFlagsNotConfigured',
+    defaultMessage: 'Please refer apple developer documentation to configure the build flags in this app.'
   },
   startLiveActivityTooltip: {
     id: 'activities.startLiveActivity.tooltip',
@@ -109,22 +117,23 @@ function Activities() {
       selectedActivityId, 
       setSelectedActivityId, 
       activeTab, 
-      setActiveTab, 
-      selectedEventId, 
-      setSelectedEventId 
+      setActiveTab,
     }
   } = usePluginState();
   const validationStatus = useLiveActivitiesValidationStatus();
   
   // Use only real activities - no mock data
   const activities = realActivities;
-  
-  // Resize functionality
-  const { ref: containerRef, width: containerWidth } = useResizeObserver<HTMLDivElement>({
+
+
+  const observerOptions = useMemo(() => ({
     onResize: () => {},
     observeHeight: false,
     debounceDelay: 50
-  });
+  }), []);
+  
+  // Resize functionality
+  const { ref: containerRef, width: containerWidth } = useResizeObserver<HTMLDivElement>(observerOptions);
 
   const {
     panelWidth,
@@ -207,6 +216,8 @@ function Activities() {
         return formatMessage(messages.noActivitiesMessageIosPartial);
       case VALIDATION_STATUS.FULL_SUPPORT:
         return formatMessage(messages.noActivitiesMessageIosSupported);
+      case VALIDATION_STATUS.LA_FLAGS_NOT_CONFIGURED:
+        return formatMessage(messages.noActivitiesMessageLaFlagsNotConfigured);
       default:
         return formatMessage(messages.noActivitiesMessageUnsupported);
     }
@@ -222,6 +233,8 @@ function Activities() {
         return formatMessage(messages.startActivityHintIosPartial);
       case VALIDATION_STATUS.FULL_SUPPORT:
         return formatMessage(messages.startActivityHintIosSupported);
+      case VALIDATION_STATUS.LA_FLAGS_NOT_CONFIGURED:
+        return formatMessage(messages.startActivityHintLaFlagsNotConfigured);
       default:
         return formatMessage(messages.startActivityHintUnsupported);
     }

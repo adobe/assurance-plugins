@@ -198,6 +198,12 @@ export function getStatusDisplayConfig(status: LiveActivitiesValidationStatus) {
         icon: 'info' as const,
         variant: 'neutral' as const
       };
+    case VALIDATION_STATUS.LA_FLAGS_NOT_CONFIGURED:
+      return {
+        title: 'Live Activities Build Flags Not Configured',
+        icon: 'invalid' as const,
+        variant: 'negative' as const
+      };
     default:
       return {
         title: 'Unknown Status',

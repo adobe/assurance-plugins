@@ -34,6 +34,9 @@ export const useEvents = <T extends Events>(
   const validation = useContext(ValidationContext);
   const navigation = useContext(NavigationContext);
 
+  console.log('context?.events *** from useEvents', context?.events, 'context', context);
+  console.log('navigation?.filters *** from useEvents', navigation?.filters);
+  console.log('validation?.validation *** from useEvents', validation?.validation);
   return useMemo(
     () =>
       extractFilteredEvents(
@@ -42,6 +45,6 @@ export const useEvents = <T extends Events>(
         navigation?.filters,
         validation?.validation,
       ) as T,
-    [context?.events, navigation?.filters, validation?.validation],
+    [context?.events, context?.events?.length, navigation?.filters, validation?.validation],
   );
 };

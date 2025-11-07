@@ -31,7 +31,8 @@ export const VALIDATION_STATUS = {
   BASIC_SUPPORT: 'basic-support',
   FULL_SUPPORT: 'full-support',
   NOT_IOS: 'not-ios',
-  UNKNOWN: 'unknown'
+  UNKNOWN: 'unknown',
+  LA_FLAGS_NOT_CONFIGURED: 'la-flags-not-configured'
 } as const;
 
 /**

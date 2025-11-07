@@ -36,6 +36,10 @@ export function useLiveActivitiesValidationStatus(): LiveActivitiesValidationSta
       return 'unknown';
     }
 
+    if (liveActivitiesSupport && !liveActivitiesSupport.supportsLiveActivities) {
+      return 'la-flags-not-configured';
+    }
+
     // Use pure utility function for version validation logic
     return validateIOSVersionForLiveActivities(iosVersion);
   }, [iosVersion, clientType, liveActivitiesSupport]);

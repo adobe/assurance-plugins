@@ -320,7 +320,7 @@ const LiveActivitiesValidationSection = () => {
     }
 
     // Add app configuration rows if available and device supports Live Activities
-    if (liveActivitiesSupport && (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT)) {
+    if (liveActivitiesSupport && (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT || validationStatus === VALIDATION_STATUS.LA_FLAGS_NOT_CONFIGURED)) {
       dataRows.push(
         {
           label: formatMessage(messages.nsSupportsLiveActivities),

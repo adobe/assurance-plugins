@@ -25,10 +25,10 @@ const eventNameColumn: ColumnDef<LiveActivityEvent> = {
 
 function Events() {
   const events = useEvents();
+  console.log('events *** from events.tsx in la', events);
 
   return (
     <View>
-      <Heading>Events</Heading>
       <EventTable columns={[...defaultColumns, eventNameColumn, validationColumn, flaggedColumn]} data={events} />
     </View>
   );

@@ -88,7 +88,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
           type: 'start',
           timestamp: event.timestamp,
           title: 'Activity Started',
-          description: `Live Activity "${activity.name}" was initiated ${eventData.origin === 'remote' ? 'remotely' : 'locally'}`,
+          description: `Live Activity "${activity.name}" was initiated.`,
           payload: event.payload,
           icon: <Play size="S" />,
           color: 'positive',
@@ -149,7 +149,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
     return events.sort((a, b) => 
       new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
     );
-  }, [activity]);
+  }, [activity, activity?.events, activity?.updateEvents,  activity?.events?.length]);
 
   const getEventTypeColor = (type: FlowEvent['type']) => {
     switch (type) {
@@ -205,7 +205,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
             ) : view === 'timeline' ? (
               // Timeline View
               <View>
-                {flowEvents.map((event, index) => (
+                {flowEvents?.map((event, index) => (
                   <Flex key={event.id} direction="row" gap="size-200" alignItems="start" marginBottom="size-300">
                     {/* Timeline line and icon */}
                     <Flex
@@ -323,7 +323,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
                       </Card>
                     </View>
                   </Flex>
-                ))}
+                )).reverse()}
               </View>
             ) : (
               // Cards View
@@ -364,7 +364,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
                       </Flex>
                     </View>
                   </Card>
-                ))}
+                )).reverse()}
               </View>
             )}
           </View>

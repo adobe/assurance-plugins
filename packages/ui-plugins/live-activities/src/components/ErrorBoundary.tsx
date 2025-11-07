@@ -3,6 +3,7 @@ import { View, Text, Flex, Button, Heading } from '@adobe/react-spectrum';
 import { defineMessages, useIntl } from 'react-intl';
 import Alert from '@spectrum-icons/workflow/Alert';
 import Refresh from '@spectrum-icons/workflow/Refresh';
+import classNames from 'classnames';
 import './ErrorBoundary.css';
 
 const messages = defineMessages({

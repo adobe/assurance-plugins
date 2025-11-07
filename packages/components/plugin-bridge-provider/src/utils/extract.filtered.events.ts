@@ -58,11 +58,29 @@ export const extractFilteredEvents = (
 ) => {
   let results = events || [];
 
+
   const filtersData = {
     ...parseFilters(filters, config.ignoreFilters),
     ...parseCustomMatchers(config.matchers),
     ...parseHideLogs(config.excludeLogs)
   };
+
+
+  // 1️⃣ Extract the clientId value dynamically using a regex
+  // @ts-ignore
+const clientIdMatch = filtersData?.clients?.match(/`([^`]+)`/);
+const clientId = clientIdMatch ? clientIdMatch[1] : null;
+
+if (clientId) {
+  // 2️⃣ Build a new clients filter that matches both lower & upper case
+  const newClientsFilter =
+    `clientId == \`${clientId}\` || clientId == \`${clientId.toUpperCase()}\``;
+
+    console.log('newClientsFilter *** from extractFilteredEvents', newClientsFilter);
+  // 3️⃣ Update filters object
+  filters.clients = newClientsFilter;
+}
+
 
   if (Object.keys(filtersData).length) {
     results = kit.filterData(filtersData, results);
@@ -73,5 +91,8 @@ export const extractFilteredEvents = (
   if (config.validations) {
     results = R.map(event => R.assoc('validation', validation?.[event.uuid], event), results);
   }
+
+  console.log('filtersData *** from extractFilteredEvents', {filtersData, results, events});
+
   return results;
 };
