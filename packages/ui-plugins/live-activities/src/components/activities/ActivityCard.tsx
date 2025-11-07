@@ -1,8 +1,8 @@
-import { Flex, Text, StatusLight, Badge } from '@adobe/react-spectrum';
+import { Flex, Text, StatusLight } from '@adobe/react-spectrum';
 
 import React from 'react';
 
-import { defineMessages, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
 import dayjs from 'dayjs';
@@ -10,20 +10,10 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 import SpectrumCard from '../atoms/SpectrumCard';
 import { LiveActivity } from '../../hooks/useActivities';
+import { activitiesMessages } from '../../i18n';
 import './ActivityCard.css';
 
 dayjs.extend(relativeTime);
-
-const messages = defineMessages({
-  eventsCount: {
-    id: 'activities.card.eventsCount',
-    defaultMessage: 'events'
-  },
-  noEvents: {
-    id: 'activities.card.noEvents',
-    defaultMessage: 'No events'
-  }
-});
 
 interface ActivityCardProps {
   activity: LiveActivity;
@@ -113,7 +103,7 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
           <Text 
             UNSAFE_className={classNames('eventCountText')}
           >
-            {eventCount} {formatMessage(messages.eventsCount)}
+            {eventCount} {formatMessage(activitiesMessages.eventsCount)}
           </Text>
           
           {lastActivityTime && (

@@ -25,244 +25,21 @@ import Search from '@spectrum-icons/workflow/Search';
 
 import React from 'react';
 
-import { defineMessages, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
-import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS } from '../../constants';
+import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS, COPYABLE_VALUE_CONSTANTS } from '../../constants';
 
 // Constants for UI elements
 const WARNING_EMOJI = '⚠️';
-import { COPYABLE_VALUE_CONSTANTS } from '../../constants';
 import { TEST_IDS } from '../../constants/testIds';
 import { 
   useLiveActivitiesData
 } from '../../hooks/useActivities';
 import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType, useSelectedClientPushToStartToken } from '../../hooks/useClientInfo';
 import { useLiveActivitiesValidationStatus } from '../../hooks/useLiveActivitiesValidationStatus';
-import { type LiveActivitiesValidationStatus } from '../../types/liveActivities';
 import { createLiveActivitiesTableData } from '../../utils/liveActivitiesDisplay';
 import { getStatusDisplayConfig, isDeviceVersionBelowAppMinimum } from '../../utils/liveActivitiesValidation';
-
-
-const messages = defineMessages({
-  title: {
-    id: 'liveActivities.validation.title',
-    defaultMessage: 'Live Activities'
-  },
-  notSupported: {
-    id: 'liveActivities.validation.notSupported',
-    defaultMessage: 'Live Activities Not Supported'
-  },
-  notSupportedDetails: {
-    id: 'liveActivities.validation.notSupportedDetails',
-    defaultMessage: 'Live Activities require iOS 16.1 or later. This device is running iOS {version}.'
-  },
-  basicSupport: {
-    id: 'liveActivities.validation.basicSupport',
-    defaultMessage: 'Basic Live Activities Support'
-  },
-  basicSupportDetails: {
-    id: 'liveActivities.validation.basicSupportDetails',
-    defaultMessage: 'This device supports basic Live Activities features (iOS {version}). Validating: Registration, Update tokens, Per-activity schema.'
-  },
-  fullSupport: {
-    id: 'liveActivities.validation.fullSupport',
-    defaultMessage: 'Full Live Activities Support'
-  },
-  fullSupportDetails: {
-    id: 'liveActivities.validation.fullSupportDetails',
-    defaultMessage: 'This device supports all Live Activities features including PushToStart (iOS {version}). Validating: Registration, Update tokens, Per-activity schema, PushToStart tokens.'
-  },
-  unknown: {
-    id: 'liveActivities.validation.unknown',
-    defaultMessage: 'iOS Version Unknown'
-  },
-  unknownDetails: {
-    id: 'liveActivities.validation.unknownDetails',
-    defaultMessage: 'Unable to determine iOS version. Please ensure the device is properly connected.'
-  },
-  notIOS: {
-    id: 'liveActivities.validation.notIOS',
-    defaultMessage: 'Not an iOS Device'
-  },
-  notIOSDetails: {
-    id: 'liveActivities.validation.notIOSDetails',
-    defaultMessage: 'Live Activities are only supported on iOS devices.'
-  },
-  learnMore: {
-    id: 'liveActivities.validation.learnMore',
-    defaultMessage: 'Learn more about Live Activities requirements'
-  },
-  // Table row tooltips
-  statusTooltip: {
-    id: 'liveActivities.validation.statusTooltip',
-    defaultMessage: 'Current Live Activities support status based on iOS version and app configuration.'
-  },
-  iosVersionTooltip: {
-    id: 'liveActivities.validation.iosVersionTooltip',
-    defaultMessage: 'The iOS version running on this device. Live Activities require iOS 16.1 or later.'
-  },
-  deviceTypeTooltip: {
-    id: 'liveActivities.validation.deviceTypeTooltip',
-    defaultMessage: 'The type of device (iPhone, iPad, etc.). Live Activities are supported on all iOS devices with iOS 16.1+.'
-  },
-  minimumRequiredTooltip: {
-    id: 'liveActivities.validation.minimumRequiredTooltip',
-    defaultMessage: 'The minimum iOS version required for Live Activities. This is iOS 16.1, which introduced Live Activities.'
-  },
-  nsSupportsLiveActivitiesTooltip: {
-    id: 'liveActivities.validation.nsSupportsLiveActivitiesTooltip',
-    defaultMessage: 'Indicates whether the app declares support for Live Activities in its Info.plist. This should be "Yes" for Live Activities to work.'
-  },
-  nsSupportsLiveActivitiesFrequentUpdatesTooltip: {
-    id: 'liveActivities.validation.nsSupportsLiveActivitiesFrequentUpdatesTooltip',
-    defaultMessage: 'Indicates whether the app supports frequent Live Activities updates. This enables more dynamic content updates.'
-  },
-  appMinimumOSVersionTooltip: {
-    id: 'liveActivities.validation.appMinimumOSVersionTooltip',
-    defaultMessage: 'The minimum iOS version the app declares it supports. If this is below the device version, there may be compatibility issues.'
-  },
-  appMinimumOSVersionWarningTooltip: {
-    id: 'liveActivities.validation.appMinimumOSVersionWarningTooltip',
-    defaultMessage: 'The device iOS version is below the app\'s minimum required version. This may cause compatibility issues with Live Activities.'
-  },
-  appMinimumOSVersionWarning: {
-    id: 'liveActivities.validation.appMinimumOSVersionWarning',
-    defaultMessage: 'Device iOS {iosVersion} below app minimum'
-  },
-  // Copy functionality messages
-  copyValue: {
-    id: 'liveActivities.validation.copyValue',
-    defaultMessage: 'Copy value'
-  },
-  copyFullValue: {
-    id: 'liveActivities.validation.copyFullValue',
-    defaultMessage: 'Copy full value'
-  },
-  copied: {
-    id: 'liveActivities.validation.copied',
-    defaultMessage: 'Copied!'
-  },
-  // Table headers
-  activityType: {
-    id: 'liveActivities.validation.activityType',
-    defaultMessage: 'Activity Type'
-  },
-  updateToken: {
-    id: 'liveActivities.validation.updateToken',
-    defaultMessage: 'Update Token'
-  },
-  registeredActivities: {
-    id: 'liveActivities.validation.registeredActivities',
-    defaultMessage: 'Registered Live Activities'
-  },
-  liveActivityId: {
-    id: 'liveActivities.validation.liveActivityId',
-    defaultMessage: 'Live Activity ID'
-  },
-  activityAttributeType: {
-    id: 'liveActivities.validation.activityAttributeType',
-    defaultMessage: 'Activity Attribute Type'
-  },
-  // Table row labels
-  status: {
-    id: 'liveActivities.validation.status',
-    defaultMessage: 'Status'
-  },
-  iosVersion: {
-    id: 'liveActivities.validation.iosVersion',
-    defaultMessage: 'iOS Version'
-  },
-  deviceType: {
-    id: 'liveActivities.validation.deviceType',
-    defaultMessage: 'Device Type'
-  },
-  minimumRequired: {
-    id: 'liveActivities.validation.minimumRequired',
-    defaultMessage: 'Minimum Required'
-  },
-  nsSupportsLiveActivities: {
-    id: 'liveActivities.validation.nsSupportsLiveActivities',
-    defaultMessage: 'NSSupportsLiveActivities'
-  },
-  nsSupportsLiveActivitiesFrequentUpdates: {
-    id: 'liveActivities.validation.nsSupportsLiveActivitiesFrequentUpdates',
-    defaultMessage: 'NSSupportsLiveActivitiesFrequentUpdates'
-  },
-  appMinimumOSVersion: {
-    id: 'liveActivities.validation.appMinimumOSVersion',
-    defaultMessage: 'App MinimumOSVersion'
-  },
-  liveActivities: {
-    id: 'liveActivities.validation.liveActivities',
-    defaultMessage: 'Live Activities'
-  },
-  pushToStartToken: {
-    id: 'liveActivities.validation.pushToStartToken',
-    defaultMessage: 'PushToStart Token'
-  },
-  pushToStartTokenTooltip: {
-    id: 'liveActivities.validation.pushToStartTokenTooltip',
-    defaultMessage: 'PushToStart token for Live Activities push notifications'
-  },
-  noPushToStartTokenTooltip: {
-    id: 'liveActivities.validation.noPushToStartTokenTooltip',
-    defaultMessage: 'No PushToStart token available'
-  },
-  // Additional localized strings
-  unknownValue: {
-    id: 'liveActivities.validation.unknownValue',
-    defaultMessage: 'Unknown'
-  },
-  yes: {
-    id: 'liveActivities.validation.yes',
-    defaultMessage: 'Yes'
-  },
-  no: {
-    id: 'liveActivities.validation.no',
-    defaultMessage: 'No'
-  },
-  noneDetected: {
-    id: 'liveActivities.validation.noneDetected',
-    defaultMessage: 'None detected'
-  },
-  registered: {
-    id: 'liveActivities.validation.registered',
-    defaultMessage: 'registered'
-  },
-  noActivitiesTooltip: {
-    id: 'liveActivities.validation.noActivitiesTooltip',
-    defaultMessage: 'No Live Activities have been registered in this session. This could indicate that the app does not have Live Activities configured or no activities have been started.'
-  },
-  foundActivitiesTooltip: {
-    id: 'liveActivities.validation.foundActivitiesTooltip',
-    defaultMessage: 'Found {count} Live Activity type(s) registered in this session.'
-  },
-  notAvailable: {
-    id: 'liveActivities.validation.notAvailable',
-    defaultMessage: 'Not available'
-  },
-  nextActivity: {
-    id: 'liveActivities.validation.nextActivity',
-    defaultMessage: 'Next Activity'
-  },
-  // Empty state messages
-  noRegisteredActivitiesTitle: {
-    id: 'liveActivities.validation.noRegisteredActivitiesTitle',
-    defaultMessage: 'No Registered Live Activities'
-  },
-  noRegisteredActivitiesDescription: {
-    id: 'liveActivities.validation.noRegisteredActivitiesDescription',
-    defaultMessage: 'No Live Activities have been registered in this session. This could indicate that the app does not have Live Activities configured or no activities have been started yet.'
-  },
-  noLiveActivitiesDataTitle: {
-    id: 'liveActivities.validation.noLiveActivitiesDataTitle',
-    defaultMessage: 'No Live Activities Data'
-  },
-  noLiveActivitiesDataDescription: {
-    id: 'liveActivities.validation.noLiveActivitiesDataDescription',
-    defaultMessage: 'No Live Activities data is available. This could be due to device compatibility, app configuration, or no activities being used.'
-  }
-});
+import { validationMessages } from '../../i18n';
 
 const LiveActivitiesValidationSection = () => {
   const { formatMessage } = useIntl();
@@ -285,10 +62,10 @@ const LiveActivitiesValidationSection = () => {
     tooltip?: string;
   }> = [
     {
-      label: formatMessage(messages.status),
+      label: formatMessage(validationMessages.status),
       value: statusConfig.title,
       showCopy: false,
-      tooltip: formatMessage(messages.statusTooltip)
+      tooltip: formatMessage(validationMessages.statusTooltip)
     }
   ];
 
@@ -296,26 +73,26 @@ const LiveActivitiesValidationSection = () => {
   if (validationStatus !== VALIDATION_STATUS.NOT_IOS) {
     dataRows.push(
       {
-        label: formatMessage(messages.iosVersion),
-        value: iosVersion || formatMessage(messages.unknownValue),
+        label: formatMessage(validationMessages.iosVersion),
+        value: iosVersion || formatMessage(validationMessages.unknownValue),
         showCopy: true,
-        tooltip: formatMessage(messages.iosVersionTooltip)
+        tooltip: formatMessage(validationMessages.iosVersionTooltip)
       },
       {
-        label: formatMessage(messages.deviceType),
-        value: deviceType || formatMessage(messages.unknownValue),
+        label: formatMessage(validationMessages.deviceType),
+        value: deviceType || formatMessage(validationMessages.unknownValue),
         showCopy: false,
-        tooltip: formatMessage(messages.deviceTypeTooltip)
+        tooltip: formatMessage(validationMessages.deviceTypeTooltip)
       }
     );
 
     // Only show minimum required for iOS devices that don't support Live Activities
     if (validationStatus === VALIDATION_STATUS.NOT_SUPPORTED) {
       dataRows.push({
-        label: formatMessage(messages.minimumRequired),
+        label: formatMessage(validationMessages.minimumRequired),
         value: `iOS ${LIVE_ACTIVITIES_MIN_VERSION}`,
         showCopy: false,
-        tooltip: formatMessage(messages.minimumRequiredTooltip)
+        tooltip: formatMessage(validationMessages.minimumRequiredTooltip)
       });
     }
 
@@ -323,16 +100,16 @@ const LiveActivitiesValidationSection = () => {
     if (liveActivitiesSupport && (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT)) {
       dataRows.push(
         {
-          label: formatMessage(messages.nsSupportsLiveActivities),
-          value: liveActivitiesSupport.supportsLiveActivities ? formatMessage(messages.yes) : formatMessage(messages.no),
+          label: formatMessage(validationMessages.nsSupportsLiveActivities),
+          value: liveActivitiesSupport.supportsLiveActivities ? formatMessage(validationMessages.yes) : formatMessage(validationMessages.no),
           showCopy: false,
-          tooltip: formatMessage(messages.nsSupportsLiveActivitiesTooltip)
+          tooltip: formatMessage(validationMessages.nsSupportsLiveActivitiesTooltip)
         },
         {
-          label: formatMessage(messages.nsSupportsLiveActivitiesFrequentUpdates),
-          value: liveActivitiesSupport.supportsFrequentUpdates ? formatMessage(messages.yes) : formatMessage(messages.no),
+          label: formatMessage(validationMessages.nsSupportsLiveActivitiesFrequentUpdates),
+          value: liveActivitiesSupport.supportsFrequentUpdates ? formatMessage(validationMessages.yes) : formatMessage(validationMessages.no),
           showCopy: false,
-          tooltip: formatMessage(messages.nsSupportsLiveActivitiesFrequentUpdatesTooltip)
+          tooltip: formatMessage(validationMessages.nsSupportsLiveActivitiesFrequentUpdatesTooltip)
         }
       );
 
@@ -343,17 +120,17 @@ const LiveActivitiesValidationSection = () => {
         // Use utility function to check version compatibility
         if (isDeviceVersionBelowAppMinimum(iosVersion, appMinVersion)) {
           dataRows.push({
-            label: formatMessage(messages.appMinimumOSVersion),
-            value: `${appMinVersion} (${WARNING_EMOJI} ${formatMessage(messages.appMinimumOSVersionWarning, { iosVersion })})`,
+            label: formatMessage(validationMessages.appMinimumOSVersion),
+            value: `${appMinVersion} (${WARNING_EMOJI} ${formatMessage(validationMessages.appMinimumOSVersionWarning, { iosVersion })})`,
             showCopy: false,
-            tooltip: formatMessage(messages.appMinimumOSVersionWarningTooltip)
+            tooltip: formatMessage(validationMessages.appMinimumOSVersionWarningTooltip)
           });
         } else {
           dataRows.push({
-            label: formatMessage(messages.appMinimumOSVersion),
+            label: formatMessage(validationMessages.appMinimumOSVersion),
             value: appMinVersion,
             showCopy: false,
-            tooltip: formatMessage(messages.appMinimumOSVersionTooltip)
+            tooltip: formatMessage(validationMessages.appMinimumOSVersionTooltip)
           });
         }
       }
@@ -363,24 +140,24 @@ const LiveActivitiesValidationSection = () => {
     if (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT) {
       const activityCount = liveActivities.activityTypes.size;
       dataRows.push({
-        label: formatMessage(messages.liveActivities),
-        value: activityCount === 0 ? formatMessage(messages.noneDetected) : `${activityCount} ${formatMessage(messages.registered)}`,
+        label: formatMessage(validationMessages.liveActivities),
+        value: activityCount === 0 ? formatMessage(validationMessages.noneDetected) : `${activityCount} ${formatMessage(validationMessages.registered)}`,
         showCopy: false,
         tooltip: activityCount === 0 
-          ? formatMessage(messages.noActivitiesTooltip)
-          : formatMessage(messages.foundActivitiesTooltip, { count: activityCount })
+          ? formatMessage(validationMessages.liveActivitiesTooltipNone)
+          : formatMessage(validationMessages.liveActivitiesTooltipFound, { count: activityCount })
       });
 
       // Add PushToStart Token for iOS 17.1+ (full support only)
       if (validationStatus === VALIDATION_STATUS.FULL_SUPPORT) {
         dataRows.push({
-          label: formatMessage(messages.pushToStartToken),
-          value: pushToStartToken || formatMessage(messages.notAvailable),
+          label: formatMessage(validationMessages.pushToStartToken),
+          value: pushToStartToken || formatMessage(validationMessages.notAvailable),
           showCopy: !!pushToStartToken,
           isLongData: true,
           tooltip: pushToStartToken 
-            ? formatMessage(messages.pushToStartTokenTooltip)
-            : formatMessage(messages.noPushToStartTokenTooltip)
+            ? formatMessage(validationMessages.pushToStartTokenTooltip)
+            : formatMessage(validationMessages.pushToStartTokenTooltipNone)
         });
       }
     }
@@ -398,8 +175,8 @@ const LiveActivitiesValidationSection = () => {
   const renderRegisteredActivitiesEmptyState = () => (
     <IllustratedMessage data-testid={TEST_IDS.NO_REGISTERED_ACTIVITIES_MESSAGE}>
       <Search />
-      <Heading>{formatMessage(messages.noRegisteredActivitiesTitle)}</Heading>
-      <Content>{formatMessage(messages.noRegisteredActivitiesDescription)}</Content>
+      <Heading>{formatMessage(validationMessages.noRegisteredActivitiesTitle)}</Heading>
+      <Content>{formatMessage(validationMessages.noRegisteredActivitiesDescription)}</Content>
     </IllustratedMessage>
   );
 
@@ -420,7 +197,7 @@ const LiveActivitiesValidationSection = () => {
           level={4}
           id="live-activities-validation-title"
         >
-          {formatMessage(messages.title)}
+          {formatMessage(validationMessages.title)}
         </Heading>
       </Flex>
 
@@ -467,9 +244,9 @@ const LiveActivitiesValidationSection = () => {
                     <CopyableValue 
                       value={row.value} 
                       maxLength={row.isLongData ? COPYABLE_VALUE_CONSTANTS.LONG_DATA_MAX_LENGTH : COPYABLE_VALUE_CONSTANTS.DEFAULT_MAX_LENGTH}
-                      copyTooltip={formatMessage(messages.copyValue)}
-                      copyFullValueTooltip={formatMessage(messages.copyFullValue)}
-                      copiedMessage={formatMessage(messages.copied)}
+                      copyTooltip="Copy value"
+                      copyFullValueTooltip="Copy full value"
+                      copiedMessage="Copied!"
                     />
                   ) : (
                     <Text>{row.value}</Text>
@@ -484,15 +261,15 @@ const LiveActivitiesValidationSection = () => {
       {/* Registered Live Activities Section - Show for iOS 16.1+ */}
       {(validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT) && (
         <View marginTop="size-300">
-          <Heading level={5} marginBottom="size-200">{formatMessage(messages.registeredActivities)}</Heading>
+          <Heading level={5} marginBottom="size-200">{formatMessage(validationMessages.registeredActivities)}</Heading>
           <TableView
-            aria-label={formatMessage(messages.registeredActivities)}
+            aria-label={formatMessage(validationMessages.registeredActivities)}
             data-testid={TEST_IDS.REGISTERED_ACTIVITIES_TABLE}
             renderEmptyState={renderRegisteredActivitiesEmptyState}
           >
             <TableHeader data-testid={TEST_IDS.REGISTERED_ACTIVITIES_HEADER}>
               <Column data-testid={TEST_IDS.ACTIVITY_TYPE_COLUMN}>
-                {formatMessage(messages.activityType)}
+                {formatMessage(validationMessages.activityType)}
               </Column>
             </TableHeader>
             <TableBody>
@@ -515,7 +292,7 @@ const LiveActivitiesValidationSection = () => {
           target="_blank"
           data-testid={TEST_IDS.APPLE_DOCUMENTATION_LINK}
         >
-          {formatMessage(messages.learnMore)}
+          {formatMessage(validationMessages.learnMore)}
         </Link>
       </View>
     </div>

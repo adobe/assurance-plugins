@@ -9,7 +9,7 @@ import ViewDetail from '@spectrum-icons/workflow/ViewDetail';
 
 import React, { useState, useMemo } from 'react';
 
-import { defineMessages, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import dayjs from 'dayjs';
 
@@ -17,6 +17,7 @@ import classNames from 'classnames';
 
 import usePluginState from '../../hooks/usePluginState';
 import { copyToClipboard } from '../../utils/clipboard';
+import { copyMessages } from '../../i18n';
 
 import './ContentStateCard.css';
 import InfoField from './InfoField';
@@ -28,37 +29,6 @@ interface ContentStateCardProps {
   lastUpdatedTimestamp?: number;
   eventId?: string; // ID of the event that generated this content state
 }
-
-const messages = defineMessages({
-  viewMode: {
-    id: 'contentState.viewMode',
-    defaultMessage: 'View Mode'
-  },
-  formatted: {
-    id: 'contentState.formatted',
-    defaultMessage: 'Formatted'
-  },
-  raw: {
-    id: 'contentState.raw',
-    defaultMessage: 'Raw JSON'
-  },
-  copyContent: {
-    id: 'contentState.copyContent',
-    defaultMessage: 'Copy Content'
-  },
-  contentCopied: {
-    id: 'contentState.contentCopied',
-    defaultMessage: 'Content copied to clipboard'
-  },
-  viewEventDetails: {
-    id: 'contentState.viewEventDetails',
-    defaultMessage: 'View Event Details'
-  },
-  viewEventDetailsTooltip: {
-    id: 'contentState.viewEventDetailsTooltip',
-    defaultMessage: 'Navigate to the event that generated this content state'
-  }
-});
 
 function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTimestamp, eventId }: ContentStateCardProps) {
   const { formatMessage } = useIntl();
@@ -216,7 +186,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                       <Copy size="S" />
                     </Button>
                     <Tooltip>
-                      <Text>{copySuccess ? formatMessage(messages.contentCopied) : formatMessage(messages.copyContent)}</Text>
+                      <Text>{copySuccess ? formatMessage(copyMessages.contentCopied) : formatMessage(copyMessages.copyContent)}</Text>
                     </Tooltip>
                   </TooltipTrigger>                
               )}
@@ -265,11 +235,11 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                         >
                           <ViewDetail size="XS" />
                           <Text UNSAFE_className={classNames('viewEventDetailsButtonText')}>
-                            {formatMessage(messages.viewEventDetails)}
+                            View Event Details
                           </Text>
                         </Button>
                         <Tooltip>
-                          <Text>{formatMessage(messages.viewEventDetailsTooltip)}</Text>
+                          <Text>Navigate to the event that generated this content state</Text>
                         </Tooltip>
                       </TooltipTrigger>
                     )}

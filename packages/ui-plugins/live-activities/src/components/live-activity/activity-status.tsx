@@ -1,17 +1,7 @@
 import { StatusLight } from '@adobe/react-spectrum';
 import React from 'react';
-import { defineMessages, useIntl } from 'react-intl';
-
-const messages = defineMessages({
-  active: {
-    id: 'activity.status.active',
-    defaultMessage: 'Active'
-  },
-  completed: {
-    id: 'activity.status.completed',
-    defaultMessage: 'Completed'
-  }
-});
+import { useIntl } from 'react-intl';
+import { stateMessages } from '../../i18n';
 
 interface ActivityStatusProps {
   status: 'active' | 'completed';
@@ -23,14 +13,14 @@ function ActivityStatus({ status }: ActivityStatusProps) {
   if (status === 'active') {
     return (
       <StatusLight variant="positive" UNSAFE_className="status-light-compact">
-        {formatMessage(messages.active)}
+        {formatMessage(stateMessages.active)}
       </StatusLight>
     );
   }
 
   return (
     <StatusLight variant="info" UNSAFE_className="status-light-compact">
-      {formatMessage(messages.completed)}
+      {formatMessage(stateMessages.completed)}
     </StatusLight>
   );
 }

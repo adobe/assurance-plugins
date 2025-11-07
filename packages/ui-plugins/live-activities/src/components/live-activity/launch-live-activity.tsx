@@ -14,7 +14,7 @@ import {
 } from '@adobe/react-spectrum';
 import classNames from 'classnames';
 import Rocket from '@spectrum-icons/workflow/Launch';
-import { defineMessages, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { useLiveActivitiesData, useRegisteredActivities } from '../../hooks/useActivities';
 import {
   buildApiUrl,
@@ -26,30 +26,8 @@ import {
 import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
 import { ErrorMessage, JsonEditor, DialogActions } from './common';
 import { useLiveActivityContext } from '../../hooks/useLiveActivityContext';
+import { liveActivityMessages } from '../../i18n';
 import './launch-live-activity.css';
-
-// ============================================================================
-// I18N MESSAGES
-// ============================================================================
-
-const messages = defineMessages({
-  launchLiveActivity: {
-    id: 'launchLiveActivity',
-    defaultMessage: 'Start Live Activity'
-  },
-  selectActivity: {
-    id: 'selectActivity',
-    defaultMessage: 'Select Live Activity'
-  },
-  apsPayloadDescription: {
-    id: 'apsPayloadDescription',
-    defaultMessage: 'Select a live activity and fill in the required fields below'
-  },
-  noActivitiesAvailable: {
-    id: 'noActivitiesAvailable',
-    defaultMessage: 'No registered live activities available'
-  }
-});
 
 // ============================================================================
 // SUB-COMPONENTS
@@ -199,8 +177,8 @@ function LaunchLiveActivity() {
   const canSubmit = selectedActivityType && apsPayload.trim() !== '' && context.isReady && !isLoading;
   const isButtonDisabled = !context.isReady || isLoading || !hasRegisteredActivities;
   const buttonTooltip = hasRegisteredActivities 
-    ? formatMessage(messages.launchLiveActivity)
-    : formatMessage(messages.noActivitiesAvailable);
+    ? formatMessage(liveActivityMessages.launchLiveActivity)
+    : formatMessage(liveActivityMessages.noActivitiesAvailable);
 
   // Render
   return (
@@ -211,24 +189,24 @@ function LaunchLiveActivity() {
         aria-label={buttonTooltip}
       >
         <Rocket marginEnd="size-50" />
-        {formatMessage(messages.launchLiveActivity)}
+        {formatMessage(liveActivityMessages.launchLiveActivity)}
       </Button>
       
       {(close) => (
         <Dialog>
-          <Heading>{formatMessage(messages.launchLiveActivity)}</Heading>
+          <Heading>{formatMessage(liveActivityMessages.launchLiveActivity)}</Heading>
           <Divider />
           
           <Content UNSAFE_className={classNames('dialogContent')}>
             <View marginBottom="size-200">
-              <Text>{formatMessage(messages.apsPayloadDescription)}</Text>
+              <Text>{formatMessage(liveActivityMessages.apsPayloadDescription)}</Text>
             </View>
 
             <ActivityPicker
               activities={registeredActivities}
               selectedKey={selectedActivityType}
               onSelectionChange={setSelectedActivityType}
-              label={formatMessage(messages.selectActivity)}
+              label={formatMessage(liveActivityMessages.selectActivity)}
             />
 
             <JsonEditor
@@ -248,7 +226,7 @@ function LaunchLiveActivity() {
             onCancel={() => handleCancel(close)}
             onAction={() => handleLaunchWithClose(close)}
             cancelLabel={formatMessage(COMMON_MESSAGES.cancel)}
-            actionLabel={formatMessage(messages.launchLiveActivity)}
+            actionLabel={formatMessage(liveActivityMessages.launchLiveActivity)}
             loadingLabel={formatMessage(COMMON_MESSAGES.sending)}
           />
         </Dialog>

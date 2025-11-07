@@ -11,40 +11,14 @@ import {
 
 import React, { useState, useMemo } from 'react';
 
-import { defineMessages, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
 import { LiveActivity } from '../../hooks/useActivities';
+import { activitiesMessages } from '../../i18n';
 
 import ActivityCard from './ActivityCard';
 import './ActivityList.css';
-
-const messages = defineMessages({
-  searchPlaceholder: {
-    id: 'activities.list.searchPlaceholder',
-    defaultMessage: 'Search activities...'
-  },
-  allActivities: {
-    id: 'activities.list.allActivities',
-    defaultMessage: 'All'
-  },
-  activeActivities: {
-    id: 'activities.list.activeActivities',
-    defaultMessage: 'Active'
-  },
-  completedActivities: {
-    id: 'activities.list.completedActivities',
-    defaultMessage: 'Completed'
-  },
-  noActivitiesFound: {
-    id: 'activities.list.noActivitiesFound',
-    defaultMessage: 'No activities found'
-  },
-  loadingActivities: {
-    id: 'activities.list.loadingActivities',
-    defaultMessage: 'Loading activities...'
-  }
-});
 
 interface ActivityListProps {
   activities: LiveActivity[];
@@ -90,7 +64,7 @@ function ActivityList({
       <View padding="size-200">
         <Flex justifyContent="center" alignItems="center" height="size-2000">
           <ProgressCircle size="L" />
-          <Text marginStart="size-100">{formatMessage(messages.loadingActivities)}</Text>
+          <Text marginStart="size-100">{formatMessage(activitiesMessages.loadingActivities)}</Text>
         </Flex>
       </View>
     );
@@ -110,7 +84,7 @@ function ActivityList({
           
           {/* Search */}
           <SearchField
-            placeholder={formatMessage(messages.searchPlaceholder)}
+            placeholder={formatMessage(activitiesMessages.searchActivities)}
             value={searchQuery}
             onChange={setSearchQuery}
             width="100%"
@@ -123,13 +97,13 @@ function ActivityList({
             onSelectionChange={(keys) => setSelectedFilter(Array.from(keys)[0] as string)}
           >
             <Item key="all">
-              {formatMessage(messages.allActivities)} ({activityCounts.all})
+              {formatMessage(activitiesMessages.allActivities)} ({activityCounts.all})
             </Item>
             <Item key="active">
-              {formatMessage(messages.activeActivities)} ({activityCounts.active})
+              {formatMessage(activitiesMessages.activeActivities)} ({activityCounts.active})
             </Item>
             <Item key="completed">
-              {formatMessage(messages.completedActivities)} ({activityCounts.completed})
+              {formatMessage(activitiesMessages.completedActivities)} ({activityCounts.completed})
             </Item>
           </ActionGroup>
         </Flex>
@@ -146,7 +120,7 @@ function ActivityList({
             >
               <Text UNSAFE_className={classNames('noActivitiesText')}>
                 {searchQuery || selectedFilter !== 'all' 
-                  ? formatMessage(messages.noActivitiesFound)
+                  ? formatMessage(activitiesMessages.noActivitiesFound)
                   : 'No activities available'
                 }
               </Text>
