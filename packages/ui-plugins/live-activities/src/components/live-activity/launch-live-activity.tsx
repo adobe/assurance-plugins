@@ -24,7 +24,7 @@ import {
   buildCompleteApsPayload
 } from '../../api/liveActivityApi';
 import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
-import { ErrorMessage, JsonEditor, DialogActions } from '../activities/shared';
+import { ErrorMessage, JsonEditor, DialogActions } from './common';
 import { useLiveActivityContext } from '../../hooks/useLiveActivityContext';
 import './launch-live-activity.css';
 

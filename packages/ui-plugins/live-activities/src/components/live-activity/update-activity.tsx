@@ -32,7 +32,7 @@ import {
 } from '../../api/liveActivityApi';
 import { LiveActivity } from '../../hooks/useActivities';
 import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
-import { ErrorMessage, JsonEditor, DialogActions } from '../activities/shared';
+import { ErrorMessage, JsonEditor, DialogActions } from './common';
 import { useLiveActivityContext } from '../../hooks/useLiveActivityContext';
 
 // ============================================================================

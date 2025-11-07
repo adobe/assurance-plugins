@@ -17,7 +17,7 @@ import Activities from './containers/activities';
 import Events from './containers/events';
 import ClientInfo from './components/validation/client-info';
 import { defineMessages, IntlProvider, useIntl } from 'react-intl';
-import usePluginState from './hooks/usePluginState';
+import usePluginState, { TopLevelTab } from './hooks/usePluginState';
 import { NAVIGATION_CONFIG } from './constants/liveActivitiesConfig';
 
 import ClientPicker from '../../../components/timeline-bar/src/components/FilterBar/ClientPicker';
@@ -75,7 +75,7 @@ function Inner() {
       </Flex>
       <Tabs
         density="compact"
-        onSelectionChange={key => setActiveTab(key as any)}
+        onSelectionChange={(key) => setActiveTab(key as TopLevelTab)}
         selectedKey={activeTab}
       >
         <TabList UNSAFE_className={classNames('tabList')}>
