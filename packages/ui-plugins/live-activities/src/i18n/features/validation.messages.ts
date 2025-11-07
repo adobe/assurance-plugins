@@ -38,7 +38,7 @@ export const validationMessages = defineMessages({
   },
   fullSupportDetails: {
     id: 'validation.liveActivities.fullSupportDetails',
-    defaultMessage: 'This device supports all Live Activities features (iOS {version}). Validating: Registration, Update tokens, Push-to-start tokens, Per-activity schema.'
+    defaultMessage: 'This device supports all Live Activities features including PushToStart (iOS {version}). Validating: Registration, Update tokens, Per-activity schema, PushToStart tokens.'
   },
   
   // Unknown/Not iOS

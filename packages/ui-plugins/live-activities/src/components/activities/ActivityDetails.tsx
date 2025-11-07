@@ -105,7 +105,7 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
             {formatMessage(activitiesMessages.noActivitySelected)}
           </Heading>
           <Text UNSAFE_className={classNames('noActivityText')}>
-            Choose an activity from the list to view its details, timeline, and events.
+            {formatMessage(activitiesMessages.selectActivityInDetailsDescription)}
           </Text>
         </Flex>
       </View>
@@ -234,7 +234,7 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                       <Text UNSAFE_className={classNames('noEventsText')}>
                         {eventSearchQuery || selectedEventFilter !== 'all' 
                           ? formatMessage(eventsMessages.noEventsFound)
-                          : 'No events available'
+                          : formatMessage(activitiesMessages.noEventsAvailable)
                         }
                       </Text>
                     </Flex>

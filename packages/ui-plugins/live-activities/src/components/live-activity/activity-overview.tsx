@@ -14,7 +14,7 @@ import MetricCard from '../atoms/MetricCard';
 import Card from '../atoms/card';
 import { LiveActivity } from '../../hooks/useActivities';
 import { useActivityEvents } from '../../utils/eventProcessing';
-import { activitiesMessages, copyMessages } from '../../i18n';
+import { activitiesMessages, copyMessages, contentStateMessages } from '../../i18n';
 
 import './activity-overview.css';
 import ActivityStatus from './activity-status';
@@ -182,7 +182,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
           <View gridArea="contentState">
             <ContentStateCard 
               contentState={latestContentState}
-              noContentStateMessage="No content state available"
+              noContentStateMessage={formatMessage(contentStateMessages.noContentState)}
               lastUpdatedTimestamp={lastUpdate ? new Date(lastUpdate).getTime() : undefined}
               eventId={latestContentStateEventId || undefined}
             />

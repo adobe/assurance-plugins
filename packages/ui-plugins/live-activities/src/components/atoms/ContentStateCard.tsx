@@ -17,7 +17,7 @@ import classNames from 'classnames';
 
 import usePluginState from '../../hooks/usePluginState';
 import { copyToClipboard } from '../../utils/clipboard';
-import { copyMessages } from '../../i18n';
+import { copyMessages, contentStateMessages } from '../../i18n';
 
 import './ContentStateCard.css';
 import InfoField from './InfoField';
@@ -171,7 +171,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
           <Flex direction="row" justifyContent="space-between" alignItems="center">
             <Flex direction="row" alignItems="center" gap="size-200">
               <Heading level={3} marginY="size-0">
-                Current Content State
+                {formatMessage(contentStateMessages.title)}
               </Heading>
               {contentState && (                                 
                   <TooltipTrigger>
@@ -193,7 +193,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
             </Flex>
             {contentState && (
               <ActionGroup
-                aria-label="Content view mode"
+                aria-label={formatMessage(contentStateMessages.viewModeAriaLabel)}
                 selectionMode="single"
                 selectedKeys={[viewMode]}
                 onSelectionChange={() => {
@@ -224,7 +224,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                     <Text 
                       UNSAFE_className={classNames('contentStateSummary')}
                     >
-                      Content State ({Object.keys(contentState).length} properties)
+                      {formatMessage(contentStateMessages.properties, { count: Object.keys(contentState).length })}
                     </Text>
                     {eventId && (
                       <TooltipTrigger>
@@ -235,11 +235,11 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                         >
                           <ViewDetail size="XS" />
                           <Text UNSAFE_className={classNames('viewEventDetailsButtonText')}>
-                            View Event Details
+                            {formatMessage(contentStateMessages.viewEventDetails)}
                           </Text>
                         </Button>
                         <Tooltip>
-                          <Text>Navigate to the event that generated this content state</Text>
+                          <Text>{formatMessage(contentStateMessages.viewEventDetailsTooltip)}</Text>
                         </Tooltip>
                       </TooltipTrigger>
                     )}
@@ -250,10 +250,10 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                   <Divider />
                   
                   <InfoField
-                    label="Last updated"
+                    label={formatMessage(contentStateMessages.lastUpdated)}
                     value={lastUpdatedTimestamp 
                       ? dayjs(lastUpdatedTimestamp).format('MMM D, YYYY [at] h:mm:ss A')
-                      : 'Unknown'
+                      : formatMessage(contentStateMessages.unknown)
                     }
                   />
                 </Flex>
@@ -274,7 +274,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                 <Text 
                   UNSAFE_className={classNames('noContentStateHint')}
                 >
-                  Content state will appear here when the activity is updated
+                  {formatMessage(contentStateMessages.emptyHint)}
                 </Text>
               </Flex>
             )}

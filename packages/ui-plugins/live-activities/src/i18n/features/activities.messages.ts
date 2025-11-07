@@ -217,6 +217,20 @@ export const activitiesMessages = defineMessages({
   selectActivityDescription: {
     id: 'activities.select.description',
     defaultMessage: 'Choose an activity from the list to view its overview, flow, and event details.'
+  },
+  selectActivityInDetailsDescription: {
+    id: 'activities.select.detailsDescription',
+    defaultMessage: 'Choose an activity from the list to view its details, timeline, and events.'
+  },
+  
+  // Empty states for filtered views
+  noActivitiesAvailable: {
+    id: 'activities.empty.noActivitiesAvailable',
+    defaultMessage: 'No activities available'
+  },
+  noEventsAvailable: {
+    id: 'activities.empty.noEventsAvailable',
+    defaultMessage: 'No events available'
   }
 });
 

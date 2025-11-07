@@ -121,7 +121,7 @@ function ActivityList({
               <Text UNSAFE_className={classNames('noActivitiesText')}>
                 {searchQuery || selectedFilter !== 'all' 
                   ? formatMessage(activitiesMessages.noActivitiesFound)
-                  : 'No activities available'
+                  : formatMessage(activitiesMessages.noActivitiesAvailable)
                 }
               </Text>
             </Flex>

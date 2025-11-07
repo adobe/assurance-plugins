@@ -39,7 +39,7 @@ import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceTyp
 import { useLiveActivitiesValidationStatus } from '../../hooks/useLiveActivitiesValidationStatus';
 import { createLiveActivitiesTableData } from '../../utils/liveActivitiesDisplay';
 import { getStatusDisplayConfig, isDeviceVersionBelowAppMinimum } from '../../utils/liveActivitiesValidation';
-import { validationMessages } from '../../i18n';
+import { validationMessages, copyMessages } from '../../i18n';
 
 const LiveActivitiesValidationSection = () => {
   const { formatMessage } = useIntl();
@@ -244,9 +244,9 @@ const LiveActivitiesValidationSection = () => {
                     <CopyableValue 
                       value={row.value} 
                       maxLength={row.isLongData ? COPYABLE_VALUE_CONSTANTS.LONG_DATA_MAX_LENGTH : COPYABLE_VALUE_CONSTANTS.DEFAULT_MAX_LENGTH}
-                      copyTooltip="Copy value"
-                      copyFullValueTooltip="Copy full value"
-                      copiedMessage="Copied!"
+                      copyTooltip={formatMessage(copyMessages.copyValue)}
+                      copyFullValueTooltip={formatMessage(copyMessages.copyFullValue)}
+                      copiedMessage={formatMessage(copyMessages.copied)}
                     />
                   ) : (
                     <Text>{row.value}</Text>
