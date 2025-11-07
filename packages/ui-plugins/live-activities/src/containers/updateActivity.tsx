@@ -12,7 +12,7 @@ function UpdateActivity() {
     }
   });
 
-  const fields = [];
+  // const fields = [];
 
   return (
     <View>

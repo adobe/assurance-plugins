@@ -82,13 +82,11 @@ function Inner() {
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
             {formatMessage(messages.clientInfo)}
           </Item>
-          {
-            showActivitiesTab && (
-              <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
-                {formatMessage(messages.activities)}
-              </Item>
-            )
-          }
+          {showActivitiesTab && (
+            <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
+              {formatMessage(messages.activities)}
+            </Item>
+          )}
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
             {formatMessage(messages.events)}
           </Item>
@@ -97,13 +95,11 @@ function Inner() {
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
             <ClientInfo />
           </Item>
-          {
-            showActivitiesTab && (
-              <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
-                <Activities />
-              </Item>
-            )
-          }
+          {showActivitiesTab && (
+            <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
+              <Activities />
+            </Item>
+          )}
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
             <Events />
           </Item>
@@ -117,16 +113,16 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <Provider theme={defaultTheme}>
-        <PluginBridgeProvider>
-          <IntlProvider locale="en">
-            <QueryClientProvider client={queryClient}>
-              <Inner />
-              <ToastContainer placement="top end" />
-            </QueryClientProvider>
-          </IntlProvider>
-        </PluginBridgeProvider>
-    </Provider>
+    <PluginBridgeProvider>
+      <Provider theme={defaultTheme}>
+        <IntlProvider locale="en">
+          <QueryClientProvider client={queryClient}>
+            <Inner />
+            <ToastContainer placement="top end" />
+          </QueryClientProvider>
+        </IntlProvider>
+      </Provider>
+    </PluginBridgeProvider>
   );
 }
 

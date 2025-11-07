@@ -71,7 +71,7 @@ export const EDITOR_CONFIG = {
     scrollBeyondLastLine: false,
     formatOnPaste: true,
     formatOnType: true,
-    autoIndent: 'full 'as const,
+    autoIndent: 'full' as const,
     padding: { top: 8 }  as const,
   },
   OPTIONS_WITH_LINE_NUMBERS: {

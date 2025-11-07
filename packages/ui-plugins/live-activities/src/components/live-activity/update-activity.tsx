@@ -112,7 +112,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         payload: JSON.stringify(generateUpdateTemplate(activity), null, 2)
       });
     }
-  }, [activity?.id]);
+  }, [activity?.id, reset]);
 
   // Handlers
   const handleUpdate = useCallback(async (data: FormValues) => {
@@ -123,7 +123,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
       // Parse user's JSON input
       let userPayload;
       try {
-        userPayload = JSON.parse(data.payload)
+        userPayload = JSON.parse(data.payload);
       } catch {
         throw new Error('Invalid JSON format in payload');
       }
@@ -160,7 +160,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         token: context.token!,
         payload
       });
-      ToastQueue.positive('Live Activity updated successfully. Please refresh the page', {timeout: 3000});
+      ToastQueue.positive('Live Activity updated successfully. Please refresh the page to see changes.', {timeout: 3000});
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || err.message || 'Failed to update Live Activity';
       setError(errorMessage);
