@@ -159,7 +159,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         <Dialog>
           <Heading>
             {formatMessage(liveActivityMessages.updateLiveActivityHeading, { 
-              activityName: activity.name || activity.id 
+              activityId: activity.id || activity.name
             })}
           </Heading>
           <Divider />

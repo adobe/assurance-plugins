@@ -30,7 +30,7 @@ export const liveActivityMessages = defineMessages({
   },
   updateLiveActivityHeading: {
     id: 'liveActivity.update.heading',
-    defaultMessage: 'Update Live Activity {activityName}'
+    defaultMessage: 'Update Live Activity {activityId}'
   },
   updateDescription: {
     id: 'liveActivity.update.description',
