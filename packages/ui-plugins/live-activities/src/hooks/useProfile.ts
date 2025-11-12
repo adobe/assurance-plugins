@@ -17,14 +17,15 @@ function useProfile() {
   const org = useImsOrg();
 
   return useQuery({
-    queryKey: ['profile', ecid, org, token],
+    queryKey: ['profile', ecid, org, token, sandbox?.name],
     queryFn: () => {
-      if (!token || !org || !ecid || !sandbox) {
+      if (!token || !org || !ecid || !sandbox?.name) {
         console.error('Token, org, ecid, and sandbox are required', token, org, ecid, sandbox);
         return null;
       }
-      return getProfile({ baseUrl, ecid, org, sandbox: sandbox.name, token });
-    }
+      return getProfile({ baseUrl, ecid, org, sandbox: sandbox?.name, token });
+    },
+    enabled: !!token && !!org && !!ecid && !!sandbox?.name
   });
 }
 

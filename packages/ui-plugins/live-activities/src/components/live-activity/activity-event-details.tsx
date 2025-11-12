@@ -99,7 +99,7 @@ function ActivityEventDetails({ activity }: Readonly<ActivityEventDetailsProps>)
   }
 
   return (
-    <View height="100%" padding="size-200">
+    <View height="100%" marginY="size-200">
       <Flex direction="column" gap="size-200" maxHeight="50vh">
         {/* Header */}
         <Flex direction="row" alignItems="center" justifyContent="space-between">

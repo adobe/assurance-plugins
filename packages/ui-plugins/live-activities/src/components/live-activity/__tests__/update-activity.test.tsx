@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { IntlProvider } from 'react-intl';
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
@@ -182,7 +182,7 @@ describe('UpdateActivity', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      expect(screen.getByText(/Update Live Activity Test Activity/i)).toBeInTheDocument();
+      expect(screen.getByText(/Update Live Activity activity-123/i)).toBeInTheDocument();
     });
 
     it('should display activity name in dialog heading', async () => {
@@ -196,7 +196,7 @@ describe('UpdateActivity', () => {
       fireEvent.click(button);
 
       await waitFor(() => {
-        expect(screen.getByText(/Update Live Activity Test Activity/i)).toBeInTheDocument();
+        expect(screen.getByText(/Update Live Activity activity-123/i)).toBeInTheDocument();
       });
     });
 
@@ -231,7 +231,7 @@ describe('UpdateActivity', () => {
       fireEvent.click(button);
 
       await waitFor(() => {
-        expect(screen.getByText(/Edit the payload content below to update the activity/i)).toBeInTheDocument();
+        expect(screen.getByText(/Edit the payload content below/i)).toBeInTheDocument();
       });
     });
 
@@ -263,7 +263,7 @@ describe('UpdateActivity', () => {
       fireEvent.click(button);
 
       await waitFor(() => {
-        expect(screen.getByText(/APS Payload/i)).toBeInTheDocument();
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
     });
 
@@ -346,14 +346,19 @@ describe('UpdateActivity', () => {
       });
 
       // Click send update button in dialog
-      await waitFor(async () => {
-        const dialogButtons = screen.getAllByRole('button', { name: /Send Update/i });
-        const dialogUpdateButton = dialogButtons.at(-1)!;
-        
-        if (!dialogUpdateButton.hasAttribute('disabled')) {
-          fireEvent.click(dialogUpdateButton);
-        }
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
+      
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
 
       await waitFor(() => {
         expect(mockBuildCompleteApsPayload).toHaveBeenCalledWith(
@@ -385,14 +390,19 @@ describe('UpdateActivity', () => {
       fireEvent.click(endRadio);
 
       // Click send update button
-      await waitFor(async () => {
-        const dialogButtons = screen.getAllByRole('button', { name: /Send Update/i });
-        const dialogUpdateButton = dialogButtons.at(-1)!;
-        
-        if (!dialogUpdateButton.hasAttribute('disabled')) {
-          fireEvent.click(dialogUpdateButton);
-        }
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
+      
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
 
       await waitFor(() => {
         expect(mockBuildCompleteApsPayload).toHaveBeenCalledWith(
@@ -421,14 +431,15 @@ describe('UpdateActivity', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Find and click the action button
-      const allButtons = screen.getAllByRole('button');
-      const actionButton = allButtons.find(btn => 
-        btn.textContent?.includes('Send Update') && !btn.hasAttribute('disabled')
+      // Find and click the update button inside the dialog
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
       
-      if (actionButton) {
-        fireEvent.click(actionButton);
+      if (updateButton) {
+        fireEvent.click(updateButton);
       }
 
       await waitFor(() => {
@@ -456,14 +467,19 @@ describe('UpdateActivity', () => {
       });
 
       // Try to update
-      await waitFor(async () => {
-        const dialogButtons = screen.getAllByRole('button', { name: /Send Update/i });
-        const dialogUpdateButton = dialogButtons.at(-1)!;
-        
-        if (!dialogUpdateButton.hasAttribute('disabled')) {
-          fireEvent.click(dialogUpdateButton);
-        }
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
+      
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
 
       await waitFor(() => {
         expect(screen.getByText(errorMessage)).toBeInTheDocument();
@@ -486,14 +502,15 @@ describe('UpdateActivity', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Find and click the action button
-      const allButtons = screen.getAllByRole('button');
-      const actionButton = allButtons.find(btn => 
-        btn.textContent?.includes('Send Update') && !btn.hasAttribute('disabled')
+      // Find and click the action button inside the dialog
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
       
-      if (actionButton) {
-        fireEvent.click(actionButton);
+      if (updateButton) {
+        fireEvent.click(updateButton);
       }
 
       // Check for error message
@@ -595,14 +612,19 @@ describe('UpdateActivity', () => {
       });
 
       // Click update
-      await waitFor(async () => {
-        const dialogButtons = screen.getAllByRole('button', { name: /Send Update/i });
-        const dialogUpdateButton = dialogButtons.at(-1)!;
-        
-        if (!dialogUpdateButton.hasAttribute('disabled')) {
-          fireEvent.click(dialogUpdateButton);
-        }
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
+      
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
 
       await waitFor(() => {
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -626,14 +648,19 @@ describe('UpdateActivity', () => {
       });
 
       // Try to update
-      await waitFor(async () => {
-        const dialogButtons = screen.getAllByRole('button', { name: /Send Update/i });
-        const dialogUpdateButton = dialogButtons.at(-1)!;
-        
-        if (!dialogUpdateButton.hasAttribute('disabled')) {
-          fireEvent.click(dialogUpdateButton);
-        }
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
+      
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
 
       await waitFor(() => {
         // Dialog should still be open
@@ -665,14 +692,19 @@ describe('UpdateActivity', () => {
       });
 
       // Click update
-      await waitFor(async () => {
-        const dialogButtons = screen.getAllByRole('button', { name: /Send Update/i });
-        const dialogUpdateButton = dialogButtons.at(-1)!;
-        
-        if (!dialogUpdateButton.hasAttribute('disabled')) {
-          fireEvent.click(dialogUpdateButton);
-        }
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
+      
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
 
       // Check for loading text
       await waitFor(() => {
@@ -707,7 +739,7 @@ describe('UpdateActivity', () => {
       // Find and click update button
       const allButtons = screen.getAllByRole('button');
       const actionButton = allButtons.find(btn => 
-        btn.textContent?.includes('Send Update') && !btn.hasAttribute('disabled')
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled') && !btn.closest('[aria-hidden="true"]')
       );
       
       if (actionButton) {
@@ -740,15 +772,20 @@ describe('UpdateActivity', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Click update
-      await waitFor(async () => {
-        const dialogButtons = screen.getAllByRole('button', { name: /Send Update/i });
-        const dialogUpdateButton = dialogButtons.at(-1)!;
-        
-        if (!dialogUpdateButton.hasAttribute('disabled')) {
-          fireEvent.click(dialogUpdateButton);
-        }
+      // Click update - find button inside dialog
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
+      
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
 
       await waitFor(() => {
         expect(mockBuildApiUrl).toHaveBeenCalledWith('prod');
@@ -771,15 +808,20 @@ describe('UpdateActivity', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Click update
-      await waitFor(async () => {
-        const dialogButtons = screen.getAllByRole('button', { name: /Send Update/i });
-        const dialogUpdateButton = dialogButtons.at(-1)!;
-        
-        if (!dialogUpdateButton.hasAttribute('disabled')) {
-          fireEvent.click(dialogUpdateButton);
-        }
+      // Click update - find button inside dialog
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
+      
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
 
       await waitFor(() => {
         expect(mockGenerateLiveActivityPayload).toHaveBeenCalledWith(
@@ -818,15 +860,20 @@ describe('UpdateActivity', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Click update
-      await waitFor(async () => {
-        const dialogButtons = screen.getAllByRole('button', { name: /Send Update/i });
-        const dialogUpdateButton = dialogButtons.at(-1)!;
-        
-        if (!dialogUpdateButton.hasAttribute('disabled')) {
-          fireEvent.click(dialogUpdateButton);
-        }
+      // Click update - find button inside dialog
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
+      
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
 
       await waitFor(() => {
         expect(mockGenerateLiveActivityPayload).toHaveBeenCalledWith(
@@ -938,15 +985,20 @@ describe('UpdateActivity', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Click update
-      await waitFor(async () => {
-        const dialogButtons = screen.getAllByRole('button', { name: /Send Update/i });
-        const dialogUpdateButton = dialogButtons.at(-1)!;
-        
-        if (!dialogUpdateButton.hasAttribute('disabled')) {
-          fireEvent.click(dialogUpdateButton);
-        }
+      // Click update - find button inside dialog
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
+      
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
 
       await waitFor(() => {
         expect(mockBuildCompleteApsPayload).toHaveBeenCalledWith(

@@ -22,7 +22,7 @@
 
 .rightPanel {
   flex: 1;
-  margin-left: var(--spectrum-global-dimension-size-100);
+  margin-left: var(--spectrum-global-dimension-size-200);
   min-width: 400px;
   overflow: hidden;
   transition: width 0.2s ease;

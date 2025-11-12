@@ -188,7 +188,6 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
                 <JsonEditor
                   value={value}
                   onChange={onChange}
-                  label={formatMessage(COMMON_MESSAGES.apsPayload)}
                   showLineNumbers
                 />
               )}

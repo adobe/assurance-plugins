@@ -23,11 +23,8 @@ import { navigationMessages } from './i18n';
 
 import ClientPicker from '../../../components/timeline-bar/src/components/FilterBar/ClientPicker';
 import Card from './components/atoms/card';
-import './App.css';
 import classNames from 'classnames';
-import { useLiveActivitiesValidationStatus } from './hooks/useLiveActivitiesValidationStatus';
-import { useClientMessagingVersion } from './hooks/useClientInfo';
-import useActivities from './hooks/useActivities';
+import './App.css';
 
 function Inner() {
   const {
@@ -35,15 +32,8 @@ function Inner() {
   } = usePluginState();
   const { formatMessage } = useIntl();
 
-  const validationStatus = useLiveActivitiesValidationStatus();
-  const messagingVersion = useClientMessagingVersion();
-  const realActivities = useActivities();
   const selectedClients = useSelectedClients();
   const currentClient = selectedClients[0];
-  const showActivitiesTab =
-    (validationStatus === 'basic-support' || validationStatus === 'full-support') &&
-    messagingVersion &&
-    realActivities.length > 0;
 
   useEffect(() => {
     if (currentClient) {
@@ -61,18 +51,16 @@ function Inner() {
       </Flex>
       <Tabs
         density="compact"
-        onSelectionChange={(key) => setActiveTab(key as TopLevelTab)}
+        onSelectionChange={key => setActiveTab(key as TopLevelTab)}
         selectedKey={activeTab}
       >
         <TabList UNSAFE_className={classNames('tabList')}>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
             {formatMessage(navigationMessages.clientInfo)}
           </Item>
-          {showActivitiesTab && (
-            <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
-              {formatMessage(navigationMessages.activities)}
-            </Item>
-          )}
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
+            {formatMessage(navigationMessages.activities)}
+          </Item>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
             {formatMessage(navigationMessages.events)}
           </Item>
@@ -81,11 +69,9 @@ function Inner() {
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
             <ClientInfo />
           </Item>
-          {showActivitiesTab && (
-            <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
-              <Activities />
-            </Item>
-          )}
+          <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
+            <Activities />
+          </Item>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
             <Events />
           </Item>

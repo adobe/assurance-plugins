@@ -23,7 +23,7 @@ interface JsonEditorProps {
   /**
    * Label to display above editor
    */
-  label: string;
+  label?: string;
   
   /**
    * Optional ref to access editor instance
@@ -92,7 +92,7 @@ export function JsonEditor({
 
   return (
     <View UNSAFE_className={className}>
-      <Text marginBottom="size-100">{label}</Text>
+      {label && <Text marginBottom="size-100">{label}</Text>}
       <Editor
         onMount={(editor, monaco) => {
           if (editorRef) {
