@@ -121,7 +121,10 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
     }
 
     // Update attribute type if it differs from the current attribute type (might get updated from "unknown" to some value)
-    if(activity.attributeType !== attributeType) {
+    if (
+      activity.attributeType !== attributeType ||
+      (activity.attributeType === 'unknown' && attributeType !== 'unknown')
+    ) {
       activity.attributeType = attributeType;
     }
 

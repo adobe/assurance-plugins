@@ -21,25 +21,7 @@ vi.mock('../../../hooks/useLiveActivityContext', () => ({
 // Import mocked modules
 import { useLiveActivityContext } from '../../../hooks/useLiveActivityContext';
 
-// Mock ToastQueue
-vi.mock('@adobe/react-spectrum', async () => {
-  const actual = await vi.importActual('@adobe/react-spectrum');
-  return {
-    ...actual,
-    ToastQueue: {
-      positive: vi.fn(),
-      negative: vi.fn(),
-    },
-  };
-});
-
-const ToastQueue = {
-  positive: vi.fn(),
-  negative: vi.fn(),
-};
-
 const mockUseLiveActivityContext = useLiveActivityContext as ReturnType<typeof vi.fn>;
-const mockToastQueuePositive = ToastQueue.positive;
 
 // Mock API functions
 const mockSendLiveActivityNotification = vi.spyOn(liveActivityApi, 'sendLiveActivityNotification');
