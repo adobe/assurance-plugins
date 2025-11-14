@@ -25,7 +25,8 @@ function useProfile() {
       }
       return getProfile({ baseUrl, ecid, org, sandbox: sandbox?.name, token });
     },
-    enabled: !!token && !!org && !!ecid && !!sandbox?.name
+    enabled: !!token && !!org && !!ecid && !!sandbox?.name,
+    refetchOnWindowFocus: false
   });
 }
 

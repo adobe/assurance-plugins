@@ -162,7 +162,7 @@ export function usePlatformEntity(ecid?: string) {
   const sandbox = useSandbox();
 
   return useQuery({
-    queryKey: ['platform', 'entity', ecid, org, sandbox?.name],
+    queryKey: ['platform', 'entity', ecid, token, org, sandbox?.name],
     queryFn: () => {
       if (!token || !org || !sandbox?.name || !ecid) {
         return null;
@@ -189,7 +189,7 @@ export function usePlatformDataset(datasetId?: string) {
   const sandbox = useSandbox();
 
   return useQuery({
-    queryKey: ['platform', 'dataset', datasetId, org, sandbox?.name],
+    queryKey: ['platform', 'dataset', datasetId, token, org, sandbox?.name],
     queryFn: () => {
       if (!token || !org || !sandbox?.name || !datasetId) {
         return null;
@@ -204,6 +204,7 @@ export function usePlatformDataset(datasetId?: string) {
       });
     },
     enabled: !!token && !!org && !!sandbox?.name && !!datasetId,
+    retry: 1,
     refetchOnWindowFocus: false
   });
 }
@@ -216,7 +217,7 @@ export function usePlatformSchema(schemaId?: string) {
   const sandbox = useSandbox();
 
   return useQuery({
-    queryKey: ['platform', 'schema', schemaId, org, sandbox?.name],
+    queryKey: ['platform', 'schema', token, schemaId, org, sandbox?.name],
     queryFn: () => {
       if (!token || !org || !sandbox?.name || !schemaId) {
         return null;
@@ -231,6 +232,7 @@ export function usePlatformSchema(schemaId?: string) {
       });
     },
     enabled: !!token && !!org && !!sandbox?.name && !!schemaId,
+    retry: 1,
     refetchOnWindowFocus: false
   });
 }

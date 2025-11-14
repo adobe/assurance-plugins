@@ -149,7 +149,7 @@ export const useDataset = (datasetId: string | null, enabled: boolean = true) =>
   const sandbox = useSandbox();
 
   return useQuery({
-    queryKey: ['dataset', datasetId, org, sandbox?.name],
+    queryKey: ['dataset', datasetId, token, org, sandbox?.name],
     queryFn: async () => {
       if (!datasetId || !token || !org || !sandbox?.name) return null;
 
@@ -164,7 +164,6 @@ export const useDataset = (datasetId: string | null, enabled: boolean = true) =>
       return data;
     },
     enabled: enabled && !!datasetId && !!token && !!org && !!sandbox?.name,
-    retry: 1,
     refetchOnWindowFocus: false
   });
 };
@@ -177,7 +176,7 @@ export const useSchema = (schemaId: string | null, enabled: boolean = true) => {
   const sandbox = useSandbox();
 
   return useQuery({
-    queryKey: ['schema', schemaId, org, sandbox?.name],
+    queryKey: ['schema', schemaId, org, token, sandbox?.name],
     queryFn: async () => {
       if (!schemaId || !token || !org || !sandbox?.name) return null;
 
@@ -198,7 +197,8 @@ export const useSchema = (schemaId: string | null, enabled: boolean = true) => {
       return response.json();
     },
     enabled: enabled && !!schemaId && !!token && !!org && !!sandbox?.name,
-    retry: 1
+    retry: 1,
+    refetchOnWindowFocus: false
   });
 };
 
@@ -210,7 +210,7 @@ export const useDatastream = (datastreamId: string | null, enabled: boolean = tr
   const sandbox = useSandbox();
 
   return useQuery({
-    queryKey: ['datastream', datastreamId, org, sandbox?.name],
+    queryKey: ['datastream', datastreamId, token, org, sandbox?.name],
     queryFn: async () => {
       if (!datastreamId || !token || !org || !sandbox?.name) return null;
 
@@ -241,7 +241,7 @@ export const useProfileEntities = (ecid: string | null, enabled: boolean = true)
   const sandbox = useSandbox();
 
   return useQuery({
-    queryKey: ['entities', ecid, org, sandbox?.name],
+    queryKey: ['entities', ecid, token, org, sandbox?.name],
     queryFn: async () => {
       if (!ecid || !token || !org || !sandbox?.name) return null;
 
