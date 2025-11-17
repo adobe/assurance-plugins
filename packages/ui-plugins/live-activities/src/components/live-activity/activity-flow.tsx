@@ -123,7 +123,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
     return events.sort((a, b) => 
       new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
     );
-  }, [activity, activity?.events, activity?.updateEvents,  activity?.events?.length]);
+  }, [activity]);
 
   const getEventTypeColor = (type: FlowEvent['type']) => {
     switch (type) {
