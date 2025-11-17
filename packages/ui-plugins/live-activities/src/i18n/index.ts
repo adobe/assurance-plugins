@@ -4,7 +4,6 @@
  * 
  * @example
  * import { actionMessages, activitiesMessages } from '@/i18n';
- * import { useMessages } from '@/i18n/utils';
  */
 
 // Shared messages
@@ -27,7 +26,6 @@ export {
 } from './features';
 
 // Utilities
-export { useMessages, useMessage } from './utils';
 export type { Messages, MessageKey, FormattedMessages } from './utils';
 
 // Combined messages object (for backwards compatibility or centralized access)
