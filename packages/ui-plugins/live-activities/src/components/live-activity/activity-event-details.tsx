@@ -1,8 +1,6 @@
-import { defaultColumns } from '@assurance/event-table';
+import { defaultColumns, EventTableWithDetails } from '@assurance/event-table';
 
-import { View, Text, Heading, Flex, SearchField, ActionGroup, Item, Well, Divider, Grid } from '@adobe/react-spectrum';
-
-import { EventTableWithDetails } from '@assurance/event-table';
+import { View, Text, Heading, Flex, SearchField, ActionGroup, Item, Divider, Grid } from '@adobe/react-spectrum';
 
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -15,17 +13,15 @@ import { useIntl } from 'react-intl';
 import InfoField from '../atoms/InfoField';
 import MetricCard from '../atoms/MetricCard';
 import Card from '../atoms/card';
-import { MESSAGES } from '../../constants/liveActivitiesConfig';
 import { LiveActivity } from '../../hooks/useActivities';
 import usePluginState from '../../hooks/usePluginState';
 import { LiveActivityEvent } from '../../types/liveActivityEvent';
 import { useActivityEvents, useEventStatistics, useEventTimeRange, filterEventsByType, filterEventsBySearch } from '../../utils/eventProcessing';
+import { activitiesMessages, eventsMessages } from '../../i18n';
 
 interface ActivityEventDetailsProps {
   activity?: LiveActivity;
 }
-
-// Use centralized messages
 
 const eventNameColumn: ColumnDef<LiveActivityEvent> = {
   header: 'Event Name',
@@ -45,7 +41,7 @@ const eventTypeColumn: ColumnDef<LiveActivityEvent> = {
   },
 };
 
-function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
+function ActivityEventDetails({ activity }: Readonly<ActivityEventDetailsProps>) {
   const { formatMessage } = useIntl();
   const { activityNavigation: { selectedEventId } } = usePluginState();
   const [searchQuery, setSearchQuery] = useState('');
@@ -96,7 +92,7 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
     return (
       <View height="100%" overflow="auto" padding="size-400">
         <Flex justifyContent="center" alignItems="center" height="100%">
-          <Text>{formatMessage(MESSAGES.noEventsFound)}</Text>
+          <Text>{formatMessage(eventsMessages.noEventsFound)}</Text>
         </Flex>
       </View>
     );
@@ -108,7 +104,7 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
         {/* Header */}
         <Flex direction="row" alignItems="center" justifyContent="space-between">
           <Heading level={2} marginY="size-0">
-            {formatMessage(MESSAGES.eventDetails)}
+            {formatMessage(activitiesMessages.activityEventDetails)}
           </Heading>
         </Flex>
 
@@ -117,7 +113,7 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
           <View padding="size-200">
             <Flex direction="column" gap="size-200">
             <Heading level={3} marginY="size-0">
-              {formatMessage(MESSAGES.eventSummary)}
+              {formatMessage(eventsMessages.eventSummary)}
             </Heading>
             <Divider />
             <Grid
@@ -130,7 +126,7 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
               <View gridArea="stats">
                 <Flex gap="size-200" wrap>
                   <MetricCard 
-                    label={formatMessage(MESSAGES.totalEvents)}
+                    label={formatMessage(eventsMessages.totalEvents)}
                     value={eventStats.total}
                     tooltip="Total number of events for this Live Activity across all types"
                   />
@@ -175,7 +171,7 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
                       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                         <tbody>
                           <InfoField
-                            label={formatMessage(MESSAGES.timeRange)}
+                            label={formatMessage(eventsMessages.timeRange)}
                             value={`${dayjs(timeRange.earliest).format('lll')} - ${dayjs(timeRange.latest).format('lll')}`}
                           />
                           <InfoField
@@ -196,7 +192,7 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
         {/* Filters and Search */}
         <Flex direction="column" gap="size-200">
           <SearchField
-            placeholder={formatMessage(MESSAGES.searchEvents)}
+            placeholder={formatMessage(eventsMessages.searchEvents)}
             value={searchQuery}
             onChange={setSearchQuery}
             width="100%"
@@ -208,10 +204,10 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
             onSelectionChange={(keys) => setSelectedFilter(Array.from(keys)[0] as string)}
           >
             <Item key="all">
-              {formatMessage(MESSAGES.allEvents)} ({eventStats.total})
+              {formatMessage(eventsMessages.allEvents)} ({eventStats.total})
             </Item>
             <Item key="start">
-              {formatMessage(MESSAGES.startEvents)} ({eventStats.start})
+              {formatMessage(eventsMessages.startEvents)} ({eventStats.start})
             </Item>
             <Item key="content-update">
               Content Updates ({eventStats.contentUpdate})
@@ -223,7 +219,7 @@ function ActivityEventDetails({ activity }: ActivityEventDetailsProps) {
               Token Updates to Edge ({eventStats.tokenUpdateEdge})
             </Item>
             <Item key="ended">
-              {formatMessage(MESSAGES.endEvents)} ({eventStats.ended})
+              {formatMessage(eventsMessages.endEvents)} ({eventStats.ended})
             </Item>
             <Item key="dismissed">
               Dismissed Events ({eventStats.dismissed})

@@ -15,22 +15,8 @@ import { renderValue } from '../../utils/utils';
 import { CopyableValue } from '@assurance/common-utils';
 
 import DataStreamStatusDetails from './data-stream-status-details';
-import { defineMessages, useIntl } from 'react-intl';
-
-const messages = defineMessages({
-  copyValue: {
-    id: 'profile.copyValue',
-    defaultMessage: 'Copy value'
-  },
-  copyFullValue: {
-    id: 'profile.copyFullValue',
-    defaultMessage: 'Copy full value'
-  },
-  copied: {
-    id: 'profile.copied',
-    defaultMessage: 'Copied!'
-  }
-});
+import { useIntl } from 'react-intl';
+import { copyMessages } from '../../i18n';
 
 const ProfileSectionWidget: React.FC = () => {
   const { formatMessage } = useIntl();
@@ -88,9 +74,9 @@ const ProfileSectionWidget: React.FC = () => {
                   {profilePushToStart?.token ? (
                     <CopyableValue
                       value={profilePushToStart.token}
-                      copyTooltip={formatMessage(messages.copyValue)}
-                      copyFullValueTooltip={formatMessage(messages.copyFullValue)}
-                      copiedMessage={formatMessage(messages.copied)}
+                      copyTooltip={formatMessage(copyMessages.copyValue)}
+                      copyFullValueTooltip={formatMessage(copyMessages.copyFullValue)}
+                      copiedMessage={formatMessage(copyMessages.copied)}
                     />
                   ) : (
                     <UnknownBadge />

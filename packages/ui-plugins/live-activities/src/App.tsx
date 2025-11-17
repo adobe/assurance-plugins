@@ -16,9 +16,10 @@ import { PluginBridgeProvider, useSelectedClients } from '@assurance/plugin-brid
 import Activities from './containers/activities';
 import Events from './containers/events';
 import ClientInfo from './components/validation/client-info';
-import { defineMessages, IntlProvider, useIntl } from 'react-intl';
+import { IntlProvider, useIntl } from 'react-intl';
 import usePluginState, { TopLevelTab } from './hooks/usePluginState';
 import { NAVIGATION_CONFIG } from './constants/liveActivitiesConfig';
+import { navigationMessages } from './i18n';
 
 import ClientPicker from '../../../components/timeline-bar/src/components/FilterBar/ClientPicker';
 import Card from './components/atoms/card';
@@ -27,21 +28,6 @@ import classNames from 'classnames';
 import { useLiveActivitiesValidationStatus } from './hooks/useLiveActivitiesValidationStatus';
 import { useClientMessagingVersion } from './hooks/useClientInfo';
 import useActivities from './hooks/useActivities';
-
-const messages = defineMessages({
-  activities: {
-    id: 'activities',
-    defaultMessage: 'Activities'
-  },
-  events: {
-    id: 'events',
-    defaultMessage: 'Events'
-  },
-  clientInfo: {
-    id: 'clientInfo',
-    defaultMessage: 'Client Info'
-  }
-});
 
 function Inner() {
   const {
@@ -80,15 +66,15 @@ function Inner() {
       >
         <TabList UNSAFE_className={classNames('tabList')}>
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.CLIENT_INFO}>
-            {formatMessage(messages.clientInfo)}
+            {formatMessage(navigationMessages.clientInfo)}
           </Item>
           {showActivitiesTab && (
             <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.ACTIVITIES}>
-              {formatMessage(messages.activities)}
+              {formatMessage(navigationMessages.activities)}
             </Item>
           )}
           <Item key={NAVIGATION_CONFIG.TOP_LEVEL_TABS.EVENTS}>
-            {formatMessage(messages.events)}
+            {formatMessage(navigationMessages.events)}
           </Item>
         </TabList>
         <TabPanels marginTop="size-200">

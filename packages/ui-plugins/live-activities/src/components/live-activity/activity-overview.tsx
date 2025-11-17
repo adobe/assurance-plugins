@@ -1,8 +1,8 @@
-import { Flex, Heading, View, Text, Grid, Well, Divider } from '@adobe/react-spectrum';
+import { Flex, Heading, View, Text, Grid, Divider } from '@adobe/react-spectrum';
 
 import React, { useMemo } from 'react';
 
-import { defineMessages, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -14,6 +14,7 @@ import MetricCard from '../atoms/MetricCard';
 import Card from '../atoms/card';
 import { LiveActivity } from '../../hooks/useActivities';
 import { useActivityEvents } from '../../utils/eventProcessing';
+import { activitiesMessages, copyMessages, contentStateMessages } from '../../i18n';
 
 import './activity-overview.css';
 import ActivityStatus from './activity-status';
@@ -24,73 +25,6 @@ dayjs.extend(localizedFormat);
 interface ActivityOverviewProps {
   activity?: LiveActivity;
 }
-
-const messages = defineMessages({
-  activityOverview: {
-    id: 'activities.overview.title',
-    defaultMessage: 'Activity Overview'
-  },
-  basicInfo: {
-    id: 'activities.overview.basicInfo',
-    defaultMessage: 'Basic Information'
-  },
-  activityMetrics: {
-    id: 'activities.overview.metrics',
-    defaultMessage: 'Activity Metrics'
-  },
-  contentState: {
-    id: 'activities.overview.contentState',
-    defaultMessage: 'Current Content State'
-  },
-  liveActivityIdLabel: {
-    id: 'activities.details.liveActivityId',
-    defaultMessage: 'Live Activity ID'
-  },
-  attributeSetLabel: {
-    id: 'activities.details.attributeSet',
-    defaultMessage: 'Attribute Set'
-  },
-  startTimeLabel: {
-    id: 'activities.details.startTime',
-    defaultMessage: 'Start Time'
-  },
-  endTimeLabel: {
-    id: 'activities.details.endTime',
-    defaultMessage: 'End Time'
-  },
-  durationLabel: {
-    id: 'activities.overview.duration',
-    defaultMessage: 'Duration'
-  },
-  updateCountLabel: {
-    id: 'activities.overview.updateCount',
-    defaultMessage: 'Update Count'
-  },
-  eventCountLabel: {
-    id: 'activities.overview.eventCount',
-    defaultMessage: 'Event Count'
-  },
-  lastUpdateLabel: {
-    id: 'activities.overview.lastUpdate',
-    defaultMessage: 'Last Update'
-  },
-  noContentState: {
-    id: 'activities.details.noContentState',
-    defaultMessage: 'No content state available'
-  },
-  copyValue: {
-    id: 'activities.details.copyValue',
-    defaultMessage: 'Copy value'
-  },
-  copyFullValue: {
-    id: 'activities.details.copyFullValue',
-    defaultMessage: 'Copy full value'
-  },
-  copied: {
-    id: 'activities.details.copied',
-    defaultMessage: 'Copied!'
-  }
-});
 
 function ActivityOverview({ activity }: ActivityOverviewProps) {
   const { formatMessage } = useIntl();
@@ -165,11 +99,11 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
           {/* Metrics Row */}
           <View gridArea="metrics">
             <Heading level={3} marginY="size-0" marginBottom="size-200">
-              {formatMessage(messages.activityMetrics)}
+              {formatMessage(activitiesMessages.activityMetrics)}
             </Heading>
             <Flex gap="size-200" wrap>
               <MetricCard 
-                label={formatMessage(messages.durationLabel)}
+                label={formatMessage(activitiesMessages.duration)}
                 value={duration > 0 ? `${duration} min` : 'N/A'}
                 tooltip="Total time the Live Activity has been active, calculated from start time to end time (or current time if still active)"
               />
@@ -184,13 +118,13 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
                 tooltip="Number of times the update token has been refreshed for push notifications"
               />
               <MetricCard 
-                label={formatMessage(messages.eventCountLabel)}
+                label={formatMessage(activitiesMessages.eventCount)}
                 value={eventCount}
                 tooltip="Total number of events associated with this Live Activity"
               />
               {lastUpdate && (
                 <MetricCard 
-                  label={formatMessage(messages.lastUpdateLabel)}
+                  label={formatMessage(activitiesMessages.lastUpdate)}
                   value={dayjs(lastUpdate).format('HH:mm:ss')}
                   tooltip="Time when the activity content was last updated"
                 />
@@ -204,36 +138,36 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
               <View padding="size-200">
                 <Flex direction="column" gap="size-200">
                 <Heading level={3} marginY="size-0">
-                  {formatMessage(messages.basicInfo)}
+                  {formatMessage(activitiesMessages.basicInfo)}
                 </Heading>
                 <Divider />
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <tbody>
                     <InfoField
-                      label={formatMessage(messages.liveActivityIdLabel)}
+                      label={formatMessage(activitiesMessages.liveActivityId)}
                       value={
                         <CopyableValue 
                           value={activity.id}
-                          copyTooltip={formatMessage(messages.copyValue)}
-                          copyFullValueTooltip={formatMessage(messages.copyFullValue)}
-                          copiedMessage={formatMessage(messages.copied)}
+                          copyTooltip={formatMessage(copyMessages.copyValue)}
+                          copyFullValueTooltip={formatMessage(copyMessages.copyFullValue)}
+                          copiedMessage={formatMessage(copyMessages.copied)}
                         />
                       }
                       wrap={true}
                     />
                     <InfoField
-                      label={formatMessage(messages.attributeSetLabel)}
+                      label={formatMessage(activitiesMessages.attributeSet)}
                       value={activity.attributes || 'N/A'}
                     />
                     {startTime && (
                       <InfoField
-                        label={formatMessage(messages.startTimeLabel)}
+                        label={formatMessage(activitiesMessages.startTime)}
                         value={startTime.format('lll')}
                       />
                     )}
                     {endTime && (
                       <InfoField
-                        label={formatMessage(messages.endTimeLabel)}
+                        label={formatMessage(activitiesMessages.endTime)}
                         value={endTime.format('lll')}
                       />
                     )}
@@ -248,7 +182,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
           <View gridArea="contentState">
             <ContentStateCard 
               contentState={latestContentState}
-              noContentStateMessage={formatMessage(messages.noContentState)}
+              noContentStateMessage={formatMessage(contentStateMessages.noContentState)}
               lastUpdatedTimestamp={lastUpdate ? new Date(lastUpdate).getTime() : undefined}
               eventId={latestContentStateEventId || undefined}
             />

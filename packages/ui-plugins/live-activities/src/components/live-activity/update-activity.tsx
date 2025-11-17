@@ -19,7 +19,7 @@ import {
   Radio,
   ToastQueue
 } from '@adobe/react-spectrum';
-import { defineMessages, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Send from '@spectrum-icons/workflow/Send';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -34,41 +34,7 @@ import { LiveActivity } from '../../hooks/useActivities';
 import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
 import { ErrorMessage, JsonEditor, DialogActions } from './common';
 import { useLiveActivityContext } from '../../hooks/useLiveActivityContext';
-
-// ============================================================================
-// I18N MESSAGES
-// ============================================================================
-
-const messages = defineMessages({
-  updateLiveActivity: {
-    id: 'updateLiveActivity',
-    defaultMessage: 'Send Update'
-  },
-  updateLiveActivityHeading: {
-    id: 'updateLiveActivityHeading',
-    defaultMessage: 'Update Live Activity {activityName}'
-  },
-  update: {
-    id: 'update',
-    defaultMessage: 'Send Update'
-  },
-  apsPayloadDescription: {
-    id: 'apsPayloadDescription',
-    defaultMessage: 'Edit the payload content below to update the activity'
-  },
-  eventType: {
-    id: 'eventType',
-    defaultMessage: 'Event Type'
-  },
-  eventUpdate: {
-    id: 'eventUpdate',
-    defaultMessage: 'Update'
-  },
-  eventEnd: {
-    id: 'eventEnd',
-    defaultMessage: 'End'
-  }
-});
+import { liveActivityMessages, actionMessages } from '../../i18n';
 
 // ============================================================================
 // TYPES
@@ -186,32 +152,32 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         isDisabled={isButtonDisabled}
       >
         <Send marginEnd="size-50" />
-        {formatMessage(messages.updateLiveActivity)}
+        {formatMessage(liveActivityMessages.updateLiveActivity)}
       </Button>
       
       {(close) => (
         <Dialog>
           <Heading>
-            {formatMessage(messages.updateLiveActivityHeading, { 
-              activityName: activity.name || activity.id 
+            {formatMessage(liveActivityMessages.updateLiveActivityHeading, { 
+              activityId: activity.id || activity.name
             })}
           </Heading>
           <Divider />
           
           <Content>
             <View marginBottom="size-200">
-              <Text>{formatMessage(messages.apsPayloadDescription)}</Text>
+              <Text>{formatMessage(liveActivityMessages.apsPayloadDescription)}</Text>
             </View>
 
             <View marginBottom="size-200">
               <RadioGroup 
-                label={formatMessage(messages.eventType)}
+                label={formatMessage(liveActivityMessages.eventType)}
                 value={eventType}
                 onChange={(value) => setEventType(value as 'update' | 'end')}
                 orientation="horizontal"
               >
-                <Radio value="update">{formatMessage(messages.eventUpdate)}</Radio>
-                <Radio value="end">{formatMessage(messages.eventEnd)}</Radio>
+                <Radio value="update">{formatMessage(liveActivityMessages.eventTypeUpdate)}</Radio>
+                <Radio value="end">{formatMessage(liveActivityMessages.eventTypeEnd)}</Radio>
               </RadioGroup>
             </View>
 
@@ -249,7 +215,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
               }
             }}
             cancelLabel={formatMessage(COMMON_MESSAGES.cancel)}
-            actionLabel={formatMessage(messages.update)}
+            actionLabel={formatMessage(actionMessages.update)}
             loadingLabel={formatMessage(COMMON_MESSAGES.sending)}
           />
         </Dialog>
