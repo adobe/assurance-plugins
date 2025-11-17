@@ -181,7 +181,7 @@ const PushCredentialsStatusDetails: React.FC<PushCredentialsStatusDetailsProps> 
       {onRefresh && (
         <View marginTop="size-200">
           <Button 
-            variant="primary" 
+            variant="secondary" 
             onPress={onRefresh} 
             data-testid="refresh-push-credentials"
           >

@@ -18,7 +18,8 @@ function useLaunchProperty(propertyId) {
       }
       return fetchProperty({ baseUrl, propertyId, token, org });
     },
-    enabled: !!propertyId && !!token && !!org
+    enabled: !!propertyId && !!token && !!org,
+    refetchOnWindowFocus: false
   });
 }
 

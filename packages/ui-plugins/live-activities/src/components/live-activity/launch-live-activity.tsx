@@ -213,7 +213,6 @@ function LaunchLiveActivity() {
               value={apsPayload}
               onChange={(val) => setApsPayload(val || '{}')}
               editorRef={editorRef}
-              label={formatMessage(COMMON_MESSAGES.apsPayload)}
               className={classNames('editorContainer')}
             />
 
