@@ -103,7 +103,7 @@ export function JsonEditor({
         height={height}
         defaultLanguage="json"
         value={value}
-        onChange={(val) => onChange(val)}
+        onChange={(val) => onChange(val ?? "{}")}
         options={editorOptions}
       />
     </View>

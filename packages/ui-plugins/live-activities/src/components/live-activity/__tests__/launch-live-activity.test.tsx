@@ -7,7 +7,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { IntlProvider } from 'react-intl';
-import { Provider, defaultTheme, ToastQueue } from '@adobe/react-spectrum';
+import { Provider, defaultTheme } from '@adobe/react-spectrum';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import LaunchLiveActivity from '../launch-live-activity';
 import * as liveActivityApi from '../../../api/liveActivityApi';
@@ -42,7 +42,6 @@ vi.mock('@adobe/react-spectrum', async () => {
 const mockUseRegisteredActivities = useRegisteredActivities as ReturnType<typeof vi.fn>;
 const mockUseLiveActivitiesData = useLiveActivitiesData as ReturnType<typeof vi.fn>;
 const mockUseLiveActivityContext = useLiveActivityContext as ReturnType<typeof vi.fn>;
-const mockToastQueuePositive = ToastQueue.positive;
 
 // Mock API functions
 const mockSendLiveActivityNotification = vi.spyOn(liveActivityApi, 'sendLiveActivityNotification');
