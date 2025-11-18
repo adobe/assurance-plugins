@@ -20,6 +20,7 @@ import type {
   BridgeEvents,
   BridgeNavigation,
   BridgeSelectedEvents,
+  BridgeSession,
   BridgeSettings,
   BridgeValidation,
 } from "./types";
@@ -32,3 +33,4 @@ export const SelectedEventContext = createContext<BridgeSelectedEvents | null>(
 );
 export const SettingsContext = createContext<BridgeSettings | null>(null);
 export const ValidationContext = createContext<BridgeValidation | null>(null);
+export const SessionContext = createContext<BridgeSession | null>(null);

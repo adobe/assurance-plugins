@@ -120,6 +120,11 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
       activity.events.push(event);
     }
 
+    // Update attribute type if it differs from the current attribute type (might get updated from "unknown" to some value)
+    if (activity.attributeType === 'unknown' && attributeType !== 'unknown') {
+      activity.attributeType = attributeType;
+    }
+
     // Only update status to completed if this is an end event (dismissed or ended)
     if (isLiveActivityEndEvent(event)) {
       activity.status = 'completed';

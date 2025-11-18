@@ -83,6 +83,19 @@ export type BridgeValidation = {
   validation: ValidationRecords;
 };
 
+export interface BridgeSession {
+  uuid: string;
+  token: number;
+  name: string;
+  link: string;
+  firstName: string;
+  lastName: string;
+  createdById: string;
+  createdTs: number;
+  updatedTs: number;
+  annotations: any[];
+}
+
 export type ValidationResult = {
   events: string[];
   message: string;

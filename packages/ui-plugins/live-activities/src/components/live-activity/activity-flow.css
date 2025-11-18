@@ -1,59 +1,16 @@
-.activityFlow {
-  .cardsGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spectrum-global-dimension-size-200);
-  }
+.tokenText {
+  font-family: monospace;
+  font-size: var(--spectrum-global-dimension-size-175);
+  word-break: break-all !important;
+}
 
-  .eventTitle {
-    font-weight: bold;
-    font-size: var(--spectrum-global-dimension-size-300);
-  }
+.cardsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spectrum-global-dimension-size-200);
+}
 
-  .eventTimestamp {
-    font-size: var(--spectrum-global-dimension-size-200);
-    color: var(--spectrum-global-color-gray-700);
-  }
-
-  .eventDescription {
-    font-size: var(--spectrum-global-dimension-size-200);
-    color: var(--spectrum-global-color-gray-700);
-  }
-
-  .eventOrigin {
-    font-size: var(--spectrum-global-dimension-size-200);
-    color: var(--spectrum-global-color-gray-600);
-    font-style: italic;
-  }
-
-  .contentStateLabel {
-    font-size: var(--spectrum-global-dimension-size-200);
-    font-weight: bold;
-    margin-bottom: var(--spectrum-global-dimension-size-100);
-  }
-
-  .contentStateText {
-    font-family: monospace;
-    font-size: var(--spectrum-global-dimension-size-200);
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-  }
-
-  .tokenLabel {
-    font-size: var(--spectrum-global-dimension-size-200);
-    font-weight: bold;
-    margin-bottom: var(--spectrum-global-dimension-size-100);
-  }
-
-  .tokenText {
-    font-family: monospace;
-    font-size: var(--spectrum-global-dimension-size-200);
-    word-break: break-all;
-  }
-
-  .stateText {
-    font-size: var(--spectrum-global-dimension-size-200);
-    color: var(--spectrum-global-color-gray-600);
-    font-style: italic;
-  }
+.contentStateText {
+  white-space: pre-wrap;
+  word-break: break-all;
 }

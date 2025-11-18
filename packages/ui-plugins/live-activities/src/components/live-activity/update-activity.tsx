@@ -1,3 +1,11 @@
+/**
+ * Update Live Activity Component
+ * 
+ * Allows users to update an existing Live Activity by pasting a new APS payload
+ * and sending it through the Griffon API using the activity's update token.
+ */
+
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   DialogTrigger,
   Button,
@@ -5,34 +13,32 @@ import {
   Heading,
   Divider,
   Content,
-  ButtonGroup
+  View,
+  Text,
+  RadioGroup,
+  Radio,
+  ToastQueue
 } from '@adobe/react-spectrum';
-import React from 'react';
-import { defineMessages, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Send from '@spectrum-icons/workflow/Send';
 import { Controller, useForm } from 'react-hook-form';
-import { Editor } from '@monaco-editor/react';
-import useUpdateActivity from '../../hooks/useUpdateActivity';
-import { LiveActivity } from '../../hooks/useActivities';
 
-const messages = defineMessages({
-  cancel: {
-    id: 'cancel',
-    defaultMessage: 'Cancel'
-  },
-  updateLiveActivity: {
-    id: 'updateLiveActivity',
-    defaultMessage: 'Send Update'
-  },
-  updateLiveActivityHeading: {
-    id: 'updateLiveActivityHeading',
-    defaultMessage: 'Update Live Activity {activityName}'
-  },
-  update: {
-    id: 'update',
-    defaultMessage: 'Send Update'
-  }
-});
+import {
+  buildApiUrl,
+  generateLiveActivityPayload,
+  sendLiveActivityNotification,
+  generateUpdateTemplate,
+  buildCompleteApsPayload
+} from '../../api/liveActivityApi';
+import { LiveActivity } from '../../hooks/useActivities';
+import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
+import { ErrorMessage, JsonEditor, DialogActions } from './common';
+import { useLiveActivityContext } from '../../hooks/useLiveActivityContext';
+import { liveActivityMessages, actionMessages } from '../../i18n';
+
+// ============================================================================
+// TYPES
+// ============================================================================
 
 interface FormValues {
   payload: string;
@@ -42,73 +48,175 @@ interface UpdateActivityProps {
   activity: LiveActivity;
 }
 
-function UpdateActivity({ activity }: UpdateActivityProps) {
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
+
+function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
   const { formatMessage } = useIntl();
-  const updateActivity = useUpdateActivity();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [eventType, setEventType] = useState<'update' | 'end'>('update');
+
+  // Context (doesn't require push token for update operations)
+  const context = useLiveActivityContext({ requirePushToken: false });
+
+  // Form - Initialize with simplified template
   const {
     control,
-    register,
     handleSubmit,
     reset,
-    formState: { isSubmitting }
   } = useForm<FormValues>({
     defaultValues: {
-      payload: JSON.stringify(activity.examplePayload?.['content-state'] || {}, null, 2)
+      payload: JSON.stringify(generateUpdateTemplate(activity), null, 2)
     }
   });
 
-  // console.log('ahhhh',activity.examplePayload);
+  useEffect(() => {
+    if (activity?.id) {
+      reset({
+        payload: JSON.stringify(generateUpdateTemplate(activity), null, 2)
+      });
+    }
+  }, [activity?.id, reset]);
 
-  const onSubmit = (data: FormValues) => {
-    // console.log(data);
-    updateActivity(data.payload);
-  };
+  // Handlers
+  const handleUpdate = useCallback(async (data: FormValues) => {
+    setIsLoading(true);
+    setError(null);
 
-  // console.log('updateActivity', activity.examplePayload);
+    try {
+      // Parse user's JSON input
+      let userPayload;
+      try {
+        userPayload = JSON.parse(data.payload);
+      } catch {
+        throw new Error('Invalid JSON format in payload');
+      }
+
+      // Validate update token exists
+      if (!activity.updateToken) {
+        throw new Error('Update token not available for this activity');
+      }
+
+      // Build complete APS payload by merging user input with auto-generated fields
+      const completeApsPayload = buildCompleteApsPayload({
+        userPayload,
+        eventType,
+        attributesType: activity.attributes || 'unknown',
+      });
+
+      // Generate complete payload using update token
+      const payload = generateLiveActivityPayload({
+        apsContent: completeApsPayload,
+        appId: context.appId!,
+        platform: context.platform,
+        token: activity.updateToken, // Using updateToken for updates
+        ecid: context.ecid!,
+        imsOrg: context.imsOrg!,
+        sessionId: context.sessionId!,
+        sandboxName: context.sandbox?.name || LIVE_ACTIVITY_DEFAULTS.SANDBOX,
+        environment: context.environment
+      });
+
+      // Make API call
+      const url = buildApiUrl(context.environment);
+      await sendLiveActivityNotification({
+        url,
+        token: context.token!,
+        payload
+      });
+      ToastQueue.positive('Live Activity updated successfully. Please refresh the page to see changes.', {timeout: 3000});
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || err.message || 'Failed to update Live Activity';
+      setError(errorMessage);
+      throw err; // Re-throw to prevent dialog from closing on error
+    } finally {
+      setIsLoading(false);
+    }
+  }, [activity, context, eventType]);
+
+  const handleReset = useCallback(() => {
+    reset();
+    setEventType('update');
+    setError(null);
+  }, [reset]);
+
+  // Computed values
+  const isButtonDisabled = !context.isReady || isLoading || !activity.updateToken || activity.status === 'completed';
 
   return (
     <DialogTrigger>
-      <Button variant="primary">
-        <Send marginEnd="size-50" /> {formatMessage(messages.updateLiveActivity)}
+      <Button 
+        variant="primary"
+        isDisabled={isButtonDisabled}
+      >
+        <Send marginEnd="size-50" />
+        {formatMessage(liveActivityMessages.updateLiveActivity)}
       </Button>
-      {close => (
+      
+      {(close) => (
         <Dialog>
           <Heading>
-            {formatMessage(messages.updateLiveActivityHeading, { activityName: activity.name })}
+            {formatMessage(liveActivityMessages.updateLiveActivityHeading, { 
+              activityId: activity.id || activity.name
+            })}
           </Heading>
           <Divider />
+          
           <Content>
-            <label>Payload</label>
+            <View marginBottom="size-200">
+              <Text>{formatMessage(liveActivityMessages.apsPayloadDescription)}</Text>
+            </View>
+
+            <View marginBottom="size-200">
+              <RadioGroup 
+                label={formatMessage(liveActivityMessages.eventType)}
+                value={eventType}
+                onChange={(value) => setEventType(value as 'update' | 'end')}
+                orientation="horizontal"
+              >
+                <Radio value="update">{formatMessage(liveActivityMessages.eventTypeUpdate)}</Radio>
+                <Radio value="end">{formatMessage(liveActivityMessages.eventTypeEnd)}</Radio>
+              </RadioGroup>
+            </View>
+
             <Controller
               name="payload"
               control={control}
               render={({ field: { onChange, value } }) => (
-                <Editor defaultLanguage="json" value={value} onChange={onChange} />
+                <JsonEditor
+                  value={value}
+                  onChange={onChange}
+                  showLineNumbers
+                />
               )}
               rules={{ required: 'Payload is required' }}
             />
+
+            {error && <ErrorMessage message={error} />}
           </Content>
-          <ButtonGroup>
-            <Button
-              variant="secondary"
-              onPress={() => {
-                reset();
+          
+          <DialogActions
+            isLoading={isLoading}
+            isDisabled={isButtonDisabled}
+            onCancel={() => {
+              handleReset();
+              close();
+            }}
+            onAction={async () => {
+              try {
+                await handleSubmit(handleUpdate)();
+                handleReset();
                 close();
-              }}
-            >
-              {formatMessage(messages.cancel)}
-            </Button>
-            <Button
-              variant="accent"
-              isDisabled={isSubmitting}
-              onPress={() => {
-                handleSubmit(onSubmit) as any;
-                close();
-              }}
-            >
-              {formatMessage(messages.update)}
-            </Button>
-          </ButtonGroup>
+              } catch {
+                // Error already handled in handleUpdate
+              }
+            }}
+            cancelLabel={formatMessage(COMMON_MESSAGES.cancel)}
+            actionLabel={formatMessage(actionMessages.update)}
+            loadingLabel={formatMessage(COMMON_MESSAGES.sending)}
+          />
         </Dialog>
       )}
     </DialogTrigger>

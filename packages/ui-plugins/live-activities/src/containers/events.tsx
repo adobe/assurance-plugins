@@ -28,7 +28,6 @@ function Events() {
 
   return (
     <View>
-      <Heading>Events</Heading>
       <EventTable columns={[...defaultColumns, eventNameColumn, validationColumn, flaggedColumn]} data={events} />
     </View>
   );

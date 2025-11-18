@@ -84,7 +84,6 @@ async function fetchPlatformEntity({
   ecid: string;
 }): Promise<PlatformEntityResponse> {
   const config = sandboxProcessor(token, org, sandbox, baseURL);
-  console.log({ sandbox, baseURL, token, org, ecid }, 'sandbox, baseURL, token, org, ecid');
   const url = `${config.baseURL}data/core/ups/access/entities?entityId=${ecid}&entityIdNS=ECID&schema.name=_xdm.context.profile&sandbox=${sandbox}`;
 
   const response = await fetch(url, {
@@ -163,12 +162,11 @@ export function usePlatformEntity(ecid?: string) {
   const sandbox = useSandbox();
 
   return useQuery({
-    queryKey: ['platform', 'entity', ecid, org, sandbox?.name],
+    queryKey: ['platform', 'entity', ecid, token, org, sandbox?.name],
     queryFn: () => {
       if (!token || !org || !sandbox?.name || !ecid) {
         return null;
       }
-      console.log({ sandbox, baseURL, token, org, ecid }, 'sandbox, baseURL, token, org, ecid usePLatform 888');
 
       return fetchPlatformEntity({
         baseURL,
@@ -191,7 +189,7 @@ export function usePlatformDataset(datasetId?: string) {
   const sandbox = useSandbox();
 
   return useQuery({
-    queryKey: ['platform', 'dataset', datasetId, org, sandbox?.name],
+    queryKey: ['platform', 'dataset', datasetId, token, org, sandbox?.name],
     queryFn: () => {
       if (!token || !org || !sandbox?.name || !datasetId) {
         return null;
@@ -206,6 +204,7 @@ export function usePlatformDataset(datasetId?: string) {
       });
     },
     enabled: !!token && !!org && !!sandbox?.name && !!datasetId,
+    retry: 1,
     refetchOnWindowFocus: false
   });
 }
@@ -218,7 +217,7 @@ export function usePlatformSchema(schemaId?: string) {
   const sandbox = useSandbox();
 
   return useQuery({
-    queryKey: ['platform', 'schema', schemaId, org, sandbox?.name],
+    queryKey: ['platform', 'schema', token, schemaId, org, sandbox?.name],
     queryFn: () => {
       if (!token || !org || !sandbox?.name || !schemaId) {
         return null;
@@ -233,6 +232,7 @@ export function usePlatformSchema(schemaId?: string) {
       });
     },
     enabled: !!token && !!org && !!sandbox?.name && !!schemaId,
+    retry: 1,
     refetchOnWindowFocus: false
   });
 }

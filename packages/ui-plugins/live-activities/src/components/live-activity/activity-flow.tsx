@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { Heading, Text, View, Flex, ActionGroup, Item, Well, Divider } from '@adobe/react-spectrum';
-import { defineMessages, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import dayjs from 'dayjs';
 import { LiveActivity } from '../../hooks/useActivities';
 import { EVENT_CONFIG } from '../../constants/liveActivitiesConfig';
+import { activitiesMessages } from '../../i18n';
 import Card from '../atoms/card';
 import './activity-flow.css';
 import MoreSmallListVert from '@spectrum-icons/workflow/MoreSmallListVert';
@@ -17,33 +18,6 @@ import classNames from 'classnames';
 interface ActivityFlowProps {
   activity?: LiveActivity;
 }
-
-const messages = defineMessages({
-  activityFlow: {
-    id: 'activities.flow.title',
-    defaultMessage: 'Activity Flow'
-  },
-  lifecycleEvents: {
-    id: 'activities.flow.lifecycleEvents',
-    defaultMessage: 'Lifecycle Events'
-  },
-  noEvents: {
-    id: 'activities.flow.noEvents',
-    defaultMessage: 'No events available'
-  },
-  eventType: {
-    id: 'activities.flow.eventType',
-    defaultMessage: 'Event Type'
-  },
-  timestamp: {
-    id: 'activities.flow.timestamp',
-    defaultMessage: 'Timestamp'
-  },
-  details: {
-    id: 'activities.flow.details',
-    defaultMessage: 'Details'
-  }
-});
 
 interface FlowEvent {
   id: string;
@@ -88,7 +62,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
           type: 'start',
           timestamp: event.timestamp,
           title: 'Activity Started',
-          description: `Live Activity "${activity.name}" was initiated ${eventData.origin === 'remote' ? 'remotely' : 'locally'}`,
+          description: `Live Activity "${activity.name}" was initiated.`,
           payload: event.payload,
           icon: <Play size="S" />,
           color: 'positive',
@@ -173,7 +147,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
           <Flex direction="column" gap="size-200">
           <Flex direction="row" alignItems="center" justifyContent="space-between">
             <Heading level={2} marginY="size-0">
-              {formatMessage(messages.activityFlow)}
+              {formatMessage(activitiesMessages.activityFlow)}
             </Heading>
             <ActionGroup
               isEmphasized
@@ -197,15 +171,15 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
 
           <View>
             <Heading level={3} marginY="size-0" marginBottom="size-200">
-              {formatMessage(messages.lifecycleEvents)}
+              {formatMessage(activitiesMessages.lifecycleEvents)}
             </Heading>
             
             {flowEvents.length === 0 ? (
-              <Text>{formatMessage(messages.noEvents)}</Text>
+              <Text>{formatMessage(activitiesMessages.noEvents)}</Text>
             ) : view === 'timeline' ? (
               // Timeline View
               <View>
-                {flowEvents.map((event, index) => (
+                {flowEvents?.map((event, index) => (
                   <Flex key={event.id} direction="row" gap="size-200" alignItems="start" marginBottom="size-300">
                     {/* Timeline line and icon */}
                     <Flex
@@ -323,7 +297,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
                       </Card>
                     </View>
                   </Flex>
-                ))}
+                )).reverse()}
               </View>
             ) : (
               // Cards View
@@ -332,7 +306,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
               >
                 {flowEvents.map(event => (
                   <Card key={event.id}>
-                    <View padding="size-200">
+                    <View padding="size-200" marginBottom="size-200">
                       <Flex direction="column" gap="size-100">
                       <Flex direction="row" alignItems="center" gap="size-100">
                         <View
@@ -364,7 +338,7 @@ function ActivityFlow({ activity }: ActivityFlowProps) {
                       </Flex>
                     </View>
                   </Card>
-                ))}
+                )).reverse()}
               </View>
             )}
           </View>

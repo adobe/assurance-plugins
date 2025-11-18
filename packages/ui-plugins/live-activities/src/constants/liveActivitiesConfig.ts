@@ -64,6 +64,33 @@ export const VALIDATION_CONFIG = {
   MESSAGING_SERVICES: ['apns', 'apnsSandbox', 'fcm'] as const
 } as const;
 
+// Monaco Editor Configuration
+export const EDITOR_CONFIG = {
+  OPTIONS: {
+    minimap: { enabled: false },
+    scrollBeyondLastLine: false,
+    formatOnPaste: true,
+    formatOnType: true,
+    autoIndent: 'full' as const,
+    padding: { top: 8 }  as const,
+  },
+  OPTIONS_WITH_LINE_NUMBERS: {
+    minimap: { enabled: false },
+    scrollBeyondLastLine: false,
+    formatOnPaste: true,
+    formatOnType: true,
+    autoIndent: 'full' as const,
+    lineNumbers: 'on' as const,
+    padding: { top: 8 }  as const,
+  }
+} as const;
+
+// Live Activity Defaults
+export const LIVE_ACTIVITY_DEFAULTS = {
+  PLATFORM: 'apnsSandbox' as const,
+  SANDBOX: 'cjm-mr' as const
+} as const;
+
 // API Configuration
 export const API_CONFIG = {
   DEBOUNCE_DELAY: 300,
@@ -313,6 +340,20 @@ export const MESSAGES = defineMessages({
   cardNoEvents: {
     id: 'activities.card.noEvents',
     defaultMessage: 'No events'
+  },
+
+  // Live Activity Actions (Common across launch/update)
+  cancel: {
+    id: 'liveActivity.action.cancel',
+    defaultMessage: 'Cancel'
+  },
+  sending: {
+    id: 'liveActivity.action.sending',
+    defaultMessage: 'Sending...'
+  },
+  apsPayload: {
+    id: 'liveActivity.form.apsPayload',
+    defaultMessage: 'APS Payload'
   }
 });
 
@@ -352,6 +393,8 @@ export const LIVE_ACTIVITIES_CONFIG = {
   EVENTS: EVENT_CONFIG,
   VALIDATION: VALIDATION_CONFIG,
   API: API_CONFIG,
+  EDITOR: EDITOR_CONFIG,
+  DEFAULTS: LIVE_ACTIVITY_DEFAULTS,
   TEST_IDS,
   COPYABLE_VALUE: COPYABLE_VALUE_CONSTANTS,
   MATCHERS: LIVE_ACTIVITIES_MATCHERS

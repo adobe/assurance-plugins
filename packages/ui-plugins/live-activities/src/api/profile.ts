@@ -129,7 +129,8 @@ export const getProfile = async ({
       headers: {
         Authorization: `Bearer ${token}`,
         'x-api-key': 'Activation-DTM',
-        'x-gw-ims-org-id': org
+        'x-gw-ims-org-id': org,
+        'x-sandbox-name': sandbox
       }
     }
   );

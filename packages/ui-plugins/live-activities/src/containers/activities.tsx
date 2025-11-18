@@ -5,9 +5,9 @@ import { useResizePanel, useResizeObserver } from '@assurance/common-utils';
 
 import Info from '@spectrum-icons/workflow/Info';
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
-import { defineMessages, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
 import './activities.css';
@@ -18,86 +18,12 @@ import useActivities, { useRegisteredActivities } from '../hooks/useActivities';
 import { useLiveActivitiesValidationStatus } from '../hooks/useLiveActivitiesValidationStatus';
 import type { ActivityTab } from '../hooks/usePluginState';
 import usePluginState from '../hooks/usePluginState';
+import { activitiesMessages } from '../i18n';
 import ActivityList from '../components/activities/ActivityList';
 import ActivityEventDetails from '../components/live-activity/activity-event-details';
 import ActivityFlow from '../components/live-activity/activity-flow';
 import ActivityOverview from '../components/live-activity/activity-overview';
 import LaunchLiveActivity from '../components/live-activity/launch-live-activity';
-
-const messages = defineMessages({
-  activities: {
-    id: 'activities.title',
-    defaultMessage: 'Activities'
-  },
-  overviewTab: {
-    id: 'activities.tabs.overview',
-    defaultMessage: 'Overview'
-  },
-  activityFlowTab: {
-    id: 'activities.tabs.activityFlow',
-    defaultMessage: 'Activity Flow'
-  },
-  eventDetailsTab: {
-    id: 'activities.tabs.eventDetails',
-    defaultMessage: 'Event Details'
-  },
-  noActivitiesMessage: {
-    id: 'activities.noActivities',
-    defaultMessage: 'No Live Activities have been started on this client'
-  },
-  noActivitiesMessageIosSupported: {
-    id: 'activities.noActivities.ios.supported',
-    defaultMessage: 'No Live Activities have been started on this iOS device'
-  },
-  noActivitiesMessageIosUnsupported: {
-    id: 'activities.noActivities.ios.unsupported',
-    defaultMessage: 'Live Activities are not supported on this iOS version (requires iOS 16.1+)'
-  },
-  noActivitiesMessageIosPartial: {
-    id: 'activities.noActivities.ios.partial',
-    defaultMessage: 'No Live Activities have been started on this iOS device'
-  },
-  noActivitiesMessageUnsupported: {
-    id: 'activities.noActivities.unsupported',
-    defaultMessage: 'Live Activities are not supported on this platform'
-  },
-  startActivityHintIosSupported: {
-    id: 'activities.startHint.ios.supported',
-    defaultMessage: 'Start a Live Activity on your iOS device to see it appear here'
-  },
-  startActivityHintIosPartial: {
-    id: 'activities.startHint.ios.partial',
-    defaultMessage: 'Start a Live Activity on your iOS device to see it appear here. Remote start requires iOS 17.1+'
-  },
-  startActivityHintIosUnsupported: {
-    id: 'activities.startHint.ios.unsupported',
-    defaultMessage: 'Live Activities require iOS 16.1 or later. Please update your device to use this feature.'
-  },
-  startActivityHintUnsupported: {
-    id: 'activities.startHint.unsupported',
-    defaultMessage: 'Live Activities are only supported on iOS devices'
-  },
-  startLiveActivityTooltip: {
-    id: 'activities.startLiveActivity.tooltip',
-    defaultMessage: 'Start a new Live Activity remotely using registered activity types and push-to-start tokens from the client.'
-  },
-  startLiveActivityTooltipIos: {
-    id: 'activities.startLiveActivity.tooltip.ios',
-    defaultMessage: 'Start a new Live Activity remotely using registered activity types and push-to-start tokens. Requires iOS 17.1+ and proper push notification setup.'
-  },
-  startLiveActivityTooltipUnsupported: {
-    id: 'activities.startLiveActivity.tooltip.unsupported',
-    defaultMessage: 'Remote Live Activity start is not supported on this platform. Live Activities can only be started locally on iOS 16.1+ devices.'
-  },
-  selectActivity: {
-    id: 'activities.selectActivity',
-    defaultMessage: 'Select an Activity'
-  },
-  selectActivityDescription: {
-    id: 'activities.selectActivityDescription',
-    defaultMessage: 'Choose an activity from the list to view its overview, flow, and event details.'
-  }
-});
 
 // Main activities component using Zustand
 function Activities() {
@@ -109,9 +35,7 @@ function Activities() {
       selectedActivityId, 
       setSelectedActivityId, 
       activeTab, 
-      setActiveTab, 
-      selectedEventId, 
-      setSelectedEventId 
+      setActiveTab
     }
   } = usePluginState();
   const validationStatus = useLiveActivitiesValidationStatus();
@@ -157,9 +81,9 @@ function Activities() {
         onSelectionChange={(key) => setActiveTab(key as ActivityTab)}
       >
         <TabList>
-          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>{formatMessage(messages.overviewTab)}</Item>
-          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.ACTIVITY_FLOW}>{formatMessage(messages.activityFlowTab)}</Item>
-          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS}>{formatMessage(messages.eventDetailsTab)}</Item>
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>{formatMessage(activitiesMessages.overviewTab)}</Item>
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.ACTIVITY_FLOW}>{formatMessage(activitiesMessages.activityFlowTab)}</Item>
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS}>{formatMessage(activitiesMessages.eventDetailsTab)}</Item>
         </TabList>
         <TabPanels flex="1" maxHeight="calc(100vh - 14%)">
           <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>
@@ -200,38 +124,38 @@ function Activities() {
   const getNoActivitiesMessage = () => {
     switch (validationStatus) {
       case VALIDATION_STATUS.NOT_IOS:
-        return formatMessage(messages.noActivitiesMessageUnsupported);
+        return formatMessage(activitiesMessages.noActivitiesMessage);
       case VALIDATION_STATUS.NOT_SUPPORTED:
-        return formatMessage(messages.noActivitiesMessageIosUnsupported);
+        return formatMessage(activitiesMessages.noActivitiesIosUnsupported);
       case VALIDATION_STATUS.BASIC_SUPPORT:
-        return formatMessage(messages.noActivitiesMessageIosPartial);
+        return formatMessage(activitiesMessages.noActivitiesIosSupported);
       case VALIDATION_STATUS.FULL_SUPPORT:
-        return formatMessage(messages.noActivitiesMessageIosSupported);
+        return formatMessage(activitiesMessages.noActivitiesIosSupported);
       default:
-        return formatMessage(messages.noActivitiesMessageUnsupported);
+        return formatMessage(activitiesMessages.noActivitiesMessage);
     }
   };
 
   const getStartActivityHint = () => {
     switch (validationStatus) {
       case VALIDATION_STATUS.NOT_IOS:
-        return formatMessage(messages.startActivityHintUnsupported);
+        return formatMessage(activitiesMessages.startActivityHintNotIos);
       case VALIDATION_STATUS.NOT_SUPPORTED:
-        return formatMessage(messages.startActivityHintIosUnsupported);
+        return formatMessage(activitiesMessages.startActivityHintIosUnsupported);
       case VALIDATION_STATUS.BASIC_SUPPORT:
-        return formatMessage(messages.startActivityHintIosPartial);
+        return formatMessage(activitiesMessages.startActivityHintIosBasicSupport);
       case VALIDATION_STATUS.FULL_SUPPORT:
-        return formatMessage(messages.startActivityHintIosSupported);
+        return formatMessage(activitiesMessages.startActivityHintIosFullSupport);
       default:
-        return formatMessage(messages.startActivityHintUnsupported);
+        return formatMessage(activitiesMessages.startActivityHintNotIos);
     }
   };
 
   const getTooltipMessage = () => {
     if (!platform.hasRemoteStart) {
-      return formatMessage(messages.startLiveActivityTooltipUnsupported);
+      return formatMessage(activitiesMessages.launchTooltipUnsupported);
     }
-    return formatMessage(messages.startLiveActivityTooltipIos);
+    return formatMessage(activitiesMessages.launchTooltipSupported);
   };
 
   // Info button component with conditional rendering
@@ -264,7 +188,7 @@ function Activities() {
     <View height="100vh" overflow="hidden">
       <Flex direction="column" height="100%">
         {/* Header with Launch Button - Only show when there are activities */}
-        {/* {activities.length > 0 && (
+        {activities.length > 0 && (
           <View borderBottomWidth="thin" borderBottomColor="gray-300" padding="size-200">
             <Flex direction="row" justifyContent="end" alignItems="center">              
               {platform.hasLiveActivities && (
@@ -275,7 +199,7 @@ function Activities() {
               )}
             </Flex>
           </View>
-        )} */}
+        )}
 
         {/* No Activities State */}
         {!activities.length && (
@@ -288,12 +212,12 @@ function Activities() {
                 <Text UNSAFE_className={classNames('noActivitiesHint')}>
                   {getStartActivityHint()}
                 </Text>
-                {/* {platform.hasLiveActivities && (
+                {platform.hasLiveActivities && (
                   <Flex alignItems="center" gap="size-200" marginTop="size-200">
                     <LaunchLiveActivity />
                     <InfoButton />
                   </Flex>
-                )} */}
+                )}
               </Flex>
             </View>
           </View>
@@ -350,10 +274,10 @@ function Activities() {
                   >
                   <View UNSAFE_className={classNames('selectActivityContainer')}>
                     <Heading level={2} marginY="size-0" marginBottom="size-200">
-                      {formatMessage(messages.selectActivity)}
+                      {formatMessage(activitiesMessages.selectActivityTitle)}
                     </Heading>
                     <Text UNSAFE_className={classNames('selectActivityDescription')}>
-                      {formatMessage(messages.selectActivityDescription)}
+                      {formatMessage(activitiesMessages.selectActivityDescription)}
                     </Text>
                   </View>
                   </Flex>

@@ -12,7 +12,7 @@ function UpdateActivity() {
     }
   });
 
-  // console.log('updateActivity', selectedActivity?.examplePayload);
+  // const fields = [];
 
   return (
     <View>
