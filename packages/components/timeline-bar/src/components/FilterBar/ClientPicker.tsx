@@ -93,7 +93,7 @@ function getDefaultClientNavigation({
     if (firstClientId) {
       const output = {
         ...filters,
-        clients: rootEvent.makeClientFilter([firstClientId])
+        clients: rootEvent.makeClientFilter([firstClientId.toLowerCase(), firstClientId.toUpperCase()])
       };
       return `${path}#${filterToHash(output)}`;
     }
@@ -187,7 +187,7 @@ const ClientPicker = ({ allowAllClients = true }) => {
       clients:
         allowAllClients && selected === "all"
           ? undefined
-          : rootEvent.makeClientFilter([selected]),
+          : rootEvent.makeClientFilter([selected.toLowerCase(), selected.toUpperCase()]),
     };
     const newPath = `${path}#${filterToHash(output)}`;
     navigateTo(newPath);
@@ -202,7 +202,7 @@ const ClientPicker = ({ allowAllClients = true }) => {
       selectedKey={selectedKey}
       onSelectionChange={handleSelectionChange}
     >
-      {(item) => (
+      {(item: any) => (
         <Item key={item.clientId} textValue={item.label}>
           {getClientIcon(item.type)}
           <Text>{item.label}</Text>
