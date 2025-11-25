@@ -141,7 +141,7 @@ function LaunchLiveActivity() {
         token: context.token!,
         payload
       });
-      ToastQueue.positive('Live Activity started successfully. Please refresh the page.', {timeout: 3000});
+      ToastQueue.positive('Live Activity started successfully', {timeout: 3000});
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || err.message || 'Failed to start Live Activity';
       setError(errorMessage);

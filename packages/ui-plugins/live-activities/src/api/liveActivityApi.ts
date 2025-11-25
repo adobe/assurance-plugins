@@ -104,7 +104,7 @@ export function generateLaunchTemplate(): any {
  */
 export function generateUpdateTemplate(activity: any): any {
   return {
-    "content-state": activity.examplePayload?.['content-state'] || {},
+    "content-state": activity.currentContentState || activity.examplePayload?.['content-state'] || {},
     "attributes": {
       "liveActivityData": {
         "liveActivityID": activity.id || ""
