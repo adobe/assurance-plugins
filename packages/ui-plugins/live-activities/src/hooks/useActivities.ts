@@ -170,7 +170,7 @@ function useActivities(): LiveActivity[] {
 
     // Sort update events by timestamp (descending) and get the latest content state
     const sortedUpdateEvents = [...updateEvents].sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-    const currentContentState = sortedUpdateEvents[0]?.payload?.ACPExtensionEventData?.contentState ?? {};
+    const currentContentState = sortedUpdateEvents[0]?.payload?.ACPExtensionEventData?.contentState;
 
     // Find matching push-to-start token event by attribute type
     const pushToStartTokenEvent = pushToStartTokenMap.get(attributeType);
