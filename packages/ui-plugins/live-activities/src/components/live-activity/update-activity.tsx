@@ -126,7 +126,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         token: context.token!,
         payload
       });
-      ToastQueue.positive('Live Activity updated successfully. Please refresh the page to see changes.', {timeout: 3000});
+      ToastQueue.positive('Live Activity updated successfully', {timeout: 3000});
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || err.message || 'Failed to update Live Activity';
       setError(errorMessage);
