@@ -47,6 +47,7 @@ export interface LiveActivity {
   attributes?: string;
   examplePayload?: any;
   schema?: any;
+  currentContentState?: any;
 }
 
 /**
@@ -167,6 +168,10 @@ function useActivities(): LiveActivity[] {
     const endEvent = events.find(isLiveActivityEndEvent);
     const updateEvents = events.filter(isLiveActivityUpdatedEvent);
 
+    // Sort update events by timestamp (descending) and get the latest content state
+    const sortedUpdateEvents = [...updateEvents].sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    const currentContentState = sortedUpdateEvents[0]?.payload?.ACPExtensionEventData?.contentState ?? {};
+
     // Find matching push-to-start token event by attribute type
     const pushToStartTokenEvent = pushToStartTokenMap.get(attributeType);
 
@@ -187,7 +192,8 @@ function useActivities(): LiveActivity[] {
       status: status as 'active' | 'completed',
       pushToStartToken: pushToStartTokenEvent?.payload?.ACPExtensionEventData?.token,
       updateToken: updateTokenEvent?.payload?.ACPExtensionEventData?.token,
-      updateEvents
+      updateEvents,
+      currentContentState: currentContentState
     };
   });
 }

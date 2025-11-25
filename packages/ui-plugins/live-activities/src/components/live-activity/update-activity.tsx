@@ -78,7 +78,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         payload: JSON.stringify(generateUpdateTemplate(activity), null, 2)
       });
     }
-  }, [activity?.id, reset]);
+  }, [activity?.id, activity?.currentContentState, reset]);
 
   // Handlers
   const handleUpdate = useCallback(async (data: FormValues) => {
