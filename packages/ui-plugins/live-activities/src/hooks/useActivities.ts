@@ -193,7 +193,7 @@ function useActivities(): LiveActivity[] {
       pushToStartToken: pushToStartTokenEvent?.payload?.ACPExtensionEventData?.token,
       updateToken: updateTokenEvent?.payload?.ACPExtensionEventData?.token,
       updateEvents,
-      currentContentState: currentContentState
+      currentContentState
     };
   });
 }

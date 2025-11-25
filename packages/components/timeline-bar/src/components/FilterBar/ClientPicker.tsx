@@ -202,7 +202,7 @@ const ClientPicker = ({ allowAllClients = true }) => {
       selectedKey={selectedKey}
       onSelectionChange={handleSelectionChange}
     >
-      {(item: any) => (
+      {(item) => (
         <Item key={item.clientId} textValue={item.label}>
           {getClientIcon(item.type)}
           <Text>{item.label}</Text>
