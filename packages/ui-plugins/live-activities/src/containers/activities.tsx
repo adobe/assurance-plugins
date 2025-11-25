@@ -35,20 +35,20 @@ function Activities() {
       selectedActivityId, 
       setSelectedActivityId, 
       activeTab, 
-      setActiveTab
+      setActiveTab,
     }
   } = usePluginState();
   const validationStatus = useLiveActivitiesValidationStatus();
   
   // Use only real activities - no mock data
   const activities = realActivities;
-  
-  // Resize functionality
-  const { ref: containerRef, width: containerWidth } = useResizeObserver<HTMLDivElement>({
+  const observerOptions = useMemo(() => ({
     onResize: () => {},
     observeHeight: false,
     debounceDelay: 50
-  });
+  }), []);
+  // Resize functionality
+  const { ref: containerRef, width: containerWidth } = useResizeObserver<HTMLDivElement>(observerOptions);
 
   const {
     panelWidth,
