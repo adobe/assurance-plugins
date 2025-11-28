@@ -1,6 +1,8 @@
 import React from 'react';
-import usePluginState from '../hooks/usePluginState';
+
 import { View } from '@adobe/react-spectrum';
+
+import usePluginState from '../hooks/usePluginState';
 
 const events = [
   {

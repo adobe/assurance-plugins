@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Button, Flex, Heading } from '@adobe/react-spectrum';
+
+import { Button, Flex, Heading, View } from '@adobe/react-spectrum';
+
 import { getHealthIcon } from '../../constants';
 import { useOpenExperienceUrl } from '../../hooks/useOpenExperienceUrl';
 
 // Types
-type PushCredentialsStatus = 
+type PushCredentialsStatus =
   | 'device-not-configured'
   | 'error'
   | 'no-apps'
@@ -40,20 +42,22 @@ const BUTTON_LABELS = {
 
 const STATUS_MESSAGES = {
   'device-not-configured': 'Client Must Be Configured Correctly',
-  'error': 'App Configuration Error',
+  error: 'App Configuration Error',
   'no-apps': 'No App Configurations',
   'no-matching-app': 'No Matching App Detected',
   'property-not-loaded': 'Property Not Found',
-  'loading': 'Loading...',
+  loading: 'Loading...',
   false: 'Matching App Successfully Detected'
 } as const;
 
 const STATUS_DETAILS = {
-  'error':
+  error:
     'There was a problem fetching the apps. This could be a temporary network issue or potentially a provisioning issue.',
   'no-apps': "You haven't created any App Configurations yet.",
-  'no-matching-app': 'There is not an App Configurations that matches the stored App ID and Platform for this App.',
-  'property-not-loaded': 'Could not load this property in Launch. Make sure that you are provisioned for Launch, that the property exists, and that it exists for the specified Org'
+  'no-matching-app':
+    'There is not an App Configurations that matches the stored App ID and Platform for this App.',
+  'property-not-loaded':
+    'Could not load this property in Launch. Make sure that you are provisioned for Launch, that the property exists, and that it exists for the specified Org'
 } as const;
 
 const MESSAGES = {
@@ -84,7 +88,6 @@ const getServiceName = (platform?: string): string => {
     : 'Firebase Cloud Messaging V1';
 };
 
-
 // Component for rendering status-specific details
 const StatusDetailsRenderer: React.FC<{
   status: PushCredentialsStatus | string | boolean;
@@ -96,17 +99,15 @@ const StatusDetailsRenderer: React.FC<{
       <div>{getStatusDetails(status)}</div>
       <div>{MESSAGES.useTheFollowing}</div>
       <View margin="size-200">
-        <Button 
-          data-testid="manage" 
-          variant="secondary" 
+        <Button
+          data-testid="manage"
+          variant="secondary"
           onPress={() => openExpUrl({ mode: 'manage' })}
         >
           {BUTTON_LABELS.manageApps}
         </Button>
       </View>
-      <div>
-        {status === 'no-apps' ? MESSAGES.noAppsPara2 : MESSAGES.noMatchPara2}
-      </div>
+      <div>{status === 'no-apps' ? MESSAGES.noAppsPara2 : MESSAGES.noMatchPara2}</div>
       <View margin="size-200">
         <div>
           {BUTTON_LABELS.appId}: {shouldMatch.app}
@@ -169,22 +170,14 @@ const PushCredentialsStatusDetails: React.FC<PushCredentialsStatusDetailsProps> 
         {getHealthIcon(healthStatus, 'L')}
         <Heading level={4}>{statusMessage}</Heading>
       </Flex>
-      
+
       <View marginTop="size-200">
-        <StatusDetailsRenderer
-          status={status}
-          shouldMatch={shouldMatch}
-          openExpUrl={openExpUrl}
-        />
+        <StatusDetailsRenderer status={status} shouldMatch={shouldMatch} openExpUrl={openExpUrl} />
       </View>
 
       {onRefresh && (
         <View marginTop="size-200">
-          <Button 
-            variant="secondary" 
-            onPress={onRefresh} 
-            data-testid="refresh-push-credentials"
-          >
+          <Button variant="secondary" onPress={onRefresh} data-testid="refresh-push-credentials">
             {BUTTON_LABELS.refresh}
           </Button>
         </View>

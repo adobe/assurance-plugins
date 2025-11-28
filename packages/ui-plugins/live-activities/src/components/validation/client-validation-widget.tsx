@@ -1,24 +1,18 @@
 import React from 'react';
-import {
-  View,
-  Button,
-  Flex,
-  Heading,
-  Text,
-  Link,
-  ProgressCircle
-} from '@adobe/react-spectrum';
-import { getHealthIcon } from '../../constants';
+
+import { Button, Flex, Heading, Link, ProgressCircle, Text, View } from '@adobe/react-spectrum';
 import { CopyableValue } from '@assurance/common-utils';
-import Card from '../atoms/card';
+
+import { getHealthIcon } from '../../constants';
 import { useECID, useSelectedClientPushToken } from '../../hooks/useClientInfo';
 import useClientValidationStatus from '../../hooks/useClientValidationStatus';
-import { openHelpUrl, renderValue } from '../../utils/utils';
 import { useOpenExperienceUrl } from '../../hooks/useOpenExperienceUrl';
+import { openHelpUrl, renderValue } from '../../utils/utils';
+import Card from '../atoms/card';
 import LiveActivitiesValidationSection from './live-activities-validation-section';
 
 // Types
-type ClientValidationStatus = 
+type ClientValidationStatus =
   | 'edge-not-configured'
   | 'messaging-not-configured'
   | 'messaging-not-installed'
@@ -61,7 +55,7 @@ const STATUS_MESSAGES = {
   'messaging-not-installed': 'Messaging Extension Not Initialized',
   'no-ecid': 'No ECID Detected',
   'no-token': 'Push Token Not Captured',
-  'loading': 'Loading...',
+  loading: 'Loading...',
   false: 'Device Configured and Push Token Detected'
 } as const;
 
@@ -125,10 +119,11 @@ const getStatusMessage = (status: ClientValidationStatus | string | boolean): st
   return STATUS_MESSAGES[status as keyof typeof STATUS_MESSAGES] || '';
 };
 
-const getStatusDetails = (status: ClientValidationStatus | string | boolean): string | undefined => {
+const getStatusDetails = (
+  status: ClientValidationStatus | string | boolean
+): string | undefined => {
   return STATUS_DETAILS[status as keyof typeof STATUS_DETAILS];
 };
-
 
 // Component for rendering status-specific details
 const StatusDetailsRenderer: React.FC<{
@@ -380,19 +375,19 @@ const ClientValidationWidget: React.FC<ClientValidationWidgetProps> = ({ ...extr
           </Flex>
         ) : (
           <>
-            <Text>This is the messaging details found in the client at the time of the connection to this Assurance session.</Text>
+            <Text>
+              This is the messaging details found in the client at the time of the connection to
+              this Assurance session.
+            </Text>
             <Flex gap="size-100" alignItems="center" marginTop="size-200">
               {getHealthIcon(healthStatus, 'L')}
               <Heading level={4}>{statusMessage}</Heading>
             </Flex>
-            
+
             <View marginTop="size-200">
-              <StatusDetailsRenderer
-                status={status}
-                openExpUrl={openExpUrl}
-              />
+              <StatusDetailsRenderer status={status} openExpUrl={openExpUrl} />
             </View>
-            
+
             <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 16 }}>
               <tbody>
                 {dataRows.map(row => (
@@ -410,8 +405,8 @@ const ClientValidationWidget: React.FC<ClientValidationWidgetProps> = ({ ...extr
                   </tr>
                 ))}
               </tbody>
-            </table>  
-            
+            </table>
+
             {/* Live Activities Validation Section */}
             <View marginTop="size-300">
               <View paddingTop="size-200">

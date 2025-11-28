@@ -1,10 +1,12 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { View, Text, Flex, Button, Heading } from '@adobe/react-spectrum';
-import { useIntl } from 'react-intl';
+
+import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
 import Alert from '@spectrum-icons/workflow/Alert';
 import Refresh from '@spectrum-icons/workflow/Refresh';
 import classNames from 'classnames';
-import { errorMessages, actionMessages } from '../i18n';
+import { useIntl } from 'react-intl';
+
+import { actionMessages, errorMessages } from '../i18n';
 import './ErrorBoundary.css';
 
 interface Props {
@@ -63,12 +65,14 @@ class LiveActivitiesErrorBoundary extends Component<Props, State> {
         return this.props.fallback;
       }
 
-      return <ErrorFallback 
-        error={this.state.error} 
-        onRetry={this.handleRetry}
-        onRefresh={this.handleRefresh}
-        showDetails={this.props.showDetails}
-      />;
+      return (
+        <ErrorFallback
+          error={this.state.error}
+          onRetry={this.handleRetry}
+          onRefresh={this.handleRefresh}
+          showDetails={this.props.showDetails}
+        />
+      );
     }
 
     return this.props.children;
@@ -86,60 +90,44 @@ function ErrorFallback({ error, onRetry, onRefresh, showDetails = false }: Error
   const { formatMessage } = useIntl();
 
   return (
-    <View 
-      padding="size-400" 
-      height="100%" 
-      UNSAFE_className={classNames('errorContainer')}
-    >
-      <Flex 
-        direction="column" 
-        alignItems="center" 
+    <View padding="size-400" height="100%" UNSAFE_className={classNames('errorContainer')}>
+      <Flex
+        direction="column"
+        alignItems="center"
         gap="size-300"
         UNSAFE_className={classNames('errorContent')}
       >
         <Alert size="XL" color="negative" />
-        
+
         <Heading level={2} marginY="size-0">
           {formatMessage(errorMessages.errorTitle)}
         </Heading>
-        
+
         <Text UNSAFE_className={classNames('errorDescription')}>
           {formatMessage(errorMessages.errorDescription)}
         </Text>
-        
+
         <Flex gap="size-200" wrap>
-          <Button 
-            variant="primary" 
-            onPress={onRetry}
-            UNSAFE_className={classNames('retryButton')}
-          >
+          <Button variant="primary" onPress={onRetry} UNSAFE_className={classNames('retryButton')}>
             <Refresh size="S" />
             <Text>{formatMessage(actionMessages.retry)}</Text>
           </Button>
-          
-          <Button 
-            variant="secondary" 
+
+          <Button
+            variant="secondary"
             onPress={onRefresh}
             UNSAFE_className={classNames('refreshButton')}
           >
             <Text>{formatMessage(actionMessages.refresh)}</Text>
           </Button>
         </Flex>
-        
+
         {showDetails && error && (
-          <View 
-            UNSAFE_className={classNames('errorDetailsContainer')}
-          >
-            <Text 
-              UNSAFE_className={classNames('errorDetailsTitle')}
-            >
+          <View UNSAFE_className={classNames('errorDetailsContainer')}>
+            <Text UNSAFE_className={classNames('errorDetailsTitle')}>
               {formatMessage(errorMessages.errorDetails)}:
             </Text>
-            <Text 
-              UNSAFE_className={classNames('errorDetailsText')}
-            >
-              {error.message}
-            </Text>
+            <Text UNSAFE_className={classNames('errorDetailsText')}>{error.message}</Text>
           </View>
         )}
       </Flex>

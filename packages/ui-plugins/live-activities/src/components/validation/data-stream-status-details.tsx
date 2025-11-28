@@ -1,25 +1,27 @@
 import React from 'react';
-import { View, Button, Flex, Heading, Text, ProgressCircle } from '@adobe/react-spectrum';
+
+import { Button, Flex, Heading, ProgressCircle, Text, View } from '@adobe/react-spectrum';
+import { useEnvironmentValue, useSandbox } from '@assurance/plugin-bridge-provider';
+
 import { getHealthIcon } from '../../constants';
-import {
-  openProfileUrl,
-  onOpenTrackingSchema,
-  onOpenSchema,
-  ENVIRONMENT_MAPPING
-} from '../../utils/utils';
-import { useOpenExperienceUrl } from '../../hooks/useOpenExperienceUrl';
-import { useSandbox, useEnvironmentValue } from '@assurance/plugin-bridge-provider';
 import {
   extractProfileDatasetId,
   extractSchemaFromDataset,
   useDataset,
   useDatastream,
   useDatastreamId,
-  useEventDataset,
+  useEventDataset
 } from '../../hooks/useDataStreamValidationStatus';
+import { useOpenExperienceUrl } from '../../hooks/useOpenExperienceUrl';
+import {
+  ENVIRONMENT_MAPPING,
+  onOpenSchema,
+  onOpenTrackingSchema,
+  openProfileUrl
+} from '../../utils/utils';
 
 // Types - Preserving original behavior where false = valid
-type ValidationStatus = 
+type ValidationStatus =
   | 'device-not-configured'
   | 'no-sandbox'
   | 'not-in-platform'
@@ -64,7 +66,7 @@ const STATUS_MESSAGES = {
   'invalid-messaging-dataset': 'Invalid Message Tracking Dataset',
   'missing-messaging-dataset': 'Missing Message Tracking Dataset',
   'no-profile-dataset': 'Missing Profile Dataset',
-  'loading': 'Loading...',
+  loading: 'Loading...',
   false: 'Push Data Received By Platform' // false = valid state
 } as const;
 
@@ -285,7 +287,7 @@ const StatusDetailsRenderer: React.FC<{
 
 /**
  * Renders status details for data stream validation based on the current status.
- * 
+ *
  * CRITICAL: This component maintains full backward compatibility with the original
  * behavior where status=false means "all validations passed" and shows the inspect profile button.
  */
@@ -305,7 +307,7 @@ const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ statu
   // Render action buttons for valid status (status === false)
   const renderActionButtons = () => {
     if (status !== false) return null; // Only show for valid state (false)
-    
+
     return (
       <Button
         data-testid="inspectProfile"
@@ -330,7 +332,7 @@ const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ statu
         {getHealthIcon(healthStatus, 'L')}
         <Heading level={4}>{statusMessage}</Heading>
       </Flex>
-      
+
       <View marginTop="size-200">
         <StatusDetailsRenderer
           status={status}
@@ -341,12 +343,8 @@ const DataStreamStatusDetails: React.FC<DataStreamStatusDetailsProps> = ({ statu
           openExpUrl={openExpUrl}
         />
       </View>
-      
-      {renderActionButtons() && (
-        <View marginTop="size-200">
-          {renderActionButtons()}
-        </View>
-      )}
+
+      {renderActionButtons() && <View marginTop="size-200">{renderActionButtons()}</View>}
     </>
   );
 };

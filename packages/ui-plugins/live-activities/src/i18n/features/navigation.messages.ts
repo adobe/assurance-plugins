@@ -19,4 +19,3 @@ export const navigationMessages = defineMessages({
     defaultMessage: 'Client Info'
   }
 });
-

@@ -2,23 +2,36 @@
  * Test suite for Data Stream Status Details
  * Tests data stream validation status rendering and user interactions
  */
-
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { IntlProvider } from 'react-intl';
+
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
-import DataStreamStatusDetails from '../data-stream-status-details';
+// Import mocked modules
+import { useEnvironmentValue, useSandbox } from '@assurance/plugin-bridge-provider';
+import '@testing-library/jest-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
 import { vi } from 'vitest';
+
+import {
+  extractProfileDatasetId,
+  extractSchemaFromDataset,
+  useDataset,
+  useDatastream,
+  useDatastreamId,
+  useEventDataset
+} from '../../../hooks/useDataStreamValidationStatus';
+import { useOpenExperienceUrl } from '../../../hooks/useOpenExperienceUrl';
+import { onOpenSchema, onOpenTrackingSchema, openProfileUrl } from '../../../utils/utils';
+import DataStreamStatusDetails from '../data-stream-status-details';
 
 // Mock the hooks
 vi.mock('@assurance/plugin-bridge-provider', () => ({
   useSandbox: vi.fn(),
-  useEnvironmentValue: vi.fn(),
+  useEnvironmentValue: vi.fn()
 }));
 
 vi.mock('../../../hooks/useOpenExperienceUrl', () => ({
-  useOpenExperienceUrl: vi.fn(),
+  useOpenExperienceUrl: vi.fn()
 }));
 
 vi.mock('../../../hooks/useDataStreamValidationStatus', () => ({
@@ -27,7 +40,7 @@ vi.mock('../../../hooks/useDataStreamValidationStatus', () => ({
   useDataset: vi.fn(),
   useDatastream: vi.fn(),
   useDatastreamId: vi.fn(),
-  useEventDataset: vi.fn(),
+  useEventDataset: vi.fn()
 }));
 
 vi.mock('../../../utils/utils', () => ({
@@ -42,19 +55,6 @@ vi.mock('../../../utils/utils', () => ({
     prod: 'prod'
   }
 }));
-
-// Import mocked modules
-import { useSandbox, useEnvironmentValue } from '@assurance/plugin-bridge-provider';
-import { useOpenExperienceUrl } from '../../../hooks/useOpenExperienceUrl';
-import { 
-  extractProfileDatasetId, 
-  extractSchemaFromDataset, 
-  useDataset, 
-  useDatastream, 
-  useDatastreamId, 
-  useEventDataset 
-} from '../../../hooks/useDataStreamValidationStatus';
-import { openProfileUrl, onOpenTrackingSchema, onOpenSchema } from '../../../utils/utils';
 
 const mockUseSandbox = useSandbox as ReturnType<typeof vi.fn>;
 const mockUseEnvironmentValue = useEnvironmentValue as ReturnType<typeof vi.fn>;
@@ -136,7 +136,7 @@ describe('DataStreamStatusDetails', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('Couldn\'t Detect Sandbox')).toBeInTheDocument();
+      expect(screen.getByText("Couldn't Detect Sandbox")).toBeInTheDocument();
     });
 
     it('should display correct message for not-in-platform', () => {
@@ -248,7 +248,11 @@ describe('DataStreamStatusDetails', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('The Edge Configuration chosen for this property does not have a profile dataset selected. Sending a test push message with AJO requires a profile dataset.')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'The Edge Configuration chosen for this property does not have a profile dataset selected. Sending a test push message with AJO requires a profile dataset.'
+        )
+      ).toBeInTheDocument();
       expect(screen.getByTestId('viewEdgeConfig')).toBeInTheDocument();
       expect(screen.getByText('View Edge Configuration')).toBeInTheDocument();
     });
@@ -260,7 +264,11 @@ describe('DataStreamStatusDetails', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('It appears the Edge Configuration for this extension is invalid. Make sure that the datastreams are valid.')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'It appears the Edge Configuration for this extension is invalid. Make sure that the datastreams are valid.'
+        )
+      ).toBeInTheDocument();
       expect(screen.getByTestId('viewInstalled')).toBeInTheDocument();
       expect(screen.getByText('View Installed Extensions')).toBeInTheDocument();
     });
@@ -272,7 +280,11 @@ describe('DataStreamStatusDetails', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('It appears the Profile Dataset for this extension is invalid. Make sure that the dataset you\'ve chosen in the Edge Configuration is still valid:')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          "It appears the Profile Dataset for this extension is invalid. Make sure that the dataset you've chosen in the Edge Configuration is still valid:"
+        )
+      ).toBeInTheDocument();
       expect(screen.getByTestId('viewEdgeConfig')).toBeInTheDocument();
       expect(screen.getByText('View Edge Configuration')).toBeInTheDocument();
     });
@@ -284,7 +296,11 @@ describe('DataStreamStatusDetails', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('The dataset you are using for event tracking appears to not exist. Check your configuration and make sure the Dataset selected still exists.')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'The dataset you are using for event tracking appears to not exist. Check your configuration and make sure the Dataset selected still exists.'
+        )
+      ).toBeInTheDocument();
       expect(screen.getByTestId('viewInstalled')).toBeInTheDocument();
       expect(screen.getByText('View Installed Extensions')).toBeInTheDocument();
     });
@@ -296,7 +312,9 @@ describe('DataStreamStatusDetails', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('The dataset used for message tracking requires the following mixins:')).toBeInTheDocument();
+      expect(
+        screen.getByText('The dataset used for message tracking requires the following mixins:')
+      ).toBeInTheDocument();
       expect(screen.getByTestId('viewTrackingSchema')).toBeInTheDocument();
       expect(screen.getByText('View Tracking Schema')).toBeInTheDocument();
     });
@@ -308,7 +326,11 @@ describe('DataStreamStatusDetails', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('For messaging, the "pushNotificationDetails" and "identityMap" mixins are required for the profile dataset. Please make sure the profile you\'ve configured has these mixins.')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'For messaging, the "pushNotificationDetails" and "identityMap" mixins are required for the profile dataset. Please make sure the profile you\'ve configured has these mixins.'
+        )
+      ).toBeInTheDocument();
       expect(screen.getByTestId('viewSchema')).toBeInTheDocument();
       expect(screen.getByText('View Profile Schema')).toBeInTheDocument();
     });
@@ -320,9 +342,17 @@ describe('DataStreamStatusDetails', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('The push token for this profile has been added to the Deny List. You cannot send messages to it. This could be because:')).toBeInTheDocument();
-      expect(screen.getByText('The user uninstalled the app after this token was sent')).toBeInTheDocument();
-      expect(screen.getByText('The user disabled push notifications for the app')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'The push token for this profile has been added to the Deny List. You cannot send messages to it. This could be because:'
+        )
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('The user uninstalled the app after this token was sent')
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('The user disabled push notifications for the app')
+      ).toBeInTheDocument();
     });
   });
 
@@ -484,7 +514,7 @@ describe('DataStreamStatusDetails', () => {
 
       const buttons = screen.getAllByRole('button');
       expect(buttons.length).toBeGreaterThan(0);
-      
+
       buttons.forEach(button => {
         expect(button).toBeInTheDocument();
       });

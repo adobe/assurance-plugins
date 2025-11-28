@@ -2,50 +2,60 @@
  * Test suite for Live Activities validation section
  * Tests table rendering with proper renderEmptyState implementation
  */
-
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { IntlProvider } from 'react-intl';
-import { Provider, defaultTheme } from '@adobe/react-spectrum';
-import LiveActivitiesValidationSection from '../live-activities-validation-section';
-import { TEST_IDS } from '../../../constants/testIds';
-import { VALIDATION_STATUS } from '../../../constants';
 
+import { Provider, defaultTheme } from '@adobe/react-spectrum';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
 import { vi } from 'vitest';
+
+import { VALIDATION_STATUS } from '../../../constants';
+import { TEST_IDS } from '../../../constants/testIds';
+import { useLiveActivitiesData } from '../../../hooks/useActivities';
+// Import mocked modules
+import {
+  useClientDeviceType,
+  useClientIOSVersion,
+  useClientLiveActivitiesSupport,
+  useSelectedClientPushToStartToken
+} from '../../../hooks/useClientInfo';
+import { useLiveActivitiesValidationStatus } from '../../../hooks/useLiveActivitiesValidationStatus';
+import { copyToClipboard } from '../../../utils/clipboard';
+import LiveActivitiesValidationSection from '../live-activities-validation-section';
 
 // Mock the hooks
 vi.mock('../../../hooks/useClientInfo', () => ({
   useClientIOSVersion: vi.fn(),
   useClientLiveActivitiesSupport: vi.fn(),
   useClientDeviceType: vi.fn(),
-  useSelectedClientPushToStartToken: vi.fn(),
+  useSelectedClientPushToStartToken: vi.fn()
 }));
 
 vi.mock('../../../hooks/useActivities', () => ({
-  useLiveActivitiesData: vi.fn(),
+  useLiveActivitiesData: vi.fn()
 }));
 
 vi.mock('../../../hooks/useLiveActivitiesValidationStatus', () => ({
-  useLiveActivitiesValidationStatus: vi.fn(),
+  useLiveActivitiesValidationStatus: vi.fn()
 }));
 
 vi.mock('../../../utils/clipboard', () => ({
-  copyToClipboard: vi.fn(),
+  copyToClipboard: vi.fn()
 }));
 
-// Import mocked modules
-import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType, useSelectedClientPushToStartToken } from '../../../hooks/useClientInfo';
-import { useLiveActivitiesData } from '../../../hooks/useActivities';
-import { useLiveActivitiesValidationStatus } from '../../../hooks/useLiveActivitiesValidationStatus';
-import { copyToClipboard } from '../../../utils/clipboard';
-
 const mockUseClientIOSVersion = useClientIOSVersion as ReturnType<typeof vi.fn>;
-const mockUseClientLiveActivitiesSupport = useClientLiveActivitiesSupport as ReturnType<typeof vi.fn>;
+const mockUseClientLiveActivitiesSupport = useClientLiveActivitiesSupport as ReturnType<
+  typeof vi.fn
+>;
 const mockUseClientDeviceType = useClientDeviceType as ReturnType<typeof vi.fn>;
-const mockUseSelectedClientPushToStartToken = useSelectedClientPushToStartToken as ReturnType<typeof vi.fn>;
+const mockUseSelectedClientPushToStartToken = useSelectedClientPushToStartToken as ReturnType<
+  typeof vi.fn
+>;
 const mockUseLiveActivitiesData = useLiveActivitiesData as ReturnType<typeof vi.fn>;
-const mockUseLiveActivitiesValidationStatus = useLiveActivitiesValidationStatus as ReturnType<typeof vi.fn>;
+const mockUseLiveActivitiesValidationStatus = useLiveActivitiesValidationStatus as ReturnType<
+  typeof vi.fn
+>;
 const mockCopyToClipboard = copyToClipboard as ReturnType<typeof vi.fn>;
 
 // Test wrapper with React Spectrum Provider and IntlProvider
@@ -59,16 +69,18 @@ const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 // Mock data
 const mockActivityTypes = new Map([
-  ['FoodDeliveryLiveActivityAttributes', {
-    attributeType: 'FoodDeliveryLiveActivityAttributes',
-    pushToStartToken: 'push-to-start-token-123',
-    updateToken: 'update-token-123',
-    hasPushToStartToken: true,
-    hasUpdateToken: true,
-    hasSchema: true
-  }]
+  [
+    'FoodDeliveryLiveActivityAttributes',
+    {
+      attributeType: 'FoodDeliveryLiveActivityAttributes',
+      pushToStartToken: 'push-to-start-token-123',
+      updateToken: 'update-token-123',
+      hasPushToStartToken: true,
+      hasUpdateToken: true,
+      hasSchema: true
+    }
+  ]
 ]);
-
 
 describe('LiveActivitiesValidationSection', () => {
   beforeEach(() => {
@@ -101,10 +113,10 @@ describe('LiveActivitiesValidationSection', () => {
 
       // Check that the main section renders
       expect(screen.getByTestId(TEST_IDS.LIVE_ACTIVITIES_VALIDATION_SECTION)).toBeInTheDocument();
-      
+
       // Check that the section headings are rendered
       expect(screen.getByText('Registered Live Activities')).toBeInTheDocument();
-      
+
       // For now, just verify the headings are rendered - the TableView issue needs investigation
       // The TableView components should be rendered but they're not appearing in the DOM
     });
@@ -132,11 +144,11 @@ describe('LiveActivitiesValidationSection', () => {
 
       // Check that the section headings are rendered
       expect(screen.getByText('Registered Live Activities')).toBeInTheDocument();
-      
+
       // Check that data is rendered in the main status table
       expect(screen.getByText('Basic Live Activities Support')).toBeInTheDocument();
       expect(screen.getByText('16.5')).toBeInTheDocument();
-      
+
       // Note: TableView components may not render in test environment due to Adobe React Spectrum testing limitations
       // The actual component should work correctly in the browser with proper empty state handling
     });
@@ -166,11 +178,11 @@ describe('LiveActivitiesValidationSection', () => {
 
       // Check that the section headings are rendered
       expect(screen.getByText('Registered Live Activities')).toBeInTheDocument();
-      
+
       // Check that full support status is displayed
       expect(screen.getByText('Full Live Activities Support')).toBeInTheDocument();
       expect(screen.getByText('18.0')).toBeInTheDocument();
-      
+
       // Note: Column-specific tests would require TableView to render in test environment
       // The component is correctly structured to show push-to-start column for full support
     });
@@ -197,7 +209,7 @@ describe('LiveActivitiesValidationSection', () => {
       // Check that not supported status is displayed
       expect(screen.getByText('Live Activities Not Supported')).toBeInTheDocument();
       expect(screen.getByText('15.0')).toBeInTheDocument();
-      
+
       // Section headings should not be rendered for unsupported devices
       expect(screen.queryByText('Registered Live Activities')).not.toBeInTheDocument();
     });
@@ -280,7 +292,7 @@ describe('LiveActivitiesValidationSection', () => {
       // Check main section accessibility
       expect(screen.getByTestId(TEST_IDS.LIVE_ACTIVITIES_VALIDATION_SECTION)).toBeInTheDocument();
       expect(screen.getByTestId(TEST_IDS.STATUS_LIGHT)).toBeInTheDocument();
-      
+
       // Check Apple documentation link
       expect(screen.getByTestId(TEST_IDS.APPLE_DOCUMENTATION_LINK)).toBeInTheDocument();
     });

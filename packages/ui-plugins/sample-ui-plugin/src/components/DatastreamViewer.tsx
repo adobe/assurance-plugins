@@ -14,12 +14,13 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  **************************************************************************/
-import { EventDataViewer } from "@assurance/event-data-viewer";
-import { useEvents } from "@assurance/plugin-bridge-provider";
-import React from "react";
+import React from 'react';
 
-const prepareEvents = (events) => {
-  const results = (events || []).map((event) => {
+import { EventDataViewer } from '@assurance/event-data-viewer';
+import { useEvents } from '@assurance/plugin-bridge-provider';
+
+const prepareEvents = events => {
+  const results = (events || []).map(event => {
     const message = event.payload?.messages?.[1];
     let data: any = {};
 
@@ -29,7 +30,7 @@ const prepareEvents = (events) => {
 
     return {
       eventId: event.uuid,
-      values: data,
+      values: data
     };
   });
 
@@ -38,7 +39,7 @@ const prepareEvents = (events) => {
 
 const Timing = () => {
   const events = useEvents({
-    matchers: ["payload.name==`datastream`"],
+    matchers: ['payload.name==`datastream`']
   });
   return <EventDataViewer data={prepareEvents(events)} />;
 };

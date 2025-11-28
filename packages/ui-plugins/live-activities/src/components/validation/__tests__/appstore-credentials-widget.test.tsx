@@ -2,54 +2,61 @@
  * Test suite for App Store Credentials Widget
  * Tests app store credentials validation and data display
  */
-
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { IntlProvider } from 'react-intl';
+
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
-import AppStoreCredentialsWidget from '../appstore-credentials-widget';
+// Import mocked modules
+import { useEvents, useImsOrg, useSandbox } from '@assurance/plugin-bridge-provider';
+import '@testing-library/jest-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
 import { vi } from 'vitest';
+
+import { useAppstoreCredentialsValidation } from '../../../hooks/useAppstoreCredentialsValidation';
+import usePushCredentialsData from '../../../hooks/usePushCredentialsData';
+import { renderValue } from '../../../utils/utils';
+import AppStoreCredentialsWidget from '../appstore-credentials-widget';
 
 // Mock the hooks
 vi.mock('@assurance/plugin-bridge-provider', () => ({
   useSandbox: vi.fn(),
   useImsOrg: vi.fn(),
-  useEvents: vi.fn(),
+  useEvents: vi.fn()
 }));
 
 vi.mock('../../../hooks/usePushCredentialsData', () => ({
-  default: vi.fn(),
+  default: vi.fn()
 }));
 
 vi.mock('../../../hooks/useAppstoreCredentialsValidation', () => ({
-  useAppstoreCredentialsValidation: vi.fn(),
+  useAppstoreCredentialsValidation: vi.fn()
 }));
 
 vi.mock('../../../utils/utils', () => ({
-  renderValue: vi.fn(),
+  renderValue: vi.fn()
 }));
 
 vi.mock('../push-credentials-status-details', () => ({
   default: ({ pushCredentialsStatus, shouldMatch, onRefresh }: any) => (
     <div data-testid="push-credentials-status-details">
-      Status: {String(pushCredentialsStatus)}, App: {shouldMatch.app}, Platform: {shouldMatch.platform}
-      {onRefresh && <button data-testid="refresh-button" onClick={onRefresh}>Refresh</button>}
+      Status: {String(pushCredentialsStatus)}, App: {shouldMatch.app}, Platform:{' '}
+      {shouldMatch.platform}
+      {onRefresh && (
+        <button data-testid="refresh-button" onClick={onRefresh}>
+          Refresh
+        </button>
+      )}
     </div>
-  ),
+  )
 }));
-
-// Import mocked modules
-import { useSandbox, useImsOrg, useEvents } from '@assurance/plugin-bridge-provider';
-import usePushCredentialsData from '../../../hooks/usePushCredentialsData';
-import { useAppstoreCredentialsValidation } from '../../../hooks/useAppstoreCredentialsValidation';
-import { renderValue } from '../../../utils/utils';
 
 const mockUseSandbox = useSandbox as ReturnType<typeof vi.fn>;
 const mockUseImsOrg = useImsOrg as ReturnType<typeof vi.fn>;
 const mockUseEvents = useEvents as ReturnType<typeof vi.fn>;
 const mockUsePushCredentialsData = usePushCredentialsData as ReturnType<typeof vi.fn>;
-const mockUseAppstoreCredentialsValidation = useAppstoreCredentialsValidation as ReturnType<typeof vi.fn>;
+const mockUseAppstoreCredentialsValidation = useAppstoreCredentialsValidation as ReturnType<
+  typeof vi.fn
+>;
 const mockRenderValue = renderValue as ReturnType<typeof vi.fn>;
 
 // Test wrapper with React Spectrum Provider and IntlProvider
@@ -64,9 +71,7 @@ const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 describe('AppStoreCredentialsWidget', () => {
   const mockSandbox = { name: 'test-sandbox' };
   const mockImsOrg = 'test-org-id';
-  const mockEvents = [
-    { id: 'event-1', payload: { appId: 'test-app-id', platform: 'apns' } }
-  ];
+  const mockEvents = [{ id: 'event-1', payload: { appId: 'test-app-id', platform: 'apns' } }];
   const mockPushCredentials = {
     data: { data: [] },
     isLoading: false,
@@ -94,7 +99,7 @@ describe('AppStoreCredentialsWidget', () => {
     mockUseEvents.mockReturnValue(mockEvents);
     mockUsePushCredentialsData.mockReturnValue(mockPushCredentials);
     mockUseAppstoreCredentialsValidation.mockReturnValue(mockValidationData);
-    mockRenderValue.mockImplementation((value) => value || 'N/A');
+    mockRenderValue.mockImplementation(value => value || 'N/A');
   });
 
   describe('Basic Rendering', () => {
@@ -116,7 +121,9 @@ describe('AppStoreCredentialsWidget', () => {
       );
 
       expect(screen.getByTestId('push-credentials-status-details')).toBeInTheDocument();
-      expect(screen.getByText('Status: false, App: test-app-id, Platform: apns')).toBeInTheDocument();
+      expect(
+        screen.getByText('Status: false, App: test-app-id, Platform: apns')
+      ).toBeInTheDocument();
     });
 
     it('should render property information table', () => {
@@ -236,7 +243,9 @@ describe('AppStoreCredentialsWidget', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('Status: no-apps, App: custom-app-id, Platform: fcm')).toBeInTheDocument();
+      expect(
+        screen.getByText('Status: no-apps, App: custom-app-id, Platform: fcm')
+      ).toBeInTheDocument();
     });
 
     it('should pass refresh function to PushCredentialsStatusDetails', () => {
@@ -401,7 +410,9 @@ describe('AppStoreCredentialsWidget', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent('App Store Credentials & Configuration');
+      expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
+        'App Store Credentials & Configuration'
+      );
     });
 
     it('should have proper table structure', () => {
@@ -440,7 +451,7 @@ describe('AppStoreCredentialsWidget', () => {
 
       const buttons = screen.getAllByRole('button');
       expect(buttons.length).toBeGreaterThan(0);
-      
+
       buttons.forEach(button => {
         expect(button).toBeInTheDocument();
       });

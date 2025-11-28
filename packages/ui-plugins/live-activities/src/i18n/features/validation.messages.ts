@@ -10,7 +10,7 @@ export const validationMessages = defineMessages({
     id: 'validation.liveActivities.title',
     defaultMessage: 'Live Activities'
   },
-  
+
   // Not Supported
   notSupported: {
     id: 'validation.liveActivities.notSupported',
@@ -18,9 +18,10 @@ export const validationMessages = defineMessages({
   },
   notSupportedDetails: {
     id: 'validation.liveActivities.notSupportedDetails',
-    defaultMessage: 'Live Activities require iOS 16.1 or later. This device is running iOS {version}.'
+    defaultMessage:
+      'Live Activities require iOS 16.1 or later. This device is running iOS {version}.'
   },
-  
+
   // Basic Support
   basicSupport: {
     id: 'validation.liveActivities.basicSupport',
@@ -28,9 +29,10 @@ export const validationMessages = defineMessages({
   },
   basicSupportDetails: {
     id: 'validation.liveActivities.basicSupportDetails',
-    defaultMessage: 'This device supports basic Live Activities features (iOS {version}). Validating: Registration, Update tokens, Per-activity schema.'
+    defaultMessage:
+      'This device supports basic Live Activities features (iOS {version}). Validating: Registration, Update tokens, Per-activity schema.'
   },
-  
+
   // Full Support
   fullSupport: {
     id: 'validation.liveActivities.fullSupport',
@@ -38,9 +40,10 @@ export const validationMessages = defineMessages({
   },
   fullSupportDetails: {
     id: 'validation.liveActivities.fullSupportDetails',
-    defaultMessage: 'This device supports all Live Activities features including PushToStart (iOS {version}). Validating: Registration, Update tokens, Per-activity schema, PushToStart tokens.'
+    defaultMessage:
+      'This device supports all Live Activities features including PushToStart (iOS {version}). Validating: Registration, Update tokens, Per-activity schema, PushToStart tokens.'
   },
-  
+
   // Unknown/Not iOS
   unknown: {
     id: 'validation.liveActivities.unknown',
@@ -48,7 +51,8 @@ export const validationMessages = defineMessages({
   },
   unknownDetails: {
     id: 'validation.liveActivities.unknownDetails',
-    defaultMessage: 'Unable to determine iOS version. Please ensure the device is properly connected.'
+    defaultMessage:
+      'Unable to determine iOS version. Please ensure the device is properly connected.'
   },
   notIOS: {
     id: 'validation.liveActivities.notIOS',
@@ -58,7 +62,7 @@ export const validationMessages = defineMessages({
     id: 'validation.liveActivities.notIOSDetails',
     defaultMessage: 'Live Activities are only supported on iOS devices.'
   },
-  
+
   // Form Labels
   status: {
     id: 'validation.form.status',
@@ -96,7 +100,7 @@ export const validationMessages = defineMessages({
     id: 'validation.form.pushToStartToken',
     defaultMessage: 'PushToStart Token'
   },
-  
+
   // Form Values
   yes: {
     id: 'validation.values.yes',
@@ -122,39 +126,47 @@ export const validationMessages = defineMessages({
     id: 'validation.values.notAvailable',
     defaultMessage: 'Not available'
   },
-  
+
   // Tooltips
   statusTooltip: {
     id: 'validation.tooltips.status',
-    defaultMessage: 'Current Live Activities support status based on iOS version and app configuration.'
+    defaultMessage:
+      'Current Live Activities support status based on iOS version and app configuration.'
   },
   iosVersionTooltip: {
     id: 'validation.tooltips.iosVersion',
-    defaultMessage: 'The iOS version running on this device. Live Activities require iOS 16.1 or later.'
+    defaultMessage:
+      'The iOS version running on this device. Live Activities require iOS 16.1 or later.'
   },
   deviceTypeTooltip: {
     id: 'validation.tooltips.deviceType',
-    defaultMessage: 'The type of device (iPhone, iPad, etc.). Live Activities are supported on all iOS devices with iOS 16.1+.'
+    defaultMessage:
+      'The type of device (iPhone, iPad, etc.). Live Activities are supported on all iOS devices with iOS 16.1+.'
   },
   minimumRequiredTooltip: {
     id: 'validation.tooltips.minimumRequired',
-    defaultMessage: 'The minimum iOS version required for Live Activities. This is iOS 16.1, which introduced Live Activities.'
+    defaultMessage:
+      'The minimum iOS version required for Live Activities. This is iOS 16.1, which introduced Live Activities.'
   },
   nsSupportsLiveActivitiesTooltip: {
     id: 'validation.tooltips.nsSupportsLiveActivities',
-    defaultMessage: "Indicates whether the app declares support for Live Activities in its Info.plist. This should be 'Yes' for Live Activities to work."
+    defaultMessage:
+      "Indicates whether the app declares support for Live Activities in its Info.plist. This should be 'Yes' for Live Activities to work."
   },
   nsSupportsLiveActivitiesFrequentUpdatesTooltip: {
     id: 'validation.tooltips.nsSupportsLiveActivitiesFrequentUpdates',
-    defaultMessage: 'Indicates whether the app supports frequent Live Activities updates. This enables more dynamic content updates.'
+    defaultMessage:
+      'Indicates whether the app supports frequent Live Activities updates. This enables more dynamic content updates.'
   },
   appMinimumOSVersionTooltip: {
     id: 'validation.tooltips.appMinimumOSVersion',
-    defaultMessage: 'The minimum iOS version the app declares it supports. If this is below the device version, there may be compatibility issues.'
+    defaultMessage:
+      'The minimum iOS version the app declares it supports. If this is below the device version, there may be compatibility issues.'
   },
   appMinimumOSVersionWarningTooltip: {
     id: 'validation.tooltips.appMinimumOSVersionWarning',
-    defaultMessage: "The device iOS version is below the app's minimum required version. This may cause compatibility issues with Live Activities."
+    defaultMessage:
+      "The device iOS version is below the app's minimum required version. This may cause compatibility issues with Live Activities."
   },
   appMinimumOSVersionWarning: {
     id: 'validation.warnings.appMinimumOSVersionWarning',
@@ -162,7 +174,8 @@ export const validationMessages = defineMessages({
   },
   liveActivitiesTooltipNone: {
     id: 'validation.tooltips.liveActivitiesNone',
-    defaultMessage: 'No Live Activities have been registered in this session. This could indicate that the app does not have Live Activities configured or no activities have been started.'
+    defaultMessage:
+      'No Live Activities have been registered in this session. This could indicate that the app does not have Live Activities configured or no activities have been started.'
   },
   liveActivitiesTooltipFound: {
     id: 'validation.tooltips.liveActivitiesFound',
@@ -176,7 +189,7 @@ export const validationMessages = defineMessages({
     id: 'validation.tooltips.pushToStartTokenNone',
     defaultMessage: 'No PushToStart token available'
   },
-  
+
   // Table
   registeredActivities: {
     id: 'validation.table.registeredActivities',
@@ -192,13 +205,13 @@ export const validationMessages = defineMessages({
   },
   noRegisteredActivitiesDescription: {
     id: 'validation.empty.noRegisteredActivitiesDescription',
-    defaultMessage: 'No Live Activities have been registered in this session. This could indicate that the app does not have Live Activities configured or no activities have been started yet.'
+    defaultMessage:
+      'No Live Activities have been registered in this session. This could indicate that the app does not have Live Activities configured or no activities have been started yet.'
   },
-  
+
   // Links
   learnMore: {
     id: 'validation.links.learnMore',
     defaultMessage: 'Learn more about Live Activities requirements'
   }
 });
-

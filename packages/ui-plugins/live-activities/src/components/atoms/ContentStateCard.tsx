@@ -1,24 +1,30 @@
-import { View, Text, Flex, Heading, Divider, Button, Well, ActionGroup, Item, Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
+import React, { useMemo, useState } from 'react';
 
+import {
+  ActionGroup,
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  Item,
+  Text,
+  Tooltip,
+  TooltipTrigger,
+  View,
+  Well
+} from '@adobe/react-spectrum';
 import MonacoEditor from '@monaco-editor/react';
-
-import ViewList from '@spectrum-icons/workflow/ViewList';
 import Code from '@spectrum-icons/workflow/Code';
 import Copy from '@spectrum-icons/workflow/Copy';
 import ViewDetail from '@spectrum-icons/workflow/ViewDetail';
-
-import React, { useState, useMemo } from 'react';
-
+import ViewList from '@spectrum-icons/workflow/ViewList';
+import classNames from 'classnames';
+import dayjs from 'dayjs';
 import { useIntl } from 'react-intl';
 
-import dayjs from 'dayjs';
-
-import classNames from 'classnames';
-
 import usePluginState from '../../hooks/usePluginState';
+import { contentStateMessages, copyMessages } from '../../i18n';
 import { copyToClipboard } from '../../utils/clipboard';
-import { copyMessages, contentStateMessages } from '../../i18n';
-
 import './ContentStateCard.css';
 import InfoField from './InfoField';
 import Card from './card';
@@ -30,9 +36,16 @@ interface ContentStateCardProps {
   eventId?: string; // ID of the event that generated this content state
 }
 
-function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTimestamp, eventId }: ContentStateCardProps) {
+function ContentStateCard({
+  contentState,
+  noContentStateMessage,
+  lastUpdatedTimestamp,
+  eventId
+}: ContentStateCardProps) {
   const { formatMessage } = useIntl();
-  const { activityNavigation: { navigateToEventDetails } } = usePluginState();
+  const {
+    activityNavigation: { navigateToEventDetails }
+  } = usePluginState();
   const [viewMode, setViewMode] = useState<'formatted' | 'raw'>('formatted');
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -48,26 +61,27 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
   };
 
   const handleCopy = async () => {
-    const content = viewMode === 'formatted' 
-      ? JSON.stringify(contentState, null, 2)
-      : JSON.stringify(contentState);
-    
+    const content =
+      viewMode === 'formatted'
+        ? JSON.stringify(contentState, null, 2)
+        : JSON.stringify(contentState);
+
     const success = await copyToClipboard(content);
-    
+
     if (success) {
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
     } else {
-      console.warn('Copy functionality is not available. Please manually select and copy the content from the display area.');
+      console.warn(
+        'Copy functionality is not available. Please manually select and copy the content from the display area.'
+      );
     }
   };
 
   const renderFormattedContent = () => {
     if (!contentState || typeof contentState !== 'object') {
       return (
-        <View 
-          UNSAFE_className={classNames('noContentStateContainer')}
-        >
+        <View UNSAFE_className={classNames('noContentStateContainer')}>
           <Text>{String(contentState)}</Text>
         </View>
       );
@@ -108,27 +122,18 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
     return (
       <Flex direction="column" gap="size-150">
         {Object.entries(contentState).map(([key, value]) => (
-          <View 
-            key={key}
-            UNSAFE_className={classNames('formattedContentItem')}
-          >
+          <View key={key} UNSAFE_className={classNames('formattedContentItem')}>
             <Flex direction="row" gap="size-200" alignItems="start">
               <View UNSAFE_className={classNames('formattedContentKey')}>
-                <Text 
-                  UNSAFE_className={classNames('formattedContentKeyLabel')}
-                >
-                  {key}
-                </Text>
-                <Text 
-                  UNSAFE_className={classNames('formattedContentKeyType')}
-                >
+                <Text UNSAFE_className={classNames('formattedContentKeyLabel')}>{key}</Text>
+                <Text UNSAFE_className={classNames('formattedContentKeyType')}>
                   {getValueType(value)}
                 </Text>
               </View>
               <View UNSAFE_className={classNames('formattedContentValue')}>
-                <Text 
-                  UNSAFE_className={classNames("formattedContentValueText", {
-                    "monospace": getValueType(value) !== 'string'
+                <Text
+                  UNSAFE_className={classNames('formattedContentValueText', {
+                    monospace: getValueType(value) !== 'string'
                   })}
                 >
                   {formatValue(value, key)}
@@ -142,9 +147,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
   };
 
   const renderRawContent = () => (
-    <View 
-      UNSAFE_className={classNames('rawContentContainer')}
-    >
+    <View UNSAFE_className={classNames('rawContentContainer')}>
       <MonacoEditor
         height="200px"
         language="json"
@@ -173,22 +176,26 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
               <Heading level={3} marginY="size-0">
                 {formatMessage(contentStateMessages.title)}
               </Heading>
-              {contentState && (                                 
-                  <TooltipTrigger>
-                    <Button
-                      variant="secondary"
-                      isQuiet
-                      onPress={handleCopy}
-                      UNSAFE_className={classNames({
-                        "copyButton": copySuccess
-                      })}
-                    >
-                      <Copy size="S" />
-                    </Button>
-                    <Tooltip>
-                      <Text>{copySuccess ? formatMessage(copyMessages.contentCopied) : formatMessage(copyMessages.copyContent)}</Text>
-                    </Tooltip>
-                  </TooltipTrigger>                
+              {contentState && (
+                <TooltipTrigger>
+                  <Button
+                    variant="secondary"
+                    isQuiet
+                    onPress={handleCopy}
+                    UNSAFE_className={classNames({
+                      copyButton: copySuccess
+                    })}
+                  >
+                    <Copy size="S" />
+                  </Button>
+                  <Tooltip>
+                    <Text>
+                      {copySuccess
+                        ? formatMessage(copyMessages.contentCopied)
+                        : formatMessage(copyMessages.copyContent)}
+                    </Text>
+                  </Tooltip>
+                </TooltipTrigger>
               )}
             </Flex>
             {contentState && (
@@ -197,7 +204,7 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                 selectionMode="single"
                 selectedKeys={[viewMode]}
                 onSelectionChange={() => {
-                    setViewMode(prev => (prev === 'formatted' ? 'raw' : 'formatted'));
+                  setViewMode(prev => (prev === 'formatted' ? 'raw' : 'formatted'));
                 }}
                 isEmphasized
                 density="compact"
@@ -212,19 +219,24 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
               </ActionGroup>
             )}
           </Flex>
-          
+
           <Divider />
-          
+
           <View flex="1" overflow="auto">
             {contentState ? (
               <Well>
                 <Flex direction="column" gap="size-200">
                   {/* Content State Summary */}
-                  <Flex direction="row" justifyContent="space-between" alignItems="center" marginBottom="size-150">
-                    <Text 
-                      UNSAFE_className={classNames('contentStateSummary')}
-                    >
-                      {formatMessage(contentStateMessages.properties, { count: Object.keys(contentState).length })}
+                  <Flex
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    marginBottom="size-150"
+                  >
+                    <Text UNSAFE_className={classNames('contentStateSummary')}>
+                      {formatMessage(contentStateMessages.properties, {
+                        count: Object.keys(contentState).length
+                      })}
                     </Text>
                     {eventId && (
                       <TooltipTrigger>
@@ -244,36 +256,33 @@ function ContentStateCard({ contentState, noContentStateMessage, lastUpdatedTime
                       </TooltipTrigger>
                     )}
                   </Flex>
-                  
+
                   {viewMode === 'formatted' ? renderFormattedContent() : renderRawContent()}
-                  
+
                   <Divider />
-                  
+
                   <InfoField
                     label={formatMessage(contentStateMessages.lastUpdated)}
-                    value={lastUpdatedTimestamp 
-                      ? dayjs(lastUpdatedTimestamp).format('MMM D, YYYY [at] h:mm:ss A')
-                      : formatMessage(contentStateMessages.unknown)
+                    value={
+                      lastUpdatedTimestamp
+                        ? dayjs(lastUpdatedTimestamp).format('MMM D, YYYY [at] h:mm:ss A')
+                        : formatMessage(contentStateMessages.unknown)
                     }
                   />
                 </Flex>
               </Well>
             ) : (
-              <Flex 
-                direction="column" 
-                alignItems="center" 
-                justifyContent="center" 
+              <Flex
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
                 height="100%"
                 gap="size-200"
               >
-                <Text 
-                  UNSAFE_className={classNames('noContentStateText')}
-                >
+                <Text UNSAFE_className={classNames('noContentStateText')}>
                   {noContentStateMessage}
                 </Text>
-                <Text 
-                  UNSAFE_className={classNames('noContentStateHint')}
-                >
+                <Text UNSAFE_className={classNames('noContentStateHint')}>
                   {formatMessage(contentStateMessages.emptyHint)}
                 </Text>
               </Flex>

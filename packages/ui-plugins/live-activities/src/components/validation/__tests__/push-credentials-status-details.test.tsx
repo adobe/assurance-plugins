@@ -2,22 +2,22 @@
  * Test suite for Push Credentials Status Details
  * Tests push credentials validation status rendering and user interactions
  */
-
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { IntlProvider } from 'react-intl';
-import { Provider, defaultTheme } from '@adobe/react-spectrum';
-import PushCredentialsStatusDetails from '../push-credentials-status-details';
-import { vi } from 'vitest';
 
-// Mock the hooks
-vi.mock('../../../hooks/useOpenExperienceUrl', () => ({
-  useOpenExperienceUrl: vi.fn(),
-}));
+import { Provider, defaultTheme } from '@adobe/react-spectrum';
+import '@testing-library/jest-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
+import { vi } from 'vitest';
 
 // Import mocked modules
 import { useOpenExperienceUrl } from '../../../hooks/useOpenExperienceUrl';
+import PushCredentialsStatusDetails from '../push-credentials-status-details';
+
+// Mock the hooks
+vi.mock('../../../hooks/useOpenExperienceUrl', () => ({
+  useOpenExperienceUrl: vi.fn()
+}));
 
 const mockUseOpenExperienceUrl = useOpenExperienceUrl as ReturnType<typeof vi.fn>;
 
@@ -50,9 +50,9 @@ describe('PushCredentialsStatusDetails', () => {
     it('should render with valid status (false)', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus={false} 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus={false}
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
@@ -63,9 +63,9 @@ describe('PushCredentialsStatusDetails', () => {
     it('should render loading state', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="loading" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="loading"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
@@ -78,9 +78,9 @@ describe('PushCredentialsStatusDetails', () => {
     it('should display correct message for device-not-configured', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="device-not-configured" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="device-not-configured"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
@@ -91,9 +91,9 @@ describe('PushCredentialsStatusDetails', () => {
     it('should display correct message for error', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="error" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="error"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
@@ -104,9 +104,9 @@ describe('PushCredentialsStatusDetails', () => {
     it('should display correct message for no-apps', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-apps" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-apps"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
@@ -117,9 +117,9 @@ describe('PushCredentialsStatusDetails', () => {
     it('should display correct message for no-matching-app', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-matching-app" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-matching-app"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
@@ -130,9 +130,9 @@ describe('PushCredentialsStatusDetails', () => {
     it('should display correct message for property-not-loaded', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="property-not-loaded" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="property-not-loaded"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
@@ -145,48 +145,68 @@ describe('PushCredentialsStatusDetails', () => {
     it('should render no-apps details with manage button', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-apps" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-apps"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
 
-      expect(screen.getByText('You haven\'t created any App Configurations yet.')).toBeInTheDocument();
-      expect(screen.getByText('Use the following link to manage your App Configurations:')).toBeInTheDocument();
+      expect(
+        screen.getByText("You haven't created any App Configurations yet.")
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('Use the following link to manage your App Configurations:')
+      ).toBeInTheDocument();
       expect(screen.getByTestId('manage')).toBeInTheDocument();
       expect(screen.getByText('Manage App Configurations')).toBeInTheDocument();
-      expect(screen.getByText('Make sure to create an App Configuration with the following details:')).toBeInTheDocument();
+      expect(
+        screen.getByText('Make sure to create an App Configuration with the following details:')
+      ).toBeInTheDocument();
     });
 
     it('should render no-matching-app details with manage button', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-matching-app" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-matching-app"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
 
-      expect(screen.getByText('There is not an App Configurations that matches the stored App ID and Platform for this App.')).toBeInTheDocument();
-      expect(screen.getByText('Use the following link to manage your App Configurations:')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'There is not an App Configurations that matches the stored App ID and Platform for this App.'
+        )
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('Use the following link to manage your App Configurations:')
+      ).toBeInTheDocument();
       expect(screen.getByTestId('manage')).toBeInTheDocument();
       expect(screen.getByText('Manage App Configurations')).toBeInTheDocument();
-      expect(screen.getByText('Make sure there is an App Configuration that matches the following details:')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'Make sure there is an App Configuration that matches the following details:'
+        )
+      ).toBeInTheDocument();
     });
 
     it('should render property-not-loaded details with property info', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="property-not-loaded" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="property-not-loaded"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
 
-      expect(screen.getByText('Could not load this property in Launch. Make sure that you are provisioned for Launch, that the property exists, and that it exists for the specified Org')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'Could not load this property in Launch. Make sure that you are provisioned for Launch, that the property exists, and that it exists for the specified Org'
+        )
+      ).toBeInTheDocument();
       expect(screen.getByTestId('app-info-property')).toBeInTheDocument();
       expect(screen.getByTestId('app-info-orgId')).toBeInTheDocument();
       expect(screen.getByText('Property ID: test-property-id')).toBeInTheDocument();
@@ -196,14 +216,18 @@ describe('PushCredentialsStatusDetails', () => {
     it('should render error details', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="error" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="error"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
 
-      expect(screen.getByText('There was a problem fetching the apps. This could be a temporary network issue or potentially a provisioning issue.')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'There was a problem fetching the apps. This could be a temporary network issue or potentially a provisioning issue.'
+        )
+      ).toBeInTheDocument();
     });
   });
 
@@ -211,29 +235,33 @@ describe('PushCredentialsStatusDetails', () => {
     it('should display app information for no-apps status', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-apps" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-apps"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
 
       expect(screen.getByText('App ID: test-app-id')).toBeInTheDocument();
-      expect(screen.getByText('Messaging Service: Apple Push Notification Service')).toBeInTheDocument();
+      expect(
+        screen.getByText('Messaging Service: Apple Push Notification Service')
+      ).toBeInTheDocument();
     });
 
     it('should display app information for no-matching-app status', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-matching-app" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-matching-app"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
 
       expect(screen.getByText('App ID: test-app-id')).toBeInTheDocument();
-      expect(screen.getByText('Messaging Service: Apple Push Notification Service')).toBeInTheDocument();
+      expect(
+        screen.getByText('Messaging Service: Apple Push Notification Service')
+      ).toBeInTheDocument();
     });
 
     it('should display Firebase service for Android platform', () => {
@@ -244,14 +272,16 @@ describe('PushCredentialsStatusDetails', () => {
 
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-apps" 
-            shouldMatch={androidShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-apps"
+            shouldMatch={androidShouldMatch}
           />
         </TestWrapper>
       );
 
-      expect(screen.getByText('Messaging Service: Firebase Cloud Messaging V1')).toBeInTheDocument();
+      expect(
+        screen.getByText('Messaging Service: Firebase Cloud Messaging V1')
+      ).toBeInTheDocument();
     });
 
     it('should display Firebase service for FCM platform', () => {
@@ -262,14 +292,16 @@ describe('PushCredentialsStatusDetails', () => {
 
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-apps" 
-            shouldMatch={fcmShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-apps"
+            shouldMatch={fcmShouldMatch}
           />
         </TestWrapper>
       );
 
-      expect(screen.getByText('Messaging Service: Firebase Cloud Messaging V1')).toBeInTheDocument();
+      expect(
+        screen.getByText('Messaging Service: Firebase Cloud Messaging V1')
+      ).toBeInTheDocument();
     });
   });
 
@@ -277,9 +309,9 @@ describe('PushCredentialsStatusDetails', () => {
     it('should call openExpUrl when manage button is clicked', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-apps" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-apps"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
@@ -293,9 +325,9 @@ describe('PushCredentialsStatusDetails', () => {
     it('should call onRefresh when refresh button is clicked', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="error" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="error"
+            shouldMatch={defaultShouldMatch}
             onRefresh={mockOnRefresh}
           />
         </TestWrapper>
@@ -310,9 +342,9 @@ describe('PushCredentialsStatusDetails', () => {
     it('should not show refresh button when onRefresh is not provided', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="error" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="error"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
@@ -330,14 +362,16 @@ describe('PushCredentialsStatusDetails', () => {
 
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-apps" 
-            shouldMatch={apnsShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-apps"
+            shouldMatch={apnsShouldMatch}
           />
         </TestWrapper>
       );
 
-      expect(screen.getByText('Messaging Service: Apple Push Notification Service')).toBeInTheDocument();
+      expect(
+        screen.getByText('Messaging Service: Apple Push Notification Service')
+      ).toBeInTheDocument();
     });
 
     it('should detect APNS sandbox platform correctly', () => {
@@ -348,14 +382,16 @@ describe('PushCredentialsStatusDetails', () => {
 
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-apps" 
-            shouldMatch={apnsSandboxShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-apps"
+            shouldMatch={apnsSandboxShouldMatch}
           />
         </TestWrapper>
       );
 
-      expect(screen.getByText('Messaging Service: Apple Push Notification Service')).toBeInTheDocument();
+      expect(
+        screen.getByText('Messaging Service: Apple Push Notification Service')
+      ).toBeInTheDocument();
     });
 
     it('should detect FCM platform correctly', () => {
@@ -366,14 +402,16 @@ describe('PushCredentialsStatusDetails', () => {
 
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-apps" 
-            shouldMatch={fcmShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-apps"
+            shouldMatch={fcmShouldMatch}
           />
         </TestWrapper>
       );
 
-      expect(screen.getByText('Messaging Service: Firebase Cloud Messaging V1')).toBeInTheDocument();
+      expect(
+        screen.getByText('Messaging Service: Firebase Cloud Messaging V1')
+      ).toBeInTheDocument();
     });
   });
 
@@ -381,9 +419,11 @@ describe('PushCredentialsStatusDetails', () => {
     it('should handle unknown status gracefully', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="unknown-status" as any
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="unknown-status"
+            as
+            any
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
@@ -402,15 +442,17 @@ describe('PushCredentialsStatusDetails', () => {
 
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-apps" 
-            shouldMatch={incompleteShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-apps"
+            shouldMatch={incompleteShouldMatch}
           />
         </TestWrapper>
       );
 
       expect(screen.getByText('App ID:')).toBeInTheDocument();
-      expect(screen.getByText('Messaging Service: Firebase Cloud Messaging V1')).toBeInTheDocument();
+      expect(
+        screen.getByText('Messaging Service: Firebase Cloud Messaging V1')
+      ).toBeInTheDocument();
     });
 
     it('should handle null/undefined values gracefully', () => {
@@ -424,9 +466,9 @@ describe('PushCredentialsStatusDetails', () => {
       expect(() => {
         render(
           <TestWrapper>
-            <PushCredentialsStatusDetails 
-              pushCredentialsStatus="no-apps" 
-              shouldMatch={nullShouldMatch} 
+            <PushCredentialsStatusDetails
+              pushCredentialsStatus="no-apps"
+              shouldMatch={nullShouldMatch}
             />
           </TestWrapper>
         );
@@ -438,22 +480,24 @@ describe('PushCredentialsStatusDetails', () => {
     it('should have proper heading structure', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="error" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="error"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );
 
-      expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent('App Configuration Error');
+      expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent(
+        'App Configuration Error'
+      );
     });
 
     it('should have accessible buttons', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="no-apps" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="no-apps"
+            shouldMatch={defaultShouldMatch}
             onRefresh={mockOnRefresh}
           />
         </TestWrapper>
@@ -461,7 +505,7 @@ describe('PushCredentialsStatusDetails', () => {
 
       const buttons = screen.getAllByRole('button');
       expect(buttons.length).toBeGreaterThan(0);
-      
+
       buttons.forEach(button => {
         expect(button).toBeInTheDocument();
       });
@@ -470,9 +514,9 @@ describe('PushCredentialsStatusDetails', () => {
     it('should have proper test IDs for data elements', () => {
       render(
         <TestWrapper>
-          <PushCredentialsStatusDetails 
-            pushCredentialsStatus="property-not-loaded" 
-            shouldMatch={defaultShouldMatch} 
+          <PushCredentialsStatusDetails
+            pushCredentialsStatus="property-not-loaded"
+            shouldMatch={defaultShouldMatch}
           />
         </TestWrapper>
       );

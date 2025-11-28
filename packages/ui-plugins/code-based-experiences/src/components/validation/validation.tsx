@@ -1,6 +1,7 @@
-import { View } from "@adobe/react-spectrum";
-import { ValidationItem } from "@assurance/validation-summary";
-import React from "react";
+import React from 'react';
+
+import { View } from '@adobe/react-spectrum';
+import { ValidationItem } from '@assurance/validation-summary';
 
 function Validation() {
   return (

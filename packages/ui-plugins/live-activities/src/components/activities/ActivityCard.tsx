@@ -1,16 +1,14 @@
-import { Flex, Text, StatusLight } from '@adobe/react-spectrum';
-
 import React from 'react';
 
-import { useIntl } from 'react-intl';
+import { Flex, StatusLight, Text } from '@adobe/react-spectrum';
 import classNames from 'classnames';
-
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useIntl } from 'react-intl';
 
-import SpectrumCard from '../atoms/SpectrumCard';
 import { LiveActivity } from '../../hooks/useActivities';
 import { activitiesMessages } from '../../i18n';
+import SpectrumCard from '../atoms/SpectrumCard';
 import './ActivityCard.css';
 
 dayjs.extend(relativeTime);
@@ -26,7 +24,7 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
 
   const getStatusVariant = (status: string) => {
     switch (status) {
-      case 'active': 
+      case 'active':
         return 'positive';
       case 'completed':
         return 'info';
@@ -42,7 +40,6 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
 
   const eventCount = activity.events?.length || 0;
   const lastActivityTime = activity.updateEvents?.[0]?.timestamp || activity.startTime;
-  
 
   return (
     <SpectrumCard
@@ -57,8 +54,8 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         borderColor: isSelected ? '#3b82f6' : '#d1d5db',
         borderRadius: '8px',
         backgroundColor: isSelected ? '#dbeafe' : '#ffffff',
-        boxShadow: isSelected 
-          ? '0 0 0 1px #3b82f6, 0 4px 12px rgba(59, 130, 246, 0.15)' 
+        boxShadow: isSelected
+          ? '0 0 0 1px #3b82f6, 0 4px 12px rgba(59, 130, 246, 0.15)'
           : '0 1px 3px rgba(0, 0, 0, 0.1)',
         transition: 'all 0.2s ease-in-out',
         cursor: 'pointer',
@@ -66,50 +63,29 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         margin: '2px'
       }}
     >
-      <Flex 
-        direction="column" 
-        gap="size-75" 
-        height="100%"
-        justifyContent="space-between"        
-      >
+      <Flex direction="column" gap="size-75" height="100%" justifyContent="space-between">
         {/* Header with status and Live Activity ID (primary identifier) */}
         <Flex alignItems="center" gap="size-100" justifyContent="space-between">
           <Flex wrap alignItems="center" gap="size-100" flex="1" minWidth="0">
-            <StatusLight  variant={getStatusVariant(activity.status)} />
-            <Text 
-              UNSAFE_className={classNames('activityIdText')}
-            >
-              {activity.id}
-            </Text>
-          </Flex>  
+            <StatusLight variant={getStatusVariant(activity.status)} />
+            <Text UNSAFE_className={classNames('activityIdText')}>{activity.id}</Text>
+          </Flex>
         </Flex>
-        
+
         {/* Attribute Type (secondary info) */}
         <Flex alignItems="center" gap="size-50">
-          <Text 
-            UNSAFE_className={classNames('typeLabel')}
-          >
-            Type:
-          </Text>
-          <Text 
-            UNSAFE_className={classNames('typeValue')}
-          >
-            {activity.name}
-          </Text>
+          <Text UNSAFE_className={classNames('typeLabel')}>Type:</Text>
+          <Text UNSAFE_className={classNames('typeValue')}>{activity.name}</Text>
         </Flex>
-        
+
         {/* Footer with event count and timing */}
         <Flex alignItems="center" justifyContent="space-between" gap="size-100">
-          <Text 
-            UNSAFE_className={classNames('eventCountText')}
-          >
+          <Text UNSAFE_className={classNames('eventCountText')}>
             {eventCount} {formatMessage(activitiesMessages.eventsCount)}
           </Text>
-          
+
           {lastActivityTime && (
-            <Text 
-              UNSAFE_className={classNames('timestampText')}
-            >
+            <Text UNSAFE_className={classNames('timestampText')}>
               {formatRelativeTime(lastActivityTime)}
             </Text>
           )}

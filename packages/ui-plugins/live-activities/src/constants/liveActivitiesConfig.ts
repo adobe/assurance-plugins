@@ -72,7 +72,7 @@ export const EDITOR_CONFIG = {
     formatOnPaste: true,
     formatOnType: true,
     autoIndent: 'full' as const,
-    padding: { top: 8 }  as const,
+    padding: { top: 8 } as const
   },
   OPTIONS_WITH_LINE_NUMBERS: {
     minimap: { enabled: false },
@@ -81,7 +81,7 @@ export const EDITOR_CONFIG = {
     formatOnType: true,
     autoIndent: 'full' as const,
     lineNumbers: 'on' as const,
-    padding: { top: 8 }  as const,
+    padding: { top: 8 } as const
   }
 } as const;
 

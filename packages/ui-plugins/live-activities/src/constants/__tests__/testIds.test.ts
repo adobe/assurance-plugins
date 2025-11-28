@@ -2,7 +2,6 @@
  * Test suite for test IDs constants
  * Ensures all test IDs are properly defined and follow naming conventions
  */
-
 import { TEST_IDS } from '../testIds';
 
 describe('TEST_IDS', () => {

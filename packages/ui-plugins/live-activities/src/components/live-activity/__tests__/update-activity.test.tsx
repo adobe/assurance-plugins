@@ -2,24 +2,24 @@
  * Test suite for Update Activity Component
  * Tests updating and ending live activities
  */
-
 import React from 'react';
-import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { IntlProvider } from 'react-intl';
+
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
-import UpdateActivity from '../update-activity';
+import '@testing-library/jest-dom';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import * as liveActivityApi from '../../../api/liveActivityApi';
 import { LiveActivity } from '../../../hooks/useActivities';
+// Import mocked modules
+import { useLiveActivityContext } from '../../../hooks/useLiveActivityContext';
+import UpdateActivity from '../update-activity';
 
 // Mock the hooks
 vi.mock('../../../hooks/useLiveActivityContext', () => ({
-  useLiveActivityContext: vi.fn(),
+  useLiveActivityContext: vi.fn()
 }));
-
-// Import mocked modules
-import { useLiveActivityContext } from '../../../hooks/useLiveActivityContext';
 
 const mockUseLiveActivityContext = useLiveActivityContext as ReturnType<typeof vi.fn>;
 
@@ -46,7 +46,7 @@ describe('UpdateActivity', () => {
     attributes: 'TestActivityType',
     updateToken: 'update-token-123',
     status: 'active' as const,
-    contentState: { test: 'data' },
+    contentState: { test: 'data' }
   } as LiveActivity;
 
   const mockContext = {
@@ -59,18 +59,18 @@ describe('UpdateActivity', () => {
     pushToken: null, // Not required for updates
     appId: 'com.test.app',
     platform: 'ios',
-    isReady: true,
+    isReady: true
   };
 
   const mockUpdateTemplate = {
     'content-state': {},
     'attributes-type': 'TestActivityType',
-    event: 'update',
+    event: 'update'
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     mockUseLiveActivityContext.mockReturnValue(mockContext);
     mockGenerateUpdateTemplate.mockReturnValue(mockUpdateTemplate);
     mockBuildApiUrl.mockReturnValue('https://api.test.com');
@@ -92,7 +92,7 @@ describe('UpdateActivity', () => {
     it('should disable button when context is not ready', () => {
       mockUseLiveActivityContext.mockReturnValue({
         ...mockContext,
-        isReady: false,
+        isReady: false
       });
 
       render(
@@ -108,7 +108,7 @@ describe('UpdateActivity', () => {
     it('should disable button when no update token', () => {
       const activityWithoutToken = {
         ...mockActivity,
-        updateToken: undefined,
+        updateToken: undefined
       };
 
       render(
@@ -124,7 +124,7 @@ describe('UpdateActivity', () => {
     it('should disable button when activity is completed', () => {
       const completedActivity = {
         ...mockActivity,
-        status: 'completed' as const,
+        status: 'completed' as const
       };
 
       render(
@@ -185,7 +185,7 @@ describe('UpdateActivity', () => {
     it('should display activity id when no name is available', async () => {
       const activityWithoutName: LiveActivity = {
         ...mockActivity,
-        name: '',
+        name: ''
       };
 
       render(
@@ -331,13 +331,13 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
-      
+
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
@@ -345,7 +345,7 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(mockBuildCompleteApsPayload).toHaveBeenCalledWith(
           expect.objectContaining({
-            eventType: 'update',
+            eventType: 'update'
           })
         );
       });
@@ -375,13 +375,13 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
-      
+
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
@@ -389,7 +389,7 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(mockBuildCompleteApsPayload).toHaveBeenCalledWith(
           expect.objectContaining({
-            eventType: 'end',
+            eventType: 'end'
           })
         );
       });
@@ -416,23 +416,26 @@ describe('UpdateActivity', () => {
       // Find and click the update button inside the dialog
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
 
-      await waitFor(() => {
-        expect(mockSendLiveActivityNotification).toHaveBeenCalled();
-      }, { timeout: 3000 });
+      await waitFor(
+        () => {
+          expect(mockSendLiveActivityNotification).toHaveBeenCalled();
+        },
+        { timeout: 3000 }
+      );
     });
 
     it('should display error message when update fails', async () => {
       const errorMessage = 'Update failed';
       mockSendLiveActivityNotification.mockRejectedValue({
-        response: { data: { message: errorMessage } },
+        response: { data: { message: errorMessage } }
       });
 
       render(
@@ -452,13 +455,13 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
-      
+
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
@@ -487,25 +490,29 @@ describe('UpdateActivity', () => {
       // Find and click the action button inside the dialog
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
 
       // Check for error message
-      await waitFor(() => {
-        const errorText = screen.queryByText(/Network issue/i) || screen.queryByText(/Failed to update/i);
-        expect(errorText).toBeInTheDocument();
-      }, { timeout: 3000 });
+      await waitFor(
+        () => {
+          const errorText =
+            screen.queryByText(/Network issue/i) || screen.queryByText(/Failed to update/i);
+          expect(errorText).toBeInTheDocument();
+        },
+        { timeout: 3000 }
+      );
     });
 
     it('should show error when update token is not available', async () => {
       const activityWithoutToken = {
         ...mockActivity,
-        updateToken: undefined,
+        updateToken: undefined
       };
 
       mockSendLiveActivityNotification.mockResolvedValue(undefined);
@@ -597,20 +604,23 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
-      
+
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
 
-      await waitFor(() => {
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-      }, { timeout: 3000 });
+      await waitFor(
+        () => {
+          expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        },
+        { timeout: 3000 }
+      );
     });
 
     it('should keep dialog open on error', async () => {
@@ -633,13 +643,13 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
-      
+
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
@@ -655,7 +665,7 @@ describe('UpdateActivity', () => {
     it('should show loading state during update', async () => {
       let resolvePromise: any;
       mockSendLiveActivityNotification.mockReturnValue(
-        new Promise((resolve) => {
+        new Promise(resolve => {
           resolvePromise = resolve;
         })
       );
@@ -677,13 +687,13 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
-      
+
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
@@ -700,7 +710,7 @@ describe('UpdateActivity', () => {
     it('should disable buttons during loading', async () => {
       let resolvePromise: any;
       mockSendLiveActivityNotification.mockReturnValue(
-        new Promise((resolve) => {
+        new Promise(resolve => {
           resolvePromise = resolve;
         })
       );
@@ -720,18 +730,24 @@ describe('UpdateActivity', () => {
 
       // Find and click update button
       const allButtons = screen.getAllByRole('button');
-      const actionButton = allButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled') && !btn.closest('[aria-hidden="true"]')
+      const actionButton = allButtons.find(
+        btn =>
+          btn.textContent?.includes('Update') &&
+          !btn.hasAttribute('disabled') &&
+          !btn.closest('[aria-hidden="true"]')
       );
-      
+
       if (actionButton) {
         fireEvent.click(actionButton);
       }
 
       // Check for loading state - look for "Sending..." text
-      await waitFor(() => {
-        expect(screen.getByText(/Sending/i)).toBeInTheDocument();
-      }, { timeout: 2000 });
+      await waitFor(
+        () => {
+          expect(screen.getByText(/Sending/i)).toBeInTheDocument();
+        },
+        { timeout: 2000 }
+      );
 
       resolvePromise(undefined);
     });
@@ -758,13 +774,13 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
-      
+
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
@@ -794,13 +810,13 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
-      
+
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
@@ -815,7 +831,7 @@ describe('UpdateActivity', () => {
             imsOrg: 'test-org',
             sessionId: 'session-123',
             sandboxName: 'prod',
-            environment: 'prod',
+            environment: 'prod'
           })
         );
       });
@@ -826,7 +842,7 @@ describe('UpdateActivity', () => {
 
       const customActivity = {
         ...mockActivity,
-        updateToken: 'custom-update-token',
+        updateToken: 'custom-update-token'
       };
 
       render(
@@ -846,13 +862,13 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
-      
+
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
@@ -860,7 +876,7 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(mockGenerateLiveActivityPayload).toHaveBeenCalledWith(
           expect.objectContaining({
-            token: 'custom-update-token',
+            token: 'custom-update-token'
           })
         );
       });
@@ -885,7 +901,7 @@ describe('UpdateActivity', () => {
 
       const newActivity = {
         ...mockActivity,
-        id: 'new-activity-id',
+        id: 'new-activity-id'
       };
 
       rerender(
@@ -902,7 +918,7 @@ describe('UpdateActivity', () => {
     it('should not require push token for updates', () => {
       const contextWithoutPushToken = {
         ...mockContext,
-        pushToken: null,
+        pushToken: null
       };
 
       mockUseLiveActivityContext.mockReturnValue(contextWithoutPushToken);
@@ -971,13 +987,13 @@ describe('UpdateActivity', () => {
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
-      
+
       const dialog = screen.getByRole('dialog');
       const dialogButtons = within(dialog).getAllByRole('button');
-      const updateButton = dialogButtons.find(btn => 
-        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      const updateButton = dialogButtons.find(
+        btn => btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
       );
-      
+
       if (updateButton) {
         fireEvent.click(updateButton);
       }
@@ -986,11 +1002,10 @@ describe('UpdateActivity', () => {
         expect(mockBuildCompleteApsPayload).toHaveBeenCalledWith(
           expect.objectContaining({
             eventType: 'update',
-            attributesType: 'TestActivityType',
+            attributesType: 'TestActivityType'
           })
         );
       });
     });
   });
 });
-

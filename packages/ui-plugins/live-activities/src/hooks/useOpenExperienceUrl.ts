@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
-import { useExperienceRedirectionContext } from './useExperienceRedirectionContext';
+
 import { getExperienceBaseUrl } from '../utils/utils';
+import { useExperienceRedirectionContext } from './useExperienceRedirectionContext';
 
 /**
  * Opens an Experience Cloud URL in a new tab based on the provided mode and context.

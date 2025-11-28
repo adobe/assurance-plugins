@@ -26,4 +26,3 @@ export const errorMessages = defineMessages({
     defaultMessage: 'No data available'
   }
 });
-

@@ -1,22 +1,20 @@
-import { View, Heading, Flex, ProgressCircle } from '@adobe/react-spectrum';
-
-import { useSandbox } from '@assurance/plugin-bridge-provider';
-
 import React from 'react';
 
+import { Flex, Heading, ProgressCircle, View } from '@adobe/react-spectrum';
+import { CopyableValue } from '@assurance/common-utils';
+import { useSandbox } from '@assurance/plugin-bridge-provider';
+import { useIntl } from 'react-intl';
+
 import { VALIDATION_STATUS } from '../../constants';
-import { KeyValueRow, tableStyles } from '../atoms/KeyValueRow';
-import { UnknownBadge } from '../atoms/UnknownBadge';
-import Card from '../atoms/card';
 import useDataStreamValidationStatus from '../../hooks/useDataStreamValidationStatus';
 import { useLiveActivitiesValidationStatus } from '../../hooks/useLiveActivitiesValidationStatus';
 import useProfile from '../../hooks/useProfile';
-import { renderValue } from '../../utils/utils';
-import { CopyableValue } from '@assurance/common-utils';
-
-import DataStreamStatusDetails from './data-stream-status-details';
-import { useIntl } from 'react-intl';
 import { copyMessages } from '../../i18n';
+import { renderValue } from '../../utils/utils';
+import { KeyValueRow, tableStyles } from '../atoms/KeyValueRow';
+import { UnknownBadge } from '../atoms/UnknownBadge';
+import Card from '../atoms/card';
+import DataStreamStatusDetails from './data-stream-status-details';
 
 const ProfileSectionWidget: React.FC = () => {
   const { formatMessage } = useIntl();

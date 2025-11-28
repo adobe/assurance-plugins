@@ -10,7 +10,7 @@ export const activitiesMessages = defineMessages({
     id: 'activities.title',
     defaultMessage: 'Activities'
   },
-  
+
   // Tabs
   overviewTab: {
     id: 'activities.tabs.overview',
@@ -24,7 +24,7 @@ export const activitiesMessages = defineMessages({
     id: 'activities.tabs.eventDetails',
     defaultMessage: 'Event Details'
   },
-  
+
   // Overview
   activityOverview: {
     id: 'activities.overview.title',
@@ -58,7 +58,7 @@ export const activitiesMessages = defineMessages({
     id: 'activities.overview.lastUpdate',
     defaultMessage: 'Last Update'
   },
-  
+
   // Details
   liveActivityId: {
     id: 'activities.details.liveActivityId',
@@ -104,7 +104,7 @@ export const activitiesMessages = defineMessages({
     id: 'activities.details.eventDetails',
     defaultMessage: 'Event Details'
   },
-  
+
   // Flow
   activityFlow: {
     id: 'activities.flow.title',
@@ -130,7 +130,7 @@ export const activitiesMessages = defineMessages({
     id: 'activities.flow.details',
     defaultMessage: 'Details'
   },
-  
+
   // List
   searchActivities: {
     id: 'activities.list.searchPlaceholder',
@@ -160,7 +160,7 @@ export const activitiesMessages = defineMessages({
     id: 'activities.noActivities',
     defaultMessage: 'No Live Activities have been started on this client'
   },
-  
+
   // Card
   eventsCount: {
     id: 'activities.card.eventsCount',
@@ -170,7 +170,7 @@ export const activitiesMessages = defineMessages({
     id: 'activities.card.noEvents',
     defaultMessage: 'No events'
   },
-  
+
   // Empty States - Platform specific
   noActivitiesIosUnsupported: {
     id: 'activities.empty.iosUnsupported',
@@ -180,15 +180,17 @@ export const activitiesMessages = defineMessages({
     id: 'activities.empty.iosSupported',
     defaultMessage: 'No Live Activities have been started on this iOS device'
   },
-  
+
   // Hints - Platform specific
   startActivityHintIosUnsupported: {
     id: 'activities.hints.iosUnsupported',
-    defaultMessage: 'Live Activities require iOS 16.1 or later. Please update your device to use this feature.'
+    defaultMessage:
+      'Live Activities require iOS 16.1 or later. Please update your device to use this feature.'
   },
   startActivityHintIosBasicSupport: {
     id: 'activities.hints.iosBasicSupport',
-    defaultMessage: 'Start a Live Activity on your iOS device to see it appear here. Remote start requires iOS 17.1+'
+    defaultMessage:
+      'Start a Live Activity on your iOS device to see it appear here. Remote start requires iOS 17.1+'
   },
   startActivityHintIosFullSupport: {
     id: 'activities.hints.iosFullSupport',
@@ -198,17 +200,19 @@ export const activitiesMessages = defineMessages({
     id: 'activities.hints.notIos',
     defaultMessage: 'Live Activities are only supported on iOS devices'
   },
-  
+
   // Tooltips for Launch Button
   launchTooltipUnsupported: {
     id: 'activities.launch.tooltipUnsupported',
-    defaultMessage: 'Remote Live Activity start is not supported on this platform. Live Activities can only be started locally on iOS 16.1+ devices.'
+    defaultMessage:
+      'Remote Live Activity start is not supported on this platform. Live Activities can only be started locally on iOS 16.1+ devices.'
   },
   launchTooltipSupported: {
     id: 'activities.launch.tooltipSupported',
-    defaultMessage: 'Start a new Live Activity remotely using registered activity types and push-to-start tokens. Requires iOS 17.1+ and proper push notification setup.'
+    defaultMessage:
+      'Start a new Live Activity remotely using registered activity types and push-to-start tokens. Requires iOS 17.1+ and proper push notification setup.'
   },
-  
+
   // Selection prompts
   selectActivityTitle: {
     id: 'activities.select.title',
@@ -216,13 +220,14 @@ export const activitiesMessages = defineMessages({
   },
   selectActivityDescription: {
     id: 'activities.select.description',
-    defaultMessage: 'Choose an activity from the list to view its overview, flow, and event details.'
+    defaultMessage:
+      'Choose an activity from the list to view its overview, flow, and event details.'
   },
   selectActivityInDetailsDescription: {
     id: 'activities.select.detailsDescription',
     defaultMessage: 'Choose an activity from the list to view its details, timeline, and events.'
   },
-  
+
   // Empty states for filtered views
   noActivitiesAvailable: {
     id: 'activities.empty.noActivitiesAvailable',
@@ -233,4 +238,3 @@ export const activitiesMessages = defineMessages({
     defaultMessage: 'No events available'
   }
 });
-

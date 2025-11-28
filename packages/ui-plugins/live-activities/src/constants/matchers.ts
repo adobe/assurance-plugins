@@ -2,7 +2,6 @@
  * Centralized matcher definitions for Live Activities events.
  * Uses the existing event type definitions from events.ts
  */
-
 import { combineAny } from '@adobe/griffon-toolkit';
 
 export const LIVE_ACTIVITIES_MATCHERS = {

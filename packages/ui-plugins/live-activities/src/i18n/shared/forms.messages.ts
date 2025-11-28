@@ -38,4 +38,3 @@ export const formMessages = defineMessages({
     defaultMessage: 'Optional'
   }
 });
-

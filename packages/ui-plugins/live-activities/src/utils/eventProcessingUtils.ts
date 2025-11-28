@@ -1,4 +1,3 @@
-import { combineAny } from '@adobe/griffon-toolkit';
 import { EVENT_CONFIG } from '../constants/liveActivitiesConfig';
 import { LiveActivityEvent } from '../types/liveActivityEvent';
 
@@ -212,6 +211,6 @@ export function sortEventsByTimestamp(
   }));
 
   return eventsWithTimestamps
-    .sort((a, b) => direction === 'desc' ? b.timestamp - a.timestamp : a.timestamp - b.timestamp)
+    .sort((a, b) => (direction === 'desc' ? b.timestamp - a.timestamp : a.timestamp - b.timestamp))
     .map(({ event }) => event);
 }

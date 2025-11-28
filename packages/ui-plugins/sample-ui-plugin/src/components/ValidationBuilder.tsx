@@ -14,22 +14,17 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  **************************************************************************/
-import {
-  Button,
-  ComboBox,
-  Item,
-  Provider,
-  defaultTheme,
-} from "@adobe/react-spectrum";
-import { Flex } from "@adobe/react-spectrum";
-import { useValidation } from "@assurance/plugin-bridge-provider";
-import { ValidationItem } from "@assurance/validation-summary";
-import React from "react";
-import { useEffect, useState } from "react";
+import React from 'react';
+import { useEffect, useState } from 'react';
+
+import { Button, ComboBox, Item, Provider, defaultTheme } from '@adobe/react-spectrum';
+import { Flex } from '@adobe/react-spectrum';
+import { useValidation } from '@assurance/plugin-bridge-provider';
+import { ValidationItem } from '@assurance/validation-summary';
 
 //add validation items to the validation view by selecting from a dropdown
 const ValidationBuilder = () => {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState('');
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const fullSetValidation = useValidation();
   const [namespaces, setNamespaces] = useState<string[]>([]);
@@ -48,18 +43,13 @@ const ValidationBuilder = () => {
 
   return (
     <Provider theme={defaultTheme} colorScheme="light">
-      <Flex
-        direction="row"
-        gap="size-500"
-        alignItems="end"
-        marginTop="size-100"
-      >
+      <Flex direction="row" gap="size-500" alignItems="end" marginTop="size-100">
         <ComboBox
           label="Choose a validation"
           selectedKey={selected}
-          onSelectionChange={(key) => setSelected(key.toString())}
+          onSelectionChange={key => setSelected(key.toString())}
         >
-          {namespaces.map((namespace) => (
+          {namespaces.map(namespace => (
             <Item key={namespace}>{namespace}</Item>
           ))}
         </ComboBox>
@@ -67,7 +57,7 @@ const ValidationBuilder = () => {
           Add Validation
         </Button>
       </Flex>
-      {selectedItems.map((item) => (
+      {selectedItems.map(item => (
         <ValidationItem key={item} namespace={item} />
       ))}
     </Provider>

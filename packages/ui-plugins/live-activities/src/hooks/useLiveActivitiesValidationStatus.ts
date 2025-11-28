@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 
+import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
+import { validateIOSVersionForLiveActivities } from '../utils/liveActivitiesValidation';
 import {
   useClientIOSVersion,
-  useSelectedClientType,
-  useClientLiveActivitiesSupport
+  useClientLiveActivitiesSupport,
+  useSelectedClientType
 } from './useClientInfo';
-import { validateIOSVersionForLiveActivities } from '../utils/liveActivitiesValidation';
-import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
 
 /**
  * Hook to determine Live Activities validation status based on iOS version.

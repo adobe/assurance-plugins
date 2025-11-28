@@ -1,13 +1,9 @@
 /**
  * Test suite for Live Activities display utilities.
  */
-
-import { createLiveActivitiesTableData } from '../liveActivitiesDisplay';
 import { VALIDATION_STATUS } from '../../constants';
-import {
-  type LiveActivityTypeData,
-  type LiveActivitiesValidationStatus
-} from '../../types/liveActivities';
+import { type LiveActivityTypeData } from '../../types/liveActivities';
+import { createLiveActivitiesTableData } from '../liveActivitiesDisplay';
 
 describe('Live Activities Display Utils', () => {
   const mockActivityMap = new Map<string, LiveActivityTypeData>([

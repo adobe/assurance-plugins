@@ -2,29 +2,29 @@
  * Test suite for Launch Live Activity Component
  * Tests launching live activities with various scenarios
  */
-
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { IntlProvider } from 'react-intl';
+
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
-import LaunchLiveActivity from '../launch-live-activity';
+import '@testing-library/jest-dom';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import * as liveActivityApi from '../../../api/liveActivityApi';
+// Import mocked modules
+import { useLiveActivitiesData, useRegisteredActivities } from '../../../hooks/useActivities';
+import { useLiveActivityContext } from '../../../hooks/useLiveActivityContext';
+import LaunchLiveActivity from '../launch-live-activity';
 
 // Mock the hooks
 vi.mock('../../../hooks/useActivities', () => ({
   useRegisteredActivities: vi.fn(),
-  useLiveActivitiesData: vi.fn(),
+  useLiveActivitiesData: vi.fn()
 }));
 
 vi.mock('../../../hooks/useLiveActivityContext', () => ({
-  useLiveActivityContext: vi.fn(),
+  useLiveActivityContext: vi.fn()
 }));
-
-// Import mocked modules
-import { useRegisteredActivities, useLiveActivitiesData } from '../../../hooks/useActivities';
-import { useLiveActivityContext } from '../../../hooks/useLiveActivityContext';
 
 // Mock ToastQueue
 vi.mock('@adobe/react-spectrum', async () => {
@@ -33,11 +33,10 @@ vi.mock('@adobe/react-spectrum', async () => {
     ...actual,
     ToastQueue: {
       positive: vi.fn(),
-      negative: vi.fn(),
-    },
+      negative: vi.fn()
+    }
   };
 });
-
 
 const mockUseRegisteredActivities = useRegisteredActivities as ReturnType<typeof vi.fn>;
 const mockUseLiveActivitiesData = useLiveActivitiesData as ReturnType<typeof vi.fn>;
@@ -63,19 +62,19 @@ describe('LaunchLiveActivity', () => {
   const mockRegisteredActivities = [
     {
       attributeType: 'TestActivity1',
-      name: 'Test Activity 1',
+      name: 'Test Activity 1'
     },
     {
       attributeType: 'TestActivity2',
-      name: 'Test Activity 2',
-    },
+      name: 'Test Activity 2'
+    }
   ];
 
   const mockLiveActivitiesData = {
     activityTypes: new Map([
       ['TestActivity1', { pushToStartToken: 'token-123' }],
-      ['TestActivity2', { pushToStartToken: 'token-456' }],
-    ]),
+      ['TestActivity2', { pushToStartToken: 'token-456' }]
+    ])
   };
 
   const mockContext = {
@@ -88,18 +87,18 @@ describe('LaunchLiveActivity', () => {
     pushToken: 'push-token',
     appId: 'com.test.app',
     platform: 'ios',
-    isReady: true,
+    isReady: true
   };
 
   const mockLaunchTemplate = {
     'content-state': {},
     'attributes-type': '',
-    event: 'start',
+    event: 'start'
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     mockUseRegisteredActivities.mockReturnValue(mockRegisteredActivities);
     mockUseLiveActivitiesData.mockReturnValue(mockLiveActivitiesData);
     mockUseLiveActivityContext.mockReturnValue(mockContext);
@@ -123,7 +122,7 @@ describe('LaunchLiveActivity', () => {
     it('should disable button when context is not ready', () => {
       mockUseLiveActivityContext.mockReturnValue({
         ...mockContext,
-        isReady: false,
+        isReady: false
       });
 
       render(
@@ -268,7 +267,7 @@ describe('LaunchLiveActivity', () => {
     it('should display error message when launch fails', async () => {
       const errorMessage = 'Network error occurred';
       mockSendLiveActivityNotification.mockRejectedValue({
-        response: { data: { message: errorMessage } },
+        response: { data: { message: errorMessage } }
       });
 
       render(
@@ -299,7 +298,7 @@ describe('LaunchLiveActivity', () => {
       await waitFor(async () => {
         const dialogButtons = screen.getAllByRole('button', { name: /Start Live Activity/i });
         const dialogLaunchButton = dialogButtons.at(-1)!;
-        
+
         if (!dialogLaunchButton.hasAttribute('disabled')) {
           fireEvent.click(dialogLaunchButton);
         }
@@ -332,9 +331,7 @@ describe('LaunchLiveActivity', () => {
     it('should show error when no push-to-start token is available', async () => {
       // Mock activities data without push token
       mockUseLiveActivitiesData.mockReturnValue({
-        activityTypes: new Map([
-          ['TestActivity1', { pushToStartToken: null }],
-        ]),
+        activityTypes: new Map([['TestActivity1', { pushToStartToken: null }]])
       });
 
       render(
@@ -365,14 +362,16 @@ describe('LaunchLiveActivity', () => {
       await waitFor(async () => {
         const dialogButtons = screen.getAllByRole('button', { name: /Start Live Activity/i });
         const dialogLaunchButton = dialogButtons.at(-1)!;
-        
+
         if (!dialogLaunchButton.hasAttribute('disabled')) {
           fireEvent.click(dialogLaunchButton);
         }
       });
 
       await waitFor(() => {
-        expect(screen.getByText(/Please select a live activity with push-to-start token/i)).toBeInTheDocument();
+        expect(
+          screen.getByText(/Please select a live activity with push-to-start token/i)
+        ).toBeInTheDocument();
       });
     });
   });
@@ -458,15 +457,18 @@ describe('LaunchLiveActivity', () => {
       await waitFor(async () => {
         const dialogButtons = screen.getAllByRole('button', { name: /Start Live Activity/i });
         const dialogLaunchButton = dialogButtons.at(-1)!;
-        
+
         if (!dialogLaunchButton.hasAttribute('disabled')) {
           fireEvent.click(dialogLaunchButton);
         }
       });
 
-      await waitFor(() => {
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-      }, { timeout: 3000 });
+      await waitFor(
+        () => {
+          expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        },
+        { timeout: 3000 }
+      );
     });
 
     it('should keep dialog open on error', async () => {
@@ -499,7 +501,7 @@ describe('LaunchLiveActivity', () => {
       await waitFor(async () => {
         const dialogButtons = screen.getAllByRole('button', { name: /Start Live Activity/i });
         const dialogLaunchButton = dialogButtons.at(-1)!;
-        
+
         if (!dialogLaunchButton.hasAttribute('disabled')) {
           fireEvent.click(dialogLaunchButton);
         }
@@ -543,7 +545,7 @@ describe('LaunchLiveActivity', () => {
       await waitFor(async () => {
         const dialogButtons = screen.getAllByRole('button', { name: /Start Live Activity/i });
         const dialogLaunchButton = dialogButtons.at(-1)!;
-        
+
         if (!dialogLaunchButton.hasAttribute('disabled')) {
           fireEvent.click(dialogLaunchButton);
         }
@@ -584,7 +586,7 @@ describe('LaunchLiveActivity', () => {
       await waitFor(async () => {
         const dialogButtons = screen.getAllByRole('button', { name: /Start Live Activity/i });
         const dialogLaunchButton = dialogButtons.at(-1)!;
-        
+
         if (!dialogLaunchButton.hasAttribute('disabled')) {
           fireEvent.click(dialogLaunchButton);
         }
@@ -600,7 +602,7 @@ describe('LaunchLiveActivity', () => {
             imsOrg: 'test-org',
             sessionId: 'session-123',
             sandboxName: 'prod',
-            environment: 'prod',
+            environment: 'prod'
           })
         );
       });
@@ -635,7 +637,7 @@ describe('LaunchLiveActivity', () => {
       await waitFor(async () => {
         const dialogButtons = screen.getAllByRole('button', { name: /Start Live Activity/i });
         const dialogLaunchButton = dialogButtons.at(-1)!;
-        
+
         if (!dialogLaunchButton.hasAttribute('disabled')) {
           fireEvent.click(dialogLaunchButton);
         }
@@ -644,11 +646,10 @@ describe('LaunchLiveActivity', () => {
       await waitFor(() => {
         expect(mockGenerateLiveActivityPayload).toHaveBeenCalledWith(
           expect.objectContaining({
-            token: 'token-456', // token from TestActivity2
+            token: 'token-456' // token from TestActivity2
           })
         );
       });
     });
   });
 });
-

@@ -1,14 +1,13 @@
-import { useEvents } from '@assurance/plugin-bridge-provider';
+import { useMemo } from 'react';
 
 import { combineAny } from '@adobe/griffon-toolkit';
-
-import { useMemo } from 'react';
+import { useEvents } from '@assurance/plugin-bridge-provider';
 
 import { LiveActivityEvent } from '../types/liveActivityEvent';
 import {
-  processActivityEvents,
   calculateEventStatistics,
-  calculateTimeRange
+  calculateTimeRange,
+  processActivityEvents
 } from '../utils/eventProcessingUtils';
 
 /**

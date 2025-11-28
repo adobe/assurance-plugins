@@ -1,9 +1,8 @@
 /**
  * Live Activity API Utilities
- * 
+ *
  * Common utilities for launching and updating Live Activities via Griffon API
  */
-
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -85,15 +84,15 @@ export function getCurrentTimestamp(): number {
  */
 export function generateLaunchTemplate(): any {
   return {
-    "content-state": {},
-    "attributes": {
-      "liveActivityData": {
-        "liveActivityID": ""
+    'content-state': {},
+    attributes: {
+      liveActivityData: {
+        liveActivityID: ''
       }
     },
-    "alert": {
-      "title": "",
-      "body": ""
+    alert: {
+      title: '',
+      body: ''
     }
   };
 }
@@ -104,10 +103,11 @@ export function generateLaunchTemplate(): any {
  */
 export function generateUpdateTemplate(activity: any): any {
   return {
-    "content-state": activity.currentContentState || activity.examplePayload?.['content-state'] || {},
-    "attributes": {
-      "liveActivityData": {
-        "liveActivityID": activity.id || ""
+    'content-state':
+      activity.currentContentState || activity.examplePayload?.['content-state'] || {},
+    attributes: {
+      liveActivityData: {
+        liveActivityID: activity.id || ''
       }
     }
   };
@@ -122,13 +122,13 @@ export function buildCompleteApsPayload(params: {
   attributesType: string;
 }): any {
   return {
-    "content-available": 1,
-    "timestamp": getCurrentTimestamp(),
-    "event": params.eventType,
-    "attributes-type": params.attributesType,
-    "alert": {
-      "title": "",
-      "body": ""
+    'content-available': 1,
+    timestamp: getCurrentTimestamp(),
+    event: params.eventType,
+    'attributes-type': params.attributesType,
+    alert: {
+      title: '',
+      body: ''
     },
     ...params.userPayload
   };
@@ -140,7 +140,7 @@ export function buildCompleteApsPayload(params: {
 export function normalizeApsPayload(apsContent: any): any {
   const normalized = { ...apsContent };
   const numericFields = ['content-available', 'timestamp', 'dismissal-date'];
-  
+
   for (const field of numericFields) {
     if (field in normalized && typeof normalized[field] === 'string') {
       const parsed = Number.parseInt(normalized[field], 10);
@@ -243,8 +243,8 @@ export function generateLiveActivityPayload(params: LiveActivityPayloadParams) {
         imsOrg: params.imsOrg,
         value: {
           notification: {
-            griffonInfo: { 
-              validationToken: params.sessionId 
+            griffonInfo: {
+              validationToken: params.sessionId
             },
             groupID: groupId,
             sandboxName: params.sandboxName,
@@ -295,4 +295,3 @@ export async function sendLiveActivityNotification(config: ApiCallConfig): Promi
 
   return response.data;
 }
-

@@ -1,6 +1,7 @@
 import React from 'react';
-import { useHover } from '@react-aria/interactions';
+
 import { useFocusRing } from '@react-aria/focus';
+import { useHover } from '@react-aria/interactions';
 import { mergeProps } from '@react-aria/utils';
 
 interface SpectrumCardProps {
@@ -57,9 +58,9 @@ function SpectrumCard({
 }: SpectrumCardProps) {
   const { hoverProps, isHovered } = useHover({});
   const { focusProps, isFocused, isFocusVisible } = useFocusRing();
-  
+
   const isInteractive = !!onPress;
-  
+
   // Base card styles following Spectrum guidelines
   const baseStyles: React.CSSProperties = {
     border: '1px solid #d1d5db', // gray-300 equivalent
@@ -103,33 +104,26 @@ function SpectrumCard({
     baseStyles.boxShadow = 'none';
   }
 
-  const cardProps = mergeProps(
-    hoverProps,
-    focusProps,
-    {
-      role: isInteractive ? 'button' : undefined,
-      tabIndex: isInteractive ? 0 : undefined,
-      onClick: (e: React.MouseEvent) => {
-        if (onPress) {
-          onPress();
-        }
-      },
-      onKeyDown: (e: React.KeyboardEvent) => {
-        if (isInteractive && (e.key === 'Enter' || e.key === ' ')) {
-          e.preventDefault();
-          onPress?.();
-        }
-      },
-      'data-testid': testId,
-      ...otherProps
-    }
-  );
+  const cardProps = mergeProps(hoverProps, focusProps, {
+    role: isInteractive ? 'button' : undefined,
+    tabIndex: isInteractive ? 0 : undefined,
+    onClick: (e: React.MouseEvent) => {
+      if (onPress) {
+        onPress();
+      }
+    },
+    onKeyDown: (e: React.KeyboardEvent) => {
+      if (isInteractive && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        onPress?.();
+      }
+    },
+    'data-testid': testId,
+    ...otherProps
+  });
 
   return (
-    <div
-      {...cardProps}
-      style={baseStyles}
-    >
+    <div {...cardProps} style={baseStyles}>
       {children}
     </div>
   );

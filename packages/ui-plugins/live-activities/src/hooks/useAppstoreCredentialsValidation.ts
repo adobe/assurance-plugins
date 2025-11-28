@@ -1,8 +1,14 @@
 import { useMemo } from 'react';
-import useLaunchProperty from './useLaunchProperty';
-import { getPropertyId } from './useClientInfo';
 
-export function useAppstoreCredentialsValidation({ pushCredentials, selectedClientEvents, sandbox, imsOrg }) {
+import { getPropertyId } from './useClientInfo';
+import useLaunchProperty from './useLaunchProperty';
+
+export function useAppstoreCredentialsValidation({
+  pushCredentials,
+  selectedClientEvents,
+  sandbox,
+  imsOrg
+}) {
   // Get propertyId from client info
   const propertyId = getPropertyId();
   // Fetch property data
@@ -70,11 +76,14 @@ export function useAppstoreCredentialsValidation({ pushCredentials, selectedClie
     return false;
   }, [pushCredentials, appCredentialValidation, property.isLoading, property.error]);
 
-  const shouldMatch = useMemo(() => ({
-    app: clientAppIDFromEvent || '',
-    platform: platformName || '',
-    orgId: imsOrg || ''
-  }), [clientAppIDFromEvent, platformName, imsOrg]);
+  const shouldMatch = useMemo(
+    () => ({
+      app: clientAppIDFromEvent || '',
+      platform: platformName || '',
+      orgId: imsOrg || ''
+    }),
+    [clientAppIDFromEvent, platformName, imsOrg]
+  );
 
   return {
     clientAppIDFromEvent,

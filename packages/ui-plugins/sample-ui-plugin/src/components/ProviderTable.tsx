@@ -14,6 +14,8 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  **************************************************************************/
+import React from 'react';
+
 import {
   useEnvironment,
   useEvents,
@@ -22,9 +24,8 @@ import {
   useImsOrg,
   useNavigationPath,
   useTenant,
-  useValidation,
-} from "@assurance/plugin-bridge-provider";
-import React from "react";
+  useValidation
+} from '@assurance/plugin-bridge-provider';
 
 const ProviderTable = () => {
   const env = useEnvironment();
@@ -37,13 +38,13 @@ const ProviderTable = () => {
   const validation = useValidation();
 
   return (
-    <dl style={{ width: "100%", overflow: "hidden" }}>
+    <dl style={{ width: '100%', overflow: 'hidden' }}>
       <dt>Environment</dt>
       <dd>{env}</dd>
       <dt>Flags</dt>
       <dd>{JSON.stringify(flags)}</dd>
       <dt>IMS Access Token</dt>
-      <dd style={{ textOverflow: "ellipsis" }}>{imsAccsessToken}</dd>
+      <dd style={{ textOverflow: 'ellipsis' }}>{imsAccsessToken}</dd>
       <dt>IMS Org</dt>
       <dd>{imsOrg}</dd>
       <dt>Tenant</dt>

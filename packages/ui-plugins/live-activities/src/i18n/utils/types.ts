@@ -13,4 +13,3 @@ export type Messages = Record<MessageKey, MessageDescriptor>;
 export type FormattedMessages<T extends Messages> = {
   [K in keyof T]: string;
 };
-

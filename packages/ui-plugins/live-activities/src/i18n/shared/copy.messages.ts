@@ -30,4 +30,3 @@ export const copyMessages = defineMessages({
     defaultMessage: 'Content copied to clipboard'
   }
 });
-

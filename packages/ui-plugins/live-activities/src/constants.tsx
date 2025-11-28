@@ -1,9 +1,10 @@
 import React from 'react';
-import Checkmark from '@spectrum-icons/workflow/Checkmark';
-import Alert from '@spectrum-icons/workflow/Alert';
-import Info from '@spectrum-icons/workflow/Info';
+
 import { ProgressCircle } from '@adobe/react-spectrum';
+import Alert from '@spectrum-icons/workflow/Alert';
+import Checkmark from '@spectrum-icons/workflow/Checkmark';
 import Help from '@spectrum-icons/workflow/Help';
+import Info from '@spectrum-icons/workflow/Info';
 
 // Only allow valid sizes for Spectrum icons and ProgressCircle
 const allowedSizes = ['S', 'M', 'L'] as const;
@@ -45,8 +46,6 @@ export const COPYABLE_VALUE_CONSTANTS = {
   TRUNCATED_TEXT_MAX_WIDTH: '200px',
   ELLIPSIS: '...'
 } as const;
-
-
 
 export const getHealthIcon = (status: string, size: string = 'S') => {
   const validSize = getValidSize(size);

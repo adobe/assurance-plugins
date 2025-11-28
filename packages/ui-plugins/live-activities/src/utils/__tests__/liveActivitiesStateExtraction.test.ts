@@ -1,7 +1,6 @@
 /**
  * Test suite for Live Activities state-based extraction utilities.
  */
-
 import { extractLiveActivitiesDataFromState } from '../liveActivitiesExtraction';
 
 describe('Live Activities State Extraction', () => {

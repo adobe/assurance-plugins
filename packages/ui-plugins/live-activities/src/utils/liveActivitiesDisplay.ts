@@ -2,13 +2,11 @@
  * Pure utility functions for formatting Live Activities data for display.
  * No React dependencies - can be used anywhere.
  */
-
 import { VALIDATION_STATUS } from '../constants';
 import {
-  LiveActivityTypeData,
-  LiveActivityDisplayData,
+  LiveActivitiesValidationStatus,
   LiveActivityDisplayRow,
-  LiveActivitiesValidationStatus
+  LiveActivityTypeData
 } from '../types/liveActivities';
 
 /**

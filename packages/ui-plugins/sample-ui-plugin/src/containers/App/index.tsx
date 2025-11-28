@@ -14,12 +14,12 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  **************************************************************************/
-import { Provider, defaultTheme } from "@adobe/react-spectrum";
-import {
-  PluginBridgeProvider
-} from "@assurance/plugin-bridge-provider";
-import React from "react";
-import SampleUI from "../../components/SampleUI";
+import React from 'react';
+
+import { Provider, defaultTheme } from '@adobe/react-spectrum';
+import { PluginBridgeProvider } from '@assurance/plugin-bridge-provider';
+
+import SampleUI from '../../components/SampleUI';
 
 const App = () => {
   return (

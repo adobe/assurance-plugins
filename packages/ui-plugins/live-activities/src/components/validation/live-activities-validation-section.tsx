@@ -1,45 +1,52 @@
-import {
-  View,
-  Heading,
-  Text,
-  Flex,
-  Link,
-  StatusLight,
-  ActionButton,
-  Tooltip,
-  TooltipTrigger,
-  IllustratedMessage,
-  Content,
-  TableView,
-  TableHeader,
-  TableBody,
-  Column,
-  Row,
-  Cell
-} from '@adobe/react-spectrum';
-
-import { CopyableValue } from '@assurance/common-utils';
-
-import Info from '@spectrum-icons/workflow/InfoOutline';
-import Search from '@spectrum-icons/workflow/Search';
-
 import React from 'react';
 
+import {
+  ActionButton,
+  Cell,
+  Column,
+  Content,
+  Flex,
+  Heading,
+  IllustratedMessage,
+  Link,
+  Row,
+  StatusLight,
+  TableBody,
+  TableHeader,
+  TableView,
+  Text,
+  Tooltip,
+  TooltipTrigger,
+  View
+} from '@adobe/react-spectrum';
+import { CopyableValue } from '@assurance/common-utils';
+import Info from '@spectrum-icons/workflow/InfoOutline';
+import Search from '@spectrum-icons/workflow/Search';
 import { useIntl } from 'react-intl';
 
-import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS, COPYABLE_VALUE_CONSTANTS } from '../../constants';
+import {
+  COPYABLE_VALUE_CONSTANTS,
+  LIVE_ACTIVITIES_MIN_VERSION,
+  VALIDATION_STATUS
+} from '../../constants';
+import { TEST_IDS } from '../../constants/testIds';
+import { useLiveActivitiesData } from '../../hooks/useActivities';
+import {
+  useClientDeviceType,
+  useClientIOSVersion,
+  useClientLiveActivitiesSupport,
+  useSelectedClientPushToStartToken
+} from '../../hooks/useClientInfo';
+import { useLiveActivitiesValidationStatus } from '../../hooks/useLiveActivitiesValidationStatus';
+import { copyMessages, validationMessages } from '../../i18n';
+import { createLiveActivitiesTableData } from '../../utils/liveActivitiesDisplay';
+import {
+  getStatusDisplayConfig,
+  isDeviceVersionBelowAppMinimum
+} from '../../utils/liveActivitiesValidation';
 
 // Constants for UI elements
 const WARNING_EMOJI = '⚠️';
-import { TEST_IDS } from '../../constants/testIds';
-import { 
-  useLiveActivitiesData
-} from '../../hooks/useActivities';
-import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType, useSelectedClientPushToStartToken } from '../../hooks/useClientInfo';
-import { useLiveActivitiesValidationStatus } from '../../hooks/useLiveActivitiesValidationStatus';
-import { createLiveActivitiesTableData } from '../../utils/liveActivitiesDisplay';
-import { getStatusDisplayConfig, isDeviceVersionBelowAppMinimum } from '../../utils/liveActivitiesValidation';
-import { validationMessages, copyMessages } from '../../i18n';
 
 const LiveActivitiesValidationSection = () => {
   const { formatMessage } = useIntl();
@@ -97,17 +104,25 @@ const LiveActivitiesValidationSection = () => {
     }
 
     // Add app configuration rows if available and device supports Live Activities
-    if (liveActivitiesSupport && (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT)) {
+    if (
+      liveActivitiesSupport &&
+      (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT ||
+        validationStatus === VALIDATION_STATUS.FULL_SUPPORT)
+    ) {
       dataRows.push(
         {
           label: formatMessage(validationMessages.nsSupportsLiveActivities),
-          value: liveActivitiesSupport.supportsLiveActivities ? formatMessage(validationMessages.yes) : formatMessage(validationMessages.no),
+          value: liveActivitiesSupport.supportsLiveActivities
+            ? formatMessage(validationMessages.yes)
+            : formatMessage(validationMessages.no),
           showCopy: false,
           tooltip: formatMessage(validationMessages.nsSupportsLiveActivitiesTooltip)
         },
         {
           label: formatMessage(validationMessages.nsSupportsLiveActivitiesFrequentUpdates),
-          value: liveActivitiesSupport.supportsFrequentUpdates ? formatMessage(validationMessages.yes) : formatMessage(validationMessages.no),
+          value: liveActivitiesSupport.supportsFrequentUpdates
+            ? formatMessage(validationMessages.yes)
+            : formatMessage(validationMessages.no),
           showCopy: false,
           tooltip: formatMessage(validationMessages.nsSupportsLiveActivitiesFrequentUpdatesTooltip)
         }
@@ -116,7 +131,7 @@ const LiveActivitiesValidationSection = () => {
       // Only show App MinimumOSVersion if there's a potential mismatch
       if (liveActivitiesSupport.minimumOSVersion && iosVersion) {
         const appMinVersion = liveActivitiesSupport.minimumOSVersion;
-        
+
         // Use utility function to check version compatibility
         if (isDeviceVersionBelowAppMinimum(iosVersion, appMinVersion)) {
           dataRows.push({
@@ -137,15 +152,22 @@ const LiveActivitiesValidationSection = () => {
     }
 
     // Add Live Activities count if device supports them
-    if (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT) {
+    if (
+      validationStatus === VALIDATION_STATUS.BASIC_SUPPORT ||
+      validationStatus === VALIDATION_STATUS.FULL_SUPPORT
+    ) {
       const activityCount = liveActivities.activityTypes.size;
       dataRows.push({
         label: formatMessage(validationMessages.liveActivities),
-        value: activityCount === 0 ? formatMessage(validationMessages.noneDetected) : `${activityCount} ${formatMessage(validationMessages.registered)}`,
+        value:
+          activityCount === 0
+            ? formatMessage(validationMessages.noneDetected)
+            : `${activityCount} ${formatMessage(validationMessages.registered)}`,
         showCopy: false,
-        tooltip: activityCount === 0 
-          ? formatMessage(validationMessages.liveActivitiesTooltipNone)
-          : formatMessage(validationMessages.liveActivitiesTooltipFound, { count: activityCount })
+        tooltip:
+          activityCount === 0
+            ? formatMessage(validationMessages.liveActivitiesTooltipNone)
+            : formatMessage(validationMessages.liveActivitiesTooltipFound, { count: activityCount })
       });
 
       // Add PushToStart Token for iOS 17.1+ (full support only)
@@ -155,21 +177,20 @@ const LiveActivitiesValidationSection = () => {
           value: pushToStartToken || formatMessage(validationMessages.notAvailable),
           showCopy: !!pushToStartToken,
           isLongData: true,
-          tooltip: pushToStartToken 
+          tooltip: pushToStartToken
             ? formatMessage(validationMessages.pushToStartTokenTooltip)
             : formatMessage(validationMessages.pushToStartTokenTooltipNone)
         });
       }
     }
-
-
   }
 
   // Get registered Live Activities table data (always show activities, push-to-start tokens only for iOS 17.1+)
-  const registeredActivitiesTableData = (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT)
-    ? createLiveActivitiesTableData(liveActivities.activityTypes, validationStatus)
-    : [];
-
+  const registeredActivitiesTableData =
+    validationStatus === VALIDATION_STATUS.BASIC_SUPPORT ||
+    validationStatus === VALIDATION_STATUS.FULL_SUPPORT
+      ? createLiveActivitiesTableData(liveActivities.activityTypes, validationStatus)
+      : [];
 
   // Empty state renderers
   const renderRegisteredActivitiesEmptyState = () => (
@@ -180,44 +201,76 @@ const LiveActivitiesValidationSection = () => {
     </IllustratedMessage>
   );
 
-
   return (
-    <div 
+    <div
       data-testid={TEST_IDS.LIVE_ACTIVITIES_VALIDATION_SECTION}
       role="region"
       aria-labelledby="live-activities-validation-title"
     >
       <Flex gap="size-100" alignItems="center" marginBottom="size-200">
-        <StatusLight 
-          variant={statusConfig.variant} 
+        <StatusLight
+          variant={statusConfig.variant}
           data-testid={TEST_IDS.STATUS_LIGHT}
           aria-label={`Live Activities validation status: ${statusConfig.title}`}
         />
-        <Heading 
-          level={4}
-          id="live-activities-validation-title"
-        >
+        <Heading level={4} id="live-activities-validation-title">
           {formatMessage(validationMessages.title)}
         </Heading>
       </Flex>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 'var(--spectrum-global-dimension-size-200)' }}>
+      <table
+        style={{
+          width: '100%',
+          borderCollapse: 'collapse',
+          marginBottom: 'var(--spectrum-global-dimension-size-200)'
+        }}
+      >
         <tbody>
           {dataRows.map((row, index) => {
             // Handle separator rows
             if (row.label === '---') {
               return (
-                <tr key={`separator-${index}`} style={{ backgroundColor: 'var(--spectrum-global-color-gray-100)' }}>
-                  <td colSpan={2} style={{ padding: 'var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-200)', textAlign: 'center', fontWeight: 600, color: 'var(--spectrum-global-color-gray-700)' }}>
-                    <Text UNSAFE_style={{ fontSize: 'var(--spectrum-global-dimension-size-100)', color: 'var(--spectrum-global-color-gray-700)' }}>Next Activity</Text>
+                <tr
+                  key={`separator-${index}`}
+                  style={{ backgroundColor: 'var(--spectrum-global-color-gray-100)' }}
+                >
+                  <td
+                    colSpan={2}
+                    style={{
+                      padding:
+                        'var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-200)',
+                      textAlign: 'center',
+                      fontWeight: 600,
+                      color: 'var(--spectrum-global-color-gray-700)'
+                    }}
+                  >
+                    <Text
+                      UNSAFE_style={{
+                        fontSize: 'var(--spectrum-global-dimension-size-100)',
+                        color: 'var(--spectrum-global-color-gray-700)'
+                      }}
+                    >
+                      Next Activity
+                    </Text>
                   </td>
                 </tr>
               );
             }
 
             return (
-              <tr key={row.label} style={{ borderBottom: '1px solid var(--spectrum-global-color-gray-300)' }}>
-                <td style={{ padding: 'var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-200)', fontWeight: 600, verticalAlign: 'top', width: '40%' }}>
+              <tr
+                key={row.label}
+                style={{ borderBottom: '1px solid var(--spectrum-global-color-gray-300)' }}
+              >
+                <td
+                  style={{
+                    padding:
+                      'var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-200)',
+                    fontWeight: 600,
+                    verticalAlign: 'top',
+                    width: '40%'
+                  }}
+                >
                   <Flex alignItems="center" gap="size-100">
                     <Text>{row.label}</Text>
                     {row.tooltip && (
@@ -233,17 +286,22 @@ const LiveActivitiesValidationSection = () => {
                   </Flex>
                 </td>
                 <td
-                  style={{ 
-                    padding: 'var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-200)', 
-                    verticalAlign: 'top', 
+                  style={{
+                    padding:
+                      'var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-200)',
+                    verticalAlign: 'top',
                     wordBreak: row.isLongData ? 'break-all' : 'break-word',
                     maxWidth: row.isLongData ? '300px' : 'none'
                   }}
                 >
                   {row.showCopy ? (
-                    <CopyableValue 
-                      value={row.value} 
-                      maxLength={row.isLongData ? COPYABLE_VALUE_CONSTANTS.LONG_DATA_MAX_LENGTH : COPYABLE_VALUE_CONSTANTS.DEFAULT_MAX_LENGTH}
+                    <CopyableValue
+                      value={row.value}
+                      maxLength={
+                        row.isLongData
+                          ? COPYABLE_VALUE_CONSTANTS.LONG_DATA_MAX_LENGTH
+                          : COPYABLE_VALUE_CONSTANTS.DEFAULT_MAX_LENGTH
+                      }
                       copyTooltip={formatMessage(copyMessages.copyValue)}
                       copyFullValueTooltip={formatMessage(copyMessages.copyFullValue)}
                       copiedMessage={formatMessage(copyMessages.copied)}
@@ -259,9 +317,12 @@ const LiveActivitiesValidationSection = () => {
       </table>
 
       {/* Registered Live Activities Section - Show for iOS 16.1+ */}
-      {(validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT) && (
+      {(validationStatus === VALIDATION_STATUS.BASIC_SUPPORT ||
+        validationStatus === VALIDATION_STATUS.FULL_SUPPORT) && (
         <View marginTop="size-300">
-          <Heading level={5} marginBottom="size-200">{formatMessage(validationMessages.registeredActivities)}</Heading>
+          <Heading level={5} marginBottom="size-200">
+            {formatMessage(validationMessages.registeredActivities)}
+          </Heading>
           <TableView
             aria-label={formatMessage(validationMessages.registeredActivities)}
             data-testid={TEST_IDS.REGISTERED_ACTIVITIES_TABLE}
@@ -285,10 +346,9 @@ const LiveActivitiesValidationSection = () => {
         </View>
       )}
 
-      
       <View marginTop="size-200">
-        <Link 
-          href="https://developer.apple.com/documentation/activitykit" 
+        <Link
+          href="https://developer.apple.com/documentation/activitykit"
           target="_blank"
           data-testid={TEST_IDS.APPLE_DOCUMENTATION_LINK}
         >

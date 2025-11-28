@@ -1,26 +1,24 @@
-import { 
-  Flex, 
-  View, 
-  Text, 
-  Heading, 
-  Well,
-  StatusLight,
-  SearchField,
+import React, { useMemo, useState } from 'react';
+
+import {
   ActionGroup,
-  Item
+  Flex,
+  Heading,
+  Item,
+  SearchField,
+  StatusLight,
+  Text,
+  View,
+  Well
 } from '@adobe/react-spectrum';
-
-import React, { useState, useMemo } from 'react';
-
-import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useIntl } from 'react-intl';
 
-import SpectrumCard from '../atoms/SpectrumCard';
 import { LiveActivity } from '../../hooks/useActivities';
-import { activitiesMessages, stateMessages, eventsMessages } from '../../i18n';
+import { activitiesMessages, eventsMessages, stateMessages } from '../../i18n';
+import SpectrumCard from '../atoms/SpectrumCard';
 import './ActivityDetails.css';
 
 dayjs.extend(relativeTime);
@@ -33,7 +31,6 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
   const { formatMessage } = useIntl();
   const [eventSearchQuery, setEventSearchQuery] = useState('');
   const [selectedEventFilter, setSelectedEventFilter] = useState<string>('all');
-  
 
   const getStatusVariant = (status: string) => {
     switch (status) {
@@ -54,12 +51,9 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
   // Get all events for the selected activity
   const allActivityEvents = useMemo(() => {
     if (!selectedActivity) return [];
-    
-    const events = [
-      ...(selectedActivity.events || []),
-      ...(selectedActivity.updateEvents || [])
-    ];
-    
+
+    const events = [...(selectedActivity.events || []), ...(selectedActivity.updateEvents || [])];
+
     // Sort by timestamp (newest first)
     return events.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
   }, [selectedActivity]);
@@ -67,14 +61,17 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
   // Filter events based on search and filter
   const filteredEvents = useMemo(() => {
     return allActivityEvents.filter(event => {
-      const matchesSearch = eventSearchQuery === '' || 
+      const matchesSearch =
+        eventSearchQuery === '' ||
         (event.id && event.id.toLowerCase().includes(eventSearchQuery.toLowerCase()));
-      
-      const matchesFilter = selectedEventFilter === 'all' || 
+
+      const matchesFilter =
+        selectedEventFilter === 'all' ||
         (selectedEventFilter === 'start' && selectedActivity?.startEvent?.id === event.id) ||
-        (selectedEventFilter === 'update' && selectedActivity?.updateEvents?.some(e => e.id === event.id)) ||
+        (selectedEventFilter === 'update' &&
+          selectedActivity?.updateEvents?.some(e => e.id === event.id)) ||
         (selectedEventFilter === 'end' && selectedActivity?.endEvent?.id === event.id);
-      
+
       return matchesSearch && matchesFilter;
     });
   }, [allActivityEvents, eventSearchQuery, selectedEventFilter, selectedActivity]);
@@ -82,7 +79,7 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
   // Count events by type
   const eventCounts = useMemo(() => {
     if (!selectedActivity) return { all: 0, start: 0, update: 0, end: 0 };
-    
+
     return {
       all: allActivityEvents.length,
       start: selectedActivity.startEvent ? 1 : 0,
@@ -94,9 +91,9 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
   if (!selectedActivity) {
     return (
       <View padding="size-200" height="100%">
-        <Flex 
-          justifyContent="center" 
-          alignItems="center" 
+        <Flex
+          justifyContent="center"
+          alignItems="center"
           height="100%"
           direction="column"
           gap="size-200"
@@ -113,7 +110,8 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
   }
 
   const eventCount = selectedActivity.events?.length || 0;
-  const lastActivityTime = selectedActivity.updateEvents?.[0]?.timestamp || selectedActivity.startTime;
+  const lastActivityTime =
+    selectedActivity.updateEvents?.[0]?.timestamp || selectedActivity.startTime;
 
   return (
     <View padding="size-200" height="100%">
@@ -138,7 +136,7 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                 <Heading level={3} margin="size-0">
                   {formatMessage(activitiesMessages.activityDetails)}
                 </Heading>
-                
+
                 <Flex direction="column" gap="size-100">
                   <Flex alignItems="center" gap="size-100">
                     <Text UNSAFE_className={classNames('infoLabel')}>
@@ -149,21 +147,21 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                       {selectedActivity.status}
                     </Text>
                   </Flex>
-                  
+
                   <Flex alignItems="center" gap="size-100">
                     <Text UNSAFE_className={classNames('infoLabel')}>
                       {formatMessage(activitiesMessages.type)}:
                     </Text>
                     <Text>{selectedActivity.attributes}</Text>
                   </Flex>
-                  
+
                   <Flex alignItems="center" gap="size-100">
                     <Text UNSAFE_className={classNames('infoLabel')}>
                       {formatMessage(activitiesMessages.events)}:
                     </Text>
                     <Text>{eventCount}</Text>
                   </Flex>
-                  
+
                   {selectedActivity.startTime && (
                     <Flex alignItems="center" gap="size-100">
                       <Text UNSAFE_className={classNames('infoLabel')}>
@@ -172,7 +170,7 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                       <Text>{formatRelativeTime(selectedActivity.startTime)}</Text>
                     </Flex>
                   )}
-                  
+
                   {lastActivityTime && lastActivityTime !== selectedActivity.startTime && (
                     <Flex alignItems="center" gap="size-100">
                       <Text UNSAFE_className={classNames('infoLabel')}>
@@ -191,7 +189,7 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                 <Heading level={3} margin="size-0">
                   {formatMessage(activitiesMessages.activityEventDetails)}
                 </Heading>
-                
+
                 {/* Event Search and Filters */}
                 <Flex direction="column" gap="size-100">
                   <SearchField
@@ -200,11 +198,13 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                     onChange={setEventSearchQuery}
                     width="100%"
                   />
-                  
+
                   <ActionGroup
                     selectionMode="single"
                     selectedKeys={[selectedEventFilter]}
-                    onSelectionChange={(keys) => setSelectedEventFilter(Array.from(keys)[0] as string)}
+                    onSelectionChange={keys =>
+                      setSelectedEventFilter(Array.from(keys)[0] as string)
+                    }
                   >
                     <Item key="all">
                       {formatMessage(eventsMessages.allEvents)} ({eventCounts.all})
@@ -224,18 +224,17 @@ function ActivityDetails({ selectedActivity }: ActivityDetailsProps) {
                 {/* Events List */}
                 <View maxHeight="size-3000" overflow="auto">
                   {filteredEvents.length === 0 ? (
-                    <Flex 
-                      justifyContent="center" 
-                      alignItems="center" 
+                    <Flex
+                      justifyContent="center"
+                      alignItems="center"
                       height="size-1000"
                       direction="column"
                       gap="size-100"
                     >
                       <Text UNSAFE_className={classNames('noEventsText')}>
-                        {eventSearchQuery || selectedEventFilter !== 'all' 
+                        {eventSearchQuery || selectedEventFilter !== 'all'
                           ? formatMessage(eventsMessages.noEventsFound)
-                          : formatMessage(activitiesMessages.noEventsAvailable)
-                        }
+                          : formatMessage(activitiesMessages.noEventsAvailable)}
                       </Text>
                     </Flex>
                   ) : (
