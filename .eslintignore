@@ -1,2 +1,8 @@
-node_modules
+node_modules/
 packages/*/*/dist
+dist/
+build/
+*.min.js
+coverage/
+.storybook/
+storybook-static/

@@ -8,9 +8,7 @@ module.exports = {
     'prettier',
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:json/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:storybook/recommended'
+    'plugin:@typescript-eslint/recommended'
   ],
   globals: {
     Atomics: 'readonly',
@@ -24,12 +22,29 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module'
   },
-  plugins: ['implicit-dependencies', 'prettier', 'react', 'react-hooks', '@typescript-eslint'],
+  plugins: [
+    'implicit-dependencies',
+    'prettier',
+    'react',
+    'react-hooks',
+    '@typescript-eslint',
+    'unused-imports'
+  ],
   rules: {
     'react/prop-types': 'OFF',
     'react/display-name': 'WARN',
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_'
+      }
+    ],
     '@typescript-eslint/no-empty-interface': 'warn'
   },
   settings: {
