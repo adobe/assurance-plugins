@@ -19,7 +19,6 @@
     "docs": "npx nx dev docs",
     "dev": "npx nx start",
     "format": "prettier packages/**/*.{ts,tsx,js,jsx} --write",
-    "format:ui-plugins": "prettier packages/ui-plugins/**/*.{ts,tsx,js,jsx} --write && eslint packages/ui-plugins/**/*.{ts,tsx,js,jsx} --fix",
     "test": "vitest run",
     "test:ui": "vitest --ui",
     "prepare": "husky install"
