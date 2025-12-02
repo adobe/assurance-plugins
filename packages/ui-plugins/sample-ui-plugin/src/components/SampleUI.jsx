@@ -14,16 +14,17 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  **************************************************************************/
+import React from 'react';
 
-import React from "react";
-import { PluginView, TimelineToolbar } from "@assurance/timeline-bar";
-import { Item, Tabs, TabList, TabPanels } from "@adobe/react-spectrum";
-import ProviderTable from "./ProviderTable";
-import Timing from "./Timing";
-import DatastreamViewer from "./DatastreamViewer";
-import Validation from "./Validation";
-import ValidationBuilder from "./ValidationBuilder";
-import DatastreamHorinzontal from "./DatastreamHorizontal";
+import { Item, TabList, TabPanels, Tabs } from '@adobe/react-spectrum';
+import { PluginView, TimelineToolbar } from '@assurance/timeline-bar';
+
+import DatastreamHorinzontal from './DatastreamHorizontal';
+import DatastreamViewer from './DatastreamViewer';
+import ProviderTable from './ProviderTable';
+import Timing from './Timing';
+import Validation from './Validation';
+import ValidationBuilder from './ValidationBuilder';
 
 const SampleUI = () => (
   <PluginView>

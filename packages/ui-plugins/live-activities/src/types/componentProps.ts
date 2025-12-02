@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+
 import { LiveActivity } from '../hooks/useActivities';
 
 // Base component props that most components should extend

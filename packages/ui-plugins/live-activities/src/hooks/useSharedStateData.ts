@@ -1,6 +1,7 @@
-import { useEvents } from '@assurance/plugin-bridge-provider';
-import usePluginState from './usePluginState';
 import { SharedState, sharedState } from '@adobe/griffon-toolkit-aep-mobile';
+import { useEvents } from '@assurance/plugin-bridge-provider';
+
+import usePluginState from './usePluginState';
 
 function useSharedStateData() {
   const selectedClient = usePluginState(state => state.selectedClient);

@@ -12,7 +12,13 @@ export function getLaunchBaseUrl(env: string): string {
   return LAUNCH_ENDPOINTS[env as Env] || LAUNCH_ENDPOINTS['prod'];
 }
 
-export function buildLaunchHeaders({ token, org }: { token: string; org: string }): Record<string, string> {
+export function buildLaunchHeaders({
+  token,
+  org
+}: {
+  token: string;
+  org: string;
+}): Record<string, string> {
   return {
     Accept: 'application/vnd.api+json;revision=1',
     'X-API-Key': 'Activation-DTM',
@@ -33,16 +39,15 @@ export async function fetchProperty({
   token: string;
   org: string;
 }): Promise<any> {
-
   const url = `${baseUrl}/properties/${propertyId}`;
   const headers = buildLaunchHeaders({ token, org });
-  
+
   const response = await fetch(url, { headers });
   if (!response.ok) {
     const message = `Failed to fetch property: ${response.statusText}`;
     throw new Error(message);
   }
-  
+
   const data = await response.json();
   return data;
 }

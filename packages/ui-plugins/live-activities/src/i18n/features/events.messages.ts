@@ -18,7 +18,7 @@ export const eventsMessages = defineMessages({
     id: 'events.summary',
     defaultMessage: 'Event Summary'
   },
-  
+
   // Search & Filter
   searchEvents: {
     id: 'events.search',
@@ -48,13 +48,13 @@ export const eventsMessages = defineMessages({
     id: 'events.filter.other',
     defaultMessage: 'Other Events'
   },
-  
+
   // Empty states
   noEventsFound: {
     id: 'events.empty.notFound',
     defaultMessage: 'No events found for this Live Activity'
   },
-  
+
   // Metrics
   totalEvents: {
     id: 'events.metrics.total',
@@ -69,4 +69,3 @@ export const eventsMessages = defineMessages({
     defaultMessage: 'Time Range'
   }
 });
-

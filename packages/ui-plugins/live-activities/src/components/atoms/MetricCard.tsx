@@ -1,8 +1,10 @@
 import React from 'react';
-import { View, Text, Flex, Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
+
+import { Flex, Text, Tooltip, TooltipTrigger, View } from '@adobe/react-spectrum';
 import classNames from 'classnames';
-import Card from './card';
+
 import './MetricCard.css';
+import Card from './card';
 
 interface MetricCardProps {
   label: string;
@@ -43,13 +45,19 @@ function MetricCard({ label, value, size = 'M', tooltip }: MetricCardProps) {
     <Card>
       <View padding="size-200">
         <Flex direction="column" gap="size-100">
-          <Text 
-            UNSAFE_className={classNames("labelText", `size${labelSize.charAt(0).toUpperCase() + labelSize.slice(1)}`)}
+          <Text
+            UNSAFE_className={classNames(
+              'labelText',
+              `size${labelSize.charAt(0).toUpperCase() + labelSize.slice(1)}`
+            )}
           >
             {label}
           </Text>
-          <Text 
-            UNSAFE_className={classNames("valueText", `size${valueSize.charAt(0).toUpperCase() + valueSize.slice(1)}`)}
+          <Text
+            UNSAFE_className={classNames(
+              'valueText',
+              `size${valueSize.charAt(0).toUpperCase() + valueSize.slice(1)}`
+            )}
           >
             {value}
           </Text>

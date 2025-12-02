@@ -1,12 +1,13 @@
+import React from 'react';
+
 import {
   EventTable,
   flaggedColumn,
   timestampColumn,
   validationColumn,
-  vendorColumn,
-} from "@assurance/event-table";
-import { useEvents } from "@assurance/plugin-bridge-provider";
-import React from "react";
+  vendorColumn
+} from '@assurance/event-table';
+import { useEvents } from '@assurance/plugin-bridge-provider';
 
 function Events() {
   const events = useEvents(); // Returns all events currently in the session

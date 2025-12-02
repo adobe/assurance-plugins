@@ -1,7 +1,9 @@
-import { View, Text, ActionButton, TextField } from '@adobe/react-spectrum';
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+
+import { ActionButton, Text, View } from '@adobe/react-spectrum';
 import { Editor } from '@monaco-editor/react';
+import { Controller, useForm } from 'react-hook-form';
+
 import useSelectedActivity from '../hooks/useSelectedActivity';
 
 function UpdateActivity() {

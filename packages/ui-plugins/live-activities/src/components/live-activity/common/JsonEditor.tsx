@@ -2,10 +2,11 @@
  * Flexible JSON Editor Component
  * Supports both controlled and ref-based usage
  */
-
 import React from 'react';
-import { View, Text } from '@adobe/react-spectrum';
+
+import { Text, View } from '@adobe/react-spectrum';
 import { Editor } from '@monaco-editor/react';
+
 import { EDITOR_CONFIG } from '../../../constants/liveActivitiesConfig';
 import { configureMonacoEditor } from '../../../utils/editorUtils';
 
@@ -14,34 +15,34 @@ interface JsonEditorProps {
    * Current JSON value
    */
   value: string;
-  
+
   /**
    * Change handler for controlled mode
    */
   onChange: (value: string | undefined) => void;
-  
+
   /**
    * Label to display above editor
    */
   label?: string;
-  
+
   /**
    * Optional ref to access editor instance
    */
   editorRef?: React.MutableRefObject<any>;
-  
+
   /**
    * Whether to show line numbers
    * @default false
    */
   showLineNumbers?: boolean;
-  
+
   /**
    * Height of the editor
    * @default "400px"
    */
   height?: string;
-  
+
   /**
    * Optional className for the container
    */
@@ -51,14 +52,14 @@ interface JsonEditorProps {
 /**
  * JSON Editor with Monaco
  * Supports both ref-based and controlled usage patterns
- * 
+ *
  * Features:
  * - JSON validation
  * - Auto-formatting on paste
  * - Optional line numbers
  * - Configurable height
  * - Ref support for advanced usage
- * 
+ *
  * @example
  * // With ref (launch-live-activity pattern)
  * <JsonEditor
@@ -67,7 +68,7 @@ interface JsonEditorProps {
  *   editorRef={editorRef}
  *   label="APS Payload"
  * />
- * 
+ *
  * @example
  * // Without ref, with line numbers (update-activity pattern)
  * <JsonEditor
@@ -103,10 +104,9 @@ export function JsonEditor({
         height={height}
         defaultLanguage="json"
         value={value}
-        onChange={(val) => onChange(val ?? "{}")}
+        onChange={val => onChange(val ?? '{}')}
         options={editorOptions}
       />
     </View>
   );
 }
-

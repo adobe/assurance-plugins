@@ -1,6 +1,8 @@
-import { StatusLight } from '@adobe/react-spectrum';
 import React from 'react';
+
+import { StatusLight } from '@adobe/react-spectrum';
 import { useIntl } from 'react-intl';
+
 import { stateMessages } from '../../i18n';
 
 interface ActivityStatusProps {

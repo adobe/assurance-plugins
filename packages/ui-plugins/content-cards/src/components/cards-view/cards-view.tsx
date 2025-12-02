@@ -1,18 +1,13 @@
-import {
-  Flex,
-  Item,
-  TabList,
-  TabPanels,
-  Tabs,
-  View,
-} from "@adobe/react-spectrum";
-import React from "react";
-import { useSelectedCard } from "../../hooks/useCards";
-import CardDetails from "./components/card-details/card-details";
-import CardInteractions from "./components/card-interactions/card-interactions";
-import CardPreview from "./components/card-preview/card-preview";
-import CardRules from "./components/card-rules/card-rules";
-import CardSelect from "./components/card-select/card-select";
+import React from 'react';
+
+import { Flex, Item, TabList, TabPanels, Tabs, View } from '@adobe/react-spectrum';
+
+import { useSelectedCard } from '../../hooks/useCards';
+import CardDetails from './components/card-details/card-details';
+import CardInteractions from './components/card-interactions/card-interactions';
+import CardPreview from './components/card-preview/card-preview';
+import CardRules from './components/card-rules/card-rules';
+import CardSelect from './components/card-select/card-select';
 
 function CardsView() {
   const card = useSelectedCard();

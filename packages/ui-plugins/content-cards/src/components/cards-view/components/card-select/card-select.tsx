@@ -1,7 +1,9 @@
-import { Item, Picker } from "@adobe/react-spectrum";
-import React from "react";
-import { useCards, useCardsBySurface } from "../../../../hooks/useCards";
-import { usePluginState } from "../../../../hooks/usePluginState";
+import React from 'react';
+
+import { Item, Picker } from '@adobe/react-spectrum';
+
+import { useCards } from '../../../../hooks/useCards';
+import { usePluginState } from '../../../../hooks/usePluginState';
 
 function CardSelect() {
   const cards = useCards();
@@ -15,9 +17,7 @@ function CardSelect() {
       placeholder="Select a Card"
     >
       {cards?.length ? (
-        cards.map((card, index) => (
-          <Item key={card?.id}>{`Content Card ${index + 1}`}</Item>
-        ))
+        cards.map((card, index) => <Item key={card?.id}>{`Content Card ${index + 1}`}</Item>)
       ) : (
         <Item>No Cards</Item>
       )}

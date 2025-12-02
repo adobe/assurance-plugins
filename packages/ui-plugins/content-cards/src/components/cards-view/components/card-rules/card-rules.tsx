@@ -1,18 +1,20 @@
-import { Flex, View } from "@adobe/react-spectrum";
-import { RuleHeading, RuleItem } from "@assurance/component-rules";
-import CheckmarkCircle from "@spectrum-icons/workflow/CheckmarkCircleOutline";
-import React from "react";
-import { useSelectedCard } from "../../../../hooks/useCards";
+import React from 'react';
 
-function Condition({ definition, matcherResults, type }) {
-  return type === "matcher" ? (
-    <Matcher definition={definition} matcherResults={matcherResults} />
-  ) : type === "group" ? (
-    <Group definition={definition} matcherResults={matcherResults} />
-  ) : (
-    <View>{`Unsupported Condition Type ${type}`}</View>
-  );
-}
+import { View } from '@adobe/react-spectrum';
+import { RuleHeading, RuleItem } from '@assurance/component-rules';
+import CheckmarkCircle from '@spectrum-icons/workflow/CheckmarkCircleOutline';
+
+import { useSelectedCard } from '../../../../hooks/useCards';
+
+// function Condition({ definition, matcherResults, type }) {
+//   return type === 'matcher' ? (
+//     <Matcher definition={definition} matcherResults={matcherResults} />
+//   ) : type === 'group' ? (
+//     <Group definition={definition} matcherResults={matcherResults} />
+//   ) : (
+//     <View>{`Unsupported Condition Type ${type}`}</View>
+//   );
+// }
 
 function CardRules() {
   const card = useSelectedCard();

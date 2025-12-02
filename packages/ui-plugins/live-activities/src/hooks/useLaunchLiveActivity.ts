@@ -1,7 +1,9 @@
 import { fakeEventCommand } from '@adobe/griffon-toolkit-aep-mobile';
 import { sendCommand } from '@assurance/plugin-bridge-provider';
 import { v4 } from 'uuid';
+
 import usePluginState from './usePluginState';
+
 function useLaunchLiveActivity() {
   const selectedClient = usePluginState(state => state.selectedClient);
 

@@ -5,8 +5,9 @@ import {
   useSandbox
 } from '@assurance/plugin-bridge-provider';
 import { useQuery } from '@tanstack/react-query';
-import { useECID } from './useClientInfo';
+
 import { getProfile, getProfileBaseUrl } from '../api/profile';
+import { useECID } from './useClientInfo';
 
 function useProfile() {
   const ecid = useECID();

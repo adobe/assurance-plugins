@@ -1,32 +1,37 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
+
 import {
-  DialogTrigger,
   Button,
-  Dialog,
-  Heading,
-  Divider,
   Content,
-  View,
-  Text,
-  Picker,
+  Dialog,
+  DialogTrigger,
+  Divider,
+  Heading,
   Item,
-  ToastQueue
+  Picker,
+  Text,
+  ToastQueue,
+  View
 } from '@adobe/react-spectrum';
-import classNames from 'classnames';
 import Rocket from '@spectrum-icons/workflow/Launch';
+import classNames from 'classnames';
 import { useIntl } from 'react-intl';
-import { useLiveActivitiesData, useRegisteredActivities } from '../../hooks/useActivities';
+
 import {
   buildApiUrl,
-  generateLiveActivityPayload,
-  sendLiveActivityNotification,
+  buildCompleteApsPayload,
   generateLaunchTemplate,
-  buildCompleteApsPayload
+  generateLiveActivityPayload,
+  sendLiveActivityNotification
 } from '../../api/liveActivityApi';
-import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
-import { ErrorMessage, JsonEditor, DialogActions } from './common';
+import {
+  MESSAGES as COMMON_MESSAGES,
+  LIVE_ACTIVITY_DEFAULTS
+} from '../../constants/liveActivitiesConfig';
+import { useLiveActivitiesData, useRegisteredActivities } from '../../hooks/useActivities';
 import { useLiveActivityContext } from '../../hooks/useLiveActivityContext';
 import { liveActivityMessages } from '../../i18n';
+import { DialogActions, ErrorMessage, JsonEditor } from './common';
 import './launch-live-activity.css';
 
 // ============================================================================
@@ -43,7 +48,12 @@ interface ActivityPickerProps {
   label: string;
 }
 
-function ActivityPicker({ activities, selectedKey, onSelectionChange, label }: Readonly<ActivityPickerProps>) {
+function ActivityPicker({
+  activities,
+  selectedKey,
+  onSelectionChange,
+  label
+}: Readonly<ActivityPickerProps>) {
   return (
     <View marginBottom="size-200">
       <Picker
@@ -53,10 +63,8 @@ function ActivityPicker({ activities, selectedKey, onSelectionChange, label }: R
         width="100%"
         isRequired
       >
-        {activities.map((activity) => (
-          <Item key={activity.attributeType}>
-            {activity.attributeType}
-          </Item>
+        {activities.map(activity => (
+          <Item key={activity.attributeType}>{activity.attributeType}</Item>
         ))}
       </Picker>
     </View>
@@ -69,12 +77,10 @@ function ActivityPicker({ activities, selectedKey, onSelectionChange, label }: R
 
 function LaunchLiveActivity() {
   const { formatMessage } = useIntl();
-  
+
   // State
   const [selectedActivityType, setSelectedActivityType] = useState<string>('');
-  const [apsPayload, setApsPayload] = useState(
-    JSON.stringify(generateLaunchTemplate(), null, 2)
-  );
+  const [apsPayload, setApsPayload] = useState(JSON.stringify(generateLaunchTemplate(), null, 2));
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const editorRef = useRef<any>(null);
@@ -82,16 +88,15 @@ function LaunchLiveActivity() {
   // Live Activities Data
   const registeredActivities = useRegisteredActivities();
   const liveActivitiesData = useLiveActivitiesData();
-  
+
   // Context (requires push token for launch operations)
   const context = useLiveActivityContext({ requirePushToken: true });
   // Get selected activity details
   const selectedActivity = registeredActivities.find(
-    (activity) => activity.attributeType === selectedActivityType
+    activity => activity.attributeType === selectedActivityType
   );
   const selectedLiveActivityData = liveActivitiesData.activityTypes.get(selectedActivityType);
 
-  
   // Get push to start token from live activities data
   const pushToStartToken = selectedLiveActivityData?.pushToStartToken;
 
@@ -141,9 +146,10 @@ function LaunchLiveActivity() {
         token: context.token!,
         payload
       });
-      ToastQueue.positive('Live Activity started successfully', {timeout: 3000});
+      ToastQueue.positive('Live Activity started successfully', { timeout: 3000 });
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to start Live Activity';
+      const errorMessage =
+        err.response?.data?.message || err.message || 'Failed to start Live Activity';
       setError(errorMessage);
       throw err;
     } finally {
@@ -157,46 +163,49 @@ function LaunchLiveActivity() {
     setError(null);
   }, []);
 
-  const handleCancel = useCallback((close: () => void) => {
-    handleReset();
-    close();
-  }, [handleReset]);
-
-  const handleLaunchWithClose = useCallback(async (close: () => void) => {
-    try {
-      await handleLaunch();
+  const handleCancel = useCallback(
+    (close: () => void) => {
       handleReset();
       close();
-    } catch {
-      // Error already handled in handleLaunch
-    }
-  }, [handleLaunch, handleReset]);
+    },
+    [handleReset]
+  );
+
+  const handleLaunchWithClose = useCallback(
+    async (close: () => void) => {
+      try {
+        await handleLaunch();
+        handleReset();
+        close();
+      } catch {
+        // Error already handled in handleLaunch
+      }
+    },
+    [handleLaunch, handleReset]
+  );
 
   // Computed values
   const hasRegisteredActivities = registeredActivities.length > 0;
-  const canSubmit = selectedActivityType && apsPayload.trim() !== '' && context.isReady && !isLoading;
+  const canSubmit =
+    selectedActivityType && apsPayload.trim() !== '' && context.isReady && !isLoading;
   const isButtonDisabled = !context.isReady || isLoading || !hasRegisteredActivities;
-  const buttonTooltip = hasRegisteredActivities 
+  const buttonTooltip = hasRegisteredActivities
     ? formatMessage(liveActivityMessages.launchLiveActivity)
     : formatMessage(liveActivityMessages.noActivitiesAvailable);
 
   // Render
   return (
     <DialogTrigger>
-      <Button 
-        variant="cta" 
-        isDisabled={isButtonDisabled}
-        aria-label={buttonTooltip}
-      >
+      <Button variant="cta" isDisabled={isButtonDisabled} aria-label={buttonTooltip}>
         <Rocket marginEnd="size-50" />
         {formatMessage(liveActivityMessages.launchLiveActivity)}
       </Button>
-      
-      {(close) => (
+
+      {close => (
         <Dialog>
           <Heading>{formatMessage(liveActivityMessages.launchLiveActivity)}</Heading>
           <Divider />
-          
+
           <Content UNSAFE_className={classNames('dialogContent')}>
             <View marginBottom="size-200">
               <Text>{formatMessage(liveActivityMessages.apsPayloadDescription)}</Text>
@@ -211,14 +220,14 @@ function LaunchLiveActivity() {
 
             <JsonEditor
               value={apsPayload}
-              onChange={(val) => setApsPayload(val || '{}')}
+              onChange={val => setApsPayload(val || '{}')}
               editorRef={editorRef}
               className={classNames('editorContainer')}
             />
 
             {error && <ErrorMessage message={error} />}
           </Content>
-          
+
           <DialogActions
             isLoading={isLoading}
             isDisabled={!canSubmit}

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { UnknownBadge } from '../components/atoms/UnknownBadge';
 
 // Environment mapping constant used across multiple components
@@ -114,4 +115,3 @@ export function openHelpUrl({ mode }: any) {
     window.open(url, '_blank');
   }
 }
-

@@ -1,8 +1,9 @@
-import { Provider, defaultTheme } from "@adobe/react-spectrum";
-import { PluginBridgeProvider } from "@assurance/plugin-bridge-provider";
-import React from "react";
-import Events from "./Events";
-import GroupedEvents from "./GroupedEvents";
+import React from 'react';
+
+import { Provider, defaultTheme } from '@adobe/react-spectrum';
+import { PluginBridgeProvider } from '@assurance/plugin-bridge-provider';
+
+import GroupedEvents from './GroupedEvents';
 
 function App() {
   return (

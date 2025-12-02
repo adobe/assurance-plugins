@@ -14,16 +14,17 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  **************************************************************************/
-import { Flex } from "@adobe/react-spectrum";
-import { ValidationItem } from "@assurance/validation-summary";
-import React from "react";
+import React from 'react';
+
+import { Flex } from '@adobe/react-spectrum';
+import { ValidationItem } from '@assurance/validation-summary';
 
 const Validation = () => {
   return (
     <Flex direction="column" gap="size-150" marginTop="size-100">
-      <ValidationItem namespace={"aep-consent-registered"} />
-      <ValidationItem namespace={"aep-consent-configuration"} />
-      <ValidationItem namespace={"aep-edge-configured"} />
+      <ValidationItem namespace={'aep-consent-registered'} />
+      <ValidationItem namespace={'aep-consent-configuration'} />
+      <ValidationItem namespace={'aep-edge-configured'} />
     </Flex>
   );
 };

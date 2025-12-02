@@ -1,7 +1,6 @@
 /**
  * Test suite for Live Activities schema extraction utilities.
  */
-
 import { extractSchemaDataFromEvents } from '../liveActivitiesExtraction';
 
 describe('Live Activities Schema Extraction', () => {

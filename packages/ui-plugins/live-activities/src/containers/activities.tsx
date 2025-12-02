@@ -1,17 +1,29 @@
-import { Flex, View, Tabs, TabList, TabPanels, Item, Text, Tooltip, TooltipTrigger, Button, Heading } from '@adobe/react-spectrum';
-
-import { ResizeHandle } from '@assurance/event-table';
-import { useResizePanel, useResizeObserver } from '@assurance/common-utils';
-
-import Info from '@spectrum-icons/workflow/Info';
-
 import React, { useMemo } from 'react';
 
-import { useIntl } from 'react-intl';
+import {
+  Button,
+  Flex,
+  Heading,
+  Item,
+  TabList,
+  TabPanels,
+  Tabs,
+  Text,
+  Tooltip,
+  TooltipTrigger,
+  View
+} from '@adobe/react-spectrum';
+import { useResizeObserver, useResizePanel } from '@assurance/common-utils';
+import { ResizeHandle } from '@assurance/event-table';
+import Info from '@spectrum-icons/workflow/Info';
 import classNames from 'classnames';
+import { useIntl } from 'react-intl';
 
-import './activities.css';
-
+import ActivityList from '../components/activities/ActivityList';
+import ActivityEventDetails from '../components/live-activity/activity-event-details';
+import ActivityFlow from '../components/live-activity/activity-flow';
+import ActivityOverview from '../components/live-activity/activity-overview';
+import LaunchLiveActivity from '../components/live-activity/launch-live-activity';
 import { VALIDATION_STATUS } from '../constants';
 import { NAVIGATION_CONFIG } from '../constants/liveActivitiesConfig';
 import useActivities, { useRegisteredActivities } from '../hooks/useActivities';
@@ -19,43 +31,33 @@ import { useLiveActivitiesValidationStatus } from '../hooks/useLiveActivitiesVal
 import type { ActivityTab } from '../hooks/usePluginState';
 import usePluginState from '../hooks/usePluginState';
 import { activitiesMessages } from '../i18n';
-import ActivityList from '../components/activities/ActivityList';
-import ActivityEventDetails from '../components/live-activity/activity-event-details';
-import ActivityFlow from '../components/live-activity/activity-flow';
-import ActivityOverview from '../components/live-activity/activity-overview';
-import LaunchLiveActivity from '../components/live-activity/launch-live-activity';
+import './activities.css';
 
 // Main activities component using Zustand
 function Activities() {
   const { formatMessage } = useIntl();
   const realActivities = useActivities();
   const registeredActivities = useRegisteredActivities();
-  const { 
-    activityNavigation: {
-      selectedActivityId, 
-      setSelectedActivityId, 
-      activeTab, 
-      setActiveTab,
-    }
+  const {
+    activityNavigation: { selectedActivityId, setSelectedActivityId, activeTab, setActiveTab }
   } = usePluginState();
   const validationStatus = useLiveActivitiesValidationStatus();
-  
+
   // Use only real activities - no mock data
   const activities = realActivities;
-  const observerOptions = useMemo(() => ({
-    onResize: () => {},
-    observeHeight: false,
-    debounceDelay: 50
-  }), []);
+  const observerOptions = useMemo(
+    () => ({
+      onResize: () => {},
+      observeHeight: false,
+      debounceDelay: 50
+    }),
+    []
+  );
   // Resize functionality
-  const { ref: containerRef, width: containerWidth } = useResizeObserver<HTMLDivElement>(observerOptions);
+  const { ref: containerRef, width: containerWidth } =
+    useResizeObserver<HTMLDivElement>(observerOptions);
 
-  const {
-    panelWidth,
-    isResizing,
-    handleMouseDown,
-    updateContainerWidth
-  } = useResizePanel({
+  const { panelWidth, isResizing, handleMouseDown, updateContainerWidth } = useResizePanel({
     initialWidth: 400,
     minWidth: 300,
     maxWidthPercentage: 0.6,
@@ -72,18 +74,24 @@ function Activities() {
   // Memoize the selected activity tabs content
   const selectedActivityTabs = useMemo(() => {
     if (!selectedActivityId) return null;
-    
+
     const selectedActivity = activities.find(a => a.id === selectedActivityId);
     return (
       <Tabs
         height="100%"
         selectedKey={activeTab}
-        onSelectionChange={(key) => setActiveTab(key as ActivityTab)}
+        onSelectionChange={key => setActiveTab(key as ActivityTab)}
       >
         <TabList>
-          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>{formatMessage(activitiesMessages.overviewTab)}</Item>
-          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.ACTIVITY_FLOW}>{formatMessage(activitiesMessages.activityFlowTab)}</Item>
-          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS}>{formatMessage(activitiesMessages.eventDetailsTab)}</Item>
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>
+            {formatMessage(activitiesMessages.overviewTab)}
+          </Item>
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.ACTIVITY_FLOW}>
+            {formatMessage(activitiesMessages.activityFlowTab)}
+          </Item>
+          <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS}>
+            {formatMessage(activitiesMessages.eventDetailsTab)}
+          </Item>
         </TabList>
         <TabPanels flex="1" maxHeight="calc(100vh - 14%)">
           <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.OVERVIEW}>
@@ -98,28 +106,28 @@ function Activities() {
           </Item>
           <Item key={NAVIGATION_CONFIG.ACTIVITY_TABS.EVENT_DETAILS}>
             <View height="100%" overflow="auto">
-              <ActivityEventDetails 
-                activity={selectedActivity} 
-              />
+              <ActivityEventDetails activity={selectedActivity} />
             </View>
           </Item>
         </TabPanels>
       </Tabs>
     );
   }, [selectedActivityId, activities, activeTab, setActiveTab, formatMessage]);
-  
 
   const handleActivitySelect = (activityId: string) => {
-    setSelectedActivityId(activityId);    
+    setSelectedActivityId(activityId);
   };
 
   // Determine platform capabilities based on validation status
   const platform = {
-    hasLiveActivities: validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT,
-    hasRemoteStart: validationStatus === VALIDATION_STATUS.FULL_SUPPORT && registeredActivities.length > 0,
+    hasLiveActivities:
+      validationStatus === VALIDATION_STATUS.BASIC_SUPPORT ||
+      validationStatus === VALIDATION_STATUS.FULL_SUPPORT,
+    hasRemoteStart:
+      validationStatus === VALIDATION_STATUS.FULL_SUPPORT && registeredActivities.length > 0,
     supportLevel: validationStatus
   };
-  
+
   // Get appropriate messages based on validation status
   const getNoActivitiesMessage = () => {
     switch (validationStatus) {
@@ -163,13 +171,13 @@ function Activities() {
     if (!platform.hasRemoteStart) {
       return null; // Don't show info button if not supported
     }
-    
+
     return (
       <TooltipTrigger>
-        <Button 
-          variant="secondary" 
+        <Button
+          variant="secondary"
           isQuiet
-          UNSAFE_style={{ 
+          UNSAFE_style={{
             border: 'none',
             outline: 'none',
             boxShadow: 'none'
@@ -190,7 +198,7 @@ function Activities() {
         {/* Header with Launch Button - Only show when there are activities */}
         {activities.length > 0 && (
           <View borderBottomWidth="thin" borderBottomColor="gray-300" padding="size-200">
-            <Flex direction="row" justifyContent="end" alignItems="center">              
+            <Flex direction="row" justifyContent="end" alignItems="center">
               {platform.hasLiveActivities && (
                 <Flex alignItems="center" gap="size-100">
                   <LaunchLiveActivity />
@@ -225,16 +233,16 @@ function Activities() {
 
         {/* Main Content - Resizable Split View */}
         {activities.length > 0 && (
-          <div 
-            ref={containerRef} 
+          <div
+            ref={containerRef}
             className={classNames('activitiesResizableContainer', {
-              'resizing': isResizing
+              resizing: isResizing
             })}
           >
             {/* Left Panel - Activities List */}
             <View
               UNSAFE_className={classNames('leftPanel', {
-                'resizing': isResizing
+                resizing: isResizing
               })}
               UNSAFE_style={{
                 width: `${panelWidth}px`,
@@ -251,16 +259,12 @@ function Activities() {
             </View>
 
             {/* Resize Handle */}
-            <ResizeHandle
-              isResizing={isResizing}
-              onMouseDown={handleMouseDown}
-              isVisible={true}
-            />
+            <ResizeHandle isResizing={isResizing} onMouseDown={handleMouseDown} isVisible={true} />
 
             {/* Right Panel - Activity Details with Tabs */}
             <View
               UNSAFE_className={classNames('rightPanel', {
-                'resizing': isResizing
+                resizing: isResizing
               })}
             >
               {selectedActivityTabs || (
@@ -272,21 +276,20 @@ function Activities() {
                     direction="column"
                     gap="size-300"
                   >
-                  <View UNSAFE_className={classNames('selectActivityContainer')}>
-                    <Heading level={2} marginY="size-0" marginBottom="size-200">
-                      {formatMessage(activitiesMessages.selectActivityTitle)}
-                    </Heading>
-                    <Text UNSAFE_className={classNames('selectActivityDescription')}>
-                      {formatMessage(activitiesMessages.selectActivityDescription)}
-                    </Text>
-                  </View>
+                    <View UNSAFE_className={classNames('selectActivityContainer')}>
+                      <Heading level={2} marginY="size-0" marginBottom="size-200">
+                        {formatMessage(activitiesMessages.selectActivityTitle)}
+                      </Heading>
+                      <Text UNSAFE_className={classNames('selectActivityDescription')}>
+                        {formatMessage(activitiesMessages.selectActivityDescription)}
+                      </Text>
+                    </View>
                   </Flex>
                 </View>
               )}
             </View>
           </div>
         )}
-
       </Flex>
     </View>
   );

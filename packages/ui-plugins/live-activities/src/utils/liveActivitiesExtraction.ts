@@ -2,12 +2,11 @@
  * Pure utility functions for extracting Live Activities data from messaging state and events.
  * No React dependencies - can be used anywhere.
  */
-
 import { isLiveActivityAssuranceDebugEvent } from '../types/events';
 import {
-  LiveActivityTypeData,
   LiveActivitiesExtractionResult,
-  LiveActivitySchema
+  LiveActivitySchema,
+  LiveActivityTypeData
 } from '../types/liveActivities';
 
 /**

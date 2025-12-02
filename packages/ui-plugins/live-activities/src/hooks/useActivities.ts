@@ -1,35 +1,31 @@
-import { combineAny } from '@adobe/griffon-toolkit';
+import { useMemo } from 'react';
 
 import { useEvents } from '@assurance/plugin-bridge-provider';
 
-import groupBy from 'lodash/groupBy';
-
-import { useMemo } from 'react';
-
 import { LIVE_ACTIVITIES_MATCHERS } from '../constants/matchers';
 import {
+  isLiveActivityAssuranceDebugEvent,
   isLiveActivityDismissedEvent,
   isLiveActivityEndEvent,
+  isLiveActivityEndedEvent,
+  isLiveActivityPushToStartTokenEvent,
+  isLiveActivityPushToStartTokenToEdgeEvent,
   isLiveActivityStartEvent,
-  isLiveActivityUpdatedEvent,
+  isLiveActivityStartToEdgeEvent,
   isLiveActivityUpdateTokenEvent,
   isLiveActivityUpdateTokenToEdgeEvent,
-  isLiveActivityStartToEdgeEvent,
-  isLiveActivityPushToStartTokenToEdgeEvent,
-  isLiveActivityAssuranceDebugEvent,
-  isLiveActivityPushToStartTokenEvent,
-  isLiveActivityEndedEvent
+  isLiveActivityUpdatedEvent
 } from '../types/events';
 import {
-  LiveActivityTypeData,
   LiveActivitiesExtractionResult,
   LiveActivitySchema,
+  LiveActivityTypeData,
   RegisteredActivity
 } from '../types/liveActivities';
 import {
-  extractSchemaDataFromEvents,
   extractLiveActivitiesDataFromState,
-  extractRegisteredActivitiesFromSchemaEvents
+  extractRegisteredActivitiesFromSchemaEvents,
+  extractSchemaDataFromEvents
 } from '../utils/liveActivitiesExtraction';
 
 export interface LiveActivity {
@@ -169,7 +165,9 @@ function useActivities(): LiveActivity[] {
     const updateEvents = events.filter(isLiveActivityUpdatedEvent);
 
     // Sort update events by timestamp (descending) and get the latest content state
-    const sortedUpdateEvents = [...updateEvents].sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    const sortedUpdateEvents = [...updateEvents].sort(
+      (a, b) => (b.timestamp || 0) - (a.timestamp || 0)
+    );
     const currentContentState = sortedUpdateEvents[0]?.payload?.ACPExtensionEventData?.contentState;
 
     // Find matching push-to-start token event by attribute type

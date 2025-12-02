@@ -38,4 +38,3 @@ export const actionMessages = defineMessages({
     defaultMessage: 'Refresh Page'
   }
 });
-

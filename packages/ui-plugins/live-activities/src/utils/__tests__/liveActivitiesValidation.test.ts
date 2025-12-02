@@ -1,11 +1,11 @@
-import {
-  parseIOSVersion,
-  getLiveActivitiesSupport,
-  validateIOSVersionForLiveActivities,
-  isDeviceVersionBelowAppMinimum,
-  getStatusDisplayConfig
-} from '../liveActivitiesValidation';
 import { VALIDATION_STATUS } from '../../constants';
+import {
+  getLiveActivitiesSupport,
+  getStatusDisplayConfig,
+  isDeviceVersionBelowAppMinimum,
+  parseIOSVersion,
+  validateIOSVersionForLiveActivities
+} from '../liveActivitiesValidation';
 
 describe('liveActivitiesValidation', () => {
   describe('parseIOSVersion', () => {

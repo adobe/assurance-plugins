@@ -1,13 +1,11 @@
 /**
  * Tests for profile API types and interfaces
  */
-
 import {
   LiveActivityPushNotificationDetail,
-  ProfileEntity,
   ProfileApiResponse,
-  PushNotificationDetail,
-  Identity
+  ProfileEntity,
+  PushNotificationDetail
 } from '../profile';
 
 describe('Profile API Types', () => {

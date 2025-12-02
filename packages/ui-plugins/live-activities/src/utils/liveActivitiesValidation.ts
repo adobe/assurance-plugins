@@ -2,8 +2,7 @@
  * Pure utility functions for Live Activities validation logic.
  * These functions contain no React dependencies and can be used anywhere.
  */
-
-import { LIVE_ACTIVITIES_MIN_VERSION, VALIDATION_STATUS } from '../constants';
+import { VALIDATION_STATUS } from '../constants';
 import { type LiveActivitiesValidationStatus } from '../types/liveActivities';
 
 /**

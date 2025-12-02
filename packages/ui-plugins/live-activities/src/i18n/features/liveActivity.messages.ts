@@ -22,7 +22,7 @@ export const liveActivityMessages = defineMessages({
     id: 'liveActivity.launch.description',
     defaultMessage: 'Select a live activity and fill in the required fields below'
   },
-  
+
   // Update
   updateLiveActivity: {
     id: 'liveActivity.update.title',
@@ -36,7 +36,7 @@ export const liveActivityMessages = defineMessages({
     id: 'liveActivity.update.description',
     defaultMessage: 'Edit the payload content below to update the activity'
   },
-  
+
   // Common form fields
   apsPayload: {
     id: 'liveActivity.form.apsPayload',
@@ -50,7 +50,7 @@ export const liveActivityMessages = defineMessages({
     id: 'liveActivity.form.eventType',
     defaultMessage: 'Event Type'
   },
-  
+
   // Event types
   eventTypeUpdate: {
     id: 'liveActivity.eventType.update',
@@ -61,4 +61,3 @@ export const liveActivityMessages = defineMessages({
     defaultMessage: 'End'
   }
 });
-

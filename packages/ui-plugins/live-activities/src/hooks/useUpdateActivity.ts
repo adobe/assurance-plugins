@@ -1,4 +1,4 @@
-import { fakeEventCommand, FakeEventCommand } from '@adobe/griffon-toolkit-aep-mobile';
+import { fakeEventCommand } from '@adobe/griffon-toolkit-aep-mobile';
 import { sendCommand, useSelectedClients } from '@assurance/plugin-bridge-provider';
 import { v4 } from 'uuid';
 

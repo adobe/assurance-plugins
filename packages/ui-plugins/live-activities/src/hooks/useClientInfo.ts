@@ -1,4 +1,4 @@
-import { useEvents, useSelectedClients, useClients } from '@assurance/plugin-bridge-provider';
+import { useClients, useEvents, useSelectedClients } from '@assurance/plugin-bridge-provider';
 
 // Hook to extract the latest ECID (Experience Cloud ID) from shared state update events for the currently selected client.
 //

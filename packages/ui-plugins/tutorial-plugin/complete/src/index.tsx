@@ -14,8 +14,10 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  **************************************************************************/
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./components/App";
+import React from 'react';
 
-ReactDOM.render(<App />, document.getElementById("root"));
+import ReactDOM from 'react-dom';
+
+import App from './components/App';
+
+ReactDOM.render(<App />, document.getElementById('root'));

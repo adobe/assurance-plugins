@@ -1,22 +1,20 @@
-import { 
-  Flex, 
-  SearchField, 
-  ActionGroup, 
-  Item, 
-  Text, 
+import React, { useMemo, useState } from 'react';
+
+import {
+  ActionGroup,
+  Flex,
   Heading,
-  View,
-  ProgressCircle
+  Item,
+  ProgressCircle,
+  SearchField,
+  Text,
+  View
 } from '@adobe/react-spectrum';
-
-import React, { useState, useMemo } from 'react';
-
-import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { useIntl } from 'react-intl';
 
 import { LiveActivity } from '../../hooks/useActivities';
 import { activitiesMessages } from '../../i18n';
-
 import ActivityCard from './ActivityCard';
 import './ActivityList.css';
 
@@ -27,11 +25,11 @@ interface ActivityListProps {
   isLoading?: boolean;
 }
 
-function ActivityList({ 
-  activities, 
-  selectedActivityId, 
-  onActivitySelect, 
-  isLoading = false 
+function ActivityList({
+  activities,
+  selectedActivityId,
+  onActivitySelect,
+  isLoading = false
 }: ActivityListProps) {
   const { formatMessage } = useIntl();
   const [searchQuery, setSearchQuery] = useState('');
@@ -43,8 +41,9 @@ function ActivityList({
   // Memoized filtering logic
   const filteredActivities = useMemo(() => {
     return activities.filter(activity => {
-      const matchesSearch = activity.name.toLowerCase().includes(lowerSearchQuery) ||
-                           activity.attributes?.toLowerCase().includes(lowerSearchQuery);
+      const matchesSearch =
+        activity.name.toLowerCase().includes(lowerSearchQuery) ||
+        activity.attributes?.toLowerCase().includes(lowerSearchQuery);
       const matchesFilter = selectedFilter === 'all' || activity.status === selectedFilter;
       return matchesSearch && matchesFilter;
     });
@@ -81,7 +80,7 @@ function ActivityList({
           <Text UNSAFE_className={classNames('subtitleText')}>
             Each activity is identified by its unique Live Activity ID
           </Text>
-          
+
           {/* Search */}
           <SearchField
             placeholder={formatMessage(activitiesMessages.searchActivities)}
@@ -89,12 +88,12 @@ function ActivityList({
             onChange={setSearchQuery}
             width="100%"
           />
-          
+
           {/* Filters */}
           <ActionGroup
             selectionMode="single"
             selectedKeys={[selectedFilter]}
-            onSelectionChange={(keys) => setSelectedFilter(Array.from(keys)[0] as string)}
+            onSelectionChange={keys => setSelectedFilter(Array.from(keys)[0] as string)}
           >
             <Item key="all">
               {formatMessage(activitiesMessages.allActivities)} ({activityCounts.all})
@@ -111,18 +110,17 @@ function ActivityList({
         {/* Activities List */}
         <View flex="1" overflow="auto">
           {filteredActivities.length === 0 ? (
-            <Flex 
-              justifyContent="center" 
-              alignItems="center" 
+            <Flex
+              justifyContent="center"
+              alignItems="center"
               height="size-2000"
               direction="column"
               gap="size-100"
             >
               <Text UNSAFE_className={classNames('noActivitiesText')}>
-                {searchQuery || selectedFilter !== 'all' 
+                {searchQuery || selectedFilter !== 'all'
                   ? formatMessage(activitiesMessages.noActivitiesFound)
-                  : formatMessage(activitiesMessages.noActivitiesAvailable)
-                }
+                  : formatMessage(activitiesMessages.noActivitiesAvailable)}
               </Text>
             </Flex>
           ) : (

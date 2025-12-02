@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface PluginState {
   selectedCard: any;
@@ -10,16 +10,14 @@ interface PluginState {
 
 export const usePluginState = create<PluginState>()(
   persist(
-    (set) => ({
+    set => ({
       selectedCard: null,
-      setSelectedCard: (selectedCard) =>
-        set((state) => ({ ...state, selectedCard })),
-      selectedTab: "cards",
-      setSelectedTab: (selectedTab: string) =>
-        set((state) => ({ ...state, selectedTab })),
+      setSelectedCard: selectedCard => set(state => ({ ...state, selectedCard })),
+      selectedTab: 'cards',
+      setSelectedTab: (selectedTab: string) => set(state => ({ ...state, selectedTab }))
     }),
     {
-      name: "assurance-plugin-content-cards",
-    },
-  ),
+      name: 'assurance-plugin-content-cards'
+    }
+  )
 );

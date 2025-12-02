@@ -54,4 +54,3 @@ export const contentStateMessages = defineMessages({
     defaultMessage: 'Content state will appear here when the activity is updated'
   }
 });
-

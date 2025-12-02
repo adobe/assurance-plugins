@@ -1,8 +1,10 @@
-import { Flex, Heading, Text, View } from "@adobe/react-spectrum";
-import { PropositionCard } from "@assurance/proposition-card";
-import dayjs from "dayjs";
-import React from "react";
-import { usePropositionRequests } from "../../hooks/useCards";
+import React from 'react';
+
+import { Flex, Heading, Text, View } from '@adobe/react-spectrum';
+import { PropositionCard } from '@assurance/proposition-card';
+import dayjs from 'dayjs';
+
+import { usePropositionRequests } from '../../hooks/useCards';
 
 function Requests() {
   const requests = usePropositionRequests();
@@ -12,9 +14,7 @@ function Requests() {
         <View>
           <Flex alignItems="center" gap="size-100">
             <Heading level={4}>Request {index + 1}</Heading>
-            <Text>
-              {dayjs(request.timestamp).format("YYYY-MM-DD HH:mm:ss.SSS")}
-            </Text>
+            <Text>{dayjs(request.timestamp).format('YYYY-MM-DD HH:mm:ss.SSS')}</Text>
           </Flex>
 
           <Flex>
@@ -26,9 +26,7 @@ function Requests() {
                 label={`#${i}`}
               />
             ))}
-            {!request.cards.length && (
-              <Text>No Propositions were retrieved</Text>
-            )}
+            {!request.cards.length && <Text>No Propositions were retrieved</Text>}
           </Flex>
         </View>
       ))}

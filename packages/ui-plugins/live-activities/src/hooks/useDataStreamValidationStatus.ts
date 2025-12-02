@@ -18,17 +18,17 @@
  * - 'loading': Data is being loaded
  * - false: All validations passed
  */
-
-import { useQuery } from '@tanstack/react-query';
+import { combineAll } from '@adobe/griffon-toolkit';
 import {
-  useEvents,
+  type EnvironmentMap,
   useEnvironmentValue,
+  useEvents,
   useImsAccessToken,
   useImsOrg,
-  useSandbox,
-  type EnvironmentMap
+  useSandbox
 } from '@assurance/plugin-bridge-provider';
-import { combineAll } from '@adobe/griffon-toolkit';
+import { useQuery } from '@tanstack/react-query';
+
 import { useECID } from './useClientInfo';
 
 // Platform API endpoints for different environments

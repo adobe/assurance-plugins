@@ -2,43 +2,43 @@
  * Test suite for Client Validation Widget
  * Tests client validation status rendering and user interactions
  */
-
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { IntlProvider } from 'react-intl';
+
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
-import ClientValidationWidget from '../client-validation-widget';
+import '@testing-library/jest-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
 import { vi } from 'vitest';
-
-// Mock the hooks
-vi.mock('../../../hooks/useClientInfo', () => ({
-  useECID: vi.fn(),
-  useSelectedClientPushToken: vi.fn(),
-}));
-
-vi.mock('../../../hooks/useClientValidationStatus', () => ({
-  default: vi.fn(),
-}));
-
-vi.mock('../../../hooks/useOpenExperienceUrl', () => ({
-  useOpenExperienceUrl: vi.fn(),
-}));
-
-vi.mock('../../../utils/utils', () => ({
-  openHelpUrl: vi.fn(),
-  renderValue: vi.fn(),
-}));
-
-vi.mock('../live-activities-validation-section', () => ({
-  default: () => <div data-testid="live-activities-validation-section">Live Activities Section</div>,
-}));
 
 // Import mocked modules
 import { useECID, useSelectedClientPushToken } from '../../../hooks/useClientInfo';
 import useClientValidationStatus from '../../../hooks/useClientValidationStatus';
 import { useOpenExperienceUrl } from '../../../hooks/useOpenExperienceUrl';
 import { openHelpUrl, renderValue } from '../../../utils/utils';
+import ClientValidationWidget from '../client-validation-widget';
+
+// Mock the hooks
+vi.mock('../../../hooks/useClientInfo', () => ({
+  useECID: vi.fn(),
+  useSelectedClientPushToken: vi.fn()
+}));
+
+vi.mock('../../../hooks/useClientValidationStatus', () => ({
+  default: vi.fn()
+}));
+
+vi.mock('../../../hooks/useOpenExperienceUrl', () => ({
+  useOpenExperienceUrl: vi.fn()
+}));
+
+vi.mock('../../../utils/utils', () => ({
+  openHelpUrl: vi.fn(),
+  renderValue: vi.fn()
+}));
+
+vi.mock('../live-activities-validation-section', () => ({
+  default: () => <div data-testid="live-activities-validation-section">Live Activities Section</div>
+}));
 
 const mockUseECID = useECID as ReturnType<typeof vi.fn>;
 const mockUseSelectedClientPushToken = useSelectedClientPushToken as ReturnType<typeof vi.fn>;
@@ -65,7 +65,7 @@ describe('ClientValidationWidget', () => {
     mockUseSelectedClientPushToken.mockReturnValue('test-push-token-456');
     mockUseClientValidationStatus.mockReturnValue(false); // valid state
     mockUseOpenExperienceUrl.mockReturnValue({ openExpUrl: mockOpenExpUrl });
-    mockRenderValue.mockImplementation((value) => value || 'N/A');
+    mockRenderValue.mockImplementation(value => value || 'N/A');
   });
 
   describe('Basic Rendering', () => {
@@ -77,7 +77,11 @@ describe('ClientValidationWidget', () => {
       );
 
       expect(screen.getByText('Client')).toBeInTheDocument();
-      expect(screen.getByText('This is the messaging details found in the client at the time of the connection to this Assurance session.')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'This is the messaging details found in the client at the time of the connection to this Assurance session.'
+        )
+      ).toBeInTheDocument();
       expect(screen.getByText('Device Configured and Push Token Detected')).toBeInTheDocument();
     });
 
@@ -114,7 +118,9 @@ describe('ClientValidationWidget', () => {
       );
 
       expect(screen.getByLabelText('Loading…')).toBeInTheDocument();
-      expect(screen.queryByText('Device Configured and Push Token Detected')).not.toBeInTheDocument();
+      expect(
+        screen.queryByText('Device Configured and Push Token Detected')
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -190,7 +196,11 @@ describe('ClientValidationWidget', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('It appears you haven\'t configured your Edge extension in Launch. First, make sure you have installed and configured the extension.')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          "It appears you haven't configured your Edge extension in Launch. First, make sure you have installed and configured the extension."
+        )
+      ).toBeInTheDocument();
       expect(screen.getByTestId('viewInstalled')).toBeInTheDocument();
       expect(screen.getByTestId('viewCatalog')).toBeInTheDocument();
       expect(screen.getByTestId('viewPublishing')).toBeInTheDocument();
@@ -205,7 +215,11 @@ describe('ClientValidationWidget', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('It appears you haven\'t configured your Messaging extension in Launch. First, make sure you have installed and configured the extension.')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          "It appears you haven't configured your Messaging extension in Launch. First, make sure you have installed and configured the extension."
+        )
+      ).toBeInTheDocument();
       expect(screen.getByTestId('viewInstalled')).toBeInTheDocument();
       expect(screen.getByTestId('viewCatalog')).toBeInTheDocument();
       expect(screen.getByTestId('viewPublishing')).toBeInTheDocument();
@@ -220,8 +234,14 @@ describe('ClientValidationWidget', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('It appears you haven\'t properly installed and initiated the Messaging extension in your application. Make you\'ve done the following steps:')).toBeInTheDocument();
-      expect(screen.getByText('Add the Messaging extension dependency to your')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          "It appears you haven't properly installed and initiated the Messaging extension in your application. Make you've done the following steps:"
+        )
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('Add the Messaging extension dependency to your')
+      ).toBeInTheDocument();
       expect(screen.getByText('build.gradle')).toBeInTheDocument();
       expect(screen.getByText('import com.adobe.marketing.mobile.Messaging;')).toBeInTheDocument();
       expect(screen.getByText('Messaging.registerExtension();')).toBeInTheDocument();
@@ -236,7 +256,9 @@ describe('ClientValidationWidget', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('Add the Messaging extension dependency to your Podfile')).toBeInTheDocument();
+      expect(
+        screen.getByText('Add the Messaging extension dependency to your Podfile')
+      ).toBeInTheDocument();
       expect(screen.getByText('import AEPMessaging')).toBeInTheDocument();
       expect(screen.getByText('AEPMessaging.registerExtension();')).toBeInTheDocument();
     });
@@ -250,7 +272,11 @@ describe('ClientValidationWidget', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('The Push ID wasn\'t detected on the device. This could be for several reasons:')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          "The Push ID wasn't detected on the device. This could be for several reasons:"
+        )
+      ).toBeInTheDocument();
       expect(screen.getByTestId('openHelp')).toBeInTheDocument();
       expect(screen.getByText('Setup Android Apps for Messaging')).toBeInTheDocument();
     });
@@ -265,7 +291,9 @@ describe('ClientValidationWidget', () => {
       );
 
       expect(screen.getByTestId('openHelp')).toBeInTheDocument();
-      expect(screen.getByText('Article: Asking Permission to Use Notifications')).toBeInTheDocument();
+      expect(
+        screen.getByText('Article: Asking Permission to Use Notifications')
+      ).toBeInTheDocument();
     });
   });
 
@@ -443,7 +471,9 @@ describe('ClientValidationWidget', () => {
       );
 
       expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent('Client');
-      expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent('Device Configured and Push Token Detected');
+      expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent(
+        'Device Configured and Push Token Detected'
+      );
     });
 
     it('should have accessible buttons', () => {
@@ -457,7 +487,7 @@ describe('ClientValidationWidget', () => {
 
       const buttons = screen.getAllByRole('button');
       expect(buttons.length).toBeGreaterThan(0);
-      
+
       buttons.forEach(button => {
         expect(button).toBeInTheDocument();
       });

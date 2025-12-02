@@ -2,20 +2,22 @@
  * Test suite for schema-based Live Activities extraction
  * Tests the new approach of using Live Activity Schema events as source of truth
  */
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import {
-  extractRegisteredActivitiesFromSchemaEvents,
-  extractLiveActivitiesDataFromState
-} from '../liveActivitiesExtraction';
 import { isLiveActivityAssuranceDebugEvent } from '../../types/events';
+import {
+  extractLiveActivitiesDataFromState,
+  extractRegisteredActivitiesFromSchemaEvents
+} from '../liveActivitiesExtraction';
 
 // Mock the event type guard
 vi.mock('../../types/events', () => ({
   isLiveActivityAssuranceDebugEvent: vi.fn()
 }));
 
-const mockIsLiveActivityAssuranceDebugEvent = isLiveActivityAssuranceDebugEvent as ReturnType<typeof vi.fn>;
+const mockIsLiveActivityAssuranceDebugEvent = isLiveActivityAssuranceDebugEvent as ReturnType<
+  typeof vi.fn
+>;
 
 describe('Schema-based Live Activities Extraction', () => {
   beforeEach(() => {
@@ -183,7 +185,7 @@ describe('Schema-based Live Activities Extraction', () => {
 
       const mockLiveActivityState = {
         pushToStartTokens: {
-          'RideShareLiveActivityAttributes': {
+          RideShareLiveActivityAttributes: {
             token: 'push-token-123',
             firstIssued: 1234567890
           }
@@ -231,7 +233,7 @@ describe('Schema-based Live Activities Extraction', () => {
 
       const mockLiveActivityState = {
         pushToStartTokens: {
-          'FoodDeliveryLiveActivityAttributes': {
+          FoodDeliveryLiveActivityAttributes: {
             token: 'push-token-123',
             firstIssued: 1234567890
           }
@@ -271,7 +273,7 @@ describe('Schema-based Live Activities Extraction', () => {
     it('should fall back to shared state when no schema events available', () => {
       const mockLiveActivityState = {
         pushToStartTokens: {
-          'RideShareLiveActivityAttributes': {
+          RideShareLiveActivityAttributes: {
             token: 'push-token-123',
             firstIssued: 1234567890
           }
@@ -288,8 +290,12 @@ describe('Schema-based Live Activities Extraction', () => {
       const result = extractLiveActivitiesDataFromState(mockLiveActivityState, []);
 
       expect(result.activityTypes.has('RideShareLiveActivityAttributes')).toBe(true);
-      expect(result.activityTypes.get('RideShareLiveActivityAttributes')?.hasPushToStartToken).toBe(true);
-      expect(result.activityTypes.get('RideShareLiveActivityAttributes')?.hasUpdateToken).toBe(true);
+      expect(result.activityTypes.get('RideShareLiveActivityAttributes')?.hasPushToStartToken).toBe(
+        true
+      );
+      expect(result.activityTypes.get('RideShareLiveActivityAttributes')?.hasUpdateToken).toBe(
+        true
+      );
     });
 
     it('should handle null/undefined state gracefully', () => {

@@ -2,34 +2,41 @@
  * Test suite for Profile Section Widget
  * Tests profile section rendering and data display
  */
-
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { IntlProvider } from 'react-intl';
+
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
-import ProfileSectionWidget from '../profile-section-widget';
+// Import mocked modules
+import { useSandbox } from '@assurance/plugin-bridge-provider';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
 import { vi } from 'vitest';
+
+import useDataStreamValidationStatus from '../../../hooks/useDataStreamValidationStatus';
+import { useLiveActivitiesValidationStatus } from '../../../hooks/useLiveActivitiesValidationStatus';
+import useProfile from '../../../hooks/useProfile';
+import { renderValue } from '../../../utils/utils';
+import ProfileSectionWidget from '../profile-section-widget';
 
 // Mock the hooks
 vi.mock('@assurance/plugin-bridge-provider', () => ({
-  useSandbox: vi.fn(),
+  useSandbox: vi.fn()
 }));
 
 vi.mock('../../../hooks/useDataStreamValidationStatus', () => ({
-  default: vi.fn(),
+  default: vi.fn()
 }));
 
 vi.mock('../../../hooks/useLiveActivitiesValidationStatus', () => ({
-  useLiveActivitiesValidationStatus: vi.fn(),
+  useLiveActivitiesValidationStatus: vi.fn()
 }));
 
 vi.mock('../../../hooks/useProfile', () => ({
-  default: vi.fn(),
+  default: vi.fn()
 }));
 
 vi.mock('../../../utils/utils', () => ({
-  renderValue: vi.fn(),
+  renderValue: vi.fn()
 }));
 
 vi.mock('../data-stream-status-details', () => ({
@@ -37,19 +44,14 @@ vi.mock('../data-stream-status-details', () => ({
     <div data-testid="data-stream-status-details">
       Data Stream Status: {String(status)}, Profile ID: {profileId}
     </div>
-  ),
+  )
 }));
-
-// Import mocked modules
-import { useSandbox } from '@assurance/plugin-bridge-provider';
-import useDataStreamValidationStatus from '../../../hooks/useDataStreamValidationStatus';
-import { useLiveActivitiesValidationStatus } from '../../../hooks/useLiveActivitiesValidationStatus';
-import useProfile from '../../../hooks/useProfile';
-import { renderValue } from '../../../utils/utils';
 
 const mockUseSandbox = useSandbox as ReturnType<typeof vi.fn>;
 const mockUseDataStreamValidationStatus = useDataStreamValidationStatus as ReturnType<typeof vi.fn>;
-const mockUseLiveActivitiesValidationStatus = useLiveActivitiesValidationStatus as ReturnType<typeof vi.fn>;
+const mockUseLiveActivitiesValidationStatus = useLiveActivitiesValidationStatus as ReturnType<
+  typeof vi.fn
+>;
 const mockUseProfile = useProfile as ReturnType<typeof vi.fn>;
 const mockRenderValue = renderValue as ReturnType<typeof vi.fn>;
 
@@ -68,14 +70,18 @@ describe('ProfileSectionWidget', () => {
     data: {
       entityId: 'test-profile-123',
       entity: {
-        pushNotificationDetails: [{
-          pushToken: 'test-push-token',
-          platform: 'apns'
-        }],
-        liveActivityPushNotificationDetails: [{
-          pushToken: 'test-live-activity-token',
-          platform: 'apns'
-        }]
+        pushNotificationDetails: [
+          {
+            pushToken: 'test-push-token',
+            platform: 'apns'
+          }
+        ],
+        liveActivityPushNotificationDetails: [
+          {
+            pushToken: 'test-live-activity-token',
+            platform: 'apns'
+          }
+        ]
       }
     },
     isLoading: false
@@ -90,7 +96,7 @@ describe('ProfileSectionWidget', () => {
       message: 'Live Activities supported'
     });
     mockUseProfile.mockReturnValue(mockProfile);
-    mockRenderValue.mockImplementation((value) => value || 'N/A');
+    mockRenderValue.mockImplementation(value => value || 'N/A');
   });
 
   describe('Basic Rendering', () => {
@@ -243,7 +249,9 @@ describe('ProfileSectionWidget', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByText('Data Stream Status: invalid-dataset, Profile ID: test-profile-123')).toBeInTheDocument();
+      expect(
+        screen.getByText('Data Stream Status: invalid-dataset, Profile ID: test-profile-123')
+      ).toBeInTheDocument();
     });
 
     it('should pass profile ID to DataStreamStatusDetails', () => {

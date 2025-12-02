@@ -1,12 +1,14 @@
 import React from 'react';
-import { Heading, Flex, ProgressCircle } from '@adobe/react-spectrum';
-import Card from '../atoms/card';
-import usePushCredentialsData from '../../hooks/usePushCredentialsData';
-import PushCredentialsStatusDetails from './push-credentials-status-details';
-import { useSandbox, useImsOrg, useEvents } from '@assurance/plugin-bridge-provider';
-import { KeyValueRow, tableStyles } from '../atoms/KeyValueRow';
-import { renderValue } from '../../utils/utils';
+
+import { Flex, Heading, ProgressCircle } from '@adobe/react-spectrum';
+import { useEvents, useImsOrg, useSandbox } from '@assurance/plugin-bridge-provider';
+
 import { useAppstoreCredentialsValidation } from '../../hooks/useAppstoreCredentialsValidation';
+import usePushCredentialsData from '../../hooks/usePushCredentialsData';
+import { renderValue } from '../../utils/utils';
+import { KeyValueRow, tableStyles } from '../atoms/KeyValueRow';
+import Card from '../atoms/card';
+import PushCredentialsStatusDetails from './push-credentials-status-details';
 
 const serviceString = (platform?: string) =>
   platform === 'apnsSandbox' || platform === 'apns'
