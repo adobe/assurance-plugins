@@ -1,0 +1,27 @@
+---
+description: TypeScript and React coding standards for Assurance plugins
+globs:
+  - "**/*.ts"
+  - "**/*.tsx"
+alwaysApply: false
+---
+
+# TypeScript & React Standards
+
+## TypeScript
+- Use existing patterns in the codebase
+- Prefer `const` over `let`, avoid `var`
+- Use async/await over promises
+- Add proper TypeScript types, don't use `any`
+- Use meaningful variable names
+
+## React Components
+- Use functional components with hooks
+- Keep components small and focused
+- Extract reusable logic into custom hooks
+- Use proper TypeScript interfaces for props
+
+## File Organization
+- Follow existing directory structure
+- Don't reorganize unless asked
+- Put files where similar files already exist

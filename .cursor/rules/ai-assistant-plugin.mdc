@@ -1,0 +1,31 @@
+---
+description: Specific guidelines for the AI Assistant plugin development
+globs:
+  - "packages/ui-plugins/ai-assistant-plugin/**/*.ts"
+  - "packages/ui-plugins/ai-assistant-plugin/**/*.tsx"
+alwaysApply: false
+---
+
+# AI Assistant Plugin Guidelines
+
+## Architecture
+- Location: `/packages/ui-plugins/ai-assistant-plugin/`
+- Framework: React + TypeScript
+- Pattern: Functional components with custom hooks
+- Don't modify build config without asking
+
+## Project Structure
+```
+src/
+├── components/     # UI components
+├── hooks/          # Custom hooks for logic
+├── services/       # API communication
+├── types/          # TypeScript definitions
+├── constants/      # Configuration & constants
+└── utils/          # Utility functions
+```
+
+## Team Coordination
+- **Backend**: Sagar Sharma - don't break their API
+- **Vector DB**: Akhil & Ishita - coordinate changes
+- This is a team project - be respectful of others' work

@@ -1,0 +1,40 @@
+---
+description: Core development guidelines for the Adobe Assurance plugins project
+alwaysApply: true
+---
+
+# Development Guidelines
+
+## Core Principles
+
+### Stay On Task
+- Do ONLY what the user asks for
+- Don't create extra documentation unless explicitly requested
+- Don't refactor code unless asked
+- Focus on solving the immediate problem
+
+### Never Commit Without Permission
+- NEVER use git commands (commit, push, pull) unless explicitly asked
+- When code is ready, ASK the user if they want to commit
+- Let the user handle git operations
+
+### Ask Before Major Changes
+- Creating new files (except when obviously needed)
+- Changing architecture or patterns
+- Installing new dependencies
+- Modifying configuration files
+- Making breaking changes
+
+### Documentation
+- Don't create README, docs, or markdown files proactively
+- Update existing docs only when asked
+- Keep comments in code concise and relevant
+
+## Communication Style
+- Be concise - no walls of text
+- Code first, explanation second
+- Don't repeat the user's request back to them
+- Get to the point quickly
+
+## Bottom Line
+**Do what the user asks, nothing more, nothing less.**
