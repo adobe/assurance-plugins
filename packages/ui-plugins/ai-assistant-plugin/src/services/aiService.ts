@@ -96,14 +96,25 @@ export class AIService {
    */
   async ensureSession(metadata?: Record<string, unknown>): Promise<string> {
     if (this.sessionId) {
-      // Verify session is still valid by checking health
-      const isHealthy = await this.checkHealth();
-      if (isHealthy) {
-        return this.sessionId;
+      // Verify this.sessionId exists using GET /api/sessions
+      try {
+        const response = await fetch(`${this.baseUrl}/api/sessions`, {
+          method: 'GET',
+          signal: AbortSignal.timeout(5000)
+        });
+        if (response.ok) {
+          const data = await response.json();
+          const sessions: any[] = Array.isArray(data.sessions) ? data.sessions : [];
+          if (sessions.some(s => s.id === this.sessionId)) {
+            return this.sessionId;
+          }
+        }
+        // Not found, proceed to new session
+      } catch (error) {
+        // Network or server error, fall through to create new session
       }
     }
-    
-    // Initialize new session
+    // No valid session, initialize new session
     return await this.initializeSession(metadata);
   }
 
