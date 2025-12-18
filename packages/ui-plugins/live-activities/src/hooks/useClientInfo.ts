@@ -128,30 +128,6 @@ function useActivitiesWithPushToStartTokens(): RegisteredActivity[] {
   
     const registeredActivities = useRegisteredActivities();
   
-    /**
-     * {
-      "state.data": {
-          "pushidentifier": "803FB00A29938438240C8DF63140113D2070F42F7709B2A67167735C5897A47EE50C090A13BB927964D9995181D2069EB2A5A03162C5EB0107EA1F3C3A428CC2A87B26BA4D2FD16417F4E8AAA8D8644D",
-          "liveActivity": {
-              "pushToStartTokens": {
-                  "GameScoreLiveActivityAttributes": {
-                      "token": "80469f94715bd1f5b707c1450a88dcca079e3bc04532c8181652aef84f0584f60ac1d8030901633330a1421d015bff6e6a41afe8191553ca76546d16f53f569d84d8f2f347bd951e2bb31edf4560cb3a3d59a0ac6d0297605f8d7472e2c4589d5234b485df4253061a6ef7ee309c0698d718db9e43d32b3b5d0e887efa25419d",
-                      "firstIssued": 1765779189049.1628
-                  },
-                  "FoodDeliveryLiveActivityAttributes": {
-                      "token": "80469f94715bd1f5b707c1450a88dcca079e3bc04532c8181652aef84f0584f60ac1d8030901633330a1421d015bff6e6a41afe8191553ca76546d16f53f569d84d8f2f347bd951e2bb31edf4560cb3a3d59a0ac6d0297605f8d7472e2c4589d5234b485df4253061a6ef7ee309c0698d718db9e43d32b3b5d0e887efa25419d",
-                      "firstIssued": 1765779189049.155
-                  },
-                  "AirplaneTrackingAttributes": {
-                      "token": "80469f94715bd1f5b707c1450a88dcca079e3bc04532c8181652aef84f0584f60ac1d8030901633330a1421d015bff6e6a41afe8191553ca76546d16f53f569d84d8f2f347bd951e2bb31edf4560cb3a3d59a0ac6d0297605f8d7472e2c4589d5234b485df4253061a6ef7ee309c0698d718db9e43d32b3b5d0e887efa25419d",
-                      "firstIssued": 1765779189049.151
-                  }
-              }
-          }
-      }
-  }
-     * 
-     */
     const activitiesArrayWithPushToStartToken = registeredActivities.map(activity => {
       return {
         ...activity,
