@@ -46,14 +46,11 @@ export default function AIChat() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [totalEventsUploaded, setTotalEventsUploaded] = useState(0);
   const [isAutoUploadEnabled, setIsAutoUploadEnabled] = useState(true);
-  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
-  const [streamedContent, setStreamedContent] = useState<string>('');
   const lastUploadedIndexRef = useRef(0);
   const uploadTimerRef = useRef<NodeJS.Timeout | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const autoPlayTimerRef = useRef<NodeJS.Timeout | null>(null);
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const streamingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   
   // Configuration
   const { config, updateConfig } = useConfig();
@@ -93,61 +90,10 @@ export default function AIChat() {
     checkHealth();
   }, [config.serverUrl, config.mockMode, checkHealth]);
 
-  // Auto-scroll
+  // Auto-scroll to show messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, streamedContent]);
-
-  // Streaming text effect for AI responses
-  useEffect(() => {
-    // Find the last assistant message
-    const lastMessage = messages[messages.length - 1];
-    
-    // Only stream assistant messages, not system or user messages
-    if (!lastMessage || lastMessage.role !== 'assistant' || isLoading) {
-      return;
-    }
-
-    // Check if this is a new message we haven't streamed yet
-    if (streamingMessageId === lastMessage.id) {
-      return;
-    }
-
-    // Start streaming this message
-    setStreamingMessageId(lastMessage.id);
-    setStreamedContent('');
-
-    const fullContent = lastMessage.content;
-    const words = fullContent.split(' ');
-    let wordIndex = 0;
-
-    console.log(`🎬 Starting to stream message: ${lastMessage.id} (${words.length} words)`);
-
-    streamingIntervalRef.current = setInterval(() => {
-      if (wordIndex < words.length) {
-        setStreamedContent(prev => {
-          const newContent = prev + (prev ? ' ' : '') + words[wordIndex];
-          return newContent;
-        });
-        wordIndex++;
-      } else {
-        // Finished streaming
-        if (streamingIntervalRef.current) {
-          clearInterval(streamingIntervalRef.current);
-          streamingIntervalRef.current = null;
-        }
-        console.log(`✅ Finished streaming message: ${lastMessage.id}`);
-      }
-    }, 50); // 50ms per word for smooth streaming
-
-    // Cleanup
-    return () => {
-      if (streamingIntervalRef.current) {
-        clearInterval(streamingIntervalRef.current);
-        streamingIntervalRef.current = null;
-      }
-    };
-  }, [messages, isLoading, streamingMessageId]);
+  }, [messages]);
 
   // Auto-play demo - simulates human typing
   useEffect(() => {
@@ -537,63 +483,54 @@ export default function AIChat() {
         {/* Messages */}
         <View flex padding="size-200" overflow="auto" backgroundColor="gray-50">
           <Flex direction="column" gap="size-150">
-            {messages.map((msg) => {
-              // Determine if this message is currently streaming
-              const isStreaming = streamingMessageId === msg.id;
-              const displayContent = isStreaming ? streamedContent : msg.content;
-              
-              return (
-                <View
-                  key={msg.id}
-                  padding="size-150"
-                  backgroundColor={
-                    msg.role === 'user' ? 'blue-400' :
-                    msg.role === 'system' ? 'yellow-400' :
-                    'gray-200'
-                  }
-                  borderRadius="medium"
-                  UNSAFE_style={{ 
-                    minWidth: msg.role === 'user' ? 'auto' : 'min(50%, 300px)',
-                    maxWidth: msg.role === 'user' ? '85%' : 'none',
-                    alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
-                    overflowX: 'auto',
-                    wordWrap: 'break-word',
-                    overflowWrap: 'break-word',
-                  }}
-                >
-                  <Flex direction="column" gap="size-75">
-                    <Text UNSAFE_style={{ fontWeight: 'bold', fontSize: '0.85em' }}>
-                      {msg.role === 'user' ? '👤 You' : msg.role === 'system' ? '🤖 System' : '🤖 AI'}
+            {messages.map((msg) => (
+              <View
+                key={msg.id}
+                padding="size-150"
+                backgroundColor={
+                  msg.role === 'user' ? 'blue-400' :
+                  msg.role === 'system' ? 'yellow-400' :
+                  'gray-200'
+                }
+                borderRadius="medium"
+                UNSAFE_style={{ 
+                  minWidth: msg.role === 'user' ? 'auto' : 'min(50%, 300px)',
+                  maxWidth: msg.role === 'user' ? '85%' : 'none',
+                  alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                  overflowX: 'auto',
+                  wordWrap: 'break-word',
+                  overflowWrap: 'break-word',
+                }}
+              >
+                <Flex direction="column" gap="size-75">
+                  <Text UNSAFE_style={{ fontWeight: 'bold', fontSize: '0.85em' }}>
+                    {msg.role === 'user' ? '👤 You' : msg.role === 'system' ? '🤖 System' : '🤖 AI'}
+                  </Text>
+                  
+                  {/* Render markdown for AI/system messages, plain text for user */}
+                  {msg.role === 'user' ? (
+                    <Text 
+                      UNSAFE_style={{ 
+                        color: 'white',
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word'
+                      }}
+                    >
+                      {msg.content}
                     </Text>
-                    
-                    {/* Render markdown for AI/system messages, plain text for user */}
-                    {msg.role === 'user' ? (
-                      <Text 
-                        UNSAFE_style={{ 
-                          color: 'white',
-                          whiteSpace: 'pre-wrap',
-                          wordBreak: 'break-word'
-                        }}
-                      >
-                        {msg.content}
-                      </Text>
-                    ) : (
-                      <>
-                        <MarkdownRenderer 
-                          content={displayContent} 
-                          textColor={msg.role === 'user' ? 'white' : 'black'}
-                        />
-                        {isStreaming && <Text UNSAFE_style={{ opacity: 0.5 }}>▮</Text>}
-                      </>
-                    )}
-                    
-                    <Text UNSAFE_style={{ fontSize: '0.7em', opacity: 0.7 }}>
-                      {msg.timestamp.toLocaleTimeString()}
-                    </Text>
-                  </Flex>
-                </View>
-              );
-            })}
+                  ) : (
+                    <MarkdownRenderer 
+                      content={msg.content} 
+                      textColor={msg.role === 'user' ? 'white' : 'black'}
+                    />
+                  )}
+                  
+                  <Text UNSAFE_style={{ fontSize: '0.7em', opacity: 0.7 }}>
+                    {msg.timestamp.toLocaleTimeString()}
+                  </Text>
+                </Flex>
+              </View>
+            ))}
             
             {isLoading && (
               <Flex justifyContent="center" alignItems="center" gap="size-100">
