@@ -145,7 +145,7 @@ describe('ProfileSectionWidget', () => {
       expect(screen.getByLabelText('Loading…')).toBeInTheDocument();
     });
 
-    it('should show loading spinner when profile data is missing', () => {
+    it('should not show loading spinner when isLoading is false even if data is missing', () => {
       mockUseProfile.mockReturnValue({
         data: null,
         isLoading: false
@@ -157,7 +157,7 @@ describe('ProfileSectionWidget', () => {
         </TestWrapper>
       );
 
-      expect(screen.getByLabelText('Loading…')).toBeInTheDocument();
+      expect(screen.queryByLabelText('Loading…')).not.toBeInTheDocument();
     });
   });
 
@@ -283,7 +283,8 @@ describe('ProfileSectionWidget', () => {
         );
       }).not.toThrow();
 
-      expect(screen.getByLabelText('Loading…')).toBeInTheDocument();
+      // Component renders without loading spinner when data is null but isLoading is false
+      expect(screen.queryByLabelText('Loading…')).not.toBeInTheDocument();
     });
 
     it('should handle missing entity data gracefully', () => {
@@ -322,6 +323,9 @@ describe('ProfileSectionWidget', () => {
           </TestWrapper>
         );
       }).not.toThrow();
+      
+      // Component should render but without loading spinner
+      expect(screen.queryByLabelText('Loading…')).not.toBeInTheDocument();
     });
   });
 
