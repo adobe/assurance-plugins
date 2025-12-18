@@ -238,10 +238,20 @@ function useClientIOSVersion() {
   if (!selectedClientObj?.payload?.deviceInfo) return undefined;
 
   const operatingSystem = selectedClientObj.payload.deviceInfo['Operating system'];
-  if (!operatingSystem || !operatingSystem.startsWith('iOS ')) return undefined;
-
-  // Extract version from "iOS 18.0" -> "18.0"
-  return operatingSystem.replace('iOS ', '');
+  if (!operatingSystem) return undefined;
+  
+  // Handle both iOS and iPadOS
+  if (operatingSystem.startsWith('iOS ')) {
+    // Extract version from "iOS 18.0" -> "18.0"
+    return operatingSystem.replace('iOS ', '');
+  }
+  
+  if (operatingSystem.startsWith('iPadOS ')) {
+    // Extract version from "iPadOS 18.0" -> "18.0"
+    return operatingSystem.replace('iPadOS ', '');
+  }
+  
+  return undefined;
 }
 
 /**
