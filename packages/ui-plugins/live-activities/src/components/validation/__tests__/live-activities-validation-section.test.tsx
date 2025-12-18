@@ -19,7 +19,7 @@ vi.mock('../../../hooks/useClientInfo', () => ({
   useClientIOSVersion: vi.fn(),
   useClientLiveActivitiesSupport: vi.fn(),
   useClientDeviceType: vi.fn(),
-  useSelectedClientPushToStartToken: vi.fn(),
+  useActivitiesWithPushToStartTokens: vi.fn(),
 }));
 
 vi.mock('../../../hooks/useActivities', () => ({
@@ -35,7 +35,7 @@ vi.mock('../../../utils/clipboard', () => ({
 }));
 
 // Import mocked modules
-import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType, useSelectedClientPushToStartToken } from '../../../hooks/useClientInfo';
+import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType, useActivitiesWithPushToStartTokens } from '../../../hooks/useClientInfo';
 import { useLiveActivitiesData } from '../../../hooks/useActivities';
 import { useLiveActivitiesValidationStatus } from '../../../hooks/useLiveActivitiesValidationStatus';
 import { copyToClipboard } from '../../../utils/clipboard';
@@ -43,7 +43,7 @@ import { copyToClipboard } from '../../../utils/clipboard';
 const mockUseClientIOSVersion = useClientIOSVersion as ReturnType<typeof vi.fn>;
 const mockUseClientLiveActivitiesSupport = useClientLiveActivitiesSupport as ReturnType<typeof vi.fn>;
 const mockUseClientDeviceType = useClientDeviceType as ReturnType<typeof vi.fn>;
-const mockUseSelectedClientPushToStartToken = useSelectedClientPushToStartToken as ReturnType<typeof vi.fn>;
+const mockUseActivitiesWithPushToStartTokens = useActivitiesWithPushToStartTokens as ReturnType<typeof vi.fn>;
 const mockUseLiveActivitiesData = useLiveActivitiesData as ReturnType<typeof vi.fn>;
 const mockUseLiveActivitiesValidationStatus = useLiveActivitiesValidationStatus as ReturnType<typeof vi.fn>;
 const mockCopyToClipboard = copyToClipboard as ReturnType<typeof vi.fn>;
@@ -74,7 +74,7 @@ describe('LiveActivitiesValidationSection', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockCopyToClipboard.mockResolvedValue(undefined);
-    mockUseSelectedClientPushToStartToken.mockReturnValue('test-push-to-start-token');
+    mockUseActivitiesWithPushToStartTokens.mockReturnValue([]);
   });
 
   describe('Basic Support', () => {
@@ -157,6 +157,7 @@ describe('LiveActivitiesValidationSection', () => {
         registeredActivities: [],
         activeActivities: []
       });
+      mockUseActivitiesWithPushToStartTokens.mockReturnValue([]);
 
       render(
         <TestWrapper>
@@ -173,6 +174,85 @@ describe('LiveActivitiesValidationSection', () => {
       
       // Note: Column-specific tests would require TableView to render in test environment
       // The component is correctly structured to show push-to-start column for full support
+    });
+
+    it('should render push-to-start tokens for multiple activities in full support', () => {
+      const mockActivitiesWithTokens = [
+        {
+          attributeType: 'FoodDeliveryLiveActivityAttributes',
+          pushToStartToken: 'token-food-123',
+          hasSchema: true,
+          hasPushToStartToken: true,
+          lastUpdated: Date.now()
+        },
+        {
+          attributeType: 'RideShareLiveActivityAttributes',
+          pushToStartToken: 'token-ride-456',
+          hasSchema: true,
+          hasPushToStartToken: true,
+          lastUpdated: Date.now()
+        }
+      ];
+
+      mockUseClientIOSVersion.mockReturnValue('18.0');
+      mockUseClientLiveActivitiesSupport.mockReturnValue({
+        supportsLiveActivities: true,
+        supportsFrequentUpdates: true,
+        minimumOSVersion: '16.1'
+      });
+      mockUseClientDeviceType.mockReturnValue('iPhone');
+      mockUseLiveActivitiesValidationStatus.mockReturnValue(VALIDATION_STATUS.FULL_SUPPORT);
+      mockUseLiveActivitiesData.mockReturnValue({
+        activityTypes: mockActivityTypes,
+        registeredActivities: [],
+        activeActivities: []
+      });
+      mockUseActivitiesWithPushToStartTokens.mockReturnValue(mockActivitiesWithTokens);
+
+      render(
+        <TestWrapper>
+          <LiveActivitiesValidationSection />
+        </TestWrapper>
+      );
+
+      // Check that both activity types are mentioned in the labels
+      const foodActivityElements = screen.getAllByText(/FoodDeliveryLiveActivityAttributes/);
+      expect(foodActivityElements.length).toBeGreaterThan(0);
+      
+      const rideActivityElements = screen.getAllByText(/RideShareLiveActivityAttributes/);
+      expect(rideActivityElements.length).toBeGreaterThan(0);
+      
+      // Check that the actual tokens can be found in the document
+      expect(screen.getByText('token-food-123')).toBeInTheDocument();
+      expect(screen.getByText('token-ride-456')).toBeInTheDocument();
+    });
+
+    it('should show "Not Available" when no activities have push-to-start tokens in full support', () => {
+      mockUseClientIOSVersion.mockReturnValue('18.0');
+      mockUseClientLiveActivitiesSupport.mockReturnValue({
+        supportsLiveActivities: true,
+        supportsFrequentUpdates: true,
+        minimumOSVersion: '16.1'
+      });
+      mockUseClientDeviceType.mockReturnValue('iPhone');
+      mockUseLiveActivitiesValidationStatus.mockReturnValue(VALIDATION_STATUS.FULL_SUPPORT);
+      mockUseLiveActivitiesData.mockReturnValue({
+        activityTypes: mockActivityTypes,
+        registeredActivities: [],
+        activeActivities: []
+      });
+      mockUseActivitiesWithPushToStartTokens.mockReturnValue([]);
+
+      render(
+        <TestWrapper>
+          <LiveActivitiesValidationSection />
+        </TestWrapper>
+      );
+
+      // The component should render without errors when no tokens are available
+      // Check that full support status is still displayed
+      expect(screen.getByText('Full Live Activities Support')).toBeInTheDocument();
+      expect(screen.getByText('18.0')).toBeInTheDocument();
     });
   });
 

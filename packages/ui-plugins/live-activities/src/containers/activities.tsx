@@ -193,7 +193,7 @@ function Activities() {
             <Flex direction="row" justifyContent="end" alignItems="center">              
               {platform.hasLiveActivities && (
                 <Flex alignItems="center" gap="size-100">
-                  <LaunchLiveActivity />
+                  {platform.hasRemoteStart && <LaunchLiveActivity />}
                   <InfoButton />
                 </Flex>
               )}
@@ -214,7 +214,7 @@ function Activities() {
                 </Text>
                 {platform.hasLiveActivities && (
                   <Flex alignItems="center" gap="size-200" marginTop="size-200">
-                    <LaunchLiveActivity />
+                   {platform.hasRemoteStart && <LaunchLiveActivity />}
                     <InfoButton />
                   </Flex>
                 )}
