@@ -28,6 +28,7 @@ import {
 import Settings from '@spectrum-icons/workflow/Settings';
 import { PluginConfig } from '../types';
 import { isValidUrl } from '../utils/config';
+import { setDemoMode, resetDemoScript, isDemoModeEnabled } from '../utils/mockResponses';
 
 interface SettingsProps {
   config: PluginConfig;
@@ -37,6 +38,7 @@ interface SettingsProps {
 export default function SettingsPanel({ config, onSave }: SettingsProps) {
   const [serverUrl, setServerUrl] = useState(config.serverUrl);
   const [mockMode, setMockMode] = useState(config.mockMode);
+  const [demoScript, setDemoScript] = useState(isDemoModeEnabled());
   const [urlError, setUrlError] = useState<string | null>(null);
 
   const handleSave = (close: () => void) => {
@@ -47,6 +49,17 @@ export default function SettingsPanel({ config, onSave }: SettingsProps) {
     }
 
     setUrlError(null);
+    
+    // Enable/disable demo script mode
+    if (mockMode) {
+      setDemoMode(demoScript);
+      if (demoScript) {
+        resetDemoScript(); // Reset to beginning when enabling
+      }
+    } else {
+      setDemoMode(false); // Disable demo script when not in mock mode
+    }
+    
     onSave({ serverUrl, mockMode });
     close();
   };
@@ -71,6 +84,24 @@ export default function SettingsPanel({ config, onSave }: SettingsProps) {
                   ? 'Demo mode uses simulated responses for testing without a server.'
                   : 'Connect to a real AI agent server for actual analysis.'}
               </Text>
+
+              {mockMode && (
+                <>
+                  <Switch 
+                    isSelected={demoScript} 
+                    onChange={setDemoScript}
+                    marginStart="size-300"
+                  >
+                    🎬 Demo Script Mode
+                  </Switch>
+                  
+                  <Text UNSAFE_style={{ fontSize: '0.85em', color: '#666', marginLeft: '24px' }}>
+                    {demoScript 
+                      ? '📝 Uses pre-scripted conversation for presentations and recordings. Ask questions in sequence.'
+                      : '🤖 Uses dynamic responses based on your questions.'}
+                  </Text>
+                </>
+              )}
 
               <Divider size="S" />
 

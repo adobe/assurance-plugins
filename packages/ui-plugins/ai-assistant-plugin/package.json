@@ -12,10 +12,15 @@
   },
   "dependencies": {
     "@adobe/assurance-plugin-bridge-provider": "1.0.1",
-    "@adobe/assurance-timeline-bar": "1.0.1"
+    "@adobe/assurance-timeline-bar": "1.0.1",
+    "devlop": "^1.1.0",
+    "hast-util-to-jsx-runtime": "^2.3.6",
+    "html-url-attributes": "^3.0.1",
+    "react-markdown": "^8.0.7",
+    "rehype-highlight": "^6.0.0",
+    "remark-gfm": "^3.0.1"
   },
   "devDependencies": {
     "parcel": "^2.10.3"
   }
 }
-

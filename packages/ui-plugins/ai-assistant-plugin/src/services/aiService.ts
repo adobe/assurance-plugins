@@ -10,8 +10,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import { API_ENDPOINTS, STORAGE_KEYS, EVENT_UPLOAD_CHUNK_SIZE } from '../constants';
 import { ChatRequest, ChatResponse, SessionInitResponse } from '../types';
-import { API_ENDPOINTS, STORAGE_KEYS } from '../constants';
 
 /**
  * AI Service for handling API communication
@@ -45,10 +45,13 @@ export class AIService {
    */
   private saveSessionId(sessionId: string): void {
     try {
-      localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({ 
-        sessionId,
-        createdAt: new Date().toISOString()
-      }));
+      localStorage.setItem(
+        STORAGE_KEYS.SESSION,
+        JSON.stringify({
+          sessionId,
+          createdAt: new Date().toISOString()
+        })
+      );
       this.sessionId = sessionId;
     } catch (error) {
       console.warn('Failed to save session ID:', error);
@@ -63,13 +66,13 @@ export class AIService {
       const response = await fetch(`${this.baseUrl}${API_ENDPOINTS.SESSION_INIT}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           userId: 'assurance-plugin-user',
-          metadata 
+          metadata
         }),
-        signal: AbortSignal.timeout(10000), // 10s timeout
+        signal: AbortSignal.timeout(10000) // 10s timeout
       });
 
       if (!response.ok) {
@@ -81,7 +84,7 @@ export class AIService {
         this.saveSessionId(data.sessionId);
         return data.sessionId;
       }
-      
+
       throw new Error('Invalid session initialization response');
     } catch (error) {
       if (error instanceof Error) {
@@ -96,14 +99,29 @@ export class AIService {
    */
   async ensureSession(metadata?: Record<string, unknown>): Promise<string> {
     if (this.sessionId) {
-      // Verify session is still valid by checking health
-      const isHealthy = await this.checkHealth();
-      if (isHealthy) {
-        return this.sessionId;
+      // Verify session still exists on backend by trying to use it
+      try {
+        const testResponse = await fetch(
+          `${this.baseUrl}${API_ENDPOINTS.SESSION_HISTORY}/${this.sessionId}/history`,
+          {
+            method: 'GET',
+            signal: AbortSignal.timeout(5000)
+          }
+        );
+
+        if (testResponse.ok) {
+          // Session is valid
+          return this.sessionId;
+        }
+      } catch (error) {
+        // Session validation failed, will create new one
+        console.log('Session validation failed, creating new session');
       }
     }
-    
-    // Initialize new session
+
+    // Clear invalid session and initialize new one
+    this.sessionId = null;
+    localStorage.removeItem(STORAGE_KEYS.SESSION);
     return await this.initializeSession(metadata);
   }
 
@@ -114,7 +132,7 @@ export class AIService {
     try {
       const response = await fetch(`${this.baseUrl}${API_ENDPOINTS.HEALTH}`, {
         method: 'GET',
-        signal: AbortSignal.timeout(5000), // 5s timeout
+        signal: AbortSignal.timeout(5000) // 5s timeout
       });
       return response.ok;
     } catch (error) {
@@ -131,27 +149,29 @@ export class AIService {
       const sessionId = await this.ensureSession({
         sessionName: request.context.sessionName,
         environment: request.context.environment,
-        eventCount: request.context.eventCount,
+        eventCount: request.context.eventCount
       });
 
       // Backend expects: { sessionId: string, message: string }
       const backendPayload = {
         sessionId,
-        message: request.message,
+        message: request.message
       };
 
       const response = await fetch(`${this.baseUrl}${API_ENDPOINTS.CHAT}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(backendPayload),
-        signal: AbortSignal.timeout(30000), // 30s timeout
+        signal: AbortSignal.timeout(30000) // 30s timeout
       });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `Server responded with ${response.status}: ${response.statusText}`);
+        throw new Error(
+          errorData.error || `Server responded with ${response.status}: ${response.statusText}`
+        );
       }
 
       const data: ChatResponse = await response.json();
@@ -191,66 +211,123 @@ export class AIService {
   /**
    * Upload events to backend for semantic search
    * Uploads in chunks for reliability with large event sets
+   * Includes retry logic for failed chunks
    */
   async uploadEvents(
     events: unknown[],
-    onProgress?: (progress: { chunkNumber: number; totalChunks: number; percentComplete: number }) => void
-  ): Promise<void> {
-    try {
-      // Ensure we have a session
-      const sessionId = await this.ensureSession();
+    onProgress?: (progress: {
+      chunkNumber: number;
+      totalChunks: number;
+      percentComplete: number;
+      retriesUsed?: number;
+    }) => void
+  ): Promise<{ success: boolean; uploaded: number; failed: number; errors: string[] }> {
+    const sessionId = await this.ensureSession();
+    const totalChunks = Math.ceil(events.length / EVENT_UPLOAD_CHUNK_SIZE);
+    const MAX_RETRIES = 3;
+    const RETRY_DELAY = 2000; // 2 seconds
+    const CHUNK_DELAY = 500; // 500ms delay between chunks to avoid overwhelming Ollama
 
-      // Get recommended chunk size
-      const CHUNK_SIZE = 100;
-      const totalChunks = Math.ceil(events.length / CHUNK_SIZE);
+    console.log(
+      `📤 Uploading ${events.length} events in ${totalChunks} chunks of ${EVENT_UPLOAD_CHUNK_SIZE}...`
+    );
 
-      console.log(`📤 Uploading ${events.length} events in ${totalChunks} chunks...`);
+    let successfulChunks = 0;
+    let failedChunks = 0;
+    const errors: string[] = [];
 
-      for (let i = 0; i < events.length; i += CHUNK_SIZE) {
-        const chunkNumber = Math.floor(i / CHUNK_SIZE) + 1;
-        const chunk = events.slice(i, i + CHUNK_SIZE);
-        const isLast = (i + CHUNK_SIZE) >= events.length;
+    for (let i = 0; i < events.length; i += EVENT_UPLOAD_CHUNK_SIZE) {
+      const chunkNumber = Math.floor(i / EVENT_UPLOAD_CHUNK_SIZE) + 1;
+      const chunk = events.slice(i, i + EVENT_UPLOAD_CHUNK_SIZE);
+      const isLast = i + EVENT_UPLOAD_CHUNK_SIZE >= events.length;
 
-        const response = await fetch(`${this.baseUrl}${API_ENDPOINTS.EVENTS_UPLOAD}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            sessionId,
-            events: chunk,
-            chunkInfo: {
-              current: chunkNumber,
-              total: totalChunks,
-              isLast: isLast,
+      let retries = 0;
+      let chunkSuccess = false;
+
+      // Retry loop for this chunk
+      while (retries <= MAX_RETRIES && !chunkSuccess) {
+        try {
+          const response = await fetch(`${this.baseUrl}${API_ENDPOINTS.EVENTS_UPLOAD}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
             },
-          }),
-          signal: AbortSignal.timeout(60000), // 60s timeout for event processing
-        });
+            body: JSON.stringify({
+              sessionId,
+              events: chunk,
+              chunkInfo: {
+                current: chunkNumber,
+                total: totalChunks,
+                isLast: isLast
+              }
+            }),
+            signal: AbortSignal.timeout(120000) // 120s timeout for event processing
+          });
 
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.error || `Chunk ${chunkNumber} failed`);
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(
+              errorData.error || `Chunk ${chunkNumber} failed with status ${response.status}`
+            );
+          }
+
+          await response.json();
+          chunkSuccess = true;
+          successfulChunks++;
+
+          // Report progress
+          const percentComplete = Math.round((chunkNumber / totalChunks) * 100);
+          if (onProgress) {
+            onProgress({ chunkNumber, totalChunks, percentComplete, retriesUsed: retries });
+          }
+
+          console.log(
+            `✅ Chunk ${chunkNumber}/${totalChunks} uploaded (${percentComplete}%)${
+              retries > 0 ? ` (retry ${retries})` : ''
+            }`
+          );
+
+          // Add delay between chunks to avoid overwhelming Ollama (except for last chunk)
+          if (chunkNumber < totalChunks) {
+            await new Promise(resolve => setTimeout(resolve, CHUNK_DELAY));
+          }
+        } catch (error) {
+          retries++;
+          const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+
+          if (retries <= MAX_RETRIES) {
+            console.warn(
+              `⚠️  Chunk ${chunkNumber} failed, retrying (${retries}/${MAX_RETRIES})... Error: ${errorMsg}`
+            );
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+          } else {
+            console.error(
+              `❌ Chunk ${chunkNumber} failed after ${MAX_RETRIES} retries: ${errorMsg}`
+            );
+            failedChunks++;
+            errors.push(`Chunk ${chunkNumber}: ${errorMsg}`);
+            // Continue to next chunk instead of stopping entire upload
+          }
         }
-
-        const result = await response.json();
-        
-        // Report progress
-        const percentComplete = Math.round((chunkNumber / totalChunks) * 100);
-        if (onProgress) {
-          onProgress({ chunkNumber, totalChunks, percentComplete });
-        }
-
-        console.log(`✅ Chunk ${chunkNumber}/${totalChunks} uploaded (${percentComplete}%)`);
       }
-
-      console.log(`🎉 Upload complete! All ${events.length} events processed.`);
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Failed to upload events: ${error.message}`);
-      }
-      throw new Error('Failed to upload events');
     }
+
+    const summary = {
+      success: failedChunks === 0,
+      uploaded: successfulChunks * EVENT_UPLOAD_CHUNK_SIZE,
+      failed: failedChunks * EVENT_UPLOAD_CHUNK_SIZE,
+      errors
+    };
+
+    if (failedChunks > 0) {
+      console.warn(
+        `⚠️  Upload completed with errors: ${successfulChunks}/${totalChunks} chunks succeeded`
+      );
+    } else {
+      console.log(`🎉 Upload complete! All ${events.length} events processed.`);
+    }
+
+    return summary;
   }
 }
 
@@ -266,4 +343,3 @@ export function getAIService(baseUrl: string): AIService {
   }
   return aiServiceInstance;
 }
-

@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 import { useState, useCallback } from 'react';
 import { Message, ChatState, ServerStatus, SessionContext } from '../types';
 import { getAIService } from '../services/aiService';
-import { getMockResponse, simulateDelay } from '../utils/mockResponses';
+import { getMockResponse, simulateDelay, setDemoMode, isDemoModeEnabled, getDemoStepInfo } from '../utils/mockResponses';
 
 interface UseChatOptions {
   serverUrl: string;
@@ -35,11 +35,18 @@ export function useChat(options: UseChatOptions) {
   /**
    * Initialize with welcome message
    */
-  const initialize = useCallback((sessionName: string, eventCount: number, environment: string) => {
+  const initialize = useCallback((sessionName: string, eventCount: number, environment: string, enableDemoScript: boolean = false) => {
+    // Enable/disable demo script mode
+    if (options.mockMode && enableDemoScript) {
+      setDemoMode(true);
+    }
+    
+    const demoModeActive = options.mockMode && isDemoModeEnabled();
+    
     const welcomeMessage: Message = {
       id: `system-${Date.now()}`,
       role: 'system',
-      content: `🤖 AI Assistant for Assurance ${options.mockMode ? '(DEMO MODE)' : ''}\n\nConnected to session: ${sessionName}\nEvents available: ${eventCount}\nEnvironment: ${environment}\n\n${options.mockMode ? '⚠️ Running in DEMO mode with mock responses. Configure server URL in settings to connect to actual AI agent.\n\n' : ''}I can help you analyze events, debug issues, and answer questions about your Assurance session.`,
+      content: `🤖 AI Assistant for Assurance ${options.mockMode ? (demoModeActive ? '(DEMO SCRIPT MODE)' : '(DEMO MODE)') : ''}\n\nConnected to session: ${sessionName}\nEvents available: ${eventCount}\nEnvironment: ${environment}\n\n${options.mockMode ? (demoModeActive ? '🎬 Running in DEMO SCRIPT mode - Ask questions in sequence for a guided demonstration.\n\n**Start by asking:** "What can you tell me about this session?"\n\n' : '⚠️ Running in DEMO mode with mock responses. Configure server URL in settings to connect to actual AI agent.\n\n') : ''}I can help you analyze events, debug issues, and answer questions about your Assurance session.`,
       timestamp: new Date(),
     };
 
@@ -98,8 +105,9 @@ export function useChat(options: UseChatOptions) {
       let responseContent: string;
 
       if (options.mockMode) {
-        // Mock mode
-        await simulateDelay();
+        // Mock mode (with demo script support)
+        const isDemo = isDemoModeEnabled();
+        await simulateDelay(isDemo);
         responseContent = getMockResponse(
           content,
           sessionContext.eventCount,
@@ -159,6 +167,20 @@ export function useChat(options: UseChatOptions) {
     }));
   }, []);
 
+  /**
+   * Toggle demo script mode
+   */
+  const toggleDemoScript = useCallback((enabled: boolean) => {
+    setDemoMode(enabled);
+  }, []);
+
+  /**
+   * Get demo script progress
+   */
+  const getDemoProgress = useCallback(() => {
+    return getDemoStepInfo();
+  }, []);
+
   return {
     messages: state.messages,
     isLoading: state.isLoading,
@@ -168,6 +190,9 @@ export function useChat(options: UseChatOptions) {
     sendMessage,
     checkHealth,
     clearMessages,
+    toggleDemoScript,
+    getDemoProgress,
+    isDemoMode: options.mockMode && isDemoModeEnabled(),
   };
 }
 

@@ -39,6 +39,11 @@ export const API_ENDPOINTS = {
 } as const;
 
 /**
+ * Event upload configuration
+ */
+export const EVENT_UPLOAD_CHUNK_SIZE = 3; // Very small batch size to avoid embedding context limits
+
+/**
  * Mock responses for demo mode
  */
 export const MOCK_RESPONSES = {
