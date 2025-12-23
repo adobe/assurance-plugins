@@ -86,6 +86,11 @@ async function getPushCredentials({
     },
     body
   });
+  
+  if (!response.ok) {
+    throw new Error(`Push credentials fetch failed: ${response.status}`);
+  }
+
   const json = await response.json();
   // Return the relevant data
   return json.data?.getPushCredentials || null;

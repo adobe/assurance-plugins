@@ -27,7 +27,7 @@ const ProfileSectionWidget: React.FC = () => {
   const profilePush = profile?.data?.entity?.pushNotificationDetails?.[0];
   const profilePushToStart = profile?.data?.entity?.liveActivityPushNotificationDetails?.[0];
   const validationStatus = useDataStreamValidationStatus();
-  const isLoading = profile.isLoading || !profile.data;
+  const isLoading = profile.isLoading;
   const profileId = profile?.data?.entityId;
 
   return (
@@ -49,7 +49,7 @@ const ProfileSectionWidget: React.FC = () => {
             </thead>
             <tbody>
               <KeyValueRow label="ECID">
-                {profile.data!.entity?.pushNotificationDetails?.[0]?.identity?.id || (
+                {profile.data?.entity?.pushNotificationDetails?.[0]?.identity?.id || (
                   <UnknownBadge />
                 )}
               </KeyValueRow>

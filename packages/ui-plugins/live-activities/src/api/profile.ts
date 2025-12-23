@@ -134,6 +134,11 @@ export const getProfile = async ({
       }
     }
   );
+
+  if (!response.ok) {
+    throw new Error(`Profile fetch failed: ${response.status}`);
+  }
+  
   const data: ProfileApiResponse = await response.json();
   if (!Object.keys(data).length) {
     return null;

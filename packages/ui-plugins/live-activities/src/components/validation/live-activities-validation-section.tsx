@@ -35,7 +35,7 @@ import { TEST_IDS } from '../../constants/testIds';
 import { 
   useLiveActivitiesData
 } from '../../hooks/useActivities';
-import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType, useSelectedClientPushToStartToken } from '../../hooks/useClientInfo';
+import { useClientIOSVersion, useClientLiveActivitiesSupport, useClientDeviceType, useActivitiesWithPushToStartTokens } from '../../hooks/useClientInfo';
 import { useLiveActivitiesValidationStatus } from '../../hooks/useLiveActivitiesValidationStatus';
 import { createLiveActivitiesTableData } from '../../utils/liveActivitiesDisplay';
 import { getStatusDisplayConfig, isDeviceVersionBelowAppMinimum } from '../../utils/liveActivitiesValidation';
@@ -48,7 +48,7 @@ const LiveActivitiesValidationSection = () => {
   const liveActivitiesSupport = useClientLiveActivitiesSupport();
   const deviceType = useClientDeviceType();
   const liveActivities = useLiveActivitiesData();
-  const pushToStartToken = useSelectedClientPushToStartToken();
+  const activitiesWithPushToStartToken = useActivitiesWithPushToStartTokens();
 
   // Get status display configuration using utility function
   const statusConfig = getStatusDisplayConfig(validationStatus);
@@ -150,21 +150,26 @@ const LiveActivitiesValidationSection = () => {
 
       // Add PushToStart Token for iOS 17.1+ (full support only)
       if (validationStatus === VALIDATION_STATUS.FULL_SUPPORT) {
-        dataRows.push({
-          label: formatMessage(validationMessages.pushToStartToken),
-          value: pushToStartToken || formatMessage(validationMessages.notAvailable),
-          showCopy: !!pushToStartToken,
-          isLongData: true,
-          tooltip: pushToStartToken 
-            ? formatMessage(validationMessages.pushToStartTokenTooltip)
-            : formatMessage(validationMessages.pushToStartTokenTooltipNone)
-        });
+        if(activitiesWithPushToStartToken.length === 0) {
+          dataRows.push({
+            label: formatMessage(validationMessages.pushToStartToken),
+            value: formatMessage(validationMessages.notAvailable),
+            showCopy: false,
+            tooltip: formatMessage(validationMessages.pushToStartTokenTooltipNone)
+          });
+        } else {
+        activitiesWithPushToStartToken.forEach(activity => {
+          dataRows.push({
+            label: `${formatMessage(validationMessages.pushToStartToken)} - ${activity.attributeType}`,
+            value: activity.pushToStartToken || formatMessage(validationMessages.notAvailable),
+            showCopy: !!activity.pushToStartToken,
+            isLongData: true,
+            tooltip: formatMessage(validationMessages.pushToStartTokenTooltip)
+          });
+        })}
+        }
       }
     }
-
-
-  }
-
   // Get registered Live Activities table data (always show activities, push-to-start tokens only for iOS 17.1+)
   const registeredActivitiesTableData = (validationStatus === VALIDATION_STATUS.BASIC_SUPPORT || validationStatus === VALIDATION_STATUS.FULL_SUPPORT)
     ? createLiveActivitiesTableData(liveActivities.activityTypes, validationStatus)

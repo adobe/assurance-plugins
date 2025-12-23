@@ -1,4 +1,6 @@
 import { useEvents, useSelectedClients, useClients } from '@assurance/plugin-bridge-provider';
+import { useRegisteredActivities } from './useActivities';
+import { RegisteredActivity } from '../types/liveActivities';
 
 // Hook to extract the latest ECID (Experience Cloud ID) from shared state update events for the currently selected client.
 //
@@ -118,6 +120,23 @@ function useSelectedClientPushToStartToken() {
   return pushToStartToken;
 }
 
+function useActivitiesWithPushToStartTokens(): RegisteredActivity[] {
+    const events = useEvents({
+      sorted: 'desc',
+      matchers: ["payload.ACPExtensionEventData.stateowner=='com.adobe.messaging'"]
+    });
+  
+    const registeredActivities = useRegisteredActivities();
+  
+    const activitiesArrayWithPushToStartToken = registeredActivities.map(activity => {
+      return {
+        ...activity,
+        pushToStartToken: events[0]?.payload?.metadata?.['state.data']?.liveActivity?.pushToStartTokens?.[activity.attributeType]?.token
+      };
+    });
+    return activitiesArrayWithPushToStartToken;
+ }
+
 /**
  * Returns the version of the Messaging extension for the currently selected client, if available.
  *
@@ -219,10 +238,20 @@ function useClientIOSVersion() {
   if (!selectedClientObj?.payload?.deviceInfo) return undefined;
 
   const operatingSystem = selectedClientObj.payload.deviceInfo['Operating system'];
-  if (!operatingSystem || !operatingSystem.startsWith('iOS ')) return undefined;
-
-  // Extract version from "iOS 18.0" -> "18.0"
-  return operatingSystem.replace('iOS ', '');
+  if (!operatingSystem) return undefined;
+  
+  // Handle both iOS and iPadOS
+  if (operatingSystem.startsWith('iOS ')) {
+    // Extract version from "iOS 18.0" -> "18.0"
+    return operatingSystem.replace('iOS ', '');
+  }
+  
+  if (operatingSystem.startsWith('iPadOS ')) {
+    // Extract version from "iPadOS 18.0" -> "18.0"
+    return operatingSystem.replace('iPadOS ', '');
+  }
+  
+  return undefined;
 }
 
 /**
@@ -303,5 +332,6 @@ export {
   useClientIOSVersion,
   useClientAndroidVersion,
   useClientLiveActivitiesSupport,
-  useClientDeviceType
+  useClientDeviceType,
+  useActivitiesWithPushToStartTokens
 };
