@@ -20,7 +20,9 @@ export function useActivityEvents(activityId?: string): LiveActivityEvent[] {
       combineAny([
         'payload.ACPExtensionEventData.liveActivityID',
         'payload.ACPExtensionEventData.data.liveActivityID',
-        'payload.ACPExtensionEventData.activityId'
+        'payload.ACPExtensionEventData.activityId',
+        'payload.ACPExtensionEventData.channelID',
+        'payload.ACPExtensionEventData.data.channelID',
       ])
     ],
     sorted: 'desc'

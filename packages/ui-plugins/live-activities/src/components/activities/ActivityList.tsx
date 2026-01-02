@@ -44,7 +44,10 @@ function ActivityList({
   const filteredActivities = useMemo(() => {
     return activities.filter(activity => {
       const matchesSearch = activity.name.toLowerCase().includes(lowerSearchQuery) ||
-                           activity.attributes?.toLowerCase().includes(lowerSearchQuery);
+                           activity.attributes?.toLowerCase().includes(lowerSearchQuery) ||
+                           activity.id?.toLowerCase().includes(lowerSearchQuery)
+                           activity.broadcastChannelId?.toLowerCase().includes(lowerSearchQuery);
+                           
       const matchesFilter = selectedFilter === 'all' || activity.status === selectedFilter;
       return matchesSearch && matchesFilter;
     });

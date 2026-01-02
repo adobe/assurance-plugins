@@ -48,6 +48,8 @@ export interface LiveActivity {
   examplePayload?: any;
   schema?: any;
   currentContentState?: any;
+  type?: 'unitary' | 'broadcast';
+  broadcastChannelId?: string;
 }
 
 /**
@@ -62,8 +64,10 @@ function extractActivityMetadata(event: any): { activityId: string; attributeTyp
   }
 
   // Use the same flexible matching logic as useActivityEvents
-  const activityId =
-    eventData.liveActivityID || eventData.data?.liveActivityID || eventData.activityId;
+  const activityType = eventData.channelID ? 'broadcast' : 'unitary';
+  const activityId = activityType === 'broadcast' 
+    ? (eventData.channelID || eventData.data?.channelID)
+    : (eventData.liveActivityID || eventData.data?.liveActivityID || eventData.activityId);
 
   // For attributeType, try multiple possible locations
   const attributeType =
@@ -142,6 +146,7 @@ function useActivities(): LiveActivity[] {
     sorted: 'desc'
   });
 
+  console.log(allEvents, 'allEvents (((((');
   // Use type guard-based extraction functions
   const activeActivities = extractActiveActivitiesFromEvents(allEvents);
   const schemaData = extractSchemaDataFromEvents(allEvents);
@@ -157,6 +162,8 @@ function useActivities(): LiveActivity[] {
       pushToStartTokenMap.set(attributeType, event);
     }
   });
+
+  console.log(activeActivities, 'activeActivities');
 
   // Create activities from the extracted active activities
   return activeActivities.map(activity => {
@@ -178,6 +185,11 @@ function useActivities(): LiveActivity[] {
     // Get schema data for this attribute type
     const schemaDataForType = schemaData.get(attributeType);
 
+    // Extract type and broadcastChannelId from start event
+    const broadcastChannelId = startEvent?.payload?.ACPExtensionEventData?.channelID;
+    const activityType = broadcastChannelId ? 'broadcast' : 'unitary';
+
+
     return {
       id,
       name: attributeType, // Use attributeType as name for backward compatibility
@@ -193,7 +205,9 @@ function useActivities(): LiveActivity[] {
       pushToStartToken: pushToStartTokenEvent?.payload?.ACPExtensionEventData?.token,
       updateToken: updateTokenEvent?.payload?.ACPExtensionEventData?.token,
       updateEvents,
-      currentContentState
+      currentContentState,
+      type: activityType as 'unitary' | 'broadcast',
+      broadcastChannelId
     };
   });
 }

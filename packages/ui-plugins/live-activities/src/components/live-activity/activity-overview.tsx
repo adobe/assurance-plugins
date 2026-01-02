@@ -30,7 +30,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
   const { formatMessage } = useIntl();
 
   // Use the same deduplicated events as other components
-  const activityEvents = useActivityEvents(activity?.id);
+  const activityEvents = useActivityEvents(activity?.id || activity?.broadcastChannelId);
 
   // Get the latest content state from update events
   const { latestContentState, latestContentStateEventId } = useMemo(() => {
@@ -44,7 +44,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
       latestContentState: updateEvent?.payload?.ACPExtensionEventData?.contentState,
       latestContentStateEventId: updateEvent?.uuid
     };
-  }, [activity?.id, activityEvents]);
+  }, [activity?.id || activity?.broadcastChannelId, activityEvents]);
 
   // Calculate duration
   const startTime = activity?.startTime ? dayjs(activity.startTime) : null;

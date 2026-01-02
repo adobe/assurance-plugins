@@ -30,7 +30,9 @@ export function processActivityEvents(
     const eventLiveActivityID =
       event.payload?.ACPExtensionEventData?.liveActivityID ||
       event.payload?.ACPExtensionEventData?.data?.liveActivityID ||
-      event.payload?.ACPExtensionEventData?.activityId;
+      event.payload?.ACPExtensionEventData?.activityId ||
+      event.payload?.ACPExtensionEventData?.channelID ||
+      event.payload?.ACPExtensionEventData?.data?.channelID
 
     return eventLiveActivityID === activityId;
   });

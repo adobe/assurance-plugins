@@ -5,8 +5,12 @@ export interface LiveActivityEvent extends Event {
     ACPExtensionEventName?: string;
     ACPExtensionEventData?: {
       liveActivityID?: string;
+      channelID?: string;
       data?: {
         liveActivityID?: string;
+        channelID?: string;
+        origin?: string;
+        type?: string;
       };
       activityId?: string;
       contentState?: any;

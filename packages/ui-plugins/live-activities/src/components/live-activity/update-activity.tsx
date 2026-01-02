@@ -17,7 +17,8 @@ import {
   Text,
   RadioGroup,
   Radio,
-  ToastQueue
+  ToastQueue,
+  TextField
 } from '@adobe/react-spectrum';
 import { useIntl } from 'react-intl';
 import Send from '@spectrum-icons/workflow/Send';
@@ -57,6 +58,8 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [eventType, setEventType] = useState<'update' | 'end'>('update');
+  const [activityTypeSelection, setActivityTypeSelection] = useState<'unitary' | 'broadcast'>(activity.type || 'unitary');
+  const [broadcastChannelId, setBroadcastChannelId] = useState<string>(activity.broadcastChannelId || '');
 
   // Context (doesn't require push token for update operations)
   const context = useLiveActivityContext({ requirePushToken: false });
@@ -73,12 +76,14 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
   });
 
   useEffect(() => {
-    if (activity?.id) {
+    if (activity?.id || activity?.broadcastChannelId) {
       reset({
         payload: JSON.stringify(generateUpdateTemplate(activity), null, 2)
       });
+      setActivityTypeSelection(activity.type || 'unitary');
+      setBroadcastChannelId(activity.broadcastChannelId || '');
     }
-  }, [activity?.id, activity?.currentContentState, reset]);
+  }, [activity?.id, activity?.broadcastChannelId, activity?.currentContentState, activity?.type, reset]);
 
   // Handlers
   const handleUpdate = useCallback(async (data: FormValues) => {
@@ -94,9 +99,15 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         throw new Error('Invalid JSON format in payload');
       }
 
-      // Validate update token exists
-      if (!activity.updateToken) {
+      // Validate update token exists for unitary activities
+      // Broadcast activities don't require an update token
+      if (activityTypeSelection === 'unitary' && !activity.updateToken) {
         throw new Error('Update token not available for this activity');
+      }
+
+      // Validate broadcast channel ID if broadcast type is selected
+      if (activityTypeSelection === 'broadcast' && !broadcastChannelId.trim()) {
+        throw new Error(formatMessage(liveActivityMessages.broadcastChannelIdRequired));
       }
 
       // Build complete APS payload by merging user input with auto-generated fields
@@ -104,19 +115,28 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         userPayload,
         eventType,
         attributesType: activity.attributes || 'unknown',
+        broadcastChannelId: activityTypeSelection === 'broadcast' ? broadcastChannelId : undefined
       });
 
-      // Generate complete payload using update token
+      // Generate complete payload
+      // For unitary: use updateToken
+      // For broadcast: use pushToStartToken or empty string (token not required for broadcast updates)
+      const token = activityTypeSelection === 'unitary' 
+        ? activity.updateToken 
+        : (activity.pushToStartToken || '');
+
       const payload = generateLiveActivityPayload({
         apsContent: completeApsPayload,
         appId: context.appId!,
         platform: context.platform,
-        token: activity.updateToken, // Using updateToken for updates
+        token: token!,
         ecid: context.ecid!,
         imsOrg: context.imsOrg!,
         sessionId: context.sessionId!,
         sandboxName: context.sandbox?.name || LIVE_ACTIVITY_DEFAULTS.SANDBOX,
-        environment: context.environment
+        environment: context.environment,
+        type: activityTypeSelection,
+        broadcastChannelId: activityTypeSelection === 'broadcast' ? broadcastChannelId : undefined
       });
 
       // Make API call
@@ -134,16 +154,21 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
     } finally {
       setIsLoading(false);
     }
-  }, [activity, context, eventType]);
+  }, [activity, context, eventType, activityTypeSelection, broadcastChannelId, formatMessage]);
 
   const handleReset = useCallback(() => {
     reset();
     setEventType('update');
+    setActivityTypeSelection(activity.type || 'unitary');
+    setBroadcastChannelId(activity.broadcastChannelId || '');
     setError(null);
-  }, [reset]);
+  }, [reset, activity.type, activity.broadcastChannelId]);
 
   // Computed values
-  const isButtonDisabled = !context.isReady || isLoading || !activity.updateToken || activity.status === 'completed';
+  // For unitary activities: require update token
+  // For broadcast activities: update token is not required
+  const requiresToken = activityTypeSelection === 'unitary' && !activity.updateToken;
+  const isButtonDisabled = !context.isReady || isLoading || requiresToken || activity.status === 'completed';
 
   return (
     <DialogTrigger>
@@ -180,6 +205,34 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
                 <Radio value="end">{formatMessage(liveActivityMessages.eventTypeEnd)}</Radio>
               </RadioGroup>
             </View>
+
+            <View marginBottom="size-200">
+              <RadioGroup 
+                label={formatMessage(liveActivityMessages.activityType)}
+                value={activityTypeSelection}
+                onChange={(value) => setActivityTypeSelection(value as 'unitary' | 'broadcast')}
+                orientation="horizontal"
+                isDisabled
+              >
+                <Radio value="unitary">{formatMessage(liveActivityMessages.activityTypeUnitary)}</Radio>
+                <Radio value="broadcast">{formatMessage(liveActivityMessages.activityTypeBroadcast)}</Radio>
+              </RadioGroup>
+            </View>
+
+            {activityTypeSelection === 'broadcast' && (
+              <View marginBottom="size-200">
+                <TextField
+                  label={formatMessage(liveActivityMessages.broadcastChannelId)}
+                  placeholder={formatMessage(liveActivityMessages.broadcastChannelIdPlaceholder)}
+                  value={broadcastChannelId}
+                  onChange={setBroadcastChannelId}
+                  width="100%"
+                  isRequired
+                  isDisabled
+                  isReadOnly
+                />
+              </View>
+            )}
 
             <Controller
               name="payload"

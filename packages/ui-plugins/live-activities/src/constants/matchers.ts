@@ -29,6 +29,8 @@ export const LIVE_ACTIVITIES_MATCHERS = {
     'payload.ACPExtensionEventData.liveActivityID',
     'payload.ACPExtensionEventData.data.liveActivityID',
     'payload.ACPExtensionEventData.activityId',
+    'payload.ACPExtensionEventData.channelID',
+    'payload.ACPExtensionEventData.data.channelID',
     'payload.ACPExtensionEventData.isLiveActivityPushToStartTokenEvent',
     'payload.ACPExtensionEventData.isLiveActivityUpdateTokenEvent',
     'payload.ACPExtensionEventData.isLiveActivityTrackStartEvent',
@@ -43,7 +45,9 @@ export const LIVE_ACTIVITIES_MATCHERS = {
     'payload.ACPExtensionEventName==`Live Activity ended`',
     'payload.ACPExtensionEventData.liveActivityID',
     'payload.ACPExtensionEventData.data.liveActivityID',
-    'payload.ACPExtensionEventData.activityId'
+    'payload.ACPExtensionEventData.activityId',
+    'payload.ACPExtensionEventData.channelID',
+    'payload.ACPExtensionEventData.data.channelID',
   ]),
 
   TOKEN_EVENTS: combineAny([

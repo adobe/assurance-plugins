@@ -60,6 +60,8 @@ export interface LiveActivityPayloadParams {
   sessionId: string;
   sandboxName: string;
   environment: string;
+  type?: 'unitary' | 'broadcast';
+  broadcastChannelId?: string;
 }
 
 export interface ApiCallConfig {
@@ -120,8 +122,9 @@ export function buildCompleteApsPayload(params: {
   userPayload: any;
   eventType: 'start' | 'update' | 'end';
   attributesType: string;
+  broadcastChannelId?: string;
 }): any {
-  return {
+  const basePayload = {
     "content-available": 1,
     "timestamp": getCurrentTimestamp(),
     "event": params.eventType,
@@ -132,6 +135,16 @@ export function buildCompleteApsPayload(params: {
     },
     ...params.userPayload
   };
+
+  // Add broadcast channel ID to APS payload if provided
+  if (params.broadcastChannelId) {
+    basePayload["input-push-channel"] = params.broadcastChannelId;
+    basePayload.attributes.liveActivityData.channelID = params.broadcastChannelId;
+    basePayload.attributes.liveActivityData.origin =  "remote"; 
+    basePayload.attributes.liveActivityData.type = "broadcast";
+  }
+
+  return basePayload;
 }
 
 /**
@@ -249,7 +262,7 @@ export function generateLiveActivityPayload(params: LiveActivityPayloadParams) {
             groupID: groupId,
             sandboxName: params.sandboxName,
             liveActivity: {
-              type: 'unitary',
+              type: params.type || 'unitary',
               event: eventType,
               liveActivityID: normalizedAps.attributes?.liveActivityData?.liveActivityID
             },

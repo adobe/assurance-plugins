@@ -50,7 +50,7 @@ function ActivityEventDetails({ activity }: Readonly<ActivityEventDetailsProps>)
   const [detailsPanelOpen, setDetailsPanelOpen] = useState(false);
 
     // Use new event processing utilities
-    const activityEvents = useActivityEvents(activity?.id);
+    const activityEvents = useActivityEvents(activity?.id || activity?.broadcastChannelId);
     const eventStats = useEventStatistics(activityEvents);
     const timeRange = useEventTimeRange(activityEvents);
 
