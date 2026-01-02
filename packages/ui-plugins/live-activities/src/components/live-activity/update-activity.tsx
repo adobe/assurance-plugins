@@ -121,6 +121,8 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
       // Generate complete payload
       // For unitary: use updateToken
       // For broadcast: use pushToStartToken or empty string (token not required for broadcast updates)
+      // TODO: REVIEW - VERIFY IF BROADCAST UPDATES ACTUALLY NEED A TOKEN AND WHICH TOKEN TO USE
+      // TODO: REVIEW - WHAT SHOULD HAPPEN IF pushToStartToken IS MISSING? EMPTY STRING OR ERROR?
       const token = activityTypeSelection === 'unitary' 
         ? activity.updateToken 
         : (activity.pushToStartToken || '');
@@ -184,7 +186,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         <Dialog>
           <Heading>
             {formatMessage(liveActivityMessages.updateLiveActivityHeading, { 
-              activityId: activity.id || activity.name
+              activityId: activity.id || activity.broadcastChannelId || activity.name
             })}
           </Heading>
           <Divider />

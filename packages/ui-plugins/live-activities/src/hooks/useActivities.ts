@@ -70,7 +70,7 @@ export function getActivityKey(activity: LiveActivity): string {
     return `unitary:${activity.id}`;
   }
   // Fallback (shouldn't happen in normal cases)
-  return `unknown:${activity.name}:${activity.startTime || Date.now()}`;
+  return `unknown:${activity.name}:${activity.startTime || 'no-timestamp'}`;
 }
 
 /**
@@ -90,13 +90,12 @@ function extractActivityMetadata(event: any): {
     return null;
   }
 
-  // Detect activity type - check explicit type field first, then fallback to channelID presence
-  const explicitType = eventData.type;
+  // Detect activity type based on channelID presence
+  // If channelID exists, it's a broadcast activity; otherwise it's unitary
   const channelId = eventData.channelID || eventData.data?.channelID;
   const liveActivityId = eventData.liveActivityID || eventData.data?.liveActivityID || eventData.activityId;
   
-  const activityType: 'unitary' | 'broadcast' = 
-    explicitType === 'broadcast' || (channelId && !explicitType) ? 'broadcast' : 'unitary';
+  const activityType: 'unitary' | 'broadcast' = channelId ? 'broadcast' : 'unitary';
   
   // Determine grouping key based on activity type
   // For broadcast: group by channelID (required)

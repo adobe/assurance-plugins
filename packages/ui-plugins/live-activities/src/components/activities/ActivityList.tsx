@@ -56,16 +56,35 @@ function ActivityList({
     });
   }, [activities, lowerSearchQuery, selectedFilter, selectedTypeFilter]);
 
-  // Count activities by status and type
-  const activityCounts = useMemo(() => {
+  // Count activities by status (total counts)
+  const statusCounts = useMemo(() => {
     return {
       all: activities.length,
       active: activities.filter(a => a.status === 'active').length,
-      completed: activities.filter(a => a.status === 'completed').length,
-      unitary: activities.filter(a => a.type === 'unitary').length,
-      broadcast: activities.filter(a => a.type === 'broadcast').length
+      completed: activities.filter(a => a.status === 'completed').length
     };
   }, [activities]);
+
+  // Count activities by type (reflecting search and status filters, but not type filter)
+  const typeCounts = useMemo(() => {
+    const activitiesAfterSearchAndStatus = activities.filter(activity => {
+      const matchesSearch = searchQuery === '' ||
+        activity.name.toLowerCase().includes(lowerSearchQuery) ||
+        activity.attributes?.toLowerCase().includes(lowerSearchQuery) ||
+        activity.id?.toLowerCase().includes(lowerSearchQuery) ||
+        activity.broadcastChannelId?.toLowerCase().includes(lowerSearchQuery);
+      
+      const matchesStatusFilter = selectedFilter === 'all' || activity.status === selectedFilter;
+      
+      return matchesSearch && matchesStatusFilter;
+    });
+    
+    return {
+      all: activitiesAfterSearchAndStatus.length,
+      unitary: activitiesAfterSearchAndStatus.filter(a => a.type === 'unitary').length,
+      broadcast: activitiesAfterSearchAndStatus.filter(a => a.type === 'broadcast').length
+    };
+  }, [activities, lowerSearchQuery, searchQuery, selectedFilter]);
 
   if (isLoading) {
     return (
@@ -105,13 +124,13 @@ function ActivityList({
             onSelectionChange={(keys) => setSelectedFilter(Array.from(keys)[0] as string)}
           >
             <Item key="all">
-              {formatMessage(activitiesMessages.allActivities)} ({activityCounts.all})
+              {formatMessage(activitiesMessages.allActivities)} ({statusCounts.all})
             </Item>
             <Item key="active">
-              {formatMessage(activitiesMessages.activeActivities)} ({activityCounts.active})
+              {formatMessage(activitiesMessages.activeActivities)} ({statusCounts.active})
             </Item>
             <Item key="completed">
-              {formatMessage(activitiesMessages.completedActivities)} ({activityCounts.completed})
+              {formatMessage(activitiesMessages.completedActivities)} ({statusCounts.completed})
             </Item>
           </ActionGroup>
           
@@ -125,13 +144,13 @@ function ActivityList({
               density="compact"
             >
               <Item key="all">
-                All ({activityCounts.all})
+                All ({typeCounts.all})
               </Item>
               <Item key="unitary">
-                🎮 Unitary ({activityCounts.unitary})
+                🎮 Unitary ({typeCounts.unitary})
               </Item>
               <Item key="broadcast">
-                📡 Broadcast ({activityCounts.broadcast})
+                📡 Broadcast ({typeCounts.broadcast})
               </Item>
             </ActionGroup>
           </Flex>

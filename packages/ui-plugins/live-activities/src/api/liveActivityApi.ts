@@ -105,21 +105,25 @@ export function generateLaunchTemplate(): any {
  * Pre-fills known data from the activity, user only updates dynamic fields
  */
 export function generateUpdateTemplate(activity: any): any {
+  // Build liveActivityData object with only existing fields
+  const liveActivityData: any = {};
+  
+  // Add liveActivityID only if it exists
+  if (activity.id) {
+    liveActivityData.liveActivityID = activity.id;
+  }
+  
+  // Add channelID only if it exists (for broadcast activities)
+  if (activity.broadcastChannelId) {
+    liveActivityData.channelID = activity.broadcastChannelId;
+  }
+  
   const template: any = {
     "content-state": activity.currentContentState || activity.examplePayload?.['content-state'] || {},
     "attributes": {
-      "liveActivityData": {
-        "liveActivityID": activity.id || ""
-      }
+      "liveActivityData": liveActivityData
     }
   };
-  
-  // Add broadcast-specific fields
-  if (activity.type === 'broadcast' && activity.broadcastChannelId) {
-    template.attributes.liveActivityData.channelID = activity.broadcastChannelId;
-    template.attributes.liveActivityData.type = 'broadcast';
-    template.attributes.liveActivityData.origin = 'remote';
-  }
   
   return template;
 }
@@ -157,10 +161,13 @@ export function buildCompleteApsPayload(params: {
       basePayload.attributes.liveActivityData = {};
     }
     
-    // Set broadcast-specific fields
-    basePayload.attributes.liveActivityData.channelID = params.broadcastChannelId;
-    basePayload.attributes.liveActivityData.origin = "remote";
-    basePayload.attributes.liveActivityData.type = "broadcast";
+    // Merge broadcast-specific fields while preserving user's custom fields
+    basePayload.attributes.liveActivityData = {
+      ...basePayload.attributes.liveActivityData,  // Preserve user's custom fields
+      channelID: params.broadcastChannelId,         // Our required field (override if exists)
+      origin: "remote",                             // Our required field
+      type: "broadcast"                             // Our required field
+    };
   }
 
   return basePayload;
