@@ -14,7 +14,7 @@ import './activities.css';
 
 import { VALIDATION_STATUS } from '../constants';
 import { NAVIGATION_CONFIG } from '../constants/liveActivitiesConfig';
-import useActivities, { useRegisteredActivities } from '../hooks/useActivities';
+import useActivities, { useRegisteredActivities, getActivityKey } from '../hooks/useActivities';
 import { useLiveActivitiesValidationStatus } from '../hooks/useLiveActivitiesValidationStatus';
 import type { ActivityTab } from '../hooks/usePluginState';
 import usePluginState from '../hooks/usePluginState';
@@ -73,7 +73,7 @@ function Activities() {
   const selectedActivityTabs = useMemo(() => {
     if (!selectedActivityId) return null;
     
-    const selectedActivity = activities.find(a => a.id === selectedActivityId);
+    const selectedActivity = activities.find(a => getActivityKey(a) === selectedActivityId);
     return (
       <Tabs
         height="100%"

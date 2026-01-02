@@ -105,7 +105,7 @@ export function generateLaunchTemplate(): any {
  * Pre-fills known data from the activity, user only updates dynamic fields
  */
 export function generateUpdateTemplate(activity: any): any {
-  return {
+  const template: any = {
     "content-state": activity.currentContentState || activity.examplePayload?.['content-state'] || {},
     "attributes": {
       "liveActivityData": {
@@ -113,6 +113,15 @@ export function generateUpdateTemplate(activity: any): any {
       }
     }
   };
+  
+  // Add broadcast-specific fields
+  if (activity.type === 'broadcast' && activity.broadcastChannelId) {
+    template.attributes.liveActivityData.channelID = activity.broadcastChannelId;
+    template.attributes.liveActivityData.type = 'broadcast';
+    template.attributes.liveActivityData.origin = 'remote';
+  }
+  
+  return template;
 }
 
 /**
@@ -139,8 +148,18 @@ export function buildCompleteApsPayload(params: {
   // Add broadcast channel ID to APS payload if provided
   if (params.broadcastChannelId) {
     basePayload["input-push-channel"] = params.broadcastChannelId;
+    
+    // Safely ensure nested structure exists
+    if (!basePayload.attributes) {
+      basePayload.attributes = {};
+    }
+    if (!basePayload.attributes.liveActivityData) {
+      basePayload.attributes.liveActivityData = {};
+    }
+    
+    // Set broadcast-specific fields
     basePayload.attributes.liveActivityData.channelID = params.broadcastChannelId;
-    basePayload.attributes.liveActivityData.origin =  "remote"; 
+    basePayload.attributes.liveActivityData.origin = "remote";
     basePayload.attributes.liveActivityData.type = "broadcast";
   }
 
@@ -250,6 +269,18 @@ export function generateLiveActivityPayload(params: LiveActivityPayloadParams) {
   // Determine event type - if 'start', map to 'remotestart'
   const eventType = normalizedAps.event === 'start' ? 'remotestart' : normalizedAps.event;
 
+  // Build liveActivity object based on type
+  const liveActivityPayload: any = {
+    type: params.type || 'unitary',
+    event: eventType,
+    liveActivityID: normalizedAps.attributes?.liveActivityData?.liveActivityID
+  };
+  
+  // Add channelID for broadcast activities
+  if (params.type === 'broadcast' && params.broadcastChannelId) {
+    liveActivityPayload.channelID = params.broadcastChannelId;
+  }
+
   return {
     messages: [
       {
@@ -261,11 +292,7 @@ export function generateLiveActivityPayload(params: LiveActivityPayloadParams) {
             },
             groupID: groupId,
             sandboxName: params.sandboxName,
-            liveActivity: {
-              type: params.type || 'unitary',
-              event: eventType,
-              liveActivityID: normalizedAps.attributes?.liveActivityData?.liveActivityID
-            },
+            liveActivity: liveActivityPayload,
             pushTokenDetail: {
               appID: params.appId,
               platform: params.platform,

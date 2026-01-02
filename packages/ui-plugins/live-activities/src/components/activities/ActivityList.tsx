@@ -14,7 +14,7 @@ import React, { useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
-import { LiveActivity } from '../../hooks/useActivities';
+import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import { activitiesMessages } from '../../i18n';
 
 import ActivityCard from './ActivityCard';
@@ -23,7 +23,7 @@ import './ActivityList.css';
 interface ActivityListProps {
   activities: LiveActivity[];
   selectedActivityId?: string;
-  onActivitySelect: (id: string) => void;
+  onActivitySelect: (key: string) => void;
   isLoading?: boolean;
 }
 
@@ -36,6 +36,7 @@ function ActivityList({
   const { formatMessage } = useIntl();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
+  const [selectedTypeFilter, setSelectedTypeFilter] = useState<'all' | 'unitary' | 'broadcast'>('all');
 
   // Memoize lowercase search query to avoid repeated conversions
   const lowerSearchQuery = useMemo(() => searchQuery.toLowerCase(), [searchQuery]);
@@ -45,20 +46,24 @@ function ActivityList({
     return activities.filter(activity => {
       const matchesSearch = activity.name.toLowerCase().includes(lowerSearchQuery) ||
                            activity.attributes?.toLowerCase().includes(lowerSearchQuery) ||
-                           activity.id?.toLowerCase().includes(lowerSearchQuery)
+                           activity.id?.toLowerCase().includes(lowerSearchQuery) ||
                            activity.broadcastChannelId?.toLowerCase().includes(lowerSearchQuery);
                            
-      const matchesFilter = selectedFilter === 'all' || activity.status === selectedFilter;
-      return matchesSearch && matchesFilter;
+      const matchesStatusFilter = selectedFilter === 'all' || activity.status === selectedFilter;
+      const matchesTypeFilter = selectedTypeFilter === 'all' || activity.type === selectedTypeFilter;
+      
+      return matchesSearch && matchesStatusFilter && matchesTypeFilter;
     });
-  }, [activities, lowerSearchQuery, selectedFilter]);
+  }, [activities, lowerSearchQuery, selectedFilter, selectedTypeFilter]);
 
-  // Count activities by status
+  // Count activities by status and type
   const activityCounts = useMemo(() => {
     return {
       all: activities.length,
       active: activities.filter(a => a.status === 'active').length,
-      completed: activities.filter(a => a.status === 'completed').length
+      completed: activities.filter(a => a.status === 'completed').length,
+      unitary: activities.filter(a => a.type === 'unitary').length,
+      broadcast: activities.filter(a => a.type === 'broadcast').length
     };
   }, [activities]);
 
@@ -93,7 +98,7 @@ function ActivityList({
             width="100%"
           />
           
-          {/* Filters */}
+          {/* Status Filters */}
           <ActionGroup
             selectionMode="single"
             selectedKeys={[selectedFilter]}
@@ -109,6 +114,27 @@ function ActivityList({
               {formatMessage(activitiesMessages.completedActivities)} ({activityCounts.completed})
             </Item>
           </ActionGroup>
+          
+          {/* Type Filters */}
+          <Flex alignItems="center" gap="size-100">
+            <Text UNSAFE_className={classNames('filterLabel')}>Type:</Text>
+            <ActionGroup
+              selectionMode="single"
+              selectedKeys={[selectedTypeFilter]}
+              onSelectionChange={(keys) => setSelectedTypeFilter(Array.from(keys)[0] as 'all' | 'unitary' | 'broadcast')}
+              density="compact"
+            >
+              <Item key="all">
+                All ({activityCounts.all})
+              </Item>
+              <Item key="unitary">
+                🎮 Unitary ({activityCounts.unitary})
+              </Item>
+              <Item key="broadcast">
+                📡 Broadcast ({activityCounts.broadcast})
+              </Item>
+            </ActionGroup>
+          </Flex>
         </Flex>
 
         {/* Activities List */}
@@ -132,9 +158,9 @@ function ActivityList({
             <Flex direction="column" gap="size-50">
               {filteredActivities.map(activity => (
                 <ActivityCard
-                  key={activity.id}
+                  key={getActivityKey(activity)}
                   activity={activity}
-                  isSelected={selectedActivityId === activity.id}
+                  isSelected={selectedActivityId === getActivityKey(activity)}
                   onSelect={onActivitySelect}
                 />
               ))}

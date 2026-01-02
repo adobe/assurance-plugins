@@ -1,4 +1,4 @@
-import { Flex, Text, StatusLight } from '@adobe/react-spectrum';
+import { Flex, Text, StatusLight, View } from '@adobe/react-spectrum';
 
 import React from 'react';
 
@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import SpectrumCard from '../atoms/SpectrumCard';
-import { LiveActivity } from '../../hooks/useActivities';
+import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import { activitiesMessages } from '../../i18n';
 import './ActivityCard.css';
 
@@ -18,7 +18,7 @@ dayjs.extend(relativeTime);
 interface ActivityCardProps {
   activity: LiveActivity;
   isSelected: boolean;
-  onSelect: (id: string) => void;
+  onSelect: (key: string) => void;
 }
 
 function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
@@ -48,7 +48,7 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
     <SpectrumCard
       isSelected={isSelected}
       onPress={() => {
-        onSelect(activity.id);
+        onSelect(getActivityKey(activity));
       }}
       marginBottom="size-100"
       padding="2px"
@@ -72,15 +72,49 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         height="100%"
         justifyContent="space-between"        
       >
-        {/* Header with status and Live Activity ID (primary identifier) */}
+        {/* Header with status, type badge, and Live Activity ID (primary identifier) */}
         <Flex alignItems="center" gap="size-100" justifyContent="space-between">
           <Flex wrap alignItems="center" gap="size-100" flex="1" minWidth="0">
-            <StatusLight  variant={getStatusVariant(activity.status)} />
-            <Text 
-              UNSAFE_className={classNames('activityIdText')}
+            <StatusLight variant={getStatusVariant(activity.status)} />
+            
+            {/* Type Badge */}
+            <View
+              paddingX="size-100"
+              paddingY="size-50"
+              borderRadius="small"
+              UNSAFE_style={{
+                backgroundColor: activity.type === 'broadcast' ? '#7c3aed' : '#2563eb',
+                display: 'inline-block'
+              }}
             >
-              {activity.id}
-            </Text>
+              <Text
+                UNSAFE_style={{
+                  color: 'white',
+                  fontSize: '10px',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}
+              >
+                {activity.type === 'broadcast' ? '📡 Broadcast' : '🎮 Unitary'}
+              </Text>
+            </View>
+            
+            {/* Activity ID or Channel ID */}
+            {activity.id && (
+              <Text 
+                UNSAFE_className={classNames('activityIdText')}
+              >
+                {activity.id}
+              </Text>
+            )}
+            {activity.broadcastChannelId && (
+              <Text 
+                UNSAFE_className={classNames('broadcastChannelIdText')}
+              >
+                {activity.broadcastChannelId}
+              </Text>
+            )}
           </Flex>  
         </Flex>
         
