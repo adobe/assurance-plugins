@@ -63,59 +63,55 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         transition: 'all 0.2s ease-in-out',
         cursor: 'pointer',
         minHeight: '80px',
-        margin: '2px'
+        paddingTop: '16px',
+        margin: '2px',
+        position: 'relative'
       }}
     >
+      {/* Type Pill - Absolutely Positioned Top Right */}
+      <View
+        borderRadius="regular"
+        UNSAFE_style={{
+          position: 'absolute',
+          top: '6px',
+          right: '6px',
+          backgroundColor: activity.type === 'broadcast' ? '#f3e8ff' : '#dbeafe',
+          border: `1px solid ${activity.type === 'broadcast' ? '#e9d5ff' : '#bfdbfe'}`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '2px 6px',
+          zIndex: 1
+        }}
+      >
+        <Text
+          UNSAFE_style={{
+            color: activity.type === 'broadcast' ? '#7c3aed' : '#2563eb',
+            fontSize: '6px',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: '0.3px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          {activity.type === 'broadcast' ? 'Broadcast' : 'Unitary'}
+        </Text>
+      </View>
+      
       <Flex 
         direction="column" 
         gap="size-75" 
         height="100%"
         justifyContent="space-between"        
       >
-        {/* Header with status, type badge, and Live Activity ID (primary identifier) */}
-        <Flex alignItems="center" gap="size-100" justifyContent="space-between">
-          <Flex wrap alignItems="center" gap="size-100" flex="1" minWidth="0">
-            <StatusLight variant={getStatusVariant(activity.status)} />
-            
-            {/* Type Badge */}
-            <View
-              paddingX="size-100"
-              paddingY="size-50"
-              borderRadius="small"
-              UNSAFE_style={{
-                backgroundColor: activity.type === 'broadcast' ? '#7c3aed' : '#2563eb',
-                display: 'inline-block'
-              }}
+        {/* Header with status and Live Activity ID (primary identifier) */}
+        <Flex alignItems="center" gap="size-100">
+          <StatusLight variant={getStatusVariant(activity.status)} />
+            <Text 
+              UNSAFE_className={classNames('activityIdText')}
             >
-              <Text
-                UNSAFE_style={{
-                  color: 'white',
-                  fontSize: '10px',
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}
-              >
-                {activity.type === 'broadcast' ? '📡 Broadcast' : '🎮 Unitary'}
-              </Text>
-            </View>
-            
-            {/* Activity ID or Channel ID */}
-            {activity.id && (
-              <Text 
-                UNSAFE_className={classNames('activityIdText')}
-              >
-                {activity.id}
-              </Text>
-            )}
-            {activity.broadcastChannelId && (
-              <Text 
-                UNSAFE_className={classNames('broadcastChannelIdText')}
-              >
-                {activity.broadcastChannelId}
-              </Text>
-            )}
-          </Flex>  
+              {activity.broadcastChannelId? activity.broadcastChannelId : activity.id}
+            </Text>
         </Flex>
         
         {/* Attribute Type (secondary info) */}

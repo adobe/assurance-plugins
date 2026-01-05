@@ -1,12 +1,12 @@
-import { 
-  Flex, 
-  SearchField, 
-  ActionGroup, 
-  Item, 
-  Text, 
+import {
+  Flex,
+  SearchField,
+  Item,
+  Text,
   Heading,
   View,
-  ProgressCircle
+  ProgressCircle,
+  Picker
 } from '@adobe/react-spectrum';
 
 import React, { useState, useMemo } from 'react';
@@ -27,16 +27,18 @@ interface ActivityListProps {
   isLoading?: boolean;
 }
 
-function ActivityList({ 
-  activities, 
-  selectedActivityId, 
-  onActivitySelect, 
-  isLoading = false 
+function ActivityList({
+  activities,
+  selectedActivityId,
+  onActivitySelect,
+  isLoading = false
 }: ActivityListProps) {
   const { formatMessage } = useIntl();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
-  const [selectedTypeFilter, setSelectedTypeFilter] = useState<'all' | 'unitary' | 'broadcast'>('all');
+  const [selectedTypeFilter, setSelectedTypeFilter] = useState<'all' | 'unitary' | 'broadcast'>(
+    'all'
+  );
 
   // Memoize lowercase search query to avoid repeated conversions
   const lowerSearchQuery = useMemo(() => searchQuery.toLowerCase(), [searchQuery]);
@@ -44,14 +46,16 @@ function ActivityList({
   // Memoized filtering logic
   const filteredActivities = useMemo(() => {
     return activities.filter(activity => {
-      const matchesSearch = activity.name.toLowerCase().includes(lowerSearchQuery) ||
-                           activity.attributes?.toLowerCase().includes(lowerSearchQuery) ||
-                           activity.id?.toLowerCase().includes(lowerSearchQuery) ||
-                           activity.broadcastChannelId?.toLowerCase().includes(lowerSearchQuery);
-                           
+      const matchesSearch =
+        activity.name.toLowerCase().includes(lowerSearchQuery) ||
+        activity.attributes?.toLowerCase().includes(lowerSearchQuery) ||
+        activity.id?.toLowerCase().includes(lowerSearchQuery) ||
+        activity.broadcastChannelId?.toLowerCase().includes(lowerSearchQuery);
+
       const matchesStatusFilter = selectedFilter === 'all' || activity.status === selectedFilter;
-      const matchesTypeFilter = selectedTypeFilter === 'all' || activity.type === selectedTypeFilter;
-      
+      const matchesTypeFilter =
+        selectedTypeFilter === 'all' || activity.type === selectedTypeFilter;
+
       return matchesSearch && matchesStatusFilter && matchesTypeFilter;
     });
   }, [activities, lowerSearchQuery, selectedFilter, selectedTypeFilter]);
@@ -68,17 +72,18 @@ function ActivityList({
   // Count activities by type (reflecting search and status filters, but not type filter)
   const typeCounts = useMemo(() => {
     const activitiesAfterSearchAndStatus = activities.filter(activity => {
-      const matchesSearch = searchQuery === '' ||
+      const matchesSearch =
+        searchQuery === '' ||
         activity.name.toLowerCase().includes(lowerSearchQuery) ||
         activity.attributes?.toLowerCase().includes(lowerSearchQuery) ||
         activity.id?.toLowerCase().includes(lowerSearchQuery) ||
         activity.broadcastChannelId?.toLowerCase().includes(lowerSearchQuery);
-      
+
       const matchesStatusFilter = selectedFilter === 'all' || activity.status === selectedFilter;
-      
+
       return matchesSearch && matchesStatusFilter;
     });
-    
+
     return {
       all: activitiesAfterSearchAndStatus.length,
       unitary: activitiesAfterSearchAndStatus.filter(a => a.type === 'unitary').length,
@@ -116,61 +121,57 @@ function ActivityList({
             onChange={setSearchQuery}
             width="100%"
           />
-          
-          {/* Status Filters */}
-          <ActionGroup
-            selectionMode="single"
-            selectedKeys={[selectedFilter]}
-            onSelectionChange={(keys) => setSelectedFilter(Array.from(keys)[0] as string)}
-          >
-            <Item key="all">
-              {formatMessage(activitiesMessages.allActivities)} ({statusCounts.all})
-            </Item>
-            <Item key="active">
-              {formatMessage(activitiesMessages.activeActivities)} ({statusCounts.active})
-            </Item>
-            <Item key="completed">
-              {formatMessage(activitiesMessages.completedActivities)} ({statusCounts.completed})
-            </Item>
-          </ActionGroup>
-          
-          {/* Type Filters */}
-          <Flex alignItems="center" gap="size-100">
-            <Text UNSAFE_className={classNames('filterLabel')}>Type:</Text>
-            <ActionGroup
-              selectionMode="single"
-              selectedKeys={[selectedTypeFilter]}
-              onSelectionChange={(keys) => setSelectedTypeFilter(Array.from(keys)[0] as 'all' | 'unitary' | 'broadcast')}
-              density="compact"
+
+          {/* Filters Row */}
+          <Flex alignItems="end" gap="size-200">
+            {/* Type Filter Dropdown */}
+            <Picker
+              label="Type"
+              selectedKey={selectedTypeFilter}
+              onSelectionChange={key => setSelectedTypeFilter(key as 'all' | 'unitary' | 'broadcast')}
+              width="size-3000"
             >
               <Item key="all">
-                All ({typeCounts.all})
+                <Text>All</Text>
               </Item>
-              <Item key="unitary">
-                🎮 Unitary ({typeCounts.unitary})
+              <Item key="unitary"><Text>Unitary</Text></Item>
+              <Item key="broadcast"><Text>Broadcast</Text></Item>
+            </Picker>
+
+            {/* Status Filter Dropdown */}
+            <Picker
+              label="Status"
+              selectedKey={selectedFilter}
+              onSelectionChange={key => setSelectedFilter(key as string)}
+              width="size-3000"
+            >
+              <Item key="all">
+                <Text>{formatMessage(activitiesMessages.allActivities)}</Text>
               </Item>
-              <Item key="broadcast">
-                📡 Broadcast ({typeCounts.broadcast})
+              <Item key="active">
+                <Text>{formatMessage(activitiesMessages.activeActivities)}</Text> 
               </Item>
-            </ActionGroup>
+              <Item key="completed">
+                <Text>{formatMessage(activitiesMessages.completedActivities)}</Text> 
+              </Item>
+            </Picker>
           </Flex>
         </Flex>
 
         {/* Activities List */}
         <View flex="1" overflow="auto">
           {filteredActivities.length === 0 ? (
-            <Flex 
-              justifyContent="center" 
-              alignItems="center" 
+            <Flex
+              justifyContent="center"
+              alignItems="center"
               height="size-2000"
               direction="column"
               gap="size-100"
             >
               <Text UNSAFE_className={classNames('noActivitiesText')}>
-                {searchQuery || selectedFilter !== 'all' 
+                {searchQuery || selectedFilter !== 'all'
                   ? formatMessage(activitiesMessages.noActivitiesFound)
-                  : formatMessage(activitiesMessages.noActivitiesAvailable)
-                }
+                  : formatMessage(activitiesMessages.noActivitiesAvailable)}
               </Text>
             </Flex>
           ) : (
