@@ -252,14 +252,12 @@ function LaunchLiveActivity() {
                 />
               </View>
             )}
-
             <JsonEditor
               value={apsPayload}
               onChange={(val) => setApsPayload(val || '{}')}
               editorRef={editorRef}
               className={classNames('editorContainer')}
             />
-
             {error && <ErrorMessage message={error} />}
           </Content>
           

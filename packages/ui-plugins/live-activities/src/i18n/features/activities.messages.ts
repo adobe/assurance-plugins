@@ -64,6 +64,10 @@ export const activitiesMessages = defineMessages({
     id: 'activities.details.liveActivityId',
     defaultMessage: 'Live Activity ID'
   },
+  broadcastChannelId: {
+    id: 'activities.details.broadcastChannelId',
+    defaultMessage: 'Broadcast Channel ID'
+  },
   attributeSet: {
     id: 'activities.details.attributeSet',
     defaultMessage: 'Attribute Set'

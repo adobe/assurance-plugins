@@ -143,7 +143,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
                 <Divider />
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <tbody>
-                    <InfoField
+                   {activity.id && <InfoField
                       label={formatMessage(activitiesMessages.liveActivityId)}
                       value={
                         <CopyableValue 
@@ -154,7 +154,22 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
                         />
                       }
                       wrap={true}
+                    />}
+
+                    {activity.broadcastChannelId && (
+                      <InfoField
+                      label={formatMessage(activitiesMessages.broadcastChannelId)}
+                      value={
+                        <CopyableValue 
+                          value={activity.broadcastChannelId}
+                          copyTooltip={formatMessage(copyMessages.copyValue)}
+                          copyFullValueTooltip={formatMessage(copyMessages.copyFullValue)}
+                          copiedMessage={formatMessage(copyMessages.copied)}
+                        />
+                      }
+                      wrap={true}
                     />
+                    )}
                     <InfoField
                       label={formatMessage(activitiesMessages.attributeSet)}
                       value={activity.attributes || 'N/A'}
