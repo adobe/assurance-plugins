@@ -12,7 +12,7 @@ import { CopyableValue } from '@assurance/common-utils';
 import InfoField from '../atoms/InfoField';
 import MetricCard from '../atoms/MetricCard';
 import Card from '../atoms/card';
-import { LiveActivity } from '../../hooks/useActivities';
+import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import { useActivityEvents } from '../../utils/eventProcessing';
 import { activitiesMessages, copyMessages, contentStateMessages } from '../../i18n';
 
@@ -30,7 +30,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
   const { formatMessage } = useIntl();
 
   // Use the same deduplicated events as other components
-  const activityEvents = useActivityEvents(activity?.id || activity?.broadcastChannelId);
+  const activityEvents = useActivityEvents(activity ? getActivityKey(activity) : undefined);
 
   // Get the latest content state from update events
   const { latestContentState, latestContentStateEventId } = useMemo(() => {

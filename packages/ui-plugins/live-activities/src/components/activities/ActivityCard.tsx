@@ -104,29 +104,45 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         height="100%"
         justifyContent="space-between"        
       >
-        {/* Header with status and Live Activity ID (primary identifier) */}
+        {/* Header with status and Live Activity ID/Channel (primary identifier) */}
         <Flex alignItems="center" gap="size-100">
           <StatusLight variant={getStatusVariant(activity.status)} />
-            <Text 
-              UNSAFE_className={classNames('activityIdText')}
-            >
-              {activity.broadcastChannelId? activity.broadcastChannelId : activity.id}
-            </Text>
+          <Flex direction="column" gap="size-25">
+            {activity.type === 'broadcast' && activity.broadcastChannelId ? (
+              <>
+                <Text UNSAFE_className={classNames('activityIdText')}>
+                  Channel: {activity.broadcastChannelId}
+                </Text>
+                <Text 
+                  UNSAFE_className={classNames('typeValue')}
+                  UNSAFE_style={{ fontSize: '11px', color: '#6b7280' }}
+                >
+                  Activity: {activity.name}
+                </Text>
+              </>
+            ) : (
+              <Text UNSAFE_className={classNames('activityIdText')}>
+                {activity.id}
+              </Text>
+            )}
+          </Flex>
         </Flex>
         
-        {/* Attribute Type (secondary info) */}
-        <Flex alignItems="center" gap="size-50">
-          <Text 
-            UNSAFE_className={classNames('typeLabel')}
-          >
-            Type:
-          </Text>
-          <Text 
-            UNSAFE_className={classNames('typeValue')}
-          >
-            {activity.name}
-          </Text>
-        </Flex>
+        {/* Attribute Type (secondary info) - Only show for unitary activities */}
+        {activity.type !== 'broadcast' && (
+          <Flex alignItems="center" gap="size-50">
+            <Text 
+              UNSAFE_className={classNames('typeLabel')}
+            >
+              Type:
+            </Text>
+            <Text 
+              UNSAFE_className={classNames('typeValue')}
+            >
+              {activity.name}
+            </Text>
+          </Flex>
+        )}
         
         {/* Footer with event count and timing */}
         <Flex alignItems="center" justifyContent="space-between" gap="size-100">

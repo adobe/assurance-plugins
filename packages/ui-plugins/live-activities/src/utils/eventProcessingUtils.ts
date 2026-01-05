@@ -21,20 +21,56 @@ export interface TimeRange {
 
 /**
  * Process events for a specific Live Activity
+ * Supports composite keys for broadcast activities (broadcast:channelId:attributeType)
  */
 export function processActivityEvents(
   allEvents: LiveActivityEvent[],
-  activityId: string
+  activityKey: string
 ): LiveActivityEvent[] {
-  const filteredEvents = allEvents.filter(event => {
-    const eventLiveActivityID =
-      event.payload?.ACPExtensionEventData?.liveActivityID ||
-      event.payload?.ACPExtensionEventData?.data?.liveActivityID ||
-      event.payload?.ACPExtensionEventData?.activityId ||
-      event.payload?.ACPExtensionEventData?.channelID ||
-      event.payload?.ACPExtensionEventData?.data?.channelID
+  // Parse the activity key to determine type and identifiers
+  const isBroadcast = activityKey.startsWith('broadcast:');
+  const isUnitary = activityKey.startsWith('unitary:');
+  
+  let targetChannelId: string | undefined;
+  let targetAttributeType: string | undefined;
+  let targetLiveActivityId: string | undefined;
+  
+  if (isBroadcast) {
+    // Format: "broadcast:channelId:attributeType"
+    const parts = activityKey.split(':');
+    targetChannelId = parts[1];
+    targetAttributeType = parts[2];
+  } else if (isUnitary) {
+    // Format: "unitary:liveActivityId"
+    const parts = activityKey.split(':');
+    targetLiveActivityId = parts[1];
+  } else {
+    // Fallback: treat as direct ID (backward compatibility)
+    targetLiveActivityId = activityKey;
+  }
 
-    return eventLiveActivityID === activityId;
+  const filteredEvents = allEvents.filter(event => {
+    const eventData = event.payload?.ACPExtensionEventData;
+    
+    const eventChannelId = eventData?.channelID || eventData?.data?.channelID;
+    const eventLiveActivityId = 
+      eventData?.liveActivityID || 
+      eventData?.data?.liveActivityID || 
+      eventData?.activityId;
+    const eventAttributeType = eventData?.attributeType || eventData?.data?.attributeType;
+
+    if (isBroadcast && targetChannelId && targetAttributeType) {
+      // For broadcast: match both channelID and attributeType
+      return eventChannelId === targetChannelId && eventAttributeType === targetAttributeType;
+    } else if (isUnitary && targetLiveActivityId) {
+      // For unitary: match liveActivityID
+      return eventLiveActivityId === targetLiveActivityId;
+    } else if (targetLiveActivityId) {
+      // Fallback: match any ID field
+      return eventLiveActivityId === targetLiveActivityId || eventChannelId === targetLiveActivityId;
+    }
+    
+    return false;
   });
 
   // Deduplicate by uuid to avoid duplicate events

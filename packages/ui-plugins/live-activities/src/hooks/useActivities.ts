@@ -55,15 +55,15 @@ export interface LiveActivity {
 /**
  * Gets a unique key for a live activity that works for both unitary and broadcast types.
  * For unitary activities: uses the activity ID
- * For broadcast activities: uses the channel ID
+ * For broadcast activities: uses the channel ID + attribute type (to support multiple activity types per channel)
  * 
  * @param activity - The live activity
  * @returns A unique string key for the activity
  */
 export function getActivityKey(activity: LiveActivity): string {
-  // For broadcast: use channelId as the key
+  // For broadcast: use channelId + attributeType as the key (supports multiple types per channel)
   if (activity.type === 'broadcast' && activity.broadcastChannelId) {
-    return `broadcast:${activity.broadcastChannelId}`;
+    return `broadcast:${activity.broadcastChannelId}:${activity.name}`;
   }
   // For unitary: use id as the key
   if (activity.id) {
@@ -97,14 +97,16 @@ function extractActivityMetadata(event: any): {
   
   const activityType: 'unitary' | 'broadcast' = channelId ? 'broadcast' : 'unitary';
   
-  // Determine grouping key based on activity type
-  // For broadcast: group by channelID (required)
-  // For unitary: group by liveActivityID (required)
-  const groupingKey = activityType === 'broadcast' ? channelId : liveActivityId;
-  
   // For attributeType, try multiple possible locations
   const attributeType =
     eventData.attributeType || eventData.data?.attributeType || 'unknown';
+  
+  // Determine grouping key based on activity type
+  // For broadcast: group by channelID + attributeType (to support multiple activity types per channel)
+  // For unitary: group by liveActivityID (required)
+  const groupingKey = activityType === 'broadcast' 
+    ? `${channelId}:${attributeType}` 
+    : liveActivityId;
 
   if (!groupingKey) {
     return null;
