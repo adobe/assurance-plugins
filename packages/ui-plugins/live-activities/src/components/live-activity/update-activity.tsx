@@ -170,7 +170,9 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
   // For unitary activities: require update token
   // For broadcast activities: update token is not required
   const requiresToken = activityTypeSelection === 'unitary' && !activity.updateToken;
-  const isButtonDisabled = !context.isReady || isLoading || requiresToken || activity.status === 'completed';
+  // Only disable for unitary completed activities (broadcast channels can be reused)
+  const isButtonDisabled = !context.isReady || isLoading || requiresToken || 
+    (activityTypeSelection === 'unitary' && activity.status === 'completed');
 
   return (
     <DialogTrigger>

@@ -180,10 +180,18 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
     if (!activity.channelId && channelId) {
       activity.channelId = channelId;
     }
+  });
 
-    // Only update status to completed if this is an end event (dismissed or ended)
-    if (isLiveActivityEndEvent(event)) {
-      activity.status = 'completed';
+  // Determine status based on the latest lifecycle event (for broadcast channel reuse)
+  activitiesMap.forEach(activity => {
+    const lifecycleEvents = activity.events.filter(e => 
+      isLiveActivityStartEvent(e) || isLiveActivityEndEvent(e)
+    );
+    
+    if (lifecycleEvents.length > 0) {
+      // Sort by timestamp descending and get the latest
+      const latestEvent = lifecycleEvents.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0))[0];
+      activity.status = isLiveActivityEndEvent(latestEvent) ? 'completed' : 'active';
     }
   });
 
