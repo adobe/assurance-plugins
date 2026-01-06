@@ -97,53 +97,26 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
           {activity.type === 'broadcast' ? 'Broadcast' : 'Unitary'}
         </Text>
       </View>
-      
-      <Flex 
-        direction="column" 
-        gap="size-75" 
-        height="100%"
-        justifyContent="space-between"        
-      >
-        {/* Header with status and Live Activity ID/Channel (primary identifier) */}
-        <Flex alignItems="center" gap="size-100">
-          <StatusLight variant={getStatusVariant(activity.status)} />
-          <Flex direction="column" gap="size-25">
-            {activity.type === 'broadcast' && activity.broadcastChannelId ? (
-              <>
-                <Text UNSAFE_className={classNames('activityIdText')}>
-                  Channel: {activity.broadcastChannelId}
-                </Text>
-                <Text 
-                  UNSAFE_className={classNames('typeValue')}
-                  UNSAFE_style={{ fontSize: '11px', color: '#6b7280' }}
-                >
-                  Activity: {activity.name}
-                </Text>
-              </>
-            ) : (
+
+      <Flex direction="column" gap="size-75" height="100%" justifyContent="space-between">
+        {/* Header with status and Live Activity ID (primary identifier) */}
+        <Flex alignItems="center" gap="size-100" justifyContent="space-between">
+          <Flex wrap alignItems="center" gap="size-100" flex="1" minWidth="0">
+            <StatusLight variant={getStatusVariant(activity.status)} />
+            {activity.broadcastChannelId ? (
               <Text UNSAFE_className={classNames('activityIdText')}>
-                {activity.id}
+                {activity.broadcastChannelId}
               </Text>
+            ) : (
+              <Text UNSAFE_className={classNames('activityIdText')}>{activity.id}</Text>
             )}
           </Flex>
         </Flex>
-        
-        {/* Attribute Type (secondary info) - Only show for unitary activities */}
-        {activity.type !== 'broadcast' && (
-          <Flex alignItems="center" gap="size-50">
-            <Text 
-              UNSAFE_className={classNames('typeLabel')}
-            >
-              Type:
-            </Text>
-            <Text 
-              UNSAFE_className={classNames('typeValue')}
-            >
-              {activity.name}
-            </Text>
-          </Flex>
-        )}
-        
+        {/* Attribute Type (secondary info) */}
+        <Flex alignItems="center" gap="size-50">
+          <Text UNSAFE_className={classNames('typeLabel')}>Type:</Text>
+          <Text UNSAFE_className={classNames('typeValue')}>{activity.name}</Text>
+        </Flex>
         {/* Footer with event count and timing */}
         <Flex alignItems="center" justifyContent="space-between" gap="size-100">
           <Text 
@@ -151,7 +124,7 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
           >
             {eventCount} {formatMessage(activitiesMessages.eventsCount)}
           </Text>
-          
+
           {lastActivityTime && (
             <Text 
               UNSAFE_className={classNames('timestampText')}
