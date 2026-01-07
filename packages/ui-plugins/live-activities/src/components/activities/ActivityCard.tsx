@@ -68,33 +68,22 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         position: 'relative'
       }}
     >
-      {/* Type Pill - Absolutely Positioned Top Right */}
+      {/* Type Badge - Absolutely Positioned Top Right */}
       <View
         borderRadius="regular"
-        UNSAFE_style={{
-          position: 'absolute',
-          top: '6px',
-          right: '6px',
-          backgroundColor: activity.type === 'broadcast' ? '#f3e8ff' : '#dbeafe',
-          border: `1px solid ${activity.type === 'broadcast' ? '#e9d5ff' : '#bfdbfe'}`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '2px 6px',
-          zIndex: 1
-        }}
+        UNSAFE_className={classNames('typeBadge', {
+          'typeBadgeBroadcast': activity.type === 'broadcast',
+          'typeBadgeUnitary': activity.type !== 'broadcast'
+        })}
+        aria-label={`Activity type: ${activity.type === 'broadcast' ? formatMessage(activitiesMessages.typeBroadcast) : formatMessage(activitiesMessages.typeUnitary)}`}
       >
         <Text
-          UNSAFE_style={{
-            color: activity.type === 'broadcast' ? '#7c3aed' : '#2563eb',
-            fontSize: '6px',
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '0.3px',
-            whiteSpace: 'nowrap'
-          }}
+          UNSAFE_className={classNames('typeBadgeTextBase', {
+            'typeBadgeTextBroadcast': activity.type === 'broadcast',
+            'typeBadgeTextUnitary': activity.type !== 'broadcast'
+          })}
         >
-          {activity.type === 'broadcast' ? 'Broadcast' : 'Unitary'}
+          {activity.type === 'broadcast' ? formatMessage(activitiesMessages.typeBroadcast) : formatMessage(activitiesMessages.typeUnitary)}
         </Text>
       </View>
 

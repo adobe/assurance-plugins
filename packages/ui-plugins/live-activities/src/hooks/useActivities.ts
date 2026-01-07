@@ -205,7 +205,6 @@ function useActivities(): LiveActivity[] {
     sorted: 'desc'
   });
 
-  console.log(allEvents, 'allEvents (((((');
   // Use type guard-based extraction functions
   const activeActivities = extractActiveActivitiesFromEvents(allEvents);
   const schemaData = extractSchemaDataFromEvents(allEvents);

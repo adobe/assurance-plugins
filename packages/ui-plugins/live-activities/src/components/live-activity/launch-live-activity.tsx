@@ -215,7 +215,7 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
           <Button 
             variant="cta" 
             isDisabled={isButtonDisabled}
-            aria-label={buttonTooltip}
+            aria-label={formatMessage(liveActivityMessages.launchNewLiveActivity)}
             UNSAFE_style={{
               padding: '8px',
               minWidth: 'max-content',
@@ -226,7 +226,7 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
             <Add size='XS' />
           </Button>
           <Tooltip>
-            <Text>Start a new live activity</Text>
+            <Text>{formatMessage(liveActivityMessages.launchNewLiveActivity)}</Text>
           </Tooltip>
         </TooltipTrigger>
       ) : (

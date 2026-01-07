@@ -10,6 +10,10 @@ export const liveActivityMessages = defineMessages({
     id: 'liveActivity.launch.title',
     defaultMessage: 'Start Live Activity'
   },
+  launchNewLiveActivity: {
+    id: 'liveActivity.launch.new',
+    defaultMessage: 'Start a new live activity'
+  },
   selectActivity: {
     id: 'liveActivity.launch.select',
     defaultMessage: 'Select Live Activity'

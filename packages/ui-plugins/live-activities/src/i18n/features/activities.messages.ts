@@ -235,6 +235,16 @@ export const activitiesMessages = defineMessages({
   noEventsAvailable: {
     id: 'activities.empty.noEventsAvailable',
     defaultMessage: 'No events available'
+  },
+  
+  // Activity types
+  typeUnitary: {
+    id: 'activities.type.unitary',
+    defaultMessage: 'Unitary'
+  },
+  typeBroadcast: {
+    id: 'activities.type.broadcast',
+    defaultMessage: 'Broadcast'
   }
 });
 

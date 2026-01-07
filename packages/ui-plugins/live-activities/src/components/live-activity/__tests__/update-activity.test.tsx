@@ -121,21 +121,6 @@ describe('UpdateActivity', () => {
       expect(button).toBeDisabled();
     });
 
-    it('should disable button when activity is completed', () => {
-      const completedActivity = {
-        ...mockActivity,
-        status: 'completed' as const,
-      };
-
-      render(
-        <TestWrapper>
-          <UpdateActivity activity={completedActivity} />
-        </TestWrapper>
-      );
-
-      const button = screen.getByRole('button', { name: /Send Update/i });
-      expect(button).toBeDisabled();
-    });
 
     it('should enable button when activity has update token and is active', () => {
       render(

@@ -62,37 +62,6 @@ function ActivityList({
     });
   }, [activities, lowerSearchQuery, selectedFilter, selectedTypeFilter]);
 
-  // Count activities by status (total counts)
-  const statusCounts = useMemo(() => {
-    return {
-      all: activities.length,
-      active: activities.filter(a => a.status === 'active').length,
-      completed: activities.filter(a => a.status === 'completed').length
-    };
-  }, [activities]);
-
-  // Count activities by type (reflecting search and status filters, but not type filter)
-  const typeCounts = useMemo(() => {
-    const activitiesAfterSearchAndStatus = activities.filter(activity => {
-      const matchesSearch =
-        searchQuery === '' ||
-        activity.name.toLowerCase().includes(lowerSearchQuery) ||
-        activity.attributes?.toLowerCase().includes(lowerSearchQuery) ||
-        activity.id?.toLowerCase().includes(lowerSearchQuery) ||
-        activity.broadcastChannelId?.toLowerCase().includes(lowerSearchQuery);
-
-      const matchesStatusFilter = selectedFilter === 'all' || activity.status === selectedFilter;
-
-      return matchesSearch && matchesStatusFilter;
-    });
-
-    return {
-      all: activitiesAfterSearchAndStatus.length,
-      unitary: activitiesAfterSearchAndStatus.filter(a => a.type === 'unitary').length,
-      broadcast: activitiesAfterSearchAndStatus.filter(a => a.type === 'broadcast').length
-    };
-  }, [activities, lowerSearchQuery, searchQuery, selectedFilter]);
-
   if (isLoading) {
     return (
       <View padding="size-200">
@@ -141,10 +110,10 @@ function ActivityList({
               width="size-3000"
             >
               <Item key="all">
-                <Text>All</Text>
+                <Text>{formatMessage(activitiesMessages.allActivities)}</Text>
               </Item>
-              <Item key="unitary"><Text>Unitary</Text></Item>
-              <Item key="broadcast"><Text>Broadcast</Text></Item>
+              <Item key="unitary"><Text>{formatMessage(activitiesMessages.typeUnitary)}</Text></Item>
+              <Item key="broadcast"><Text>{formatMessage(activitiesMessages.typeBroadcast)}</Text></Item>
             </Picker>
 
             {/* Status Filter Dropdown */}

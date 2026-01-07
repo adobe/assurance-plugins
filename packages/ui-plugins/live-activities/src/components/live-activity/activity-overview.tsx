@@ -83,7 +83,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
             <Heading level={2} marginY="size-0">
               {activity.name}
             </Heading>
-            {activity.type==='unitary' && <ActivityStatus status={activity.status} />}
+            {activity.type==="unitary" && <ActivityStatus status={activity.status} />}
           </Flex>
           <UpdateActivity activity={activity} />
         </Flex>

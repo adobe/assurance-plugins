@@ -121,8 +121,6 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
       // Generate complete payload
       // For unitary: use updateToken
       // For broadcast: use pushToStartToken or empty string (token not required for broadcast updates)
-      // TODO: REVIEW - VERIFY IF BROADCAST UPDATES ACTUALLY NEED A TOKEN AND WHICH TOKEN TO USE
-      // TODO: REVIEW - WHAT SHOULD HAPPEN IF pushToStartToken IS MISSING? EMPTY STRING OR ERROR?
       const token = activityTypeSelection === 'unitary' 
         ? activity.updateToken 
         : (activity.pushToStartToken || '');
@@ -171,8 +169,11 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
   // For broadcast activities: update token is not required
   const requiresToken = activityTypeSelection === 'unitary' && !activity.updateToken;
   // Only disable for unitary completed activities (broadcast channels can be reused)
-  const isButtonDisabled = !context.isReady || isLoading || requiresToken || 
-    (activityTypeSelection === 'unitary' && activity.status === 'completed');
+  // const isButtonDisabled = !context.isReady || isLoading || requiresToken || 
+  //   (activityTypeSelection === 'unitary' && activity.status === 'completed');
+
+  // Disable if not ready or loading or requires token (Enabling for other cases)
+  const isButtonDisabled = !context.isReady || isLoading || requiresToken;
 
   return (
     <DialogTrigger>
