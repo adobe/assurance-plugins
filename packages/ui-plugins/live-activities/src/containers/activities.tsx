@@ -172,10 +172,12 @@ function Activities() {
           UNSAFE_style={{ 
             border: 'none',
             outline: 'none',
-            boxShadow: 'none'
+            boxShadow: 'none',
+            padding: '4px',
+            minWidth: 'max-content',
           }}
         >
-          <Info />
+          <Info size='S'/>
         </Button>
         <Tooltip>
           <Text>{getTooltipMessage()}</Text>
@@ -184,22 +186,20 @@ function Activities() {
     );
   };
 
+  // Action button component for ActivityList (compact mode)
+  const ActionButton = () => {
+    if (!platform.hasLiveActivities) return null;
+    return (
+      <>
+        {platform.hasRemoteStart && <LaunchLiveActivity compact />}
+        {!platform.hasRemoteStart && <InfoButton />}
+      </>
+    );
+  };
+
   return (
     <View height="100vh" overflow="hidden">
       <Flex direction="column" height="100%">
-        {/* Header with Launch Button - Only show when there are activities */}
-        {activities.length > 0 && (
-          <View borderBottomWidth="thin" borderBottomColor="gray-300" padding="size-200">
-            <Flex direction="row" justifyContent="end" alignItems="center">              
-              {platform.hasLiveActivities && (
-                <Flex alignItems="center" gap="size-100">
-                  {platform.hasRemoteStart && <LaunchLiveActivity />}
-                  <InfoButton />
-                </Flex>
-              )}
-            </Flex>
-          </View>
-        )}
 
         {/* No Activities State */}
         {!activities.length && (
@@ -247,6 +247,7 @@ function Activities() {
                 selectedActivityId={selectedActivityId ?? undefined}
                 onActivitySelect={handleActivitySelect}
                 isLoading={false}
+                actionButton={<ActionButton />}
               />
             </View>
 

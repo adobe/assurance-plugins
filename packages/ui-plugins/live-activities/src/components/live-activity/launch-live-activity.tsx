@@ -13,10 +13,13 @@ import {
   ToastQueue,
   RadioGroup,
   Radio,
-  TextField
+  TextField,
+  TooltipTrigger,
+  Tooltip
 } from '@adobe/react-spectrum';
 import classNames from 'classnames';
 import Rocket from '@spectrum-icons/workflow/Launch';
+import Add from '@spectrum-icons/workflow/Add';
 import { useIntl } from 'react-intl';
 import { useLiveActivitiesData, useRegisteredActivities } from '../../hooks/useActivities';
 import {
@@ -70,7 +73,11 @@ function ActivityPicker({ activities, selectedKey, onSelectionChange, label }: R
 // MAIN COMPONENT
 // ============================================================================
 
-function LaunchLiveActivity() {
+interface LaunchLiveActivityProps {
+  compact?: boolean;
+}
+
+function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
   const { formatMessage } = useIntl();
   
   // State
@@ -202,14 +209,37 @@ function LaunchLiveActivity() {
   // Render
   return (
     <DialogTrigger>
-      <Button 
-        variant="cta" 
-        isDisabled={isButtonDisabled}
-        aria-label={buttonTooltip}
-      >
-        <Rocket marginEnd="size-50" />
-        {formatMessage(liveActivityMessages.launchLiveActivity)}
-      </Button>
+      {compact ? (
+        // Compact mode: Icon-only button with tooltip
+        <TooltipTrigger delay={0}>
+          <Button 
+            variant="cta" 
+            isDisabled={isButtonDisabled}
+            aria-label={buttonTooltip}
+            UNSAFE_style={{
+              padding: '8px',
+              minWidth: 'max-content',
+              borderRadius: '50%',
+              cursor: 'pointer',
+            }}
+          >
+            <Add size='XS' />
+          </Button>
+          <Tooltip>
+            <Text>Start a new live activity</Text>
+          </Tooltip>
+        </TooltipTrigger>
+      ) : (
+        // Full mode: Button with icon and text
+        <Button 
+          variant="cta" 
+          isDisabled={isButtonDisabled}
+          aria-label={buttonTooltip}
+        >
+          <Rocket />
+          <Text>{formatMessage(liveActivityMessages.launchLiveActivity)}</Text>
+        </Button>
+      )}
       
       {(close) => (
         <Dialog>

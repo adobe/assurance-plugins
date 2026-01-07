@@ -25,13 +25,15 @@ interface ActivityListProps {
   selectedActivityId?: string;
   onActivitySelect: (key: string) => void;
   isLoading?: boolean;
+  actionButton?: React.ReactNode;
 }
 
 function ActivityList({
   activities,
   selectedActivityId,
   onActivitySelect,
-  isLoading = false
+  isLoading = false,
+  actionButton
 }: ActivityListProps) {
   const { formatMessage } = useIntl();
   const [searchQuery, setSearchQuery] = useState('');
@@ -103,13 +105,20 @@ function ActivityList({
   }
 
   return (
-    <View padding="size-200" height="100%">
+    <View padding="size-200" paddingTop="size-0" height="100%">
       <Flex direction="column" gap="size-200" height="100%">
         {/* Header */}
         <Flex direction="column" gap="size-100">
-          <Heading level={2} margin="size-0">
-            Live Activities ({activities.length})
-          </Heading>
+          <Flex direction="row" justifyContent="space-between" alignItems="center">
+            <Heading level={2} margin="size-0">
+              Live Activities ({activities.length})
+            </Heading>
+            {actionButton && (
+              <Flex alignItems="center" gap="size-100">
+                {actionButton}
+              </Flex>
+            )}
+          </Flex>
           <Text UNSAFE_className={classNames('subtitleText')}>
             Each activity is identified by its unique Live Activity ID
           </Text>
