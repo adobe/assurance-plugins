@@ -4,6 +4,11 @@
 
 import { describe, it, expect } from 'vitest';
 import { processActivityEvents } from '../eventProcessingUtils';
+import { 
+  isBroadcastActivityKey, 
+  isUnitaryActivityKey, 
+  parseActivityKey 
+} from '../../hooks/useActivities';
 
 describe('Event Processing Utils - Broadcast Support', () => {
   let eventCounter = 0;
@@ -187,6 +192,70 @@ describe('Event Processing Utils - Broadcast Support', () => {
       const result = processActivityEvents(events, activityKey);
 
       expect(result).toHaveLength(2);
+    });
+  });
+
+  describe('Activity Key Utility Functions', () => {
+    describe('isBroadcastActivityKey', () => {
+      it('should return true for broadcast activity keys', () => {
+        expect(isBroadcastActivityKey('broadcast:channel-123:FlightActivity')).toBe(true);
+        expect(isBroadcastActivityKey('broadcast:abc:xyz')).toBe(true);
+      });
+
+      it('should return false for non-broadcast activity keys', () => {
+        expect(isBroadcastActivityKey('unitary:activity-123')).toBe(false);
+        expect(isBroadcastActivityKey('unknown:something')).toBe(false);
+        expect(isBroadcastActivityKey('activity-123')).toBe(false);
+      });
+    });
+
+    describe('isUnitaryActivityKey', () => {
+      it('should return true for unitary activity keys', () => {
+        expect(isUnitaryActivityKey('unitary:activity-123')).toBe(true);
+        expect(isUnitaryActivityKey('unitary:abc-def-ghi')).toBe(true);
+      });
+
+      it('should return false for non-unitary activity keys', () => {
+        expect(isUnitaryActivityKey('broadcast:channel-123:FlightActivity')).toBe(false);
+        expect(isUnitaryActivityKey('unknown:something')).toBe(false);
+        expect(isUnitaryActivityKey('activity-123')).toBe(false);
+      });
+    });
+
+    describe('parseActivityKey', () => {
+      it('should parse broadcast activity keys correctly', () => {
+        const result = parseActivityKey('broadcast:channel-123:FlightActivity');
+        
+        expect(result.type).toBe('broadcast');
+        expect(result.channelId).toBe('channel-123');
+        expect(result.attributeType).toBe('FlightActivity');
+        expect(result.liveActivityId).toBeUndefined();
+      });
+
+      it('should parse unitary activity keys correctly', () => {
+        const result = parseActivityKey('unitary:activity-456');
+        
+        expect(result.type).toBe('unitary');
+        expect(result.liveActivityId).toBe('activity-456');
+        expect(result.channelId).toBeUndefined();
+        expect(result.attributeType).toBeUndefined();
+      });
+
+      it('should handle unknown/fallback keys', () => {
+        const result = parseActivityKey('some-random-id');
+        
+        expect(result.type).toBe('unknown');
+        expect(result.liveActivityId).toBe('some-random-id');
+        expect(result.channelId).toBeUndefined();
+        expect(result.attributeType).toBeUndefined();
+      });
+
+      it('should handle keys with colons in unknown format', () => {
+        const result = parseActivityKey('unknown:test:value');
+        
+        expect(result.type).toBe('unknown');
+        expect(result.liveActivityId).toBe('unknown:test:value');
+      });
     });
   });
 });

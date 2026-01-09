@@ -1,6 +1,6 @@
-import { combineAny } from '@adobe/griffon-toolkit';
 import { EVENT_CONFIG } from '../constants/liveActivitiesConfig';
 import { LiveActivityEvent } from '../types/liveActivityEvent';
+import { isBroadcastActivityKey, isUnitaryActivityKey, parseActivityKey } from '../hooks/useActivities';
 
 export interface EventStatistics {
   total: number;
@@ -27,27 +27,14 @@ export function processActivityEvents(
   allEvents: LiveActivityEvent[],
   activityKey: string
 ): LiveActivityEvent[] {
-  // Parse the activity key to determine type and identifiers
-  const isBroadcast = activityKey.startsWith('broadcast:');
-  const isUnitary = activityKey.startsWith('unitary:');
+  // Parse the activity key using utility functions
+  const isBroadcast = isBroadcastActivityKey(activityKey);
+  const isUnitary = isUnitaryActivityKey(activityKey);
+  const parsedKey = parseActivityKey(activityKey);
   
-  let targetChannelId: string | undefined;
-  let targetAttributeType: string | undefined;
-  let targetLiveActivityId: string | undefined;
-  
-  if (isBroadcast) {
-    // Format: "broadcast:channelId:attributeType"
-    const parts = activityKey.split(':');
-    targetChannelId = parts[1];
-    targetAttributeType = parts[2];
-  } else if (isUnitary) {
-    // Format: "unitary:liveActivityId"
-    const parts = activityKey.split(':');
-    targetLiveActivityId = parts[1];
-  } else {
-    // Fallback: treat as direct ID (backward compatibility)
-    targetLiveActivityId = activityKey;
-  }
+  const targetChannelId = parsedKey.channelId;
+  const targetAttributeType = parsedKey.attributeType;
+  const targetLiveActivityId = parsedKey.liveActivityId;
 
   const filteredEvents = allEvents.filter(event => {
     const eventData = event.payload?.ACPExtensionEventData;

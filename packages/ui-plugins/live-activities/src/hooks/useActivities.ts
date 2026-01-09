@@ -71,6 +71,64 @@ export function getActivityKey(activity: LiveActivity): string {
 }
 
 /**
+ * Checks if an activity key represents a broadcast activity.
+ * 
+ * @param activityKey - The activity key to check
+ * @returns True if the key represents a broadcast activity
+ */
+export function isBroadcastActivityKey(activityKey: string): boolean {
+  return activityKey.startsWith(`${ACTIVITY_TYPE.BROADCAST}:`);
+}
+
+/**
+ * Checks if an activity key represents a unitary activity.
+ * 
+ * @param activityKey - The activity key to check
+ * @returns True if the key represents a unitary activity
+ */
+export function isUnitaryActivityKey(activityKey: string): boolean {
+  return activityKey.startsWith(`${ACTIVITY_TYPE.UNITARY}:`);
+}
+
+/**
+ * Parses an activity key to extract its components.
+ * 
+ * @param activityKey - The activity key to parse
+ * @returns Object containing the parsed components: type, channelId, attributeType, and liveActivityId
+ */
+export function parseActivityKey(activityKey: string): {
+  type: 'broadcast' | 'unitary' | 'unknown';
+  channelId?: string;
+  attributeType?: string;
+  liveActivityId?: string;
+} {
+  if (isBroadcastActivityKey(activityKey)) {
+    // Format: "broadcast:channelId:attributeType"
+    const parts = activityKey.split(':');
+    return {
+      type: 'broadcast',
+      channelId: parts[1],
+      attributeType: parts[2]
+    };
+  }
+  
+  if (isUnitaryActivityKey(activityKey)) {
+    // Format: "unitary:liveActivityId"
+    const parts = activityKey.split(':');
+    return {
+      type: 'unitary',
+      liveActivityId: parts[1]
+    };
+  }
+  
+  // Unknown format (fallback for backward compatibility)
+  return {
+    type: 'unknown',
+    liveActivityId: activityKey
+  };
+}
+
+/**
  * Extracts activity metadata from Live Activity events.
  * @param event - The event to extract metadata from
  * @returns Object with grouping key, IDs, type, and attributeType, or null if not found
