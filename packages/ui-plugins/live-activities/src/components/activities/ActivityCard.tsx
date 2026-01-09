@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import SpectrumCard from '../atoms/SpectrumCard';
+import { ACTIVITY_TYPE } from '../../api/liveActivityApi';
 import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import { activitiesMessages } from '../../i18n';
 import './ActivityCard.css';

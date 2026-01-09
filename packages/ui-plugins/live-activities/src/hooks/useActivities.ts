@@ -1,8 +1,4 @@
-import { combineAny } from '@adobe/griffon-toolkit';
-
 import { useEvents } from '@assurance/plugin-bridge-provider';
-
-import groupBy from 'lodash/groupBy';
 
 import { useMemo } from 'react';
 
