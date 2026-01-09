@@ -12,6 +12,7 @@ import { CopyableValue } from '@assurance/common-utils';
 import InfoField from '../atoms/InfoField';
 import MetricCard from '../atoms/MetricCard';
 import Card from '../atoms/card';
+import { ACTIVITY_TYPE } from '../../api/liveActivityApi';
 import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import { useActivityEvents } from '../../utils/eventProcessing';
 import { activitiesMessages, copyMessages, contentStateMessages } from '../../i18n';
@@ -83,7 +84,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
             <Heading level={2} marginY="size-0">
               {activity.name}
             </Heading>
-            {activity.type==="unitary" && <ActivityStatus status={activity.status} />}
+            {activity.type === ACTIVITY_TYPE.UNITARY && <ActivityStatus status={activity.status} />}
           </Flex>
           <UpdateActivity activity={activity} />
         </Flex>

@@ -11,6 +11,24 @@ import { v4 as uuidv4 } from 'uuid';
 // CONSTANTS
 // ============================================================================
 
+// Live Activity Types
+export const ACTIVITY_TYPE = {
+  UNITARY: 'unitary',
+  BROADCAST: 'broadcast'
+} as const;
+
+export type ActivityType = typeof ACTIVITY_TYPE[keyof typeof ACTIVITY_TYPE];
+
+// Live Activity Event Types
+export const EVENT_TYPE = {
+  START: 'start',
+  UPDATE: 'update',
+  END: 'end',
+  REMOTE_START: 'remotestart'
+} as const;
+
+export type EventType = typeof EVENT_TYPE[keyof typeof EVENT_TYPE];
+
 export const API_ENDPOINTS = {
   local: 'https://local.griffon.adobe.com',
   dev: 'https://plugin-support-dev.griffon.adobe.com',
@@ -60,7 +78,7 @@ export interface LiveActivityPayloadParams {
   sessionId: string;
   sandboxName: string;
   environment: string;
-  type?: 'unitary' | 'broadcast';
+  type?: ActivityType;
   broadcastChannelId?: string;
 }
 
@@ -133,7 +151,7 @@ export function generateUpdateTemplate(activity: any): any {
  */
 export function buildCompleteApsPayload(params: {
   userPayload: any;
-  eventType: 'start' | 'update' | 'end';
+  eventType: typeof EVENT_TYPE.START | typeof EVENT_TYPE.UPDATE | typeof EVENT_TYPE.END;
   attributesType: string;
   broadcastChannelId?: string;
 }): any {
@@ -166,7 +184,7 @@ export function buildCompleteApsPayload(params: {
       ...basePayload.attributes.liveActivityData,  // Preserve user's custom fields
       channelID: params.broadcastChannelId,         // Our required field (override if exists)
       origin: "remote",                             // Our required field
-      type: "broadcast"                             // Our required field
+      type: ACTIVITY_TYPE.BROADCAST                 // Our required field
     };
   }
 
@@ -274,17 +292,17 @@ export function generateLiveActivityPayload(params: LiveActivityPayloadParams) {
   const normalizedAps = normalizeApsPayload(params.apsContent);
 
   // Determine event type - if 'start', map to 'remotestart'
-  const eventType = normalizedAps.event === 'start' ? 'remotestart' : normalizedAps.event;
+  const eventType = normalizedAps.event === EVENT_TYPE.START ? EVENT_TYPE.REMOTE_START : normalizedAps.event;
 
   // Build liveActivity object based on type
   const liveActivityPayload: any = {
-    type: params.type || 'unitary',
+    type: params.type || ACTIVITY_TYPE.UNITARY,
     event: eventType,
     liveActivityID: normalizedAps.attributes?.liveActivityData?.liveActivityID
   };
   
   // Add channelID for broadcast activities
-  if (params.type === 'broadcast' && params.broadcastChannelId) {
+  if (params.type === ACTIVITY_TYPE.BROADCAST && params.broadcastChannelId) {
     liveActivityPayload.channelID = params.broadcastChannelId;
   }
 

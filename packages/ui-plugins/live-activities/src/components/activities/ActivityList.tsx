@@ -14,6 +14,7 @@ import React, { useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
+import { ACTIVITY_TYPE, ActivityType } from '../../api/liveActivityApi';
 import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import { activitiesMessages } from '../../i18n';
 
@@ -38,7 +39,7 @@ function ActivityList({
   const { formatMessage } = useIntl();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
-  const [selectedTypeFilter, setSelectedTypeFilter] = useState<'all' | 'unitary' | 'broadcast'>(
+  const [selectedTypeFilter, setSelectedTypeFilter] = useState<'all' | ActivityType>(
     'all'
   );
 
@@ -106,14 +107,14 @@ function ActivityList({
             <Picker
               label="Type"
               selectedKey={selectedTypeFilter}
-              onSelectionChange={key => setSelectedTypeFilter(key as 'all' | 'unitary' | 'broadcast')}
+              onSelectionChange={key => setSelectedTypeFilter(key as 'all' | ActivityType)}
               width="size-3000"
             >
               <Item key="all">
                 <Text>{formatMessage(activitiesMessages.allActivities)}</Text>
               </Item>
-              <Item key="unitary"><Text>{formatMessage(activitiesMessages.typeUnitary)}</Text></Item>
-              <Item key="broadcast"><Text>{formatMessage(activitiesMessages.typeBroadcast)}</Text></Item>
+              <Item key={ACTIVITY_TYPE.UNITARY}><Text>{formatMessage(activitiesMessages.typeUnitary)}</Text></Item>
+              <Item key={ACTIVITY_TYPE.BROADCAST}><Text>{formatMessage(activitiesMessages.typeBroadcast)}</Text></Item>
             </Picker>
 
             {/* Status Filter Dropdown */}

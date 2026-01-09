@@ -72,18 +72,18 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
       <View
         borderRadius="regular"
         UNSAFE_className={classNames('typeBadge', {
-          'typeBadgeBroadcast': activity.type === 'broadcast',
-          'typeBadgeUnitary': activity.type !== 'broadcast'
+          'typeBadgeBroadcast': activity.type === ACTIVITY_TYPE.BROADCAST,
+          'typeBadgeUnitary': activity.type !== ACTIVITY_TYPE.BROADCAST
         })}
-        aria-label={`Activity type: ${activity.type === 'broadcast' ? formatMessage(activitiesMessages.typeBroadcast) : formatMessage(activitiesMessages.typeUnitary)}`}
+        aria-label={`Activity type: ${activity.type === ACTIVITY_TYPE.BROADCAST ? formatMessage(activitiesMessages.typeBroadcast) : formatMessage(activitiesMessages.typeUnitary)}`}
       >
         <Text
           UNSAFE_className={classNames('typeBadgeTextBase', {
-            'typeBadgeTextBroadcast': activity.type === 'broadcast',
-            'typeBadgeTextUnitary': activity.type !== 'broadcast'
+            'typeBadgeTextBroadcast': activity.type === ACTIVITY_TYPE.BROADCAST,
+            'typeBadgeTextUnitary': activity.type !== ACTIVITY_TYPE.BROADCAST
           })}
         >
-          {activity.type === 'broadcast' ? formatMessage(activitiesMessages.typeBroadcast) : formatMessage(activitiesMessages.typeUnitary)}
+          {activity.type === ACTIVITY_TYPE.BROADCAST ? formatMessage(activitiesMessages.typeBroadcast) : formatMessage(activitiesMessages.typeUnitary)}
         </Text>
       </View>
 

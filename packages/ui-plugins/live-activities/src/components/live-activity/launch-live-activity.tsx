@@ -27,7 +27,10 @@ import {
   generateLiveActivityPayload,
   sendLiveActivityNotification,
   generateLaunchTemplate,
-  buildCompleteApsPayload
+  buildCompleteApsPayload,
+  ACTIVITY_TYPE,
+  ActivityType,
+  EVENT_TYPE
 } from '../../api/liveActivityApi';
 import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
 import { ErrorMessage, JsonEditor, DialogActions } from './common';
@@ -87,7 +90,7 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activityTypeSelection, setActivityTypeSelection] = useState<'unitary' | 'broadcast'>('unitary');
+  const [activityTypeSelection, setActivityTypeSelection] = useState<ActivityType>(ACTIVITY_TYPE.UNITARY);
   const [broadcastChannelId, setBroadcastChannelId] = useState<string>('');
   const editorRef = useRef<any>(null);
 
@@ -127,16 +130,16 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
       }
 
       // Validate broadcast channel ID if broadcast type is selected
-      if (activityTypeSelection === 'broadcast' && !broadcastChannelId.trim()) {
+      if (activityTypeSelection === ACTIVITY_TYPE.BROADCAST && !broadcastChannelId.trim()) {
         throw new Error(formatMessage(liveActivityMessages.broadcastChannelIdRequired));
       }
 
       // Build complete APS payload by merging user input with auto-generated fields
       const completeApsPayload = buildCompleteApsPayload({
         userPayload,
-        eventType: 'start',
+        eventType: EVENT_TYPE.START,
         attributesType: selectedActivityType,
-        broadcastChannelId: activityTypeSelection === 'broadcast' ? broadcastChannelId : undefined
+        broadcastChannelId: activityTypeSelection === ACTIVITY_TYPE.BROADCAST ? broadcastChannelId : undefined
       });
 
       // Generate complete payload
@@ -151,7 +154,7 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
         sandboxName: context.sandbox?.name || LIVE_ACTIVITY_DEFAULTS.SANDBOX,
         environment: context.environment,
         type: activityTypeSelection,
-        broadcastChannelId: activityTypeSelection === 'broadcast' ? broadcastChannelId : undefined
+        broadcastChannelId: activityTypeSelection === ACTIVITY_TYPE.BROADCAST ? broadcastChannelId : undefined
       });
 
       // Make API call
@@ -174,7 +177,7 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
   const handleReset = useCallback(() => {
     setSelectedActivityType('');
     setApsPayload(JSON.stringify(generateLaunchTemplate(), null, 2));
-    setActivityTypeSelection('unitary');
+    setActivityTypeSelection(ACTIVITY_TYPE.UNITARY);
     setBroadcastChannelId('');
     setError(null);
   }, []);
@@ -200,7 +203,7 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
                     apsPayload.trim() !== '' && 
                     context.isReady && 
                     !isLoading &&
-                    (activityTypeSelection === 'unitary' || (activityTypeSelection === 'broadcast' && broadcastChannelId.trim() !== ''));
+                    (activityTypeSelection === ACTIVITY_TYPE.UNITARY || (activityTypeSelection === ACTIVITY_TYPE.BROADCAST && broadcastChannelId.trim() !== ''));
   const isButtonDisabled = !context.isReady || isLoading || !hasRegisteredActivities;
   const buttonTooltip = hasRegisteredActivities 
     ? formatMessage(liveActivityMessages.launchLiveActivity)
@@ -262,15 +265,15 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
               <RadioGroup 
                 label={formatMessage(liveActivityMessages.activityType)}
                 value={activityTypeSelection}
-                onChange={(value) => setActivityTypeSelection(value as 'unitary' | 'broadcast')}
+                onChange={(value) => setActivityTypeSelection(value as ActivityType)}
                 orientation="horizontal"
               >
-                <Radio value="unitary">{formatMessage(liveActivityMessages.activityTypeUnitary)}</Radio>
-                <Radio value="broadcast">{formatMessage(liveActivityMessages.activityTypeBroadcast)}</Radio>
+                <Radio value={ACTIVITY_TYPE.UNITARY}>{formatMessage(liveActivityMessages.activityTypeUnitary)}</Radio>
+                <Radio value={ACTIVITY_TYPE.BROADCAST}>{formatMessage(liveActivityMessages.activityTypeBroadcast)}</Radio>
               </RadioGroup>
             </View>
 
-            {activityTypeSelection === 'broadcast' && (
+            {activityTypeSelection === ACTIVITY_TYPE.BROADCAST && (
               <View marginBottom="size-200">
                 <TextField
                   label={formatMessage(liveActivityMessages.broadcastChannelId)}

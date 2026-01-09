@@ -7,7 +7,9 @@ import {
   buildCompleteApsPayload,
   generateUpdateTemplate,
   generateLiveActivityPayload,
-  getCurrentTimestamp
+  getCurrentTimestamp,
+  ACTIVITY_TYPE,
+  EVENT_TYPE
 } from '../liveActivityApi';
 
 describe('LiveActivityApi - Broadcast Support', () => {
@@ -19,13 +21,13 @@ describe('LiveActivityApi - Broadcast Support', () => {
     it('should build payload without broadcast fields for unitary activities', () => {
       const result = buildCompleteApsPayload({
         userPayload: { 'content-state': { value: 10 } },
-        eventType: 'start',
+        eventType: EVENT_TYPE.START,
         attributesType: 'TestActivity'
       });
 
       expect(result).toMatchObject({
         'content-available': 1,
-        event: 'start',
+        event: EVENT_TYPE.START,
         'attributes-type': 'TestActivity',
         'content-state': { value: 10 }
       });
@@ -35,7 +37,7 @@ describe('LiveActivityApi - Broadcast Support', () => {
     it('should add broadcast fields when broadcastChannelId is provided', () => {
       const result = buildCompleteApsPayload({
         userPayload: { 'content-state': { value: 20 } },
-        eventType: 'start',
+        eventType: EVENT_TYPE.START,
         attributesType: 'BroadcastActivity',
         broadcastChannelId: 'channel-123'
       });
@@ -44,7 +46,7 @@ describe('LiveActivityApi - Broadcast Support', () => {
       expect(result.attributes.liveActivityData).toMatchObject({
         channelID: 'channel-123',
         origin: 'remote',
-        type: 'broadcast'
+        type: ACTIVITY_TYPE.BROADCAST
       });
     });
 
@@ -59,7 +61,7 @@ describe('LiveActivityApi - Broadcast Support', () => {
             }
           }
         },
-        eventType: 'update',
+        eventType: EVENT_TYPE.UPDATE,
         attributesType: 'BroadcastActivity',
         broadcastChannelId: 'channel-456'
       });
@@ -67,7 +69,7 @@ describe('LiveActivityApi - Broadcast Support', () => {
       expect(result.attributes.liveActivityData).toMatchObject({
         channelID: 'channel-456',
         origin: 'remote',
-        type: 'broadcast',
+        type: ACTIVITY_TYPE.BROADCAST,
         customField: 'customValue',
         userMetadata: { key: 'value' }
       });
@@ -76,21 +78,21 @@ describe('LiveActivityApi - Broadcast Support', () => {
     it('should handle update and end event types for broadcast', () => {
       const updateResult = buildCompleteApsPayload({
         userPayload: {},
-        eventType: 'update',
+        eventType: EVENT_TYPE.UPDATE,
         attributesType: 'Activity',
         broadcastChannelId: 'channel-789'
       });
 
       const endResult = buildCompleteApsPayload({
         userPayload: {},
-        eventType: 'end',
+        eventType: EVENT_TYPE.END,
         attributesType: 'Activity',
         broadcastChannelId: 'channel-789'
       });
 
-      expect(updateResult.event).toBe('update');
+      expect(updateResult.event).toBe(EVENT_TYPE.UPDATE);
       expect(updateResult['input-push-channel']).toBe('channel-789');
-      expect(endResult.event).toBe('end');
+      expect(endResult.event).toBe(EVENT_TYPE.END);
       expect(endResult['input-push-channel']).toBe('channel-789');
     });
   });
@@ -160,7 +162,7 @@ describe('LiveActivityApi - Broadcast Support', () => {
         apsContent: {
           'content-state': { value: 50 },
           'attributes-type': 'BroadcastTest',
-          event: 'start'
+          event: EVENT_TYPE.START
         },
         imsOrg: 'org-123',
         sandboxName: 'prod',
@@ -170,14 +172,14 @@ describe('LiveActivityApi - Broadcast Support', () => {
         token: 'push-token-123',
         ecid: 'ecid-123',
         environment: 'prod',
-        type: 'broadcast' as const,
+        type: ACTIVITY_TYPE.BROADCAST,
         broadcastChannelId: 'channel-test'
       };
 
       const result = generateLiveActivityPayload(params);
 
       const liveActivity = result.messages[0].value.notification.liveActivity;
-      expect(liveActivity.type).toBe('broadcast');
+      expect(liveActivity.type).toBe(ACTIVITY_TYPE.BROADCAST);
       expect(liveActivity.channelID).toBe('channel-test');
     });
 
@@ -186,7 +188,7 @@ describe('LiveActivityApi - Broadcast Support', () => {
         apsContent: {
           'content-state': { value: 60 },
           'attributes-type': 'UnitaryTest',
-          event: 'start'
+          event: EVENT_TYPE.START
         },
         imsOrg: 'org-456',
         sandboxName: 'prod',
@@ -196,13 +198,13 @@ describe('LiveActivityApi - Broadcast Support', () => {
         token: 'push-token-456',
         ecid: 'ecid-456',
         environment: 'prod',
-        type: 'unitary' as const
+        type: ACTIVITY_TYPE.UNITARY
       };
 
       const result = generateLiveActivityPayload(params);
 
       const liveActivity = result.messages[0].value.notification.liveActivity;
-      expect(liveActivity.type).toBe('unitary');
+      expect(liveActivity.type).toBe(ACTIVITY_TYPE.UNITARY);
       expect(liveActivity.channelID).toBeUndefined();
     });
   });

@@ -29,7 +29,10 @@ import {
   generateLiveActivityPayload,
   sendLiveActivityNotification,
   generateUpdateTemplate,
-  buildCompleteApsPayload
+  buildCompleteApsPayload,
+  ACTIVITY_TYPE,
+  ActivityType,
+  EVENT_TYPE
 } from '../../api/liveActivityApi';
 import { LiveActivity } from '../../hooks/useActivities';
 import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
@@ -57,8 +60,8 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
   const { formatMessage } = useIntl();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [eventType, setEventType] = useState<'update' | 'end'>('update');
-  const [activityTypeSelection, setActivityTypeSelection] = useState<'unitary' | 'broadcast'>(activity.type || 'unitary');
+  const [eventType, setEventType] = useState<typeof EVENT_TYPE.UPDATE | typeof EVENT_TYPE.END>(EVENT_TYPE.UPDATE);
+  const [activityTypeSelection, setActivityTypeSelection] = useState<ActivityType>(activity.type || ACTIVITY_TYPE.UNITARY);
   const [broadcastChannelId, setBroadcastChannelId] = useState<string>(activity.broadcastChannelId || '');
 
   // Context (doesn't require push token for update operations)
@@ -80,7 +83,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
       reset({
         payload: JSON.stringify(generateUpdateTemplate(activity), null, 2)
       });
-      setActivityTypeSelection(activity.type || 'unitary');
+      setActivityTypeSelection(activity.type || ACTIVITY_TYPE.UNITARY);
       setBroadcastChannelId(activity.broadcastChannelId || '');
     }
   }, [activity?.id, activity?.broadcastChannelId, activity?.currentContentState, activity?.type, reset]);
@@ -101,12 +104,12 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
 
       // Validate update token exists for unitary activities
       // Broadcast activities don't require an update token
-      if (activityTypeSelection === 'unitary' && !activity.updateToken) {
+      if (activityTypeSelection === ACTIVITY_TYPE.UNITARY && !activity.updateToken) {
         throw new Error('Update token not available for this activity');
       }
 
       // Validate broadcast channel ID if broadcast type is selected
-      if (activityTypeSelection === 'broadcast' && !broadcastChannelId.trim()) {
+      if (activityTypeSelection === ACTIVITY_TYPE.BROADCAST && !broadcastChannelId.trim()) {
         throw new Error(formatMessage(liveActivityMessages.broadcastChannelIdRequired));
       }
 
@@ -115,13 +118,13 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         userPayload,
         eventType,
         attributesType: activity.attributes || 'unknown',
-        broadcastChannelId: activityTypeSelection === 'broadcast' ? broadcastChannelId : undefined
+        broadcastChannelId: activityTypeSelection === ACTIVITY_TYPE.BROADCAST ? broadcastChannelId : undefined
       });
 
       // Generate complete payload
       // For unitary: use updateToken
       // For broadcast: use pushToStartToken or empty string (token not required for broadcast updates)
-      const token = activityTypeSelection === 'unitary' 
+      const token = activityTypeSelection === ACTIVITY_TYPE.UNITARY 
         ? activity.updateToken 
         : (activity.pushToStartToken || '');
 
@@ -136,7 +139,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         sandboxName: context.sandbox?.name || LIVE_ACTIVITY_DEFAULTS.SANDBOX,
         environment: context.environment,
         type: activityTypeSelection,
-        broadcastChannelId: activityTypeSelection === 'broadcast' ? broadcastChannelId : undefined
+        broadcastChannelId: activityTypeSelection === ACTIVITY_TYPE.BROADCAST ? broadcastChannelId : undefined
       });
 
       // Make API call
@@ -158,8 +161,8 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
 
   const handleReset = useCallback(() => {
     reset();
-    setEventType('update');
-    setActivityTypeSelection(activity.type || 'unitary');
+    setEventType(EVENT_TYPE.UPDATE);
+    setActivityTypeSelection(activity.type || ACTIVITY_TYPE.UNITARY);
     setBroadcastChannelId(activity.broadcastChannelId || '');
     setError(null);
   }, [reset, activity.type, activity.broadcastChannelId]);
@@ -167,7 +170,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
   // Computed values
   // For unitary activities: require update token
   // For broadcast activities: update token is not required
-  const requiresToken = activityTypeSelection === 'unitary' && !activity.updateToken;
+  const requiresToken = activityTypeSelection === ACTIVITY_TYPE.UNITARY && !activity.updateToken;
   // Only disable for unitary completed activities (broadcast channels can be reused)
   // const isButtonDisabled = !context.isReady || isLoading || requiresToken || 
   //   (activityTypeSelection === 'unitary' && activity.status === 'completed');
@@ -203,11 +206,11 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
               <RadioGroup 
                 label={formatMessage(liveActivityMessages.eventType)}
                 value={eventType}
-                onChange={(value) => setEventType(value as 'update' | 'end')}
+                onChange={(value) => setEventType(value as typeof EVENT_TYPE.UPDATE | typeof EVENT_TYPE.END)}
                 orientation="horizontal"
               >
-                <Radio value="update">{formatMessage(liveActivityMessages.eventTypeUpdate)}</Radio>
-                <Radio value="end">{formatMessage(liveActivityMessages.eventTypeEnd)}</Radio>
+                <Radio value={EVENT_TYPE.UPDATE}>{formatMessage(liveActivityMessages.eventTypeUpdate)}</Radio>
+                <Radio value={EVENT_TYPE.END}>{formatMessage(liveActivityMessages.eventTypeEnd)}</Radio>
               </RadioGroup>
             </View>
 
@@ -215,16 +218,16 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
               <RadioGroup 
                 label={formatMessage(liveActivityMessages.activityType)}
                 value={activityTypeSelection}
-                onChange={(value) => setActivityTypeSelection(value as 'unitary' | 'broadcast')}
+                onChange={(value) => setActivityTypeSelection(value as ActivityType)}
                 orientation="horizontal"
                 isDisabled
               >
-                <Radio value="unitary">{formatMessage(liveActivityMessages.activityTypeUnitary)}</Radio>
-                <Radio value="broadcast">{formatMessage(liveActivityMessages.activityTypeBroadcast)}</Radio>
+                <Radio value={ACTIVITY_TYPE.UNITARY}>{formatMessage(liveActivityMessages.activityTypeUnitary)}</Radio>
+                <Radio value={ACTIVITY_TYPE.BROADCAST}>{formatMessage(liveActivityMessages.activityTypeBroadcast)}</Radio>
               </RadioGroup>
             </View>
 
-            {activityTypeSelection === 'broadcast' && (
+            {activityTypeSelection === ACTIVITY_TYPE.BROADCAST && (
               <View marginBottom="size-200">
                 <TextField
                   label={formatMessage(liveActivityMessages.broadcastChannelId)}

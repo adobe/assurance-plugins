@@ -6,6 +6,7 @@ import groupBy from 'lodash/groupBy';
 
 import { useMemo } from 'react';
 
+import { ACTIVITY_TYPE, ActivityType } from '../api/liveActivityApi';
 import { LIVE_ACTIVITIES_MATCHERS } from '../constants/matchers';
 import {
   isLiveActivityDismissedEvent,
@@ -48,7 +49,7 @@ export interface LiveActivity {
   examplePayload?: any;
   schema?: any;
   currentContentState?: any;
-  type?: 'unitary' | 'broadcast';
+  type?: ActivityType;
   broadcastChannelId?: string;
 }
 
@@ -62,12 +63,12 @@ export interface LiveActivity {
  */
 export function getActivityKey(activity: LiveActivity): string {
   // For broadcast: use channelId + attributeType as the key (supports multiple types per channel)
-  if (activity.type === 'broadcast' && activity.broadcastChannelId) {
-    return `broadcast:${activity.broadcastChannelId}:${activity.name}`;
+  if (activity.type === ACTIVITY_TYPE.BROADCAST && activity.broadcastChannelId) {
+    return `${ACTIVITY_TYPE.BROADCAST}:${activity.broadcastChannelId}:${activity.name}`;
   }
   // For unitary: use id as the key
   if (activity.id) {
-    return `unitary:${activity.id}`;
+    return `${ACTIVITY_TYPE.UNITARY}:${activity.id}`;
   }
   // Fallback (shouldn't happen in normal cases)
   return `unknown:${activity.name}:${activity.startTime || 'no-timestamp'}`;
@@ -83,7 +84,7 @@ function extractActivityMetadata(event: any): {
   liveActivityId?: string;
   channelId?: string;
   attributeType: string;
-  activityType: 'unitary' | 'broadcast';
+  activityType: ActivityType;
 } | null {
   const eventData = event.payload?.ACPExtensionEventData;
   if (!eventData) {
@@ -95,7 +96,7 @@ function extractActivityMetadata(event: any): {
   const channelId = eventData.channelID || eventData.data?.channelID;
   const liveActivityId = eventData.liveActivityID || eventData.data?.liveActivityID || eventData.activityId;
   
-  const activityType: 'unitary' | 'broadcast' = channelId ? 'broadcast' : 'unitary';
+  const activityType: ActivityType = channelId ? ACTIVITY_TYPE.BROADCAST : ACTIVITY_TYPE.UNITARY;
   
   // For attributeType, try multiple possible locations
   const attributeType =
@@ -104,7 +105,7 @@ function extractActivityMetadata(event: any): {
   // Determine grouping key based on activity type
   // For broadcast: group by channelID + attributeType (to support multiple activity types per channel)
   // For unitary: group by liveActivityID (required)
-  const groupingKey = activityType === 'broadcast' 
+  const groupingKey = activityType === ACTIVITY_TYPE.BROADCAST 
     ? `${channelId}:${attributeType}` 
     : liveActivityId;
 
