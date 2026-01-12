@@ -29,13 +29,16 @@ import {
   generateLiveActivityPayload,
   sendLiveActivityNotification,
   generateUpdateTemplate,
-  buildCompleteApsPayload,
+  buildCompleteApsPayload
+} from '../../api/liveActivityApi';
+import { LiveActivity } from '../../hooks/useActivities';
+import { 
+  LIVE_ACTIVITY_DEFAULTS, 
+  MESSAGES as COMMON_MESSAGES,
   ACTIVITY_TYPE,
   ActivityType,
   EVENT_TYPE
-} from '../../api/liveActivityApi';
-import { LiveActivity } from '../../hooks/useActivities';
-import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
+} from '../../constants/liveActivitiesConfig';
 import { ErrorMessage, JsonEditor, DialogActions } from './common';
 import { useLiveActivityContext } from '../../hooks/useLiveActivityContext';
 import { liveActivityMessages, actionMessages } from '../../i18n';
@@ -86,7 +89,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
       setActivityTypeSelection(activity.type || ACTIVITY_TYPE.UNITARY);
       setBroadcastChannelId(activity.broadcastChannelId || '');
     }
-  }, [activity?.id, activity?.broadcastChannelId, activity?.currentContentState, activity?.type, reset]);
+  }, [activity?.id, activity?.broadcastChannelId, activity?.currentContentState, activity?.type]);
 
   // Handlers
   const handleUpdate = useCallback(async (data: FormValues) => {
@@ -113,12 +116,15 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         throw new Error(formatMessage(liveActivityMessages.broadcastChannelIdRequired));
       }
 
+      // Determine broadcast channel ID based on activity type
+      const channelIdToSend = activityTypeSelection === ACTIVITY_TYPE.BROADCAST ? broadcastChannelId : undefined;
+
       // Build complete APS payload by merging user input with auto-generated fields
       const completeApsPayload = buildCompleteApsPayload({
         userPayload,
         eventType,
         attributesType: activity.attributes || 'unknown',
-        broadcastChannelId: activityTypeSelection === ACTIVITY_TYPE.BROADCAST ? broadcastChannelId : undefined
+        broadcastChannelId: channelIdToSend
       });
 
       // Generate complete payload
@@ -132,14 +138,14 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
         apsContent: completeApsPayload,
         appId: context.appId!,
         platform: context.platform,
-        token: token!,
+        token: token, // marked as optional in the type definition for broadcast activities
         ecid: context.ecid!,
         imsOrg: context.imsOrg!,
         sessionId: context.sessionId!,
         sandboxName: context.sandbox?.name || LIVE_ACTIVITY_DEFAULTS.SANDBOX,
         environment: context.environment,
         type: activityTypeSelection,
-        broadcastChannelId: activityTypeSelection === ACTIVITY_TYPE.BROADCAST ? broadcastChannelId : undefined
+        broadcastChannelId: channelIdToSend
       });
 
       // Make API call
@@ -157,7 +163,7 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
     } finally {
       setIsLoading(false);
     }
-  }, [activity, context, eventType, activityTypeSelection, broadcastChannelId, formatMessage]);
+  }, [activity, context, eventType, activityTypeSelection, broadcastChannelId]);
 
   const handleReset = useCallback(() => {
     reset();
@@ -165,17 +171,10 @@ function UpdateActivity({ activity }: Readonly<UpdateActivityProps>) {
     setActivityTypeSelection(activity.type || ACTIVITY_TYPE.UNITARY);
     setBroadcastChannelId(activity.broadcastChannelId || '');
     setError(null);
-  }, [reset, activity.type, activity.broadcastChannelId]);
+  }, [activity.type, activity.broadcastChannelId]);
 
-  // Computed values
-  // For unitary activities: require update token
-  // For broadcast activities: update token is not required
+  // For unitary activities: require update token. For broadcast: token is not required.
   const requiresToken = activityTypeSelection === ACTIVITY_TYPE.UNITARY && !activity.updateToken;
-  // Only disable for unitary completed activities (broadcast channels can be reused)
-  // const isButtonDisabled = !context.isReady || isLoading || requiresToken || 
-  //   (activityTypeSelection === 'unitary' && activity.status === 'completed');
-
-  // Disable if not ready or loading or requires token (Enabling for other cases)
   const isButtonDisabled = !context.isReady || isLoading || requiresToken;
 
   return (

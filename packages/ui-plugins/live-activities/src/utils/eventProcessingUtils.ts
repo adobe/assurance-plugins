@@ -53,7 +53,7 @@ export function processActivityEvents(
       // For unitary: match liveActivityID
       return eventLiveActivityId === targetLiveActivityId;
     } else if (targetLiveActivityId) {
-      // Fallback: match any ID field
+      // Fallback: match any ID field for unknown activity type cases.
       return eventLiveActivityId === targetLiveActivityId || eventChannelId === targetLiveActivityId;
     }
     

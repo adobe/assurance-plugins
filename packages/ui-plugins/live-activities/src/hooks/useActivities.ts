@@ -2,7 +2,7 @@ import { useEvents } from '@assurance/plugin-bridge-provider';
 
 import { useMemo } from 'react';
 
-import { ACTIVITY_TYPE, ActivityType } from '../api/liveActivityApi';
+import { ACTIVITY_TYPE, ActivityType } from '../constants/liveActivitiesConfig';
 import { LIVE_ACTIVITIES_MATCHERS } from '../constants/matchers';
 import {
   isLiveActivityDismissedEvent,
@@ -54,10 +54,12 @@ export interface LiveActivity {
  * For unitary activities: uses the activity ID
  * For broadcast activities: uses the channel ID + attribute type (to support multiple activity types per channel)
  * 
- * @param activity - The live activity
- * @returns A unique string key for the activity
+ * @param activity - The live activity (can be undefined)
+ * @returns A unique string key for the activity, or empty string if activity is not provided
  */
-export function getActivityKey(activity: LiveActivity): string {
+export function getActivityKey(activity: LiveActivity | undefined): string {
+  if (!activity) return '';
+  
   // For broadcast: use channelId + attributeType as the key (supports multiple types per channel)
   if (activity.type === ACTIVITY_TYPE.BROADCAST && activity.broadcastChannelId) {
     return `${ACTIVITY_TYPE.BROADCAST}:${activity.broadcastChannelId}:${activity.name}`;
@@ -97,7 +99,7 @@ export function isUnitaryActivityKey(activityKey: string): boolean {
  * @returns Object containing the parsed components: type, channelId, attributeType, and liveActivityId
  */
 export function parseActivityKey(activityKey: string): {
-  type: 'broadcast' | 'unitary' | 'unknown';
+  type: ActivityType;
   channelId?: string;
   attributeType?: string;
   liveActivityId?: string;
@@ -106,7 +108,7 @@ export function parseActivityKey(activityKey: string): {
     // Format: "broadcast:channelId:attributeType"
     const parts = activityKey.split(':');
     return {
-      type: 'broadcast',
+      type: ACTIVITY_TYPE.BROADCAST,
       channelId: parts[1],
       attributeType: parts[2]
     };
@@ -116,14 +118,14 @@ export function parseActivityKey(activityKey: string): {
     // Format: "unitary:liveActivityId"
     const parts = activityKey.split(':');
     return {
-      type: 'unitary',
+      type: ACTIVITY_TYPE.UNITARY,
       liveActivityId: parts[1]
     };
   }
   
   // Unknown format (fallback for backward compatibility)
   return {
-    type: 'unknown',
+    type: ACTIVITY_TYPE.UNKNOWN,
     liveActivityId: activityKey
   };
 }

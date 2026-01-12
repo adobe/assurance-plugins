@@ -27,12 +27,15 @@ import {
   generateLiveActivityPayload,
   sendLiveActivityNotification,
   generateLaunchTemplate,
-  buildCompleteApsPayload,
+  buildCompleteApsPayload
+} from '../../api/liveActivityApi';
+import { 
+  LIVE_ACTIVITY_DEFAULTS, 
+  MESSAGES as COMMON_MESSAGES,
   ACTIVITY_TYPE,
   ActivityType,
   EVENT_TYPE
-} from '../../api/liveActivityApi';
-import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
+} from '../../constants/liveActivitiesConfig';
 import { ErrorMessage, JsonEditor, DialogActions } from './common';
 import { useLiveActivityContext } from '../../hooks/useLiveActivityContext';
 import { liveActivityMessages } from '../../i18n';
@@ -84,7 +87,7 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
   const { formatMessage } = useIntl();
   
   // State
-  const [selectedActivityType, setSelectedActivityType] = useState<string>('');
+  const [selectedAttributeType, setSelectedAttributeType] = useState<string>('');
   const [apsPayload, setApsPayload] = useState(
     JSON.stringify(generateLaunchTemplate(), null, 2)
   );
@@ -102,9 +105,9 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
   const context = useLiveActivityContext({ requirePushToken: true });
   // Get selected activity details
   const selectedActivity = registeredActivities.find(
-    (activity) => activity.attributeType === selectedActivityType
+    (activity) => activity.attributeType === selectedAttributeType
   );
-  const selectedLiveActivityData = liveActivitiesData.activityTypes.get(selectedActivityType);
+  const selectedLiveActivityData = liveActivitiesData.activityTypes.get(selectedAttributeType);
 
   
   // Get push to start token from live activities data
@@ -134,12 +137,15 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
         throw new Error(formatMessage(liveActivityMessages.broadcastChannelIdRequired));
       }
 
+      // Determine broadcast channel ID based on activity type
+      const channelIdToSend = activityTypeSelection === ACTIVITY_TYPE.BROADCAST ? broadcastChannelId : undefined;
+
       // Build complete APS payload by merging user input with auto-generated fields
       const completeApsPayload = buildCompleteApsPayload({
         userPayload,
         eventType: EVENT_TYPE.START,
-        attributesType: selectedActivityType,
-        broadcastChannelId: activityTypeSelection === ACTIVITY_TYPE.BROADCAST ? broadcastChannelId : undefined
+        attributesType: selectedAttributeType,
+        broadcastChannelId: channelIdToSend
       });
 
       // Generate complete payload
@@ -154,7 +160,7 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
         sandboxName: context.sandbox?.name || LIVE_ACTIVITY_DEFAULTS.SANDBOX,
         environment: context.environment,
         type: activityTypeSelection,
-        broadcastChannelId: activityTypeSelection === ACTIVITY_TYPE.BROADCAST ? broadcastChannelId : undefined
+        broadcastChannelId: channelIdToSend
       });
 
       // Make API call
@@ -172,10 +178,10 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
     } finally {
       setIsLoading(false);
     }
-  }, [apsPayload, context, selectedActivity, pushToStartToken, selectedActivityType, activityTypeSelection, broadcastChannelId, formatMessage]);
+  }, [apsPayload, context, selectedActivity, pushToStartToken, selectedAttributeType, activityTypeSelection, broadcastChannelId]);
 
   const handleReset = useCallback(() => {
-    setSelectedActivityType('');
+    setSelectedAttributeType('');
     setApsPayload(JSON.stringify(generateLaunchTemplate(), null, 2));
     setActivityTypeSelection(ACTIVITY_TYPE.UNITARY);
     setBroadcastChannelId('');
@@ -199,7 +205,7 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
 
   // Computed values
   const hasRegisteredActivities = registeredActivities.length > 0;
-  const canSubmit = selectedActivityType && 
+  const canSubmit = selectedAttributeType && 
                     apsPayload.trim() !== '' && 
                     context.isReady && 
                     !isLoading &&
@@ -256,8 +262,8 @@ function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
 
             <ActivityPicker
               activities={registeredActivities}
-              selectedKey={selectedActivityType}
-              onSelectionChange={setSelectedActivityType}
+              selectedKey={selectedAttributeType}
+              onSelectionChange={setSelectedAttributeType}
               label={formatMessage(liveActivityMessages.selectActivity)}
             />
 

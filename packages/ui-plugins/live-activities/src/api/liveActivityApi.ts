@@ -6,28 +6,13 @@
 
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { ACTIVITY_TYPE, EVENT_TYPE } from '../constants/liveActivitiesConfig';
+import type { ActivityType } from '../constants/liveActivitiesConfig';
+import { LiveActivity } from '../hooks/useActivities';
 
 // ============================================================================
 // CONSTANTS
 // ============================================================================
-
-// Live Activity Types
-export const ACTIVITY_TYPE = {
-  UNITARY: 'unitary',
-  BROADCAST: 'broadcast'
-} as const;
-
-export type ActivityType = typeof ACTIVITY_TYPE[keyof typeof ACTIVITY_TYPE];
-
-// Live Activity Event Types
-export const EVENT_TYPE = {
-  START: 'start',
-  UPDATE: 'update',
-  END: 'end',
-  REMOTE_START: 'remotestart'
-} as const;
-
-export type EventType = typeof EVENT_TYPE[keyof typeof EVENT_TYPE];
 
 export const API_ENDPOINTS = {
   local: 'https://local.griffon.adobe.com',
@@ -72,7 +57,7 @@ export interface LiveActivityPayloadParams {
   apsContent: any;
   appId: string;
   platform: string;
-  token: string; // This will be either pushToStartToken or updateToken
+  token?: string; // This will be either pushToStartToken or updateToken in unitary activities, empty string/undefined in broadcast activities
   ecid: string;
   imsOrg: string;
   sessionId: string;
@@ -122,18 +107,14 @@ export function generateLaunchTemplate(): any {
  * Generates minimal APS template for updating a Live Activity
  * Pre-fills known data from the activity, user only updates dynamic fields
  */
-export function generateUpdateTemplate(activity: any): any {
+export function generateUpdateTemplate(activity: LiveActivity): any {
   // Build liveActivityData object with only existing fields
   const liveActivityData: any = {};
+  console.log('activity', activity);
   
   // Add liveActivityID only if it exists
   if (activity.id) {
     liveActivityData.liveActivityID = activity.id;
-  }
-  
-  // Add channelID only if it exists (for broadcast activities)
-  if (activity.broadcastChannelId) {
-    liveActivityData.channelID = activity.broadcastChannelId;
   }
   
   const template: any = {
@@ -169,22 +150,21 @@ export function buildCompleteApsPayload(params: {
 
   // Add broadcast channel ID to APS payload if provided
   if (params.broadcastChannelId) {
+    // Add broadcast channel ID to APS payload
     basePayload["input-push-channel"] = params.broadcastChannelId;
     
-    // Safely ensure nested structure exists
-    if (!basePayload.attributes) {
-      basePayload.attributes = {};
-    }
-    if (!basePayload.attributes.liveActivityData) {
-      basePayload.attributes.liveActivityData = {};
-    }
+    // Preserve user's custom liveActivityData fields
+    const userLiveActivityData = basePayload.attributes?.liveActivityData || {};
     
-    // Merge broadcast-specific fields while preserving user's custom fields
-    basePayload.attributes.liveActivityData = {
-      ...basePayload.attributes.liveActivityData,  // Preserve user's custom fields
-      channelID: params.broadcastChannelId,         // Our required field (override if exists)
-      origin: "remote",                             // Our required field
-      type: ACTIVITY_TYPE.BROADCAST                 // Our required field
+    // Merge with broadcast-required fields (broadcast fields take precedence)
+    basePayload.attributes = {
+      ...basePayload.attributes,
+      liveActivityData: {
+        ...userLiveActivityData,
+        channelID: params.broadcastChannelId,
+        origin: "remote",
+        type: ACTIVITY_TYPE.BROADCAST
+      }
     };
   }
 

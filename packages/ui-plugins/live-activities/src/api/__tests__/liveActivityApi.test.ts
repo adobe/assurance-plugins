@@ -7,10 +7,9 @@ import {
   buildCompleteApsPayload,
   generateUpdateTemplate,
   generateLiveActivityPayload,
-  getCurrentTimestamp,
-  ACTIVITY_TYPE,
-  EVENT_TYPE
+  getCurrentTimestamp
 } from '../liveActivityApi';
+import { ACTIVITY_TYPE, EVENT_TYPE } from '../../constants/liveActivitiesConfig';
 
 describe('LiveActivityApi - Broadcast Support', () => {
   beforeEach(() => {
@@ -103,7 +102,7 @@ describe('LiveActivityApi - Broadcast Support', () => {
         id: 'unitary-123',
         name: 'TestActivity',
         currentContentState: { value: 100 }
-      };
+      } as any;
 
       const result = generateUpdateTemplate(activity);
 
@@ -112,39 +111,38 @@ describe('LiveActivityApi - Broadcast Support', () => {
       expect(result.attributes.liveActivityData.channelID).toBeUndefined();
     });
 
-    it('should include channelID for broadcast activities', () => {
+    it('should not include channelID for broadcast activities in template', () => {
       const activity = {
         broadcastChannelId: 'channel-abc',
         name: 'BroadcastActivity',
         currentContentState: { value: 200 }
-      };
+      } as any;
 
       const result = generateUpdateTemplate(activity);
 
       expect(result['content-state']).toEqual({ value: 200 });
-      expect(result.attributes.liveActivityData.channelID).toBe('channel-abc');
+      expect(result.attributes.liveActivityData.channelID).toBeUndefined();
       expect(result.attributes.liveActivityData.liveActivityID).toBeUndefined();
     });
 
-    it('should include both IDs if both exist', () => {
+    it('should only include liveActivityID even if both IDs exist', () => {
       const activity = {
         id: 'activity-123',
         broadcastChannelId: 'channel-xyz',
         name: 'MixedActivity',
         currentContentState: {}
-      };
+      } as any;
 
       const result = generateUpdateTemplate(activity);
 
       expect(result.attributes.liveActivityData.liveActivityID).toBe('activity-123');
-      expect(result.attributes.liveActivityData.channelID).toBe('channel-xyz');
     });
 
     it('should handle missing IDs gracefully', () => {
       const activity = {
         name: 'ActivityWithNoIds',
         currentContentState: { value: 300 }
-      };
+      } as any;
 
       const result = generateUpdateTemplate(activity);
 

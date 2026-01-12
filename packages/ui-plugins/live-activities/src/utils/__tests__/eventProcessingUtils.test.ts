@@ -9,6 +9,7 @@ import {
   isUnitaryActivityKey, 
   parseActivityKey 
 } from '../../hooks/useActivities';
+import { ACTIVITY_TYPE } from '../../constants/liveActivitiesConfig';
 
 describe('Event Processing Utils - Broadcast Support', () => {
   let eventCounter = 0;
@@ -226,7 +227,7 @@ describe('Event Processing Utils - Broadcast Support', () => {
       it('should parse broadcast activity keys correctly', () => {
         const result = parseActivityKey('broadcast:channel-123:FlightActivity');
         
-        expect(result.type).toBe('broadcast');
+        expect(result.type).toBe(ACTIVITY_TYPE.BROADCAST);
         expect(result.channelId).toBe('channel-123');
         expect(result.attributeType).toBe('FlightActivity');
         expect(result.liveActivityId).toBeUndefined();
@@ -235,7 +236,7 @@ describe('Event Processing Utils - Broadcast Support', () => {
       it('should parse unitary activity keys correctly', () => {
         const result = parseActivityKey('unitary:activity-456');
         
-        expect(result.type).toBe('unitary');
+        expect(result.type).toBe(ACTIVITY_TYPE.UNITARY);
         expect(result.liveActivityId).toBe('activity-456');
         expect(result.channelId).toBeUndefined();
         expect(result.attributeType).toBeUndefined();
@@ -244,7 +245,7 @@ describe('Event Processing Utils - Broadcast Support', () => {
       it('should handle unknown/fallback keys', () => {
         const result = parseActivityKey('some-random-id');
         
-        expect(result.type).toBe('unknown');
+        expect(result.type).toBe(ACTIVITY_TYPE.UNKNOWN);
         expect(result.liveActivityId).toBe('some-random-id');
         expect(result.channelId).toBeUndefined();
         expect(result.attributeType).toBeUndefined();
@@ -253,7 +254,7 @@ describe('Event Processing Utils - Broadcast Support', () => {
       it('should handle keys with colons in unknown format', () => {
         const result = parseActivityKey('unknown:test:value');
         
-        expect(result.type).toBe('unknown');
+        expect(result.type).toBe(ACTIVITY_TYPE.UNKNOWN);
         expect(result.liveActivityId).toBe('unknown:test:value');
       });
     });

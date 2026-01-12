@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import SpectrumCard from '../atoms/SpectrumCard';
-import { ACTIVITY_TYPE } from '../../api/liveActivityApi';
+import { ACTIVITY_TYPE } from '../../constants/liveActivitiesConfig';
 import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import { activitiesMessages } from '../../i18n';
 import './ActivityCard.css';
@@ -104,7 +104,7 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         </Flex>
         {/* Attribute Type (secondary info) */}
         <Flex alignItems="center" gap="size-50">
-          <Text UNSAFE_className={classNames('typeLabel')}>Type:</Text>
+          <Text UNSAFE_className={classNames('typeLabel')}>{formatMessage(activitiesMessages.type)}:</Text>
           <Text UNSAFE_className={classNames('typeValue')}>{activity.name}</Text>
         </Flex>
         {/* Footer with event count and timing */}

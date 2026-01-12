@@ -14,7 +14,7 @@ import React, { useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
-import { ACTIVITY_TYPE, ActivityType } from '../../api/liveActivityApi';
+import { ACTIVITY_TYPE, ActivityType } from '../../constants/liveActivitiesConfig';
 import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import { activitiesMessages } from '../../i18n';
 
@@ -105,7 +105,7 @@ function ActivityList({
           <Flex alignItems="end" gap="size-200">
             {/* Type Filter Dropdown */}
             <Picker
-              label="Type"
+              label={formatMessage(activitiesMessages.typeFilterLabel)}
               selectedKey={selectedTypeFilter}
               onSelectionChange={key => setSelectedTypeFilter(key as 'all' | ActivityType)}
               width="size-3000"
@@ -119,7 +119,7 @@ function ActivityList({
 
             {/* Status Filter Dropdown */}
             <Picker
-              label="Status"
+              label={formatMessage(activitiesMessages.statusFilterLabel)}
               selectedKey={selectedFilter}
               onSelectionChange={key => setSelectedFilter(key as string)}
               width="size-3000"

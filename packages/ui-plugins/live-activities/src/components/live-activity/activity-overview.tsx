@@ -12,7 +12,7 @@ import { CopyableValue } from '@assurance/common-utils';
 import InfoField from '../atoms/InfoField';
 import MetricCard from '../atoms/MetricCard';
 import Card from '../atoms/card';
-import { ACTIVITY_TYPE } from '../../api/liveActivityApi';
+import { ACTIVITY_TYPE } from '../../constants/liveActivitiesConfig';
 import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import { useActivityEvents } from '../../utils/eventProcessing';
 import { activitiesMessages, copyMessages, contentStateMessages } from '../../i18n';
@@ -31,7 +31,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
   const { formatMessage } = useIntl();
 
   // Use the same deduplicated events as other components
-  const activityEvents = useActivityEvents(activity ? getActivityKey(activity) : undefined);
+  const activityEvents = useActivityEvents(getActivityKey(activity));
 
   // Get the latest content state from update events
   const { latestContentState, latestContentStateEventId } = useMemo(() => {
@@ -144,7 +144,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
                 <Divider />
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <tbody>
-                   {activity.id && <InfoField
+                   {activity.id && activity.type === ACTIVITY_TYPE.UNITARY && <InfoField
                       label={formatMessage(activitiesMessages.liveActivityId)}
                       value={
                         <CopyableValue 
@@ -181,7 +181,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
                         value={startTime.format('lll')}
                       />
                     )}
-                    {endTime && (
+                    {endTime && activity.type === ACTIVITY_TYPE.UNITARY && (
                       <InfoField
                         label={formatMessage(activitiesMessages.endTime)}
                         value={endTime.format('lll')}

@@ -245,6 +245,16 @@ export const activitiesMessages = defineMessages({
   typeBroadcast: {
     id: 'activities.type.broadcast',
     defaultMessage: 'Broadcast'
+  },
+  
+  // Filter labels
+  typeFilterLabel: {
+    id: 'activities.filter.type',
+    defaultMessage: 'Type'
+  },
+  statusFilterLabel: {
+    id: 'activities.filter.status',
+    defaultMessage: 'Status'
   }
 });
 
