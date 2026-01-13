@@ -650,5 +650,272 @@ describe('LaunchLiveActivity', () => {
       });
     });
   });
+
+  describe('Broadcast Functionality', () => {
+    it('should display activity type radio group with unitary and broadcast options', async () => {
+      render(
+        <TestWrapper>
+          <LaunchLiveActivity />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Start Live Activity/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Check for activity type radio buttons
+      expect(screen.getByRole('radio', { name: /Unitary/i })).toBeInTheDocument();
+      expect(screen.getByRole('radio', { name: /Broadcast/i })).toBeInTheDocument();
+      
+      // Unitary should be selected by default
+      expect(screen.getByRole('radio', { name: /Unitary/i })).toBeChecked();
+    });
+
+    it('should show broadcast channel ID field when broadcast type is selected', async () => {
+      render(
+        <TestWrapper>
+          <LaunchLiveActivity />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Start Live Activity/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Initially, broadcast channel ID field should not be visible (unitary is default)
+      expect(screen.queryByLabelText(/Broadcast Channel ID/i)).not.toBeInTheDocument();
+
+      // Select broadcast type
+      const broadcastRadio = screen.getByRole('radio', { name: /Broadcast/i });
+      fireEvent.click(broadcastRadio);
+
+      // Now broadcast channel ID field should be visible
+      await waitFor(() => {
+        expect(screen.getByLabelText(/Broadcast Channel ID/i)).toBeInTheDocument();
+      });
+    });
+
+    it('should hide broadcast channel ID field when switching back to unitary', async () => {
+      render(
+        <TestWrapper>
+          <LaunchLiveActivity />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Start Live Activity/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Select broadcast type
+      const broadcastRadio = screen.getByRole('radio', { name: /Broadcast/i });
+      fireEvent.click(broadcastRadio);
+
+      await waitFor(() => {
+        expect(screen.getByLabelText(/Broadcast Channel ID/i)).toBeInTheDocument();
+      });
+
+      // Switch back to unitary
+      const unitaryRadio = screen.getByRole('radio', { name: /Unitary/i });
+      fireEvent.click(unitaryRadio);
+
+      // Broadcast channel ID field should be hidden
+      await waitFor(() => {
+        expect(screen.queryByLabelText(/Broadcast Channel ID/i)).not.toBeInTheDocument();
+      });
+    });
+
+    it('should display broadcast channel ID field as required when broadcast type is selected', async () => {
+      render(
+        <TestWrapper>
+          <LaunchLiveActivity />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Start Live Activity/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Select broadcast type
+      const broadcastRadio = screen.getByRole('radio', { name: /Broadcast/i });
+      fireEvent.click(broadcastRadio);
+
+      await waitFor(() => {
+        expect(screen.getByLabelText(/Broadcast Channel ID/i)).toBeInTheDocument();
+      });
+
+      // Verify the field is marked as required
+      const channelIdField = screen.getByLabelText(/Broadcast Channel ID/i);
+      expect(channelIdField).toBeRequired();
+    });
+
+    it('should include broadcast channel ID in payload for broadcast activities', async () => {
+      mockSendLiveActivityNotification.mockResolvedValue(undefined);
+
+      render(
+        <TestWrapper>
+          <LaunchLiveActivity />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Start Live Activity/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Select activity
+      const pickerButton = screen.getByRole('button', { name: /Select Live Activity/i });
+      fireEvent.click(pickerButton);
+
+      await waitFor(() => {
+        const options = screen.getAllByText('TestActivity1');
+        fireEvent.click(options.at(-1)!);
+      });
+
+      // Select broadcast type
+      const broadcastRadio = screen.getByRole('radio', { name: /Broadcast/i });
+      fireEvent.click(broadcastRadio);
+
+      await waitFor(() => {
+        expect(screen.getByLabelText(/Broadcast Channel ID/i)).toBeInTheDocument();
+      });
+
+      // Enter broadcast channel ID
+      const channelIdField = screen.getByLabelText(/Broadcast Channel ID/i);
+      fireEvent.change(channelIdField, { target: { value: 'test-channel-123' } });
+
+      // Launch
+      await waitFor(async () => {
+        const dialogButtons = screen.getAllByRole('button', { name: /Start Live Activity/i });
+        const dialogLaunchButton = dialogButtons.at(-1)!;
+        
+        if (!dialogLaunchButton.hasAttribute('disabled')) {
+          fireEvent.click(dialogLaunchButton);
+        }
+      });
+
+      // Verify that buildCompleteApsPayload was called with broadcast channel ID
+      await waitFor(() => {
+        expect(mockBuildCompleteApsPayload).toHaveBeenCalledWith(
+          expect.objectContaining({
+            broadcastChannelId: 'test-channel-123',
+          })
+        );
+      });
+    });
+
+    it('should not include broadcast channel ID for unitary activities', async () => {
+      mockSendLiveActivityNotification.mockResolvedValue(undefined);
+
+      render(
+        <TestWrapper>
+          <LaunchLiveActivity />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Start Live Activity/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Select activity
+      const pickerButton = screen.getByRole('button', { name: /Select Live Activity/i });
+      fireEvent.click(pickerButton);
+
+      await waitFor(() => {
+        const options = screen.getAllByText('TestActivity1');
+        fireEvent.click(options.at(-1)!);
+      });
+
+      // Keep unitary type (default)
+      const unitaryRadio = screen.getByRole('radio', { name: /Unitary/i });
+      expect(unitaryRadio).toBeChecked();
+
+      // Launch
+      await waitFor(async () => {
+        const dialogButtons = screen.getAllByRole('button', { name: /Start Live Activity/i });
+        const dialogLaunchButton = dialogButtons.at(-1)!;
+        
+        if (!dialogLaunchButton.hasAttribute('disabled')) {
+          fireEvent.click(dialogLaunchButton);
+        }
+      });
+
+      // Verify that buildCompleteApsPayload was called without broadcast channel ID
+      await waitFor(() => {
+        expect(mockBuildCompleteApsPayload).toHaveBeenCalledWith(
+          expect.objectContaining({
+            broadcastChannelId: undefined,
+          })
+        );
+      });
+    });
+
+    it('should reset broadcast channel ID when switching between activities', async () => {
+      render(
+        <TestWrapper>
+          <LaunchLiveActivity />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Start Live Activity/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Select broadcast type and enter channel ID
+      const broadcastRadio = screen.getByRole('radio', { name: /Broadcast/i });
+      fireEvent.click(broadcastRadio);
+
+      await waitFor(() => {
+        expect(screen.getByLabelText(/Broadcast Channel ID/i)).toBeInTheDocument();
+      });
+
+      const channelIdField = screen.getByLabelText(/Broadcast Channel ID/i);
+      fireEvent.change(channelIdField, { target: { value: 'test-channel-123' } });
+
+      expect(channelIdField).toHaveValue('test-channel-123');
+
+      // Close dialog
+      const cancelButton = screen.getByRole('button', { name: /Cancel/i });
+      fireEvent.click(cancelButton);
+
+      // Reopen dialog
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Select broadcast type again
+      const broadcastRadio2 = screen.getByRole('radio', { name: /Broadcast/i });
+      fireEvent.click(broadcastRadio2);
+
+      await waitFor(() => {
+        expect(screen.getByLabelText(/Broadcast Channel ID/i)).toBeInTheDocument();
+      });
+
+      // Channel ID should be reset
+      const channelIdField2 = screen.getByLabelText(/Broadcast Channel ID/i);
+      expect(channelIdField2).toHaveValue('');
+    });
+  });
 });
 
