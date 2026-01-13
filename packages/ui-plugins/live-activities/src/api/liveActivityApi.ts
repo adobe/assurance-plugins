@@ -110,7 +110,6 @@ export function generateLaunchTemplate(): any {
 export function generateUpdateTemplate(activity: LiveActivity): any {
   // Build liveActivityData object with only existing fields
   const liveActivityData: any = {};
-  console.log('activity', activity);
   
   // Add liveActivityID only if it exists
   if (activity.id) {
