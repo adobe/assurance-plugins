@@ -1,0 +1,27 @@
+{
+  "name": "@assurance/proposition-card",
+  "version": "1.0.0",
+  "description": "A card component used for propositions",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "author": "Adobe Systems",
+  "license": "Apache2.0",
+  "scripts": {
+    "build": "parcel build src/index.ts --cache-dir ./.parcel-cache --no-cache"
+  },
+  "peerDependencies": {
+    "@spectrum-icons/workflow": "^4.2.0",
+    "react": "^18.3.1"
+  },
+  "dependencies": {
+    "@adobe/react-spectrum": "^3.32.2"
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3",
+    "react": "^18.3.1"
+  }
+}

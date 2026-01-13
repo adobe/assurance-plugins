@@ -1,0 +1,20 @@
+# Adobe Assurance
+
+Adobe Assurance Plugins contains components, hooks, and utilities that are
+useful for building Assurance View plugins for the Adobe Experience Platform.
+Additionally, it is a repository for entire View plugins.
+
+## Repository Structure
+
+Adobe Assurance is set up as a monorepo that uses [nx](https://nx.dev) for
+package management. It is divided up into a few different folders
+
+- `common` contains some core utility packages with functions that may be useful
+  when building out Assurance plugins
+
+- `components` contains a set of reusable React components that are used on many
+  different views across Assurance. Place components here that are abstract
+  enough to be flexible for multiple scenarios
+
+- `ui-plugins` contains fully built out Assurance plugins that can be deployed
+  to Assurance

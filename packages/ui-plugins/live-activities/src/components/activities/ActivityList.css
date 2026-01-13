@@ -1,0 +1,9 @@
+.subtitleText {
+  font-size: var(--spectrum-global-dimension-size-100);
+  color: var(--spectrum-global-color-gray-700);
+}
+
+.noActivitiesText {
+  font-size: var(--spectrum-global-dimension-size-200);
+  color: var(--spectrum-global-color-gray-700);
+}

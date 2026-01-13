@@ -1,0 +1,34 @@
+# Events
+
+Events are one of the core pieces of Assurance. As an application connected to
+an assurance session interacts with the Adobe Experience Platform, events are
+emitted. You can then filter and stitch events in order to display data in
+whatever way you can think of!
+
+As more events are emitted throughout an Assurance session, the Plugin Bridge
+will update with any new events.
+
+## Grabbing Events
+
+Events can be read from the Plugin Bridge via the
+[useEvents hook](../apis/index.mdx#useevents). You can optionally pass an
+options argument to the hook that will allow you to filter and sort the data.
+
+## Linking Events
+
+Once you have a set of events, you can use common properties in order to stitch
+them together. Although there is not a consistent property that may link two
+chained events, most commonly events can be stitched via the `requestId`,
+`requestEventId`, `ACPExtensionEventParentIdentifier`. Look for common
+properties between the events you'd like to stitch together and then you can
+filter based on that. Some events may even have an intermediary event that will
+need to be stitched as well.
+
+## Working With Multiple Clients
+
+Since each assurance session can have multiple clients connected over the course
+of a session, each assurance event will contain a `clientId` property that
+corresponds with which client emitted the event. If you design your plugin to
+allow different clients to be selected, ensure that you filter events by their
+`clientId` property in conjunction with the
+[useSelectedClients hook](../apis/index.mdx#useSelectedClients)

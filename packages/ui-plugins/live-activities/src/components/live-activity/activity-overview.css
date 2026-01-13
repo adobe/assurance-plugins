@@ -1,0 +1,16 @@
+.metrics-card {
+  min-width: 120px;
+}
+
+.content-state-well {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.basic-info-section .info-item {
+  margin-bottom: var(--spectrum-global-dimension-size-200);
+}
+
+.basic-info-section .info-item:last-child {
+  margin-bottom: 0;
+}

@@ -1,66 +1,130 @@
-/*
-Copyright 2024 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
+/*************************************************************************
+ * ADOBE CONFIDENTIAL
+ * ___________________
+ *
+ *  Copyright 2023 Adobe
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ **************************************************************************/
+import type { Event, GenericObject } from "@assurance/common-utils";
 
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
+interface PluginBridge {
+  register: (plugin: PluginBridgeConfig) => void;
+  annotateEvent: (event: any) => Promise<void>;
+  annotateSession: (session: any) => Promise<void>;
+  deletePlugin: (uuid: string) => Promise<void>;
+  flushConnection: (namespace: string, context: any) => Promise<void>;
+  navigateTo: (path: string) => Promise<void>;
+  selectEvents: (events: any) => Promise<void>;
+  sendCommand: (command: any) => Promise<void>;
+  uploadPlugin: (contents: any) => Promise<void>;
+}
 
-import type { 
-  AssuranceSession,
-  Events, 
-  GenericObject,
-  Plugins,
-  PluginBridge,
-  ValidationRecords
- } from '@adobe/assurance-types';
+declare global {
+  interface Window {
+    pluginBridge: PluginBridge;
+  }
+}
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+export interface PluginBridgeConfig {
+  init: (options: BridgeSettings) => void;
+  navigateTo: (navigation: string) => void;
+  receiveConnections: (connections: any) => void;
+  receiveEvents: (events: any[]) => void;
+  receivePlugins: (plugins: any) => void;
+  receiveSelectedEvents: (events: any) => void;
+  receiveSession: (session: any) => void;
+  receiveSettings: (settings: any) => void;
+  receiveValidation: (validation: any) => void;
+}
 
-export type Filters = {
+export type Events = Event[];
+
+export interface Filters {
   clients?: string[];
 }
 
-export type BridgeConnections = {
+export interface BridgeConnections {
   connections: GenericObject[];
 }
 
-export type BridgeEvents = {
+export interface BridgeEvents {
   events?: Events;
-};
+}
 
-export type BridgeNavigation = {
+export interface BridgeNavigation {
   path: string;
-  filters: Filters; 
+  filters: Filters;
 }
 
-export type BridgePlugins = {
-  plugins: Plugins;
-}
-
-export type BridgeSelectedEvents = {
+export interface BridgeSelectedEvents {
   selected?: Events;
 }
 
-export type BridgeSession = {
-  session: AssuranceSession;
+export interface BridgeSettings {
+  env: Environment;
+  imsAccessToken: string;
+  imsOrg: string;
+  showColumnSettings: boolean;
+  showReleaseNotes: boolean;
+  showTimeline: boolean;
+  tenant: string;
 }
-
 
 export type BridgeValidation = {
   validation: ValidationRecords;
 };
 
+export interface BridgeSession {
+  uuid: string;
+  token: number;
+  name: string;
+  link: string;
+  firstName: string;
+  lastName: string;
+  createdById: string;
+  createdTs: number;
+  updatedTs: number;
+  annotations: any[];
+}
+
+export type ValidationResult = {
+  events: string[];
+  message: string;
+  result: string;
+};
+
+export type ValidationRecord = {
+  category: string;
+  container: string;
+  description: string;
+  displayName: string;
+  icon: string;
+  level: string;
+  namespace: string;
+  orgId: string;
+  results: ValidationResult;
+  type: string;
+};
+
+export type ValidationRecords = Record<string, ValidationRecord>;
 
 export type EventFilterConfig = {
-  sorted?: boolean;
-  filtered?: boolean;
-  hideLogs?: boolean;
+  sorted?: "asc" | "desc";
+  excludeLogs?: boolean;
   ignoreFilters?: string[];
   matchers?: string[];
   validations?: boolean;
 };
+
+export type Environment = "local" | "dev" | "qa" | "stage" | "prod";
+
+export type Maybe<T> = T | undefined;

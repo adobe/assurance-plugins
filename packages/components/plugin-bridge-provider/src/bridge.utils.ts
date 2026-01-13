@@ -1,47 +1,70 @@
 /*
-Copyright 2024 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * ************************************************************************
+ * ADOBE CONFIDENTIAL
+ * ___________________
+ *
+ *   Copyright 2023 Adobe Systems Incorporated
+ *   All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe Systems Incorporated and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Adobe Systems Incorporated and its
+ * suppliers and are protected by all applicable intellectual property
+ * laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe Systems Incorporated.
+ * ************************************************************************
+ */
+import { Session } from "@adobe/griffon-toolkit-common";
+import { Event } from "@assurance/common-utils";
 
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-
-export const annotateEvent = (event) => {
-  window.pluginBridge.annotateEvent(event).then(() => {
-    // console.log(...args);
-  });
+/**
+ * Use to write an annotation to an event, which will add to the `annotations`
+ * property on the event it with the data supplied
+ * @param event - The event you'd like to annotate
+ */
+export const annotateEvent = async (event: Event): Promise<void> => {
+  return window.pluginBridge.annotateEvent(event);
 };
 
-export const annotateSession = (session) => {
-  window.pluginBridge.annotateSession(session).then(() => {
-    // console.log(...args);
-  });
+/**
+ * Use to write an annotation to a session
+ * @param session {Session} - The session to be annotated
+ */
+export const annotateSession = (session: Session): Promise<void> => {
+  return window.pluginBridge.annotateSession(session);
 };
 
-export const deletePlugin = uuid =>
-  window.pluginBridge.deletePlugin(uuid);
+/**
+ * Deletes a plugin from the Assurance context, removing it from the options available
+ * @param uuid The UUID of the plugin to delete
+ * @returns
+ */
+export const deletePlugin = (uuid) => window.pluginBridge.deletePlugin(uuid);
 
 export const flushConnection = (namespace, context) =>
   window.pluginBridge.flushConnection(namespace, context);
 
-export const navigateTo = (path) => {
-  window.pluginBridge.navigateTo(path).then(() => {
-    // console.log(...args);
-  });
+/**
+ * Used to route between pages inside Assurance
+ * @param path The path to navigate to within Assurance
+ */
+export const navigateTo = async (path: string) => {
+  return window.pluginBridge.navigateTo(path);
 };
 
-export const selectEvents = (events) => {
-  window.pluginBridge.selectEvents(events).then(() => {
-    // console.log(...args);
-  });
+/**
+ *  Allows you to select events globally across all Assurance views
+ * @param events The events to select globally across Assurance
+ */
+export const selectEvents = async (events: Event[]) => {
+  return window.pluginBridge.selectEvents(events);
 };
 
-export const sendCommand = command =>
+export const sendCommand = async (command) =>
   window.pluginBridge.sendCommand(command);
 
-export const uploadPlugin = contents =>
+export const uploadPlugin = async (contents) =>
   window.pluginBridge.uploadPlugin(contents);

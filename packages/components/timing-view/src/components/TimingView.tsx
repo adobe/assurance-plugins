@@ -1,30 +1,32 @@
-/*
-Copyright 2024 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
+/*************************************************************************
+ * ADOBE CONFIDENTIAL
+ * ___________________
+ *
+ *  Copyright 2023 Adobe
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ **************************************************************************/
+import { Flex, View } from "@adobe/react-spectrum";
+import type { Event } from "@assurance/common-utils";
+import * as R from "ramda";
+import React from "react";
+import type { Branch, Branches } from "../types";
+import TimingTree from "./TimingTree";
+import TimingViz from "./TimingViz";
 
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-
-import * as R from 'ramda';
-import React from 'react';
-import { Flex, View } from '@adobe/react-spectrum';
-import type { Event, Events } from '@adobe/assurance-types';
-import type { Branch, Branches } from '../types';
-
-import TimingTree from './TimingTree';
-import TimingViz from './TimingViz';
-
-type TimingViewProps = {
-  events: Events;
-};
-
-const TimingView = ({ events }: TimingViewProps) => {
-  const eventMap = R.indexBy(R.path(['payload', 'ACPExtensionEventUniqueIdentifier']), events);
+const PluginView = ({ events }) => {
+  const eventMap = R.indexBy(
+    R.path(["payload", "ACPExtensionEventUniqueIdentifier"]),
+    events,
+  );
   const branches: Branches = R.reduce(
     (acc, event) => {
       let eventPointer: Event = event;
@@ -51,15 +53,19 @@ const TimingView = ({ events }: TimingViewProps) => {
 
       for (let i = 0; i < chain.length; i++) {
         const putEvent: Event = chain[i];
-        const eventId: string = putEvent.payload?.ACPExtensionEventUniqueIdentifier as string;
-        accPointer[eventId] = accPointer[eventId] || { event: putEvent, children: {} };
+        const eventId: string = putEvent.payload
+          ?.ACPExtensionEventUniqueIdentifier as string;
+        accPointer[eventId] = accPointer[eventId] || {
+          event: putEvent,
+          children: {},
+        };
         accPointer = accPointer[eventId].children;
       }
 
       return newAcc;
     },
     {},
-    events
+    events,
   );
 
   const detectLatestTS = (branch: Branch): number => {
@@ -72,7 +78,7 @@ const TimingView = ({ events }: TimingViewProps) => {
         return Math.max(acc, detectLatestTS(child));
       },
       0,
-      Object.values(branch.children)
+      Object.values(branch.children),
     );
   };
 
@@ -83,17 +89,17 @@ const TimingView = ({ events }: TimingViewProps) => {
       return Math.max(acc, branchTime);
     },
     0,
-    Object.values(branches)
+    Object.values(branches),
   );
 
   const SIZE = 300;
   const scale = Math.min((SIZE - 5) / longestTime, 0.3);
 
   return (
-    <Flex direction="column" position="relative" data-testid="timing-view">
+    <Flex direction="column" position="relative">
       {Object.values(branches).map((branch, index) => {
         return (
-          <View backgroundColor={index % 2 ? undefined : 'gray-50'} key={`TimingView${index}`}>
+          <View backgroundColor={index % 2 ? undefined : "gray-50"}>
             <Flex gap="size-200">
               <View
                 borderEndColor="gray-300"
@@ -114,4 +120,4 @@ const TimingView = ({ events }: TimingViewProps) => {
   );
 };
 
-export default TimingView;
+export default PluginView;

@@ -1,0 +1,84 @@
+/* Activities Container Styles */
+.activitiesResizableContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  
+  &.resizing {
+    /* Additional styles when resizing if needed */
+  }
+}
+
+.leftPanel {
+  height: 100%;
+  overflow: hidden;
+  border-right: 1px solid var(--spectrum-global-color-gray-300);
+  transition: width 0.2s ease;
+  
+  &.resizing {
+    transition: none;
+  }
+}
+
+.rightPanel {
+  flex: 1;
+  margin-left: var(--spectrum-global-dimension-size-200);
+  min-width: 400px;
+  overflow: hidden;
+  transition: width 0.2s ease;
+  
+  &.resizing {
+    transition: none;
+  }
+}
+
+.noActivitiesContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: var(--spectrum-global-dimension-size-400);
+  flex: 1;
+  padding: var(--spectrum-global-dimension-size-600);
+}
+
+.noActivitiesContent {
+  background-color: var(--spectrum-global-color-gray-100);
+  border-width: thin;
+  border-color: var(--spectrum-global-color-gray-300);
+  border-radius: medium;
+  padding: var(--spectrum-global-dimension-size-600);
+  max-width: var(--spectrum-global-dimension-size-6000);
+  min-width: var(--spectrum-global-dimension-size-4000);
+}
+
+.noActivitiesText {
+  font-size: var(--spectrum-global-dimension-size-400);
+  color: var(--spectrum-global-color-text-secondary);
+  text-align: center;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.noActivitiesHint {
+  font-size: var(--spectrum-global-dimension-size-200);
+  color: var(--spectrum-global-color-text-secondary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.selectActivityContainer {
+  text-align: center;
+  max-width: 400px;
+}
+
+.selectActivityHeading {
+  font-size: var(--spectrum-global-dimension-size-100);
+  color: var(--spectrum-global-color-gray-700);
+}
+
+.selectActivityDescription {
+  font-size: var(--spectrum-global-dimension-size-200);
+  color: var(--spectrum-global-color-gray-700);
+  line-height: 1.5;
+}

@@ -14,7 +14,7 @@ coverage
 /packages/*/*/.parcel-cache
 /packages/*/*/yarn.lock
 
-
+.nx
 
 
 # Storybook build outputs

@@ -1,61 +1,107 @@
-/*
-Copyright 2024 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-
-import React, { useMemo } from "react";
+/*************************************************************************
+ * ADOBE CONFIDENTIAL
+ * ___________________
+ *
+ *  Copyright 2023 Adobe
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ **************************************************************************/
+import { filterToHash } from "@adobe/griffon-toolkit";
+import {
+  clientInfoAndroid,
+  clientInfoIos,
+} from "@adobe/griffon-toolkit-aep-mobile";
+import { event as rootEvent } from "@adobe/griffon-toolkit-common";
 import { Flex, Item, Picker, Text } from "@adobe/react-spectrum";
-import { filterToHash } from '@adobe/griffon-toolkit';
-import * as R from 'ramda';
-import { 
+import {
   navigateTo,
-  useClients, 
-  useFilteredEvents, 
+  useClients,
   useNavigationFilters,
   useNavigationPath,
-  useSelectedClients, 
-} from "@adobe/assurance-plugin-bridge-provider";
-import { event as rootEvent } from '@adobe/griffon-toolkit-common';
-import { clientInfoIos, clientInfoAndroid } from '@adobe/griffon-toolkit-aep-mobile';
-import Devices from "@spectrum-icons/workflow/Devices";
+  useSelectedClients,
+} from "@assurance/plugin-bridge-provider";
 import Phone from "@spectrum-icons/workflow/DevicePhone";
+import Devices from "@spectrum-icons/workflow/Devices";
+import * as R from "ramda";
+import React, { useMemo, useEffect } from "react";
 
-const getClientIcon = type => (type === 'all'
-  ? <Devices size="S" /> : <Phone size="S" />);
+/**
+ * ClientPicker component
+ *
+ * Props:
+ * - allowAllClients (boolean, default: true):
+ *     If true, shows the 'All Clients' option. If false, only allows selecting a specific client.
+ *     If false and there are no clients, shows a disabled/default option and selects none.
+ */
+const getClientIcon = (type) =>
+  type === "all" ? <Devices size="S" /> : <Phone size="S" />;
 
-const getType = client => (clientInfoIos.isMatch(client)
-  ? 'ios' : clientInfoAndroid.isMatch(client) ? 'android' : null);
+const getType = (client) =>
+  clientInfoIos.isMatch(client)
+    ? "ios"
+    : clientInfoAndroid.isMatch(client)
+      ? "android"
+      : null;
 
-const getIosLabel = client =>
-  clientInfoIos.getDeviceName(client)
-  || clientInfoIos.getModel(client)
-  || clientInfoIos.getDeviceType(client);
-const getAndroidLabel = client =>
-  clientInfoAndroid.getDeviceName(client)
-  || clientInfoAndroid.getDeviceType(client);
+const getIosLabel = (client) =>
+  clientInfoIos.getDeviceName(client) ||
+  clientInfoIos.getModel(client) ||
+  clientInfoIos.getDeviceType(client);
+const getAndroidLabel = (client) =>
+  clientInfoAndroid.getDeviceName(client) ||
+  clientInfoAndroid.getDeviceType(client);
 
-const getLabel = client =>
-  (clientInfoIos.isMatch(client) ? getIosLabel(client)
-    : clientInfoAndroid.isMatch(client) ? getAndroidLabel(client)
-      : null);
+const getLabel = (client) =>
+  clientInfoIos.isMatch(client)
+    ? getIosLabel(client)
+    : clientInfoAndroid.isMatch(client)
+      ? getAndroidLabel(client)
+      : null;
 
-const prepareClientForUI = client => ({
+const prepareClientForUI = (client) => ({
   clientId: rootEvent.getClientId(client),
   label: getLabel(client),
   type: getType(client),
-  timestamp: client.timestamp
+  timestamp: client.timestamp,
 });
 
+// Utility to determine if navigation to default client is needed
+function getDefaultClientNavigation({
+  allowAllClients,
+  clients,
+  selectedClients,
+  prepared,
+  filters,
+  path
+}) {
+  if (
+    !allowAllClients &&
+    clients.length > 0 &&
+    (!selectedClients ||
+      selectedClients.length === 0 ||
+      selectedClients.length === clients.length)
+  ) {
+    const firstClientId = prepared[0]?.clientId;
+    if (firstClientId) {
+      const output = {
+        ...filters,
+        clients: rootEvent.makeClientFilter([firstClientId.toLowerCase(), firstClientId.toUpperCase()])
+      };
+      return `${path}#${filterToHash(output)}`;
+    }
+  }
+  return null;
+}
 
-const ClientPicker = () => {
-  const events = useFilteredEvents();
+const ClientPicker = ({ allowAllClients = true }) => {
   const clients = useClients();
   const selectedClients = useSelectedClients();
   const filters = useNavigationFilters();
@@ -63,59 +109,105 @@ const ClientPicker = () => {
 
   const prepared = useMemo(() => clients.map(prepareClientForUI), [clients]);
 
-  const mapSelected = useMemo(() =>
-    selectedClients.map(
-      id => R.find(R.propEq(id, 'clientId'), prepared)
-    ),
-    [prepared, selectedClients]
-  )
+  const newPath = React.useMemo(
+    () =>
+      getDefaultClientNavigation({
+        allowAllClients,
+        clients,
+        selectedClients,
+        prepared,
+        filters,
+        path
+      }),
+    [allowAllClients, clients, selectedClients, prepared, filters, path]
+  );
 
-  if (events.length === 0 || clients.length === 0) {
-    return null;
+  useEffect(() => {
+    if (newPath) {
+      navigateTo(newPath);
+    }
+  }, [newPath]);
+
+  const mapSelected = useMemo(
+    () =>
+      selectedClients.map((id) => R.find(R.propEq(id, "clientId"), prepared)),
+    [prepared, selectedClients],
+  );
+
+  if (clients.length === 0) {
+    // No clients: show a disabled/default option
+    return (
+      <Picker aria-label="Client" isDisabled selectedKey="none">
+        <Item key="none" textValue="No Clients Available">
+          <Devices size="S" />
+          <Text>No Clients Available</Text>
+        </Item>
+      </Picker>
+    );
   }
 
   if (clients.length === 1) {
     return (
-      <Flex gap="size-100" data-testid="client-text">
+      <Flex gap="size-100">
         {getClientIcon(mapSelected[0].type)}
         <Text>{mapSelected[0].label}</Text>
       </Flex>
     );
   }
 
-  const options = [
-    {
-      clientId: 'all',
-      label: 'All clients',
-      type: 'all'
-     },
-    ...prepared    
-  ];
-  
+  // Build options array
+  const options = allowAllClients
+    ? [
+        {
+          clientId: "all",
+          label: "All Clients",
+          type: "all",
+        },
+        ...prepared,
+      ]
+    : prepared;
+
+  // Determine selectedKey
+  let selectedKey;
+  if (!allowAllClients) {
+    // If not allowing all clients, default to first client if none selected
+    selectedKey =
+      mapSelected[0]?.clientId || prepared[0]?.clientId || "none";
+  } else {
+    selectedKey =
+      selectedClients.length === clients.length || selectedClients.length === 0
+        ? "all"
+        : mapSelected[0]?.clientId;
+  }
+
+  // onSelectionChange handler
+  const handleSelectionChange = (selected) => {
+    const output = {
+      ...filters,
+      clients:
+        allowAllClients && selected === "all"
+          ? undefined
+          : rootEvent.makeClientFilter([selected.toLowerCase(), selected.toUpperCase()]),
+    };
+    const newPath = `${path}#${filterToHash(output)}`;
+    navigateTo(newPath);
+  };
+
   return (
-    <Picker 
-      aria-label="Client" 
-      labelPosition="side" 
-      data-testid="client-picker"
+    <Picker
+      aria-label="Client"
+      labelPosition="side"
       isQuiet
       items={options}
-      selectedKey={selectedClients.length === clients.length ? 'all' : mapSelected[0].clientId}
-      onSelectionChange={(selected) => {
-        const output = {
-          ...filters,
-          clients: selected === 'all' ? undefined : rootEvent.makeClientFilter([selected])
-        };
-
-        const newPath = `${path}#${filterToHash(output)}`;
-        navigateTo(newPath);
-      }}
+      selectedKey={selectedKey}
+      onSelectionChange={handleSelectionChange}
     >
-      {(item) => 
+      {(item) => (
         <Item key={item.clientId} textValue={item.label}>
           {getClientIcon(item.type)}
           <Text>{item.label}</Text>
         </Item>
-      }
+      )}
     </Picker>
   );
 };
