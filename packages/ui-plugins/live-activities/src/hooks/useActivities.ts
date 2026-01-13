@@ -92,6 +92,9 @@ export function isUnitaryActivityKey(activityKey: string): boolean {
   return activityKey.startsWith(`${ACTIVITY_TYPE.UNITARY}:`);
 }
 
+export function splitActivityKeyParts(activityKey: string): string[] {
+  return activityKey.split(':');
+}
 /**
  * Parses an activity key to extract its components.
  * 
@@ -106,7 +109,7 @@ export function parseActivityKey(activityKey: string): {
 } {
   if (isBroadcastActivityKey(activityKey)) {
     // Format: "broadcast:channelId:attributeType"
-    const parts = activityKey.split(':');
+    const parts = splitActivityKeyParts(activityKey);
     return {
       type: ACTIVITY_TYPE.BROADCAST,
       channelId: parts[1],
@@ -116,7 +119,7 @@ export function parseActivityKey(activityKey: string): {
   
   if (isUnitaryActivityKey(activityKey)) {
     // Format: "unitary:liveActivityId"
-    const parts = activityKey.split(':');
+    const parts = splitActivityKeyParts(activityKey);
     return {
       type: ACTIVITY_TYPE.UNITARY,
       liveActivityId: parts[1]
