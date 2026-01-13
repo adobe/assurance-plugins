@@ -64,6 +64,10 @@ export const activitiesMessages = defineMessages({
     id: 'activities.details.liveActivityId',
     defaultMessage: 'Live Activity ID'
   },
+  broadcastChannelId: {
+    id: 'activities.details.broadcastChannelId',
+    defaultMessage: 'Broadcast Channel ID'
+  },
   attributeSet: {
     id: 'activities.details.attributeSet',
     defaultMessage: 'Attribute Set'
@@ -231,6 +235,26 @@ export const activitiesMessages = defineMessages({
   noEventsAvailable: {
     id: 'activities.empty.noEventsAvailable',
     defaultMessage: 'No events available'
+  },
+  
+  // Activity types
+  typeUnitary: {
+    id: 'activities.type.unitary',
+    defaultMessage: 'Unitary'
+  },
+  typeBroadcast: {
+    id: 'activities.type.broadcast',
+    defaultMessage: 'Broadcast'
+  },
+  
+  // Filter labels
+  typeFilterLabel: {
+    id: 'activities.filter.type',
+    defaultMessage: 'Type'
+  },
+  statusFilterLabel: {
+    id: 'activities.filter.status',
+    defaultMessage: 'Status'
   }
 });
 

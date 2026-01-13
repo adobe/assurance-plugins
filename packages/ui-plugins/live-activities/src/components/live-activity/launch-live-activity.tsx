@@ -10,10 +10,16 @@ import {
   Text,
   Picker,
   Item,
-  ToastQueue
+  ToastQueue,
+  RadioGroup,
+  Radio,
+  TextField,
+  TooltipTrigger,
+  Tooltip
 } from '@adobe/react-spectrum';
 import classNames from 'classnames';
 import Rocket from '@spectrum-icons/workflow/Launch';
+import Add from '@spectrum-icons/workflow/Add';
 import { useIntl } from 'react-intl';
 import { useLiveActivitiesData, useRegisteredActivities } from '../../hooks/useActivities';
 import {
@@ -23,7 +29,13 @@ import {
   generateLaunchTemplate,
   buildCompleteApsPayload
 } from '../../api/liveActivityApi';
-import { LIVE_ACTIVITY_DEFAULTS, MESSAGES as COMMON_MESSAGES } from '../../constants/liveActivitiesConfig';
+import { 
+  LIVE_ACTIVITY_DEFAULTS, 
+  MESSAGES as COMMON_MESSAGES,
+  ACTIVITY_TYPE,
+  ActivityType,
+  EVENT_TYPE
+} from '../../constants/liveActivitiesConfig';
 import { ErrorMessage, JsonEditor, DialogActions } from './common';
 import { useLiveActivityContext } from '../../hooks/useLiveActivityContext';
 import { liveActivityMessages } from '../../i18n';
@@ -67,16 +79,22 @@ function ActivityPicker({ activities, selectedKey, onSelectionChange, label }: R
 // MAIN COMPONENT
 // ============================================================================
 
-function LaunchLiveActivity() {
+interface LaunchLiveActivityProps {
+  compact?: boolean;
+}
+
+function LaunchLiveActivity({ compact = false }: LaunchLiveActivityProps) {
   const { formatMessage } = useIntl();
   
   // State
-  const [selectedActivityType, setSelectedActivityType] = useState<string>('');
+  const [selectedAttributeType, setSelectedAttributeType] = useState<string>('');
   const [apsPayload, setApsPayload] = useState(
     JSON.stringify(generateLaunchTemplate(), null, 2)
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [activityTypeSelection, setActivityTypeSelection] = useState<ActivityType>(ACTIVITY_TYPE.UNITARY);
+  const [broadcastChannelId, setBroadcastChannelId] = useState<string>('');
   const editorRef = useRef<any>(null);
 
   // Live Activities Data
@@ -87,9 +105,9 @@ function LaunchLiveActivity() {
   const context = useLiveActivityContext({ requirePushToken: true });
   // Get selected activity details
   const selectedActivity = registeredActivities.find(
-    (activity) => activity.attributeType === selectedActivityType
+    (activity) => activity.attributeType === selectedAttributeType
   );
-  const selectedLiveActivityData = liveActivitiesData.activityTypes.get(selectedActivityType);
+  const selectedLiveActivityData = liveActivitiesData.activityTypes.get(selectedAttributeType);
 
   
   // Get push to start token from live activities data
@@ -114,11 +132,20 @@ function LaunchLiveActivity() {
         throw new Error('Please select a live activity with push-to-start token');
       }
 
+      // Validate broadcast channel ID if broadcast type is selected
+      if (activityTypeSelection === ACTIVITY_TYPE.BROADCAST && !broadcastChannelId.trim()) {
+        throw new Error(formatMessage(liveActivityMessages.broadcastChannelIdRequired));
+      }
+
+      // Determine broadcast channel ID based on activity type
+      const channelIdToSend = activityTypeSelection === ACTIVITY_TYPE.BROADCAST ? broadcastChannelId : undefined;
+
       // Build complete APS payload by merging user input with auto-generated fields
       const completeApsPayload = buildCompleteApsPayload({
         userPayload,
-        eventType: 'start',
-        attributesType: selectedActivityType
+        eventType: EVENT_TYPE.START,
+        attributesType: selectedAttributeType,
+        broadcastChannelId: channelIdToSend
       });
 
       // Generate complete payload
@@ -131,7 +158,9 @@ function LaunchLiveActivity() {
         imsOrg: context.imsOrg!,
         sessionId: context.sessionId!,
         sandboxName: context.sandbox?.name || LIVE_ACTIVITY_DEFAULTS.SANDBOX,
-        environment: context.environment
+        environment: context.environment,
+        type: activityTypeSelection,
+        broadcastChannelId: channelIdToSend
       });
 
       // Make API call
@@ -149,11 +178,13 @@ function LaunchLiveActivity() {
     } finally {
       setIsLoading(false);
     }
-  }, [apsPayload, context, selectedActivity, pushToStartToken, selectedActivityType]);
+  }, [apsPayload, context, selectedActivity, pushToStartToken, selectedAttributeType, activityTypeSelection, broadcastChannelId]);
 
   const handleReset = useCallback(() => {
-    setSelectedActivityType('');
+    setSelectedAttributeType('');
     setApsPayload(JSON.stringify(generateLaunchTemplate(), null, 2));
+    setActivityTypeSelection(ACTIVITY_TYPE.UNITARY);
+    setBroadcastChannelId('');
     setError(null);
   }, []);
 
@@ -174,7 +205,11 @@ function LaunchLiveActivity() {
 
   // Computed values
   const hasRegisteredActivities = registeredActivities.length > 0;
-  const canSubmit = selectedActivityType && apsPayload.trim() !== '' && context.isReady && !isLoading;
+  const canSubmit = selectedAttributeType && 
+                    apsPayload.trim() !== '' && 
+                    context.isReady && 
+                    !isLoading &&
+                    (activityTypeSelection === ACTIVITY_TYPE.UNITARY || (activityTypeSelection === ACTIVITY_TYPE.BROADCAST && broadcastChannelId.trim() !== ''));
   const isButtonDisabled = !context.isReady || isLoading || !hasRegisteredActivities;
   const buttonTooltip = hasRegisteredActivities 
     ? formatMessage(liveActivityMessages.launchLiveActivity)
@@ -183,14 +218,37 @@ function LaunchLiveActivity() {
   // Render
   return (
     <DialogTrigger>
-      <Button 
-        variant="cta" 
-        isDisabled={isButtonDisabled}
-        aria-label={buttonTooltip}
-      >
-        <Rocket marginEnd="size-50" />
-        {formatMessage(liveActivityMessages.launchLiveActivity)}
-      </Button>
+      {compact ? (
+        // Compact mode: Icon-only button with tooltip
+        <TooltipTrigger delay={0}>
+          <Button 
+            variant="cta" 
+            isDisabled={isButtonDisabled}
+            aria-label={formatMessage(liveActivityMessages.launchNewLiveActivity)}
+            UNSAFE_style={{
+              padding: '8px',
+              minWidth: 'max-content',
+              borderRadius: '50%',
+              cursor: 'pointer',
+            }}
+          >
+            <Add size='XS' />
+          </Button>
+          <Tooltip>
+            <Text>{formatMessage(liveActivityMessages.launchNewLiveActivity)}</Text>
+          </Tooltip>
+        </TooltipTrigger>
+      ) : (
+        // Full mode: Button with icon and text
+        <Button 
+          variant="cta" 
+          isDisabled={isButtonDisabled}
+          aria-label={buttonTooltip}
+        >
+          <Rocket />
+          <Text>{formatMessage(liveActivityMessages.launchLiveActivity)}</Text>
+        </Button>
+      )}
       
       {(close) => (
         <Dialog>
@@ -204,18 +262,41 @@ function LaunchLiveActivity() {
 
             <ActivityPicker
               activities={registeredActivities}
-              selectedKey={selectedActivityType}
-              onSelectionChange={setSelectedActivityType}
+              selectedKey={selectedAttributeType}
+              onSelectionChange={setSelectedAttributeType}
               label={formatMessage(liveActivityMessages.selectActivity)}
             />
 
+            <View marginBottom="size-200">
+              <RadioGroup 
+                label={formatMessage(liveActivityMessages.activityType)}
+                value={activityTypeSelection}
+                onChange={(value) => setActivityTypeSelection(value as ActivityType)}
+                orientation="horizontal"
+              >
+                <Radio value={ACTIVITY_TYPE.UNITARY}>{formatMessage(liveActivityMessages.activityTypeUnitary)}</Radio>
+                <Radio value={ACTIVITY_TYPE.BROADCAST}>{formatMessage(liveActivityMessages.activityTypeBroadcast)}</Radio>
+              </RadioGroup>
+            </View>
+
+            {activityTypeSelection === ACTIVITY_TYPE.BROADCAST && (
+              <View marginBottom="size-200">
+                <TextField
+                  label={formatMessage(liveActivityMessages.broadcastChannelId)}
+                  placeholder={formatMessage(liveActivityMessages.broadcastChannelIdPlaceholder)}
+                  value={broadcastChannelId}
+                  onChange={setBroadcastChannelId}
+                  width="100%"
+                  isRequired
+                />
+              </View>
+            )}
             <JsonEditor
               value={apsPayload}
               onChange={(val) => setApsPayload(val || '{}')}
               editorRef={editorRef}
               className={classNames('editorContainer')}
             />
-
             {error && <ErrorMessage message={error} />}
           </Content>
           

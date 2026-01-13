@@ -1,5 +1,24 @@
 import { defineMessages } from 'react-intl';
 
+// Live Activity Types
+export const ACTIVITY_TYPE = {
+  UNITARY: 'unitary',
+  BROADCAST: 'broadcast',
+  UNKNOWN: 'unknown'
+} as const;
+
+export type ActivityType = typeof ACTIVITY_TYPE[keyof typeof ACTIVITY_TYPE];
+
+// Live Activity Event Types
+export const EVENT_TYPE = {
+  START: 'start',
+  UPDATE: 'update',
+  END: 'end',
+  REMOTE_START: 'remotestart'
+} as const;
+
+export type EventType = typeof EVENT_TYPE[keyof typeof EVENT_TYPE];
+
 // UI Configuration
 export const UI_CONFIG = {
   MAX_COPY_LENGTH: 50,

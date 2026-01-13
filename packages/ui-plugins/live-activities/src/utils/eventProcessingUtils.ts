@@ -1,6 +1,6 @@
-import { combineAny } from '@adobe/griffon-toolkit';
 import { EVENT_CONFIG } from '../constants/liveActivitiesConfig';
 import { LiveActivityEvent } from '../types/liveActivityEvent';
+import { isBroadcastActivityKey, isUnitaryActivityKey, parseActivityKey } from '../hooks/useActivities';
 
 export interface EventStatistics {
   total: number;
@@ -21,18 +21,43 @@ export interface TimeRange {
 
 /**
  * Process events for a specific Live Activity
+ * Supports composite keys for broadcast activities (broadcast:channelId:attributeType)
  */
 export function processActivityEvents(
   allEvents: LiveActivityEvent[],
-  activityId: string
+  activityKey: string
 ): LiveActivityEvent[] {
-  const filteredEvents = allEvents.filter(event => {
-    const eventLiveActivityID =
-      event.payload?.ACPExtensionEventData?.liveActivityID ||
-      event.payload?.ACPExtensionEventData?.data?.liveActivityID ||
-      event.payload?.ACPExtensionEventData?.activityId;
+  // Parse the activity key using utility functions
+  const isBroadcast = isBroadcastActivityKey(activityKey);
+  const isUnitary = isUnitaryActivityKey(activityKey);
+  const parsedKey = parseActivityKey(activityKey);
+  
+  const targetChannelId = parsedKey.channelId;
+  const targetAttributeType = parsedKey.attributeType;
+  const targetLiveActivityId = parsedKey.liveActivityId;
 
-    return eventLiveActivityID === activityId;
+  const filteredEvents = allEvents.filter(event => {
+    const eventData = event.payload?.ACPExtensionEventData;
+    
+    const eventChannelId = eventData?.channelID || eventData?.data?.channelID;
+    const eventLiveActivityId = 
+      eventData?.liveActivityID || 
+      eventData?.data?.liveActivityID || 
+      eventData?.activityId;
+    const eventAttributeType = eventData?.attributeType || eventData?.data?.attributeType;
+
+    if (isBroadcast && targetChannelId && targetAttributeType) {
+      // For broadcast: match both channelID and attributeType
+      return eventChannelId === targetChannelId && eventAttributeType === targetAttributeType;
+    } else if (isUnitary && targetLiveActivityId) {
+      // For unitary: match liveActivityID
+      return eventLiveActivityId === targetLiveActivityId;
+    } else if (targetLiveActivityId) {
+      // Fallback: match any ID field for unknown activity type cases.
+      return eventLiveActivityId === targetLiveActivityId || eventChannelId === targetLiveActivityId;
+    }
+    
+    return false;
   });
 
   // Deduplicate by uuid to avoid duplicate events

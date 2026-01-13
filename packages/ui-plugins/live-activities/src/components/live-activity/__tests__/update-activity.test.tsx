@@ -12,6 +12,7 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import UpdateActivity from '../update-activity';
 import * as liveActivityApi from '../../../api/liveActivityApi';
 import { LiveActivity } from '../../../hooks/useActivities';
+import { ACTIVITY_TYPE } from '../../../constants/liveActivitiesConfig';
 
 // Mock the hooks
 vi.mock('../../../hooks/useLiveActivityContext', () => ({
@@ -121,21 +122,6 @@ describe('UpdateActivity', () => {
       expect(button).toBeDisabled();
     });
 
-    it('should disable button when activity is completed', () => {
-      const completedActivity = {
-        ...mockActivity,
-        status: 'completed' as const,
-      };
-
-      render(
-        <TestWrapper>
-          <UpdateActivity activity={completedActivity} />
-        </TestWrapper>
-      );
-
-      const button = screen.getByRole('button', { name: /Send Update/i });
-      expect(button).toBeDisabled();
-    });
 
     it('should enable button when activity has update token and is active', () => {
       render(
@@ -990,6 +976,276 @@ describe('UpdateActivity', () => {
           })
         );
       });
+    });
+  });
+
+  describe('Broadcast Functionality', () => {
+    const mockBroadcastActivity = {
+      id: '',
+      name: 'FlightActivity',
+      attributes: 'FlightActivity',
+      broadcastChannelId: 'flight-channel-123',
+      type: ACTIVITY_TYPE.BROADCAST,
+      updateToken: undefined,
+      status: 'active' as const,
+      contentState: { flight: 'AA123' },
+    } as LiveActivity;
+
+    it('should enable button for broadcast activities even without update token', () => {
+      render(
+        <TestWrapper>
+          <UpdateActivity activity={mockBroadcastActivity} />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Send Update/i });
+      // Broadcast activities don't require update token
+      expect(button).not.toBeDisabled();
+    });
+
+    it('should display broadcast type radio button as selected and disabled', async () => {
+      render(
+        <TestWrapper>
+          <UpdateActivity activity={mockBroadcastActivity} />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Send Update/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Broadcast radio should be checked
+      const broadcastRadio = screen.getByRole('radio', { name: /Broadcast/i });
+      expect(broadcastRadio).toBeChecked();
+      
+      // Type selection should be disabled (can't change after activity starts)
+      expect(broadcastRadio).toBeDisabled();
+      
+      const unitaryRadio = screen.getByRole('radio', { name: /Unitary/i });
+      expect(unitaryRadio).toBeDisabled();
+    });
+
+    it('should display broadcast channel ID field as disabled with pre-filled value', async () => {
+      render(
+        <TestWrapper>
+          <UpdateActivity activity={mockBroadcastActivity} />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Send Update/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Broadcast channel ID field should be visible and disabled
+      const channelIdField = screen.getByLabelText(/Broadcast Channel ID/i);
+      expect(channelIdField).toBeInTheDocument();
+      expect(channelIdField).toBeDisabled();
+      expect(channelIdField).toHaveValue('flight-channel-123');
+    });
+
+    it('should display broadcast channel ID in dialog heading when id is empty', async () => {
+      render(
+        <TestWrapper>
+          <UpdateActivity activity={mockBroadcastActivity} />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Send Update/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByText(/Update Live Activity flight-channel-123/i)).toBeInTheDocument();
+      });
+    });
+
+    it('should allow updates for completed broadcast activities', () => {
+      const completedBroadcastActivity = {
+        ...mockBroadcastActivity,
+        status: 'completed' as const,
+      };
+
+      render(
+        <TestWrapper>
+          <UpdateActivity activity={completedBroadcastActivity} />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Send Update/i });
+      // Broadcast channels can be reused, so button should be enabled
+      expect(button).not.toBeDisabled();
+    });
+
+    it('should allow updates for unitary activities with update token regardless of status', () => {
+      const completedUnitaryActivity = {
+        ...mockActivity,
+        type: ACTIVITY_TYPE.UNITARY,
+        status: 'completed' as const,
+        updateToken: 'some-token',
+      };
+
+      render(
+        <TestWrapper>
+          <UpdateActivity activity={completedUnitaryActivity} />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Send Update/i });
+      // Unitary activities can be updated if they have update token
+      expect(button).not.toBeDisabled();
+    });
+
+    it('should include broadcast channel ID in payload when updating broadcast activity', async () => {
+      mockSendLiveActivityNotification.mockResolvedValue(undefined);
+
+      render(
+        <TestWrapper>
+          <UpdateActivity activity={mockBroadcastActivity} />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Send Update/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Click update button in dialog
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
+
+      await waitFor(() => {
+        expect(mockBuildCompleteApsPayload).toHaveBeenCalledWith(
+          expect.objectContaining({
+            broadcastChannelId: 'flight-channel-123',
+          })
+        );
+      });
+    });
+
+    it('should not require push-to-start token for broadcast updates', async () => {
+      mockSendLiveActivityNotification.mockResolvedValue(undefined);
+
+      render(
+        <TestWrapper>
+          <UpdateActivity activity={mockBroadcastActivity} />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Send Update/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Should be able to send update without token
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      expect(updateButton).not.toBeDisabled();
+    });
+
+    it('should use empty string as token for broadcast activities', async () => {
+      mockSendLiveActivityNotification.mockResolvedValue(undefined);
+
+      render(
+        <TestWrapper>
+          <UpdateActivity activity={mockBroadcastActivity} />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Send Update/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      const dialog = screen.getByRole('dialog');
+      const dialogButtons = within(dialog).getAllByRole('button');
+      const updateButton = dialogButtons.find(btn => 
+        btn.textContent?.includes('Update') && !btn.hasAttribute('disabled')
+      );
+      
+      if (updateButton) {
+        fireEvent.click(updateButton);
+      }
+
+      await waitFor(() => {
+        expect(mockGenerateLiveActivityPayload).toHaveBeenCalledWith(
+          expect.objectContaining({
+            token: '', // Broadcast uses empty token
+          })
+        );
+      });
+    });
+
+    it('should display unitary type radio button as selected and disabled for unitary activities', async () => {
+      const unitaryActivity = {
+        ...mockActivity,
+        type: ACTIVITY_TYPE.UNITARY,
+      };
+
+      render(
+        <TestWrapper>
+          <UpdateActivity activity={unitaryActivity} />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Send Update/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Unitary radio should be checked and disabled
+      const unitaryRadio = screen.getByRole('radio', { name: /Unitary/i });
+      expect(unitaryRadio).toBeChecked();
+      expect(unitaryRadio).toBeDisabled();
+      
+      const broadcastRadio = screen.getByRole('radio', { name: /Broadcast/i });
+      expect(broadcastRadio).toBeDisabled();
+    });
+
+    it('should not display broadcast channel ID field for unitary activities', async () => {
+      const unitaryActivity = {
+        ...mockActivity,
+        type: ACTIVITY_TYPE.UNITARY,
+      };
+
+      render(
+        <TestWrapper>
+          <UpdateActivity activity={unitaryActivity} />
+        </TestWrapper>
+      );
+
+      const button = screen.getByRole('button', { name: /Send Update/i });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Broadcast channel ID field should not be visible for unitary
+      expect(screen.queryByLabelText(/Broadcast Channel ID/i)).not.toBeInTheDocument();
     });
   });
 });

@@ -6,6 +6,9 @@
 
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { ACTIVITY_TYPE, EVENT_TYPE } from '../constants/liveActivitiesConfig';
+import type { ActivityType } from '../constants/liveActivitiesConfig';
+import { LiveActivity } from '../hooks/useActivities';
 
 // ============================================================================
 // CONSTANTS
@@ -54,12 +57,14 @@ export interface LiveActivityPayloadParams {
   apsContent: any;
   appId: string;
   platform: string;
-  token: string; // This will be either pushToStartToken or updateToken
+  token?: string; // This will be either pushToStartToken or updateToken in unitary activities, empty string/undefined in broadcast activities
   ecid: string;
   imsOrg: string;
   sessionId: string;
   sandboxName: string;
   environment: string;
+  type?: ActivityType;
+  broadcastChannelId?: string;
 }
 
 export interface ApiCallConfig {
@@ -102,15 +107,23 @@ export function generateLaunchTemplate(): any {
  * Generates minimal APS template for updating a Live Activity
  * Pre-fills known data from the activity, user only updates dynamic fields
  */
-export function generateUpdateTemplate(activity: any): any {
-  return {
+export function generateUpdateTemplate(activity: LiveActivity): any {
+  // Build liveActivityData object with only existing fields
+  const liveActivityData: any = {};
+  
+  // Add liveActivityID only if it exists
+  if (activity.id) {
+    liveActivityData.liveActivityID = activity.id;
+  }
+  
+  const template: any = {
     "content-state": activity.currentContentState || activity.examplePayload?.['content-state'] || {},
     "attributes": {
-      "liveActivityData": {
-        "liveActivityID": activity.id || ""
-      }
+      "liveActivityData": liveActivityData
     }
   };
+  
+  return template;
 }
 
 /**
@@ -118,10 +131,11 @@ export function generateUpdateTemplate(activity: any): any {
  */
 export function buildCompleteApsPayload(params: {
   userPayload: any;
-  eventType: 'start' | 'update' | 'end';
+  eventType: typeof EVENT_TYPE.START | typeof EVENT_TYPE.UPDATE | typeof EVENT_TYPE.END;
   attributesType: string;
+  broadcastChannelId?: string;
 }): any {
-  return {
+  const basePayload = {
     "content-available": 1,
     "timestamp": getCurrentTimestamp(),
     "event": params.eventType,
@@ -132,6 +146,28 @@ export function buildCompleteApsPayload(params: {
     },
     ...params.userPayload
   };
+
+  // Add broadcast channel ID to APS payload if provided
+  if (params.broadcastChannelId) {
+    // Add broadcast channel ID to APS payload
+    basePayload["input-push-channel"] = params.broadcastChannelId;
+    
+    // Preserve user's custom liveActivityData fields
+    const userLiveActivityData = basePayload.attributes?.liveActivityData || {};
+    
+    // Merge with broadcast-required fields (broadcast fields take precedence)
+    basePayload.attributes = {
+      ...basePayload.attributes,
+      liveActivityData: {
+        ...userLiveActivityData,
+        channelID: params.broadcastChannelId,
+        origin: "remote",
+        type: ACTIVITY_TYPE.BROADCAST
+      }
+    };
+  }
+
+  return basePayload;
 }
 
 /**
@@ -235,7 +271,19 @@ export function generateLiveActivityPayload(params: LiveActivityPayloadParams) {
   const normalizedAps = normalizeApsPayload(params.apsContent);
 
   // Determine event type - if 'start', map to 'remotestart'
-  const eventType = normalizedAps.event === 'start' ? 'remotestart' : normalizedAps.event;
+  const eventType = normalizedAps.event === EVENT_TYPE.START ? EVENT_TYPE.REMOTE_START : normalizedAps.event;
+
+  // Build liveActivity object based on type
+  const liveActivityPayload: any = {
+    type: params.type || ACTIVITY_TYPE.UNITARY,
+    event: eventType,
+    liveActivityID: normalizedAps.attributes?.liveActivityData?.liveActivityID
+  };
+  
+  // Add channelID for broadcast activities
+  if (params.type === ACTIVITY_TYPE.BROADCAST && params.broadcastChannelId) {
+    liveActivityPayload.channelID = params.broadcastChannelId;
+  }
 
   return {
     messages: [
@@ -248,11 +296,7 @@ export function generateLiveActivityPayload(params: LiveActivityPayloadParams) {
             },
             groupID: groupId,
             sandboxName: params.sandboxName,
-            liveActivity: {
-              type: 'unitary',
-              event: eventType,
-              liveActivityID: normalizedAps.attributes?.liveActivityData?.liveActivityID
-            },
+            liveActivity: liveActivityPayload,
             pushTokenDetail: {
               appID: params.appId,
               platform: params.platform,

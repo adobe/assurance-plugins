@@ -1,11 +1,8 @@
-import { combineAny } from '@adobe/griffon-toolkit';
-
 import { useEvents } from '@assurance/plugin-bridge-provider';
-
-import groupBy from 'lodash/groupBy';
 
 import { useMemo } from 'react';
 
+import { ACTIVITY_TYPE, ActivityType } from '../constants/liveActivitiesConfig';
 import { LIVE_ACTIVITIES_MATCHERS } from '../constants/matchers';
 import {
   isLiveActivityDismissedEvent,
@@ -48,32 +45,140 @@ export interface LiveActivity {
   examplePayload?: any;
   schema?: any;
   currentContentState?: any;
+  type?: ActivityType;
+  broadcastChannelId?: string;
+}
+
+/**
+ * Gets a unique key for a live activity that works for both unitary and broadcast types.
+ * For unitary activities: uses the activity ID
+ * For broadcast activities: uses the channel ID + attribute type (to support multiple activity types per channel)
+ * 
+ * @param activity - The live activity (can be undefined)
+ * @returns A unique string key for the activity, or empty string if activity is not provided
+ */
+export function getActivityKey(activity: LiveActivity | undefined): string {
+  if (!activity) return '';
+  
+  // For broadcast: use channelId + attributeType as the key (supports multiple types per channel)
+  if (activity.type === ACTIVITY_TYPE.BROADCAST && activity.broadcastChannelId) {
+    return `${ACTIVITY_TYPE.BROADCAST}:${activity.broadcastChannelId}:${activity.name}`;
+  }
+  // For unitary: use id as the key
+  if (activity.id) {
+    return `${ACTIVITY_TYPE.UNITARY}:${activity.id}`;
+  }
+  // Fallback (shouldn't happen in normal cases)
+  return `unknown:${activity.name}:${activity.startTime || 'no-timestamp'}`;
+}
+
+/**
+ * Checks if an activity key represents a broadcast activity.
+ * 
+ * @param activityKey - The activity key to check
+ * @returns True if the key represents a broadcast activity
+ */
+export function isBroadcastActivityKey(activityKey: string): boolean {
+  return activityKey.startsWith(`${ACTIVITY_TYPE.BROADCAST}:`);
+}
+
+/**
+ * Checks if an activity key represents a unitary activity.
+ * 
+ * @param activityKey - The activity key to check
+ * @returns True if the key represents a unitary activity
+ */
+export function isUnitaryActivityKey(activityKey: string): boolean {
+  return activityKey.startsWith(`${ACTIVITY_TYPE.UNITARY}:`);
+}
+
+export function splitActivityKeyParts(activityKey: string): string[] {
+  return activityKey.split(':');
+}
+/**
+ * Parses an activity key to extract its components.
+ * 
+ * @param activityKey - The activity key to parse
+ * @returns Object containing the parsed components: type, channelId, attributeType, and liveActivityId
+ */
+export function parseActivityKey(activityKey: string): {
+  type: ActivityType;
+  channelId?: string;
+  attributeType?: string;
+  liveActivityId?: string;
+} {
+  if (isBroadcastActivityKey(activityKey)) {
+    // Format: "broadcast:channelId:attributeType"
+    const parts = splitActivityKeyParts(activityKey);
+    return {
+      type: ACTIVITY_TYPE.BROADCAST,
+      channelId: parts[1],
+      attributeType: parts[2]
+    };
+  }
+  
+  if (isUnitaryActivityKey(activityKey)) {
+    // Format: "unitary:liveActivityId"
+    const parts = splitActivityKeyParts(activityKey);
+    return {
+      type: ACTIVITY_TYPE.UNITARY,
+      liveActivityId: parts[1]
+    };
+  }
+  
+  // Unknown format (fallback for backward compatibility)
+  return {
+    type: ACTIVITY_TYPE.UNKNOWN,
+    liveActivityId: activityKey
+  };
 }
 
 /**
  * Extracts activity metadata from Live Activity events.
  * @param event - The event to extract metadata from
- * @returns Object with activityId and attributeType, or null if not found
+ * @returns Object with grouping key, IDs, type, and attributeType, or null if not found
  */
-function extractActivityMetadata(event: any): { activityId: string; attributeType: string } | null {
+function extractActivityMetadata(event: any): { 
+  groupingKey: string;
+  liveActivityId?: string;
+  channelId?: string;
+  attributeType: string;
+  activityType: ActivityType;
+} | null {
   const eventData = event.payload?.ACPExtensionEventData;
   if (!eventData) {
     return null;
   }
 
-  // Use the same flexible matching logic as useActivityEvents
-  const activityId =
-    eventData.liveActivityID || eventData.data?.liveActivityID || eventData.activityId;
-
+  // Detect activity type based on channelID presence
+  // If channelID exists, it's a broadcast activity; otherwise it's unitary
+  const channelId = eventData.channelID || eventData.data?.channelID;
+  const liveActivityId = eventData.liveActivityID || eventData.data?.liveActivityID || eventData.activityId;
+  
+  const activityType: ActivityType = channelId ? ACTIVITY_TYPE.BROADCAST : ACTIVITY_TYPE.UNITARY;
+  
   // For attributeType, try multiple possible locations
   const attributeType =
-    eventData.attributeType || eventData.data?.attributeType || eventData.type || 'unknown'; // Fallback for events without attributeType
+    eventData.attributeType || eventData.data?.attributeType || 'unknown';
+  
+  // Determine grouping key based on activity type
+  // For broadcast: group by channelID + attributeType (to support multiple activity types per channel)
+  // For unitary: group by liveActivityID (required)
+  const groupingKey = activityType === ACTIVITY_TYPE.BROADCAST 
+    ? `${channelId}:${attributeType}` 
+    : liveActivityId;
 
-  if (!activityId) {
+  if (!groupingKey) {
     return null;
   }
 
-  return { activityId, attributeType };
+  return { 
+    groupingKey,
+    liveActivityId,
+    channelId,
+    attributeType,
+    activityType
+  };
 }
 
 /**
@@ -102,12 +207,14 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
     const metadata = extractActivityMetadata(event);
     if (!metadata) return;
 
-    const { activityId, attributeType } = metadata;
+    const { groupingKey, liveActivityId, channelId, attributeType, activityType } = metadata;
 
     // Initialize activity if not exists
-    if (!activitiesMap.has(activityId)) {
-      activitiesMap.set(activityId, {
-        id: activityId,
+    if (!activitiesMap.has(groupingKey)) {
+      activitiesMap.set(groupingKey, {
+        liveActivityId: liveActivityId,
+        channelId: channelId,
+        activityType: activityType,
         attributeType,
         events: [],
         status: 'active'
@@ -115,7 +222,7 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
     }
 
     // Add event to activity (avoid duplicates)
-    const activity = activitiesMap.get(activityId);
+    const activity = activitiesMap.get(groupingKey);
     const isDuplicate = activity.events.some(existingEvent => existingEvent.uuid === event.uuid);
     if (!isDuplicate) {
       activity.events.push(event);
@@ -126,9 +233,25 @@ function extractActiveActivitiesFromEvents(events: any[]): any[] {
       activity.attributeType = attributeType;
     }
 
-    // Only update status to completed if this is an end event (dismissed or ended)
-    if (isLiveActivityEndEvent(event)) {
-      activity.status = 'completed';
+    // Update IDs if they were initially undefined
+    if (!activity.liveActivityId && liveActivityId) {
+      activity.liveActivityId = liveActivityId;
+    }
+    if (!activity.channelId && channelId) {
+      activity.channelId = channelId;
+    }
+  });
+
+  // Determine status based on the latest lifecycle event (for broadcast channel reuse)
+  activitiesMap.forEach(activity => {
+    const lifecycleEvents = activity.events.filter(e => 
+      isLiveActivityStartEvent(e) || isLiveActivityEndEvent(e)
+    );
+    
+    if (lifecycleEvents.length > 0) {
+      // Sort by timestamp descending and get the latest
+      const latestEvent = lifecycleEvents.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0))[0];
+      activity.status = isLiveActivityEndEvent(latestEvent) ? 'completed' : 'active';
     }
   });
 
@@ -160,7 +283,7 @@ function useActivities(): LiveActivity[] {
 
   // Create activities from the extracted active activities
   return activeActivities.map(activity => {
-    const { id, attributeType, events, status } = activity;
+    const { liveActivityId, channelId, activityType, attributeType, events, status } = activity;
 
     // Find specific events using type guards
     const updateTokenEvent = events.find(isLiveActivityUpdateTokenEvent);
@@ -179,8 +302,10 @@ function useActivities(): LiveActivity[] {
     const schemaDataForType = schemaData.get(attributeType);
 
     return {
-      id,
-      name: attributeType, // Use attributeType as name for backward compatibility
+      id: liveActivityId || '',                // Use actual liveActivityID (may be empty for broadcast)
+      broadcastChannelId: channelId,           // Channel ID for broadcast activities
+      type: activityType,                      // Activity type from metadata
+      name: attributeType,                     // Use attributeType as name for backward compatibility
       attributes: attributeType,
       endEvent,
       endTime: endEvent?.timestamp,

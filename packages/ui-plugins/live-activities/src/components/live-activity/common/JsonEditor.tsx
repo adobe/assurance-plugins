@@ -83,7 +83,7 @@ export function JsonEditor({
   label,
   editorRef,
   showLineNumbers = false,
-  height = '400px',
+  height = '300px',
   className
 }: Readonly<JsonEditorProps>) {
   const editorOptions = showLineNumbers

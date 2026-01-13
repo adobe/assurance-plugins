@@ -12,7 +12,8 @@ import { CopyableValue } from '@assurance/common-utils';
 import InfoField from '../atoms/InfoField';
 import MetricCard from '../atoms/MetricCard';
 import Card from '../atoms/card';
-import { LiveActivity } from '../../hooks/useActivities';
+import { ACTIVITY_TYPE } from '../../constants/liveActivitiesConfig';
+import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import { useActivityEvents } from '../../utils/eventProcessing';
 import { activitiesMessages, copyMessages, contentStateMessages } from '../../i18n';
 
@@ -30,7 +31,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
   const { formatMessage } = useIntl();
 
   // Use the same deduplicated events as other components
-  const activityEvents = useActivityEvents(activity?.id);
+  const activityEvents = useActivityEvents(getActivityKey(activity));
 
   // Get the latest content state from update events
   const { latestContentState, latestContentStateEventId } = useMemo(() => {
@@ -44,7 +45,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
       latestContentState: updateEvent?.payload?.ACPExtensionEventData?.contentState,
       latestContentStateEventId: updateEvent?.uuid
     };
-  }, [activity?.id, activityEvents]);
+  }, [activity?.id || activity?.broadcastChannelId, activityEvents]);
 
   // Calculate duration
   const startTime = activity?.startTime ? dayjs(activity.startTime) : null;
@@ -83,7 +84,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
             <Heading level={2} marginY="size-0">
               {activity.name}
             </Heading>
-            <ActivityStatus status={activity.status} />
+            {activity.type === ACTIVITY_TYPE.UNITARY && <ActivityStatus status={activity.status} />}
           </Flex>
           <UpdateActivity activity={activity} />
         </Flex>
@@ -143,7 +144,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
                 <Divider />
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <tbody>
-                    <InfoField
+                   {activity.id && activity.type === ACTIVITY_TYPE.UNITARY && <InfoField
                       label={formatMessage(activitiesMessages.liveActivityId)}
                       value={
                         <CopyableValue 
@@ -154,7 +155,22 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
                         />
                       }
                       wrap={true}
+                    />}
+
+                    {activity.broadcastChannelId && (
+                      <InfoField
+                      label={formatMessage(activitiesMessages.broadcastChannelId)}
+                      value={
+                        <CopyableValue 
+                          value={activity.broadcastChannelId}
+                          copyTooltip={formatMessage(copyMessages.copyValue)}
+                          copyFullValueTooltip={formatMessage(copyMessages.copyFullValue)}
+                          copiedMessage={formatMessage(copyMessages.copied)}
+                        />
+                      }
+                      wrap={true}
                     />
+                    )}
                     <InfoField
                       label={formatMessage(activitiesMessages.attributeSet)}
                       value={activity.attributes || 'N/A'}
@@ -165,7 +181,7 @@ function ActivityOverview({ activity }: ActivityOverviewProps) {
                         value={startTime.format('lll')}
                       />
                     )}
-                    {endTime && (
+                    {endTime && activity.type === ACTIVITY_TYPE.UNITARY && (
                       <InfoField
                         label={formatMessage(activitiesMessages.endTime)}
                         value={endTime.format('lll')}

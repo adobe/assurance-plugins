@@ -13,7 +13,7 @@ import { useIntl } from 'react-intl';
 import InfoField from '../atoms/InfoField';
 import MetricCard from '../atoms/MetricCard';
 import Card from '../atoms/card';
-import { LiveActivity } from '../../hooks/useActivities';
+import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import usePluginState from '../../hooks/usePluginState';
 import { LiveActivityEvent } from '../../types/liveActivityEvent';
 import { useActivityEvents, useEventStatistics, useEventTimeRange, filterEventsByType, filterEventsBySearch } from '../../utils/eventProcessing';
@@ -50,7 +50,7 @@ function ActivityEventDetails({ activity }: Readonly<ActivityEventDetailsProps>)
   const [detailsPanelOpen, setDetailsPanelOpen] = useState(false);
 
     // Use new event processing utilities
-    const activityEvents = useActivityEvents(activity?.id);
+    const activityEvents = useActivityEvents(getActivityKey(activity));
     const eventStats = useEventStatistics(activityEvents);
     const timeRange = useEventTimeRange(activityEvents);
 

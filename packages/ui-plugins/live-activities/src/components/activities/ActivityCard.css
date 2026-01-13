@@ -2,7 +2,7 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 1.4;
-  color: #1f2937;
+  color: var(--spectrum-global-color-gray-800);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -13,7 +13,7 @@
 
 .typeLabel {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--spectrum-global-color-gray-500);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.025em;
@@ -21,7 +21,7 @@
 
 .typeValue {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--spectrum-global-color-gray-600);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -30,12 +30,68 @@
 
 .eventCountText {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--spectrum-global-color-gray-500);
   font-weight: 500;
 }
 
 .timestampText {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--spectrum-global-color-gray-500);
   font-weight: 400;
+}
+
+.activityCardBase {
+  border: 2px solid var(--spectrum-global-color-gray-200);
+  border-radius: 8px;
+  background-color: var(--spectrum-global-color-static-white);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  min-height: 80px;
+  padding-top: 16px;
+  margin: 2px;
+  position: relative;
+}
+
+.activityCardSelected {
+  border-color: var(--spectrum-global-color-blue-600);
+  background-color: var(--spectrum-global-color-blue-200);
+  box-shadow: 0 0 0 1px var(--spectrum-global-color-blue-600), 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.typeBadge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  z-index: 1;
+}
+
+.typeBadgeBroadcast {
+  background-color: var(--spectrum-global-color-purple-100);
+  border: 1px solid var(--spectrum-global-color-purple-400);
+}
+
+.typeBadgeUnitary {
+  background-color: var(--spectrum-global-color-blue-100);
+  border: 1px solid var(--spectrum-global-color-blue-400);
+}
+
+.typeBadgeTextBase {
+  font-size: 6px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.typeBadgeTextBroadcast {
+  color: var(--spectrum-global-color-purple-400);
+}
+
+.typeBadgeTextUnitary {
+  color: var(--spectrum-global-color-blue-400);
 }

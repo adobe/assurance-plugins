@@ -10,6 +10,10 @@ export const liveActivityMessages = defineMessages({
     id: 'liveActivity.launch.title',
     defaultMessage: 'Start Live Activity'
   },
+  launchNewLiveActivity: {
+    id: 'liveActivity.launch.new',
+    defaultMessage: 'Start a new live activity'
+  },
   selectActivity: {
     id: 'liveActivity.launch.select',
     defaultMessage: 'Select Live Activity'
@@ -59,6 +63,32 @@ export const liveActivityMessages = defineMessages({
   eventTypeEnd: {
     id: 'liveActivity.eventType.end',
     defaultMessage: 'End'
+  },
+  
+  // Activity types
+  activityType: {
+    id: 'liveActivity.form.activityType',
+    defaultMessage: 'Activity Type'
+  },
+  activityTypeUnitary: {
+    id: 'liveActivity.activityType.unitary',
+    defaultMessage: 'Unitary'
+  },
+  activityTypeBroadcast: {
+    id: 'liveActivity.activityType.broadcast',
+    defaultMessage: 'Broadcast'
+  },
+  broadcastChannelId: {
+    id: 'liveActivity.form.broadcastChannelId',
+    defaultMessage: 'Broadcast Channel ID'
+  },
+  broadcastChannelIdPlaceholder: {
+    id: 'liveActivity.form.broadcastChannelId.placeholder',
+    defaultMessage: 'Enter broadcast channel ID'
+  },
+  broadcastChannelIdRequired: {
+    id: 'liveActivity.form.broadcastChannelId.required',
+    defaultMessage: 'Broadcast channel ID is required for broadcast type'
   }
 });
 

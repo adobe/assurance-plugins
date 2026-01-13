@@ -1,4 +1,4 @@
-import { Flex, Text, StatusLight } from '@adobe/react-spectrum';
+import { Flex, Text, StatusLight, View } from '@adobe/react-spectrum';
 
 import React from 'react';
 
@@ -9,7 +9,8 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import SpectrumCard from '../atoms/SpectrumCard';
-import { LiveActivity } from '../../hooks/useActivities';
+import { ACTIVITY_TYPE } from '../../constants/liveActivitiesConfig';
+import { LiveActivity, getActivityKey } from '../../hooks/useActivities';
 import { activitiesMessages } from '../../i18n';
 import './ActivityCard.css';
 
@@ -18,7 +19,7 @@ dayjs.extend(relativeTime);
 interface ActivityCardProps {
   activity: LiveActivity;
   isSelected: boolean;
-  onSelect: (id: string) => void;
+  onSelect: (key: string) => void;
 }
 
 function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
@@ -48,7 +49,7 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
     <SpectrumCard
       isSelected={isSelected}
       onPress={() => {
-        onSelect(activity.id);
+        onSelect(getActivityKey(activity));
       }}
       marginBottom="size-100"
       padding="2px"
@@ -63,41 +64,49 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
         transition: 'all 0.2s ease-in-out',
         cursor: 'pointer',
         minHeight: '80px',
-        margin: '2px'
+        paddingTop: '16px',
+        margin: '2px',
+        position: 'relative'
       }}
     >
-      <Flex 
-        direction="column" 
-        gap="size-75" 
-        height="100%"
-        justifyContent="space-between"        
+      {/* Type Badge - Absolutely Positioned Top Right */}
+      <View
+        borderRadius="regular"
+        UNSAFE_className={classNames('typeBadge', {
+          'typeBadgeBroadcast': activity.type === ACTIVITY_TYPE.BROADCAST,
+          'typeBadgeUnitary': activity.type !== ACTIVITY_TYPE.BROADCAST
+        })}
+        aria-label={`Activity type: ${activity.type === ACTIVITY_TYPE.BROADCAST ? formatMessage(activitiesMessages.typeBroadcast) : formatMessage(activitiesMessages.typeUnitary)}`}
       >
+        <Text
+          UNSAFE_className={classNames('typeBadgeTextBase', {
+            'typeBadgeTextBroadcast': activity.type === ACTIVITY_TYPE.BROADCAST,
+            'typeBadgeTextUnitary': activity.type !== ACTIVITY_TYPE.BROADCAST
+          })}
+        >
+          {activity.type === ACTIVITY_TYPE.BROADCAST ? formatMessage(activitiesMessages.typeBroadcast) : formatMessage(activitiesMessages.typeUnitary)}
+        </Text>
+      </View>
+
+      <Flex direction="column" gap="size-75" height="100%" justifyContent="space-between">
         {/* Header with status and Live Activity ID (primary identifier) */}
         <Flex alignItems="center" gap="size-100" justifyContent="space-between">
           <Flex wrap alignItems="center" gap="size-100" flex="1" minWidth="0">
-            <StatusLight  variant={getStatusVariant(activity.status)} />
-            <Text 
-              UNSAFE_className={classNames('activityIdText')}
-            >
-              {activity.id}
-            </Text>
-          </Flex>  
+            <StatusLight variant={getStatusVariant(activity.status)} />
+            {activity.broadcastChannelId ? (
+              <Text UNSAFE_className={classNames('activityIdText')}>
+                {activity.broadcastChannelId}
+              </Text>
+            ) : (
+              <Text UNSAFE_className={classNames('activityIdText')}>{activity.id}</Text>
+            )}
+          </Flex>
         </Flex>
-        
         {/* Attribute Type (secondary info) */}
         <Flex alignItems="center" gap="size-50">
-          <Text 
-            UNSAFE_className={classNames('typeLabel')}
-          >
-            Type:
-          </Text>
-          <Text 
-            UNSAFE_className={classNames('typeValue')}
-          >
-            {activity.name}
-          </Text>
+          <Text UNSAFE_className={classNames('typeLabel')}>{formatMessage(activitiesMessages.type)}:</Text>
+          <Text UNSAFE_className={classNames('typeValue')}>{activity.name}</Text>
         </Flex>
-        
         {/* Footer with event count and timing */}
         <Flex alignItems="center" justifyContent="space-between" gap="size-100">
           <Text 
@@ -105,7 +114,7 @@ function ActivityCard({ activity, isSelected, onSelect }: ActivityCardProps) {
           >
             {eventCount} {formatMessage(activitiesMessages.eventsCount)}
           </Text>
-          
+
           {lastActivityTime && (
             <Text 
               UNSAFE_className={classNames('timestampText')}
